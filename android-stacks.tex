@@ -1019,6 +1019,14 @@ about them.
 %\noindent\emph{3) Odd Wrappings}
 \subsection{Odd Wrappings}
 
+\begin{figure}
+  \begin{center}
+    \includegraphics[scale=0.5]{stack-size-wrappings-hist.pdf}
+  \end{center}
+  \caption{Stack sizes (top) and wrappings (bottom) for Java (left) and Android (right) stack traces}
+  \label{fig:sizewrapbhists}
+\end{figure}
+
 Table~\ref{wrappingandroid} presents the wrappings found in this study for all
 stack traces found in Android repositories. As we can see, some of the checked
 exceptions where indeed wrapped in runtime exceptions or even errors, while most
@@ -1083,7 +1091,7 @@ handled.
 
 \section{Threats to Validity}
 
-\subsection{Internal Validity} We used a heuristics-based parser to mine
+\noindent\emph{Internal Validity} We used a heuristics-based parser to mine
 exceptions from issues.  Our parsing strategy was conservative by default; for
 example, we only considered exception names using a fully qualified class name
 as valid exception identifiers, while, in many cases, developers use the
@@ -1093,7 +1101,7 @@ negatives, which means that some cases may have not been identified as
 exceptions or stack traces. Our limited manual inspection did not reveal such
 cases.
 
-\subsection{External Validity} The results presented here were based on mining
+\noindent\emph{External Validity} The results presented here were based on mining
 issues on Github through the GHTorrent dataset. While comprehensive and
 extensive, GHTorrent is not an exact replica of Github, so several issues might
 be left out. Due to the way data collection works with GHTorrent, for projects
@@ -1101,8 +1109,7 @@ that are relatively inactive, GHTorrent might have not collected a significant
 proportion of their issues. We did not investigate the extend of this threat on
 our sample.
 
-\subsection{Construct Validity}
-Parts of our analysis are based on the availability of stack traces on issues on
+\noindent\emph{Construct Validity} Parts of our analysis are based on the availability of stack traces on issues on
 Github. In using this dataset, we make an underlying assumption: the
 stack traces reported on issues are representative of real crashes in
 the applications. The assumption is impossible to mitigate without access to
