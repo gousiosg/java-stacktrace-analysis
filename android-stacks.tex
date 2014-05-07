@@ -132,6 +132,7 @@ practices in Java programs.
 %~\todo{This should be our motivation, as this is
 %our biggest contribution. I already changed the text. Lets discuss about this
 %new version}
+%RSC: I AGREE.
 
 
 %GGG: I think this is too much detail for the introduction In the second phase
@@ -142,6 +143,9 @@ practices in Java programs.
 %are usually io-intensive (i.e., deals with Network, Bluetooth, camera, and
 %other resources), and multi-htreaded. Moreover, they are based on a single
 %platform which allowed more fine-grained analysis of their exception behaviour.
+%RSC: I AGREE.
+
+
 
 This study is built on the following assumption: the stack traces reported on
 issues contain relevant information related to system crashes. Several studies
@@ -187,6 +191,7 @@ Currently, the search facilities of repositories are very limited, and the
 ExceptionMiner tool is a contribution in this direction.
 
 %GGG: Personally, I hate this paragraph in all papers as it usually reads like a space-filler
+%RSC: If needed we can remove it.
 The remainder of this paper is organized as follows. Section 2 presents a
 background on error handling mechanisms and Java exception handling constructs
 and practices. Section 3 defines research questions, the configuration of our
@@ -201,13 +206,13 @@ directions for future work.
 
 \section{Background}
 
-\subsection{Error handling in programming languages}
+%\subsection{Error handling in programming languages}
 
-Techniques for error detection and handling are no more an optional add-on but a
+Techniques for error detection and handling are not  an optional add-on but a
 fundamental part of the system~\cite{bruntink2006discovering}. Several
-approaches exists for detecting errors during system execution and responding to
-them accordingly, such as the return-code idiom (very popular in C programs and
-operating systems), and the exception handling mechanism, embedded in many main
+approaches exists for detecting errors and responding to them, such as the return-code 
+idiom (very popular in C programs and operating systems), and the exception handling 
+mechanism, embedded in many main
 stream programming languages.
 
 The main disadvantage of return codes is the fact that the programmer can just
@@ -237,8 +242,6 @@ which unchecked exceptions may be thrown, unless the code of the method and the
 methods called from it is inspected, which can be a very time consuming or
 infeasible task.
 
-
-
 \noindent\emph{Hybrid Approach}. In Java a method can throw either checked or
 unchecked exceptions. Java is the only language that allows this hybrid
 approach.
@@ -246,7 +249,7 @@ approach.
 \subsection{Exception handling in Java} \label{sec:extypes}
 
 In Java, an exception is represented according to the class hierarchy shown in
-Figure~\ref{fig:exchier}.  According to this structure every exception is an
+Figure~\ref{fig:exchier}.  According to it every exception is an
 instance of the Throwable class, and can be of three kinds: checked exceptions
 (extends Exception), run-time exceptions (extends RuntimeException), and errors
 (extends Error)~\cite{gosling2000java}.
@@ -275,37 +278,44 @@ them.
 \subsubsection{Exception Throwing and Handling}
 
 In Java an exception can be signaled in one of the following
-circumstances~\cite{gosling2000java}:
+circumstances~\cite{gosling2000java}: (i) explicitly thrown when a throw statement is executed; 
+(ii) implicitly thrown by the JVM when the evaluation of an expression
+ violates the normal semantics of language (e.g., out-of-bounds array index,
+division-by-zero, access to a null reference); or (iii) implicitly thrown by
+the JVM due to an internal error or resource limitation (e.g.,
+OutofMemoryError). 
 
-\begin{itemize} \item  explicitly thrown when a throw statement is executed;
-  \item  implicitly thrown by the JVM when the evaluation of an expression
-    violates the normal semantics of language (e.g., out-of-bounds array index,
-    division-by-zero, access to a null reference); or \item implicitly thrown by
-    the JVM due to an internal error or resource limitation (e.g.,
-    OutofMemoryError).  \end{itemize}
 %\todo{This sub-section is quite similar to the section introduction, shouldn't
 %we merge them?}
+
 When an exception is signaled it causes a transfer of control from the point
 where the exception occurred to a point that can be specified by the programmer
-(exception handler). In Java it is represented by the try-catch block and is
-responsible for performing any recovery action necessary to bring the software
-system back to a normal state and, whenever this is not possible, to log the
-exception and abort the system in an expected safe way.
+(exception handler) - in Java it is represented by the try-catch block .
 
-In Java, as in many languages, the search for the handler to deal with a raised
-exception occurs along the dynamic invocation chain. This is claimed to increase
-the reusability, since the invoker of an operation can handle it in a wider
-context ~\cite{goodenough1975exception}. If no handler is found in the chain,
-the default handler associated to the Thread or ThreadGroup is invoked, which
-usually terminates the system and prints the exception stack trace.
+%and is
+%responsible for performing any recovery action necessary to bring the software
+%system back to a normal state and, whenever this is not possible, to log the
+%exception and abort the system in an pre-defined safe way.
 
-\subsubsection{Exception Chaining} Exception Chaining is a common way of
-propagating exceptions across components of different abstraction levels. It is
-implemented by special exception constructor which receives another exception as
-a parameter. An example a multiple exception chaining is depicted on the stack
-trace in Figure~\ref{fig:wrapping}.
+%In Java, as in many languages, 
+The search for the handler to deal with a raised
+exception occurs along the dynamic invocation chain. 
+%This is claimed to increase
+%the reusability, since the invoker of an operation can handle it in a wider
+%context ~\cite{goodenough1975exception}. 
+If no handler is found in the chain, the default handler associated to the 
+Thread or ThreadGroup is invoked, which usually terminates the system 
+and prints the exception stack trace.
+
+%\subsubsection{Exception Chaining} Exception Chaining 
 %This stack trace was extracted from an issue of an Android application in
 %Github.
+
+Figure~\ref{fig:wrapping} presents an example of a stack trace, on which multiple 
+exception chaining is depicted. Exception Chaining (or exception wrapping) is  
+common way of propagating exceptions  across components of different 
+abstraction levels. It is implemented by special exception 
+constructor which receives another exception as a parameter. 
 
 The bottom part of the stack trace is the \emph{root cause}, which indicates the
 first reason for the error to be thrown (in this case, the computer run out of
@@ -908,10 +918,11 @@ another and even worse bad practice:  none of the analyzed methods
 documented this exception as part of the exception interface (e.g., using @throws annotation).
 
 Such undocumented runtime exceptions represent a serious threat to system robustness, specially
-when such exceptions are thrown by reused third party code (e.g. libraries, or framework utility code).
-Since it is very difficult or even impossible for the client of such thrid party code to 
-protect the application against undocumented runtime exceptions, the
- undocumented runtime exception may remain uncaught and lead to  system crashes.
+when such exceptions are thrown then the third party code is invoked inside the application (e.g. libraries, or framework utility code).
+In such cases the client usualy do not have access to the source code, and in the absense of
+the exception documentation it is very difficult or even impossible for the client of such thrid party code to 
+protect the application against undocumented runtime exceptions. As a consequenve, the
+ undocumented runtime exception may remain uncaught and lead to system crashes.
 
 To better investigate the extent of this problem we classified each stack trace according to the type of the
 root exception. Table~\ref{typeroottab} presents the types of root causes of all stack traces reported on 
@@ -948,113 +959,36 @@ All		& 1330	&	320	&	1760	&	632	&	31	&	4073	\\
 As we can see from Table ~ref{typeroottab},  most of the exceptions signaled by third-party code
  (e.g., Android and libs) were runtime exceptions.
 
- Manually inspecting the library code of methods signaling runtime exceptions 
- - this analysis did not consider the exceptions implicitly signaled  by JVM (e.g. NullPoiterException) -
- we could also observe that none of the runtime exceptions signaled by them were documented.
-Examples of such methos are listed on the Table X.
+If we filter the exceptions implicitly signaled by JVM (due to coding erros) the number of runtime
+exceptions thrown by third party code is XXX signaled by Android and YYY signaled by library code.
 
-This result is aligned with the results of other study conducted by from Cabral
-and Marcques ~\cite{} which ialso observe that runtime exceptions in .Net programs 
-are most often not documented.
 
-On the other hand, we could observe that most of the exceptions signaled by the
-set of libraries reused by Android platform (i.e., org.apache.harmony,
+Manually inspecting 10% of each set we could also observe that none of the methods throwing 
+runtime exceptions documented the exceptions on the method signature (as suggested by Boch
+ ~\cite{}) nor included a comment in Javadoc. This result is aligned with the results of other 
+study conducted by from Cabral and Marcques ~\cite{} which  observed that 
+runtime exceptions in .Net programs are most often not documented.
+
+On the other hand, we could observe that the checked exceptionsmost represent most of the  
+exceptions signaled by the set of libraries reused by Android platform (i.e., org.apache.harmony,
 org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml, javax.) referred in
-this work as libcore, were checked exceptions. It is pointed as a good practice
+this work as libcore. It is pointed as a good practice
 for libraries (see Section ~\ref{best}) because by using checked exceptions
 libraries can define a precise exception interface to its clients. Such
 libraries are heavily used in several projects, and such precise exception
 interface may be related to the libraries maturity.
 
 
-
-%\textbf{
-
-% the developer does not have access to their
-%source code and thus needs to rely on the library documentation about the
-%runtime exceptions that should be thrown – which, more often than not, are
-%neither complete nor precise (Thomas, 2002; Sacramento et al., 2006). As a
-%consequence, unhandled unchecked exceptions can be seen as one of the major
-%sources of bugs in current Java systems (Jo et al., 2004). }
-
-%On the other hand, we could observe that most of the exceptions signaled by the
-%set of libraries reused by Android platform (i.e., org.apache.harmony,
-%org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml, javax.) referred in
-%this work as libcore, were checked exceptions. It is pointed as a good practice
-%for libraries (see Section ~\ref{best}) because by using checked exceptions
-%libraries can define a precise exception interface to its clients. Such
-%libraries are heavily used in several projects, and such precise exception
-%interface may be related to the libraries maturity.
-
-%Manually inspecting the code signalers which RuntimeExceptions were thrown in Android
-%Platform we could observe that direct instances of java.lang.RuntimeException
-% were thrown due to two main reasons: (i) when there was no recovery action associated
-%to the exceptional condition, which means that regardless the kind of exception the
-%only possible action was to abort the application; and when translating exceptions
-%signaled by application methods. Since Android platform is heavily based on
-%call backs", when a application throws a runtime exception (i.e., one of the life cicle 
-%methods of an Activity) and does it, the exception scapes to compotenst of the Android platform 
-%which do not have contextual information to adequately handle
-%the exception and simply terminates the application. 
-
-%We could observe that although been known as a bad practice, the signaling general 
-%exceptions in this context it was an intended design decision when no specific recovery 
-%action can be defined for the exception.
-
-%Even an instance of Throwable as signaled in one project. It points to a the
-%"dont worry from know behaviour".
-
-%\subsection{Combining Stack Trace Information with Exception Type Information}
-
-
-%todo{DISCOMMENT AFTER SUBMISSION}
-%\subsection{Undocumented runtime exceptions signaled by third party code}
-
-%In this study we also classified each stack trace according to the type of the
-%root exception been signaled. Table~\ref{typeroottab} presents the types of
-%root causes of all stack traces reported on the Android repositories.
-
-
-%TO DO: INCLUDE A NEW TABLE WITH NON JAVA.LANG RUNTIME EXCEPTIONS. Point to we cannot trust developers to document.
-
-
-
-
-
-%This result is aligned with the results of other study conducted by from Cabral
-%and Marcques ~\cite{} which also observe that runtime exceptions are most often
-%not documented.
-
-%\textbf{When libraries are used, the developer does not have access to their
-%source code and thus needs to rely on the library documentation about the
-%runtime exceptions that should be thrown – which, more often than not, are
-%neither complete nor precise (Thomas, 2002; Sacramento et al., 2006). As a
-%consequence, unhandled unchecked exceptions can be seen as one of the major
-%sources of bugs in current Java systems (Jo et al., 2004). }
-
-%On the other hand, we could observe that most of the exceptions signaled by the
-%set of libraries reused by Android platform (i.e., org.apache.harmony,
-%org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml, javax.) referred in
-%this work as libcore, were checked exceptions. It is pointed as a good practice
-%for libraries (see Section ~\ref{best}) because by using checked exceptions
-%libraries can define a precise exception interface to its clients. Such
-%libraries are heavily used in several projects, and such precise exception
-%interface may be related to the libraries maturity.
-
 \subsection{Uncaught Checked Exceptions}
 
-In this study we also classified each stack trace according to the type of the
-root exception been signaled. Table~\ref{typeroottab} presents the types of root
-causes of all stack traces reported on the Android repositories.
-
-
-Although most of the reported were runtime, we could also find checked
-exceptions as the root causes of stack traces reported on issues. An exception
+Although most of the  reported exceptions were runtime, we could also find checked
+exceptions as the root causes of stack traces reported on issues. A checked exception
 can remain uncaught in two circumstances: if all methods on the execution trace
 on which this exception flows explicitly specifies the exception, or if the
-checked exception is wrapped in a runtime and than re-thrown.Since checked
-exceptions should be used to represent recoverable conditions, ignoring a
-checked exception is considered a bad practice. When the developer is confronted
+checked exception is wrapped in a runtime and than re-thrown. 
+
+Since checked exceptions should be used to represent recoverable conditions, ignoring a
+checked exception, is considered a bad practice. As mentioned before, when the developer is confronted
 with a checked exception, the designer of the API is telling him to handle the
 exceptional condition. To better understand what was causing checked exceptions
 to scape from being handled we investigated the kinds of wrappings that happened
@@ -1067,9 +1001,7 @@ Table~\ref{wrappingandroid} presents the wrappings found in this study for all
 stack traces found in Android repositories. As we can see, some of the checked
 exceptions where indeed wrapped in runtime exceptions or even errors, while most
 of them were not wrapped along the stack trace (represented as the table lines
-on which the root cause is none). This analysis also revealed unexpected
-wrappings such as: Error wrapping a Checked exception; a Runtime wrapping and
-Error; and an Error wrapping a Runtime.
+on which the Wapper type is -). 
 
 \begin{table}
 \centering
@@ -1102,10 +1034,11 @@ Error; and an Error wrapping a Runtime.
 \label{fig:wrappingandroid}
 \end{table}
 
-
+This analysis also revealed unexpected wrappings such as: Error wrapping a Checked 
+exception; a Runtime wrapping and Error; and an Error wrapping a Runtime.
 Java is the only language that provides a hybrid exception handling mechanism
-which offers different types to represent different exception behaviors (see
-Section ~\ref{extypes}) . According to Java specification Errors should not be
+which offers  different types to represent different exception behaviors (i.e., error, 
+runtime and checked) (see Section ~\ref{extypes}) . According to Java specification Errors should not be
 handled inside the system since they usually represent unrecoverable conditions
 detected by the JVM such as OutOfMemoryError. Checked exceptions should
 represent recoverable conditions and  Runtime exceptions represent are usually
