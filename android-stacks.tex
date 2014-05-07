@@ -885,35 +885,121 @@ To answer this question we analyzed general characteristics of reported stack tr
 source code and byte code analyses to enable a more detailed analysis.
 Doing so, we mined some characteristics of stacks that points to best practices violations.
 
-\subsection{General exceptions being thrown.}
+\subsection{Direct instances of RuntimeExceptions been thrown.}
 
 From Tables~\ref{tab:toptenjava} and ~\ref{tab:toptenandroid} we can observe that,
 in both Java and Android related issues, direct instances
 java.lang.RuntimeException were thrown  in 10,94\% of Java repositories and
-18,88\% of Android repositories respectively. Moreover, after inspecting the
-top 100 most thrown exceptions (see ~\ref{tophundrend}) we could observe that
-stack traces on which direct instances of java.lang.Exception and
-java.lang.Error were thrown. 
+18,88\% of Android repositories respectively. 
+In the Android repositories, most of such exceptions  were  thrown by the Android 
+platform/os (167 out of 232).
 
-Throwing general exceptions is  considered a
-bad practice, because the type does not carry enough information to identify the
-cause of the exceptional behaviour. In such cases, developers need to relying on
-exception message which can be neither complete nor precise
+Throwing general exceptions, such as direct instances of RuntimeException, is  considered a
+bad practice, because the exception type does not carry enough information to identify the
+cause of the exceptional behaviour, and as a consequence developers need to relying on
+the exception message which can be neither complete nor precise
 ~\cite{gosling2000java}.
 
-In Table ~\ref{toptenandroid} we can observe a high prevalence of
-RuntimeExceptions being thrown by the Android platform (167 out of 232).
-Manually inspecting the code on which RuntimeExceptions were thrown in Android
-Platform we could observe that direct instances of java.lang.RuntimeException
- were thrown due to two main reasons: (i) when there was no recovery action associated
-to the exceptional condition, which means that regardless the kind of exception the
-only possible action was to abort the application; and when translating exceptions
-signaled by application methods. Since Android platform is heavily based on
-"call backs", when a application throws a runtime exception (i.e., one of the life cicle methods of an Activity) and does it, the exception scapes to compotenst of the Android platform 
-which do not have contextual information to adequately handle
-the exception and simply terminates the application. 
 
-We could observe that although been known as a bad practice, the signaling general exceptions in this context it was an intended design decision when no specific recovery action can be defined for the exception.
+\subsection{Undocumente runtime exceptions been thrown.}
+
+Manualy inspecting the code of the methods throwing direct instances of RuntimeException revealed 
+another and even worse bad practice:  none of the analyzed methods 
+documented this exception as part of the exception interface (e.g., using @throws annotation).
+
+Such undocumented runtime exceptions represent a serious threat to system robustness, specially
+when such exceptions are thrown by reused third party code (e.g. libraries, or framework utility code).
+Since it is very difficult or even impossible for the client of such thrid party code to 
+protect the application against undocumented runtime exceptions, the
+ undocumented runtime exception may remain uncaught and lead to  system crashes.
+
+To better investigate the extent of this problem we classified each stack trace according to the type of the
+root exception. Table~\ref{typeroottab} presents the types of root causes of all stack traces reported on 
+the Android repositories.
+
+\begin{table}
+\centering
+\begin{tabular}{lcccccc}
+    \hline
+    \bfseries{Type} & \bfseries{Android} & \bfseries{Libcore} & \bfseries{App} & \bfseries{Lib} & \bfseries{Java} & \bfseries{All}\\
+    \hline
+
+Runtime	&	1075	&	56	&	1446	&	374	&	10	&	2961	\\
+Error	&	144	&	34	&	168	&	105	&	9	&	460	\\
+Checked	&	110	&	230	&	139	&	145	&	12	&	636	\\
+Throwable	&	0	&	0	&	1	&	0	&	0	&	1	\\
+Undefined	&	1	&	0	&	6	&	8	&	0	&	15	\\
+    \hline
+All		& 1330	&	320	&	1760	&	632	&	31	&	4073	\\
+    \hline
+  \end{tabular}
+\caption{Types of Root Exceptions.}
+  \label{fig:typeroottab}
+\end{table}
+
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.3]{chart_exceptiontypes.pdf}
+\caption{Distribution of Checked and Unchedked exceptions.}
+\label{fig:typeroot}
+\end{figure}
+
+As we can see from Table ~ref{typeroottab},  most of the exceptions signaled by third-party code
+ (e.g., Android and libs) were runtime exceptions.
+
+ Manually inspecting the library code of methods signaling runtime exceptions 
+ - this analysis did not consider the exceptions implicitly signaled  by JVM (e.g. NullPoiterException) -
+ we could also observe that none of the runtime exceptions signaled by them were documented.
+Examples of such methos are listed on the Table X.
+
+This result is aligned with the results of other study conducted by from Cabral
+and Marcques ~\cite{} which ialso observe that runtime exceptions in .Net programs 
+are most often not documented.
+
+On the other hand, we could observe that most of the exceptions signaled by the
+set of libraries reused by Android platform (i.e., org.apache.harmony,
+org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml, javax.) referred in
+this work as libcore, were checked exceptions. It is pointed as a good practice
+for libraries (see Section ~\ref{best}) because by using checked exceptions
+libraries can define a precise exception interface to its clients. Such
+libraries are heavily used in several projects, and such precise exception
+interface may be related to the libraries maturity.
+
+
+
+%\textbf{
+
+% the developer does not have access to their
+%source code and thus needs to rely on the library documentation about the
+%runtime exceptions that should be thrown – which, more often than not, are
+%neither complete nor precise (Thomas, 2002; Sacramento et al., 2006). As a
+%consequence, unhandled unchecked exceptions can be seen as one of the major
+%sources of bugs in current Java systems (Jo et al., 2004). }
+
+%On the other hand, we could observe that most of the exceptions signaled by the
+%set of libraries reused by Android platform (i.e., org.apache.harmony,
+%org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml, javax.) referred in
+%this work as libcore, were checked exceptions. It is pointed as a good practice
+%for libraries (see Section ~\ref{best}) because by using checked exceptions
+%libraries can define a precise exception interface to its clients. Such
+%libraries are heavily used in several projects, and such precise exception
+%interface may be related to the libraries maturity.
+
+%Manually inspecting the code signalers which RuntimeExceptions were thrown in Android
+%Platform we could observe that direct instances of java.lang.RuntimeException
+% were thrown due to two main reasons: (i) when there was no recovery action associated
+%to the exceptional condition, which means that regardless the kind of exception the
+%only possible action was to abort the application; and when translating exceptions
+%signaled by application methods. Since Android platform is heavily based on
+%call backs", when a application throws a runtime exception (i.e., one of the life cicle 
+%methods of an Activity) and does it, the exception scapes to compotenst of the Android platform 
+%which do not have contextual information to adequately handle
+%the exception and simply terminates the application. 
+
+%We could observe that although been known as a bad practice, the signaling general 
+%exceptions in this context it was an intended design decision when no specific recovery 
+%action can be defined for the exception.
 
 %Even an instance of Throwable as signaled in one project. It points to a the
 %"dont worry from know behaviour".
@@ -931,22 +1017,7 @@ We could observe that although been known as a bad practice, the signaling gener
 
 %TO DO: INCLUDE A NEW TABLE WITH NON JAVA.LANG RUNTIME EXCEPTIONS. Point to we cannot trust developers to document.
 
-%todo{discomment after submission} As we can see from Table ~ref{typeroottab},
-%that most of the exceptions signaled by third-party code (e.g., Android and
-%libs) were runtime exceptions. When an exception is signaled by third party
-%code, it can be due to 2 reasons: the precondition associated to third party's
-%code was not obeyed; or there is a coding error on third party's code. Only
-%manual code inspection can reveal the reason. However, regardless the reason it
-%is a good practice that all the exceptions signaled by a third part code are
-%properly documented. Manually inspecting a sample of stack traces caused by
-%runtime exceptions thrown by library code (approximately 10\%) we could observe
-%that none of the runtime exceptions signaled by third part code were documented
-%in Javadoc - this analysis did not consider the exceptions implicitly signaled
-%by JVM (e.g. NullPoiterException). The undocumented runtime exceptions are a
-%serious problem as it makes very difficult or even impossible for the  client
-%method to protect against  undocumented runtime exceptions signaled by library
-%code. As a consequence, the undocumented runtime exception may remain uncaught
-%leading to  system crashes.
+
 
 
 
@@ -976,33 +1047,6 @@ In this study we also classified each stack trace according to the type of the
 root exception been signaled. Table~\ref{typeroottab} presents the types of root
 causes of all stack traces reported on the Android repositories.
 
-\begin{table}
-\centering
-\begin{tabular}{lcccccc}
-    \hline
-    \bfseries{Type} & \bfseries{Android} & \bfseries{Libcore} & \bfseries{App} & \bfseries{Lib} & \bfseries{Java} & \bfseries{All}\\
-    \hline
-
-Runtime	&	1075	&	56	&	1446	&	374	&	10	&	2961	\\
-Error	&	144	&	34	&	168	&	105	&	9	&	460	\\
-Checked	&	110	&	230	&	139	&	145	&	12	&	636	\\
-Throwable	&	0	&	0	&	1	&	0	&	0	&	1	\\
-Undefined	&	1	&	0	&	6	&	8	&	0	&	15	\\
-    \hline
-All		& 1330	&	320	&	1760	&	632	&	31	&	4073	\\
-    \hline
-  \end{tabular}
-\caption{Types of Root Exceptions.}
-  \label{fig:typeroottab}
-\end{table}
-
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.3]{chart_exceptiontypes.pdf}
-\caption{Distribution of Checked and Unchedked exceptions.}
-\label{fig:typeroot}
-\end{figure}
 
 Although most of the reported were runtime, we could also find checked
 exceptions as the root causes of stack traces reported on issues. An exception
