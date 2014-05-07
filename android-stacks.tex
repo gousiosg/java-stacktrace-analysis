@@ -880,22 +880,21 @@ action.
 
 \section{RQ3.  What kinds of exception (mis)-use emerge from stack trace analysis? }
 
-To answer this question we analyzed general characteristics of stack traces
-reported on Java repositories (e.g., exceptions being thrown presented in
-Tables~\ref{tab:toptenjava} and ~\ref{tab:toptenandroid}), and took a deeper
-look at the stack traces of the Android repositories combining them with with
-source code and byte code analyses. Doing so, we mined some characteristics of
-stacks that points to best practices violations.
+To answer this question we analyzed general characteristics of reported stack traces and, in the case of stack traces reported on Android repositories, we combine stack trace information with
+source code and byte code analyses to enable a more detailed analysis.
+Doing so, we mined some characteristics of stacks that points to best practices violations.
 
 \subsection{General exceptions being thrown.}
 
-From Tables~\ref{tab:toptenjava}, ~\ref{tab:toptenandroid} we can observe that,
+From Tables~\ref{tab:toptenjava} and ~\ref{tab:toptenandroid} we can observe that,
 in both Java and Android related issues, direct instances
-java.lang.RuntimeException were thrown  (in 10,94\% of Java repositories and
-18,88\% of Android repositories respectively). Moreover, after inspecting the
+java.lang.RuntimeException were thrown  in 10,94\% of Java repositories and
+18,88\% of Android repositories respectively. Moreover, after inspecting the
 top 100 most thrown exceptions (see ~\ref{tophundrend}) we could observe that
 stack traces on which direct instances of java.lang.Exception and
-java.lang.Error were thrown. Throwing general exceptions is usually considered a
+java.lang.Error were thrown. 
+
+Throwing general exceptions is usually considered a
 bad practice, because the type does not carry enough information to identify the
 cause of the exceptional behaviour. In such cases, developers need to relying on
 exception message which can be neither complete nor precise
@@ -980,7 +979,7 @@ causes of all stack traces reported on the Android repositories.
 \centering
 \begin{tabular}{lcccccc}
     \hline
-    \bfseries{Type} & \bfseries{Android} & \bfseries{Lib} & \bfseries{Libcore} & \bfseries{Java} & \bfseries{App} & \bfseries{All}\\
+    \bfseries{Type} & \bfseries{Android} & \bfseries{Libcore} & \bfseries{App} & \bfseries{Lib} & \bfseries{Java} & \bfseries{All}\\
     \hline
 
 Runtime   & 1101 & 56  & 1446 & 423 & 10 & 3036  \\
