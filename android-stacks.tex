@@ -1044,6 +1044,10 @@ from.
   \label{fig:sizewrapbhists}
 \end{figure}
 
+We could also observe that in 205 stacks found in Android repository the exception was wrapped 
+more then once. Figure ~\ref{sizewrapbhists}  illustrates the number of wrappings per stack, both
+ in Java and Android studied repositories. One interesting wrapping found in ones Android repo was the 
+following: Runtime-Checked-Runtime-Checked-Runtime-Checked-Runtime.
 
 Since there is no way of enforcing such conventions during program development,
 we could observe the stack trace analysis combined with types these three types
