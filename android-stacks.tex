@@ -206,7 +206,7 @@ directions for future work.
 
 \section{Background}
 
-%\subsection{Error handling in programming languages}
+\subsection{Error handling in programming languages}
 
 Techniques for error detection and handling are not  an optional add-on but a
 fundamental part of the system~\cite{bruntink2006discovering}. Several
@@ -246,7 +246,7 @@ infeasible task.
 unchecked exceptions. Java is the only language that allows this hybrid
 approach.
 
-\subsection{Exception handling in Java} \label{sec:extypes}
+\subsection{Exception Handling in Java} \label{sec:extypes}
 
 In Java, an exception is represented according to the class hierarchy shown in
 Figure~\ref{fig:exchier}.  According to it every exception is an
@@ -291,31 +291,22 @@ OutofMemoryError).
 When an exception is signaled it causes a transfer of control from the point
 where the exception occurred to a point that can be specified by the programmer
 (exception handler) - in Java it is represented by the try-catch block .
-
-%and is
-%responsible for performing any recovery action necessary to bring the software
-%system back to a normal state and, whenever this is not possible, to log the
-%exception and abort the system in an pre-defined safe way.
-
-%In Java, as in many languages, 
 The search for the handler to deal with a raised
 exception occurs along the dynamic invocation chain. 
-%This is claimed to increase
-%the reusability, since the invoker of an operation can handle it in a wider
-%context ~\cite{goodenough1975exception}. 
 If no handler is found in the chain, the default handler associated to the 
 Thread or ThreadGroup is invoked, which usually terminates the system 
-and prints the exception stack trace.
+and prints the exception stack trace. Figure~\ref{fig:wrapping} presents an 
+example of a stack trace, on which multiple 
+exception chaining is depicted. Exception Chaining (or exception wrapping) is  
+common way of propagating exceptions  across components of different 
+abstraction levels. It is implemented by special exception 
+constructor which receives another exception as a parameter. 
 
 %\subsubsection{Exception Chaining} Exception Chaining 
 %This stack trace was extracted from an issue of an Android application in
 %Github.
 
-Figure~\ref{fig:wrapping} presents an example of a stack trace, on which multiple 
-exception chaining is depicted. Exception Chaining (or exception wrapping) is  
-common way of propagating exceptions  across components of different 
-abstraction levels. It is implemented by special exception 
-constructor which receives another exception as a parameter. 
+
 
 The bottom part of the stack trace is the \emph{root cause}, which indicates the
 first reason for the error to be thrown (in this case, the computer run out of
@@ -335,17 +326,18 @@ stack trace as the first method call below the exception declaration.
 \label{sec:best}
 
 %\todo{This section feels a bit disconnected.}
-Several general guidelines have been proposed on how to use
+Several general guidelines have been proposed on how to use Java
 exceptions~\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,
-bloch2008effective}. To guide our investigation, we compile general guidelines
-related to exception types and the propagation of exception in Java programs
+bloch2008effective}. 
+% To guide our investigation, we compile the guidelines
+A compiled list of the guidelines related to exception types and exception propagation in Java the following:
 \footnote{We also compiled guidelines related to exception handling but they are
 out of the scope of this paper, since they do not relate to information
-available on stack traces.}.
+available on stack traces.}:
 
-\noindent\emph{Meaning of Exception Types}
+%\noindent\emph{Meaning of Exception Types}
 
-\textbf{1) Use checked exceptions to represent recoverable
+\textbf{I-Use checked exceptions to represent recoverable
 conditions}(~\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective}).
 The developer should use checked exceptions for conditions from which the caller
 is expected to recover. By confronting the API user with a checked exception,
@@ -353,30 +345,31 @@ the API designer is telling the client to handle the exceptional condition. The
 client can explicitly ignore the exception (swallowing, or converting it to
 other type) at the expense of the program's robustness~\cite{gosling2000java}.
 
-\textbf{2) Error represents an unrecoverable condition detected by the JVM which
+\textbf{II-Error represents an unrecoverable condition detected by the JVM which
 should not he handled}~\cite{gosling2000java}. It results from failures detected
 by the Java Virtual Machine which indicate resource deficiencies, invariant
 failures or other conditions that make impossible the program to recover.
 
-\noindent\emph{Exception Throwing}
+%\noindent\emph{Exception Throwing}
 
-\textbf{3) A method should throw exceptions that precisely define the
+\textbf{III-A method should throw exceptions that precisely define the
 exceptional condition}~\cite{gosling2000java,bloch2008effective}. To do so,
 developers should either try to reuse the exception types already defined in the
 JVM or they should create a specific exception. Throwing general types such as a
 pure Exception or a RuntimeException is hence considered a bad practice.
 
-\textbf{4) Do not repeatedly re-throw exceptions, handle exceptions as close as
-possible to the problem}~\cite{wirfs2006toward}. Programs that frequently throw
-exceptions lose in performance ~\cite{wirfs2006toward,gosling2000java}.
-Moreover, close to the place that the exception was throw the caller usually has
+\textbf{IV-Do not repeatedly re-throw exceptions, handle exceptions as close as
+possible to the problem}~\cite{wirfs2006toward}. 
+%Programs that frequently throw exceptions lose in performance ~\cite{wirfs2006toward,gosling2000java}.
+%Moreover, 
+Close to the place that the exception was throw the caller usually has
 enough contextual information to perform  corrective actions. When the exception
 is propagated far away from the method where it was signaled (i.e. further away
 from the problem) it can be difficult to take meaningful recovery actions.
+todo{RSC:this practice was not well explored, can be removed if we need space.}
 
-\noindent\emph{Exception Documentation}
-
-\textbf{5) Document all exceptions thrown by a
+%\noindent\emph{Exception Documentation}
+\textbf{V-Document all exceptions thrown by a
 method}~\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective}).
 The exceptions thrown by a method are an important part of methods interface,
 and is required to use the method properly. The checked exceptions are already
@@ -390,11 +383,12 @@ do follow this practice (specially when developing library code) it will be
 difficult or even impossible for the caller to make effective use of such method
 ~\cite{wirfs2006toward, bloch2008effective}.
 
-These best practices guided our exploratory study described in the next
-sections. Based on information extracted from stack traces (complemented by
+These best practices guided our exploratory study described next
+. Based on information extracted from stack traces (complemented by
 bytecode and source-code analysis), we investigate whether stack characteristics
-can reveal whether these practices have been obeyed. Next section discusses the
-study procedure and the practices' misuses that emerged from this study.
+can reveal whether these practices have been obeyed. 
+%Next section discusses the
+%study procedure and the practices' misuses that emerged from this study.
 
 \section{Study Design}
 
@@ -571,7 +565,7 @@ quantitative and qualitative analysis of the outcomes.
 
 Prevalence or prevalence proportion, a term often used in epidemiology,
 represents the proportion of a population found to have a particular condition
-(e.g. a disease) over the total number of people studied. In our work, we used
+(e.g. a disease) over the total number of the studied population. In our work, we used
 this term to evaluate a condition (i.e., presence of a stack trace) over issues
 reported on GitHub repositories.
 
@@ -654,15 +648,19 @@ stack trace. This is not true for the general case however.
 
 \section{RQ2: What are the common characteristics of such stack traces?}
 
-To answer this question, we mined from every extracted stack trace the top level
-exception being signaled, its signaler (the first method signature frame after
-the exception), the root exception (the exception which initiated the stack
-trace, defined on the bottom of the stack), and the root signaler. The
-intermediate elements that compose a stack trace as shown in
-Figure~\ref{fig:wrapping} (i.e., the intermediate causes and its execution
-stacks) were not be considered in the analysis.
+%To answer this question, we mined from every extracted stack trace the top level
+%exception being signaled, its signaler (the first method signature frame after
+%the exception), the root exception (the exception which initiated the stack
+%trace, defined on the bottom of the stack), and the root signaler. The
+%intermediate elements that compose a stack trace as shown in
+%Figure~\ref{fig:wrapping} (i.e., the intermediate causes and its execution
+%stacks) were not be considered in the analysis.
 %~\todo{Move this to the previous section? IMO, It is better to keep all facts
-%about how we did the research in one place}
+%about how we did the research in one place
+%RSC: I WAS ABOUT TO MOOVE BUT THERE WAS ALREADY A SIMILAR TEXT ON 
+%THE EXCEPTION DISTEILLER}
+
+
 
 Based on the assumption that regardless the issue type, every exception stack
 trace contains relevant information concerning the exception structure of
@@ -842,25 +840,16 @@ Programming errors are the causes of most of the exception stack traces reported
 on issues. In the Android subset we could find more issues related to Backward
 compatibility and security issues than on the general data set.
 
-\subsection{Sizes of Stack traces}
-
-Concerning the size of the stacks (i.e. the number of frames composing them), we
-could observe that  sometimes it exceeded 100 frames (158 stack frames).
-Manually inspecting the corresponding execution trace was caused by one of the
-two reasons: recursive calls or exceptions signaled by a method defined deep
-down in a reused framework; exceptions successively wrapped. Irrespective of the
-reason, in exception flows involving many methods, it is practically impossible
-to handle an exception in a way other than exiting the application, as at the
-place the exception occurs there is hardly enough contextual information to
-perform recovery actions.
-
-\begin{figure}
-  \begin{center}
-    \includegraphics[scale=0.5]{stack-size-wrappings-hist.pdf}
-  \end{center}
-  \caption{Stack sizes (top) and wrappings (bottom) for Java (left) and Android (right) stack traces}
-  \label{fig:sizewrapbhists}
-\end{figure}
+%\subsection{Sizes of Stack traces}
+%Concerning the size of the stacks (i.e. the number of frames composing them), we
+%could observe that  sometimes it exceeded 100 frames (158 stack frames).
+%Manually inspecting the corresponding execution trace was caused by one of the
+%two reasons: recursive calls or exceptions signaled by a method defined deep
+%down in a reused framework; exceptions successively wrapped. Irrespective of the
+%reason, in exception flows involving many methods, it is practically impossible
+%to handle an exception in a way other than exiting the application, as at the
+%place the exception occurs there is hardly enough contextual information to
+%perform recovery actions.
 
 %Considering only the packages of each exception we could observe that 81,28\%
 %of all analyzed set of stack traces reported exceptions defined by java.lang
@@ -926,7 +915,10 @@ protect the application against undocumented runtime exceptions. As a consequenv
 
 To better investigate the extent of this problem we classified each stack trace according to the type of the
 root exception. Table~\ref{typeroottab} presents the types of root causes of all stack traces reported on 
-the Android repositories.
+the Android repositories. As we can see from Table ~ref{typeroottab},  most of the exceptions signaled by third-party code
+ (e.g., Android and libs) were runtime exceptions. If we filter the exceptions implicitly signaled by 
+JVM (due to coding erros) the number of runtime exceptions thrown by third party code is XXX 
+signaled by Android and YYY signaled by library code.
 
 \begin{table}
 \centering
@@ -956,11 +948,7 @@ All		& 1330	&	320	&	1760	&	632	&	31	&	4073	\\
 \label{fig:typeroot}
 \end{figure}
 
-As we can see from Table ~ref{typeroottab},  most of the exceptions signaled by third-party code
- (e.g., Android and libs) were runtime exceptions.
 
-If we filter the exceptions implicitly signaled by JVM (due to coding erros) the number of runtime
-exceptions thrown by third party code is XXX signaled by Android and YYY signaled by library code.
 
 
 Manually inspecting 10% of each set we could also observe that none of the methods throwing 
@@ -1047,6 +1035,15 @@ from.
 
 %Table X illustrated examples of such wrappings.
 %TODO INCLUIR ESTA TABLEA
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[scale=0.5]{only-wrap-histogram.pdf}
+  \end{center}
+  \caption{Stack sizes (top) and wrappings (bottom) for Java (left) and Android (right) stack traces}
+  \label{fig:sizewrapbhists}
+\end{figure}
+
 
 Since there is no way of enforcing such conventions during program development,
 we could observe the stack trace analysis combined with types these three types
