@@ -632,8 +632,6 @@ general population (12,1\% and 7,3\%). Considering only the defect-issues
 however, in the Android repositories as almost 58,7\% of defect-issues include a
 stack trace. This is not true for the general case however.
 
-\input{android-stack-stats}
-
 %Based on the assumption presented in Section III, we therefore did not use this label for further filtering.
 
 \noindent \fbox{
@@ -800,22 +798,15 @@ programming bugs or resource limitations, there is usually no proper handling
 besides presenting an error message to the user and restarting the application -
 only high fault tolerant systems need to provide solutions to handle them.
 
-\noindent \fbox{
-\begin{minipage}{0.96\columnwidth} 
-\emph{RQ2: Most exceptions are due to programming mistakes
-or generally irrecoverable errors.\todo{Revise this}}
-\end{minipage}}
-
 
 \subsection{Classification of the main causes of top exceptions}
 
-To better understand the main causes of such exceptions we evaluated semantics
+To better understand the main causes of such exceptions, we evaluated semantics
 related to the top 100 root causes reported on stack-issues of both Java dataset
 and Android subset (which correspond to approximately 77\% of all exceptions
 reported reported on Java stack-issues and 95\% of all exceptions reported on
 Android stack-issues), and classified them according to the the categories
-presented in Table~\ref{tophundrend}.
-
+presented in Table~\ref{tab:tophundrend}.
 
 \begin{table}
   \centering
@@ -837,25 +828,29 @@ presented in Table~\ref{tophundrend}.
   \label{tab:tophundrend}
 \end{table}
 
-As we can see from Table 4, the that programming errors are the causes of most
-of the exception stack traces reported on issues. In the Android subset we could
-find more issues related to Backward compatibility and security issues than on
-the general data set.
+Programming errors are the causes of most of the exception stack traces reported
+on issues. In the Android subset we could find more issues related to Backward
+compatibility and security issues than on the general data set.
 
 \subsection{Sizes of Stack traces}
 
 Concerning the size of the stacks (i.e. the number of frames composing them), we
 could observe that  sometimes it exceeded 100 frames (158 stack frames).
 Manually inspecting the corresponding execution trace was caused by one of the
-two reasons: recursive calls; exceptions signaled by a method defined deep down
-in a reused framework; exceptions successively wrapped. Regardless the reason,
-in exception flows involving many methods, it is piratically impossible to
-handle the exception a way different than existing the  application, because
-there is hardly enough contextual information to perform any other recovery
-action.
+two reasons: recursive calls or exceptions signaled by a method defined deep
+down in a reused framework; exceptions successively wrapped. Irrespective of the
+reason, in exception flows involving many methods, it is practically impossible
+to handle an exception in a way other than exiting the application, as at the
+place the exception occurs there is hardly enough contextual information to
+perform recovery actions.
 
-%TODO: Include a Histogram here.
-
+\begin{figure}
+  \begin{center}
+    \includegraphics[scale=0.5]{stack-size-wrappings-hist.pdf}
+  \end{center}
+  \caption{Stack sizes (top) and wrappings (bottom) for Java (left) and Android (right) stack traces}
+  \label{fig:sizewrapbhists}
+\end{figure}
 
 %Considering only the packages of each exception we could observe that 81,28\%
 %of all analyzed set of stack traces reported exceptions defined by java.lang
@@ -877,6 +872,12 @@ action.
 %\caption{Top 5 most popular packages associated to the root exceptions of stack traces}
 %\label{tab:toptenpopular2}
 %\end{table}
+
+\noindent \fbox{
+\begin{minipage}{0.96\columnwidth} 
+\emph{RQ2: Most exceptions are due to programming mistakes
+or generally irrecoverable errors.}
+\end{minipage}}
 
 \section{RQ3.  What kinds of exception (mis)-use emerge from stack trace analysis? }
 
@@ -1018,15 +1019,6 @@ about them.
 
 %\noindent\emph{3) Odd Wrappings}
 \subsection{Odd Wrappings}
-
-\begin{figure}
-  \begin{center}
-    \includegraphics[scale=0.5]{stack-size-wrappings-hist.pdf}
-  \end{center}
-  \caption{Stack sizes (top) and wrappings (bottom) for Java (left) and Android (right) stack traces}
-  \label{fig:sizewrapbhists}
-\end{figure}
-
 Table~\ref{wrappingandroid} presents the wrappings found in this study for all
 stack traces found in Android repositories. As we can see, some of the checked
 exceptions where indeed wrapped in runtime exceptions or even errors, while most
@@ -1123,8 +1115,9 @@ level.
 In this section, we present works that are related to our own, distributed in
 four categories: i) works that use the information available on stack traces;
 ii) empirical studies on the usage of Java exceptions and its fault proneness;
-iii) tools to extract stack traces information from natural language artifacts
-(i.e., issues and emails), and iv) empirical studies involving Android apps.
+and iii) tools to extract stack traces information from natural language artifacts
+(i.e., issues and emails)
+%, and iv) empirical studies involving Android apps.
 
 \textit{Analysis of Java Exception Usage.} Since the manual analysis of the Java
 exception flow can easily become infeasible, Robillard and Murphy~\cite{Robil00}
@@ -1135,7 +1128,6 @@ flows~\cite{coelho2008assessing}. The main limitation off all
 static analysis tools is the number of false positives inherent to static analysis
 solutions, which can lead to a high number of exception flows, specially if
 considering Java Environment exceptions and exceptions signaled from libraries.
-
 Additionally, Cabral and Marques~\cite{cabral2007exception} analyzed the
 exception handling code of 32 open-source systems, both for Java and .NET. They
 observed that the action handlers were very simple (e.g., logging and present a
@@ -1191,28 +1183,28 @@ on the stack trace. In addition to those tools, ExceptionMiner is able to
 both extract stack traces from natural language artifacts and to 
 classify them in a set of predefined categories.
 
-\textit{Empirical studies using Android apps.} Ruiz et al.~\cite{Ruiz12}
-investigated the degree of reuse across applications in Android Market, the
-study showed that almost 23\% of the classes inherited from a base class in the
-Android API, and that 217 mobile apps were reused completely by another mobile
-app. Pathak et al.~\cite{Patha11} analyzed bug reports and developers
-discussions of Android platform and found out that approximately 20\% of
-energy-related bugs in Android occurred after an OS update. McDonnell et
-al.~\cite{McDon13} conducted a case study of the co-evolution behavior of
-Android API and 10 dependent applications using the version history data found
-in github. The study found that approximately 25\% of all methods in the client
-code used the Android API, and that the methods reusing fast-evolving APIs were
-more defect prone then others. Vásquez et al.~\cite{Linar13} analyzed
-approximately 7K free Android apps and observed that the last successful apps
-used Android APIs that were on average 300\% more change-prone than the APIs
-used by the most successful apps. Pingyu and Elbaum~\cite{Zhang12} analyzed bug
-reports of 5 Android applications an observed that 29\% had to do with poor
-exceptional handling code. Our work differs from the others as it aims at
-distilling the information of bug reports describing uncaught exceptions created
-for mobile applications in Github, in order to get a first view
-of what is causing the crashes across applications available and what the
-characteristics of the stack traces can tell us about the exception structure of
-those applications.
+%\textit{Empirical studies using Android apps.} Ruiz et al.~\cite{Ruiz12}
+%investigated the degree of reuse across applications in Android Market, the
+%study showed that almost 23\% of the classes inherited from a base class in the
+%Android API, and that 217 mobile apps were reused completely by another mobile
+%app. Pathak et al.~\cite{Patha11} analyzed bug reports and developers
+%discussions of Android platform and found out that approximately 20\% of
+%energy-related bugs in Android occurred after an OS update. McDonnell et
+%al.~\cite{McDon13} conducted a case study of the co-evolution behavior of
+%Android API and 10 dependent applications using the version history data found
+%in github. The study found that approximately 25\% of all methods in the client
+%code used the Android API, and that the methods reusing fast-evolving APIs were
+%more defect prone then others. Vásquez et al.~\cite{Linar13} analyzed
+%approximately 7K free Android apps and observed that the last successful apps
+%used Android APIs that were on average 300\% more change-prone than the APIs
+%used by the most successful apps. Pingyu and Elbaum~\cite{Zhang12} analyzed bug
+%reports of 5 Android applications an observed that 29\% had to do with poor
+%exceptional handling code. Our work differs from the others as it aims at
+%distilling the information of bug reports describing uncaught exceptions created
+%for mobile applications in Github, in order to get a first view
+%of what is causing the crashes across applications available and what the
+%characteristics of the stack traces can tell us about the exception structure of
+%those applications.
 
 \section{Conclusion}
 
