@@ -646,18 +646,18 @@ stack trace. This is not true for the general case however.
 
 \section{RQ2: What are the common characteristics of such stack traces?}
 
-To answer this question, we mined the following information of every extracted
-stack trace: the top level exception being signaled, its signaler (the first
-method signature frame after the exception), the root exception (the exception
-which initiated the stack trace, defined on the bottom of the stack), and the
-root signaler. The intermediate elements that compose a stack trace as shown in
-Figure 1 (i.e., the intermediate causes and its execution stacks) were not be
-considered in the analysis.
+To answer this question, we mined from every extracted stack trace the top level
+exception being signaled, its signaler (the first method signature frame after
+the exception), the root exception (the exception which initiated the stack
+trace, defined on the bottom of the stack), and the root signaler. The
+intermediate elements that compose a stack trace as shown in
+Figure~\ref{fig:wrapping} (i.e., the intermediate causes and its execution
+stacks) were not be considered in the analysis.
 %~\todo{Move this to the previous section? IMO, It is better to keep all facts
 %about how we did the research in one place}
 
-Based on the assumption that, regardless the issue type every exception stack
-trace contains relevant information concerting the exception structure of
+Based on the assumption that regardless the issue type, every exception stack
+trace contains relevant information concerning the exception structure of
 projects analyzed we opted for not restricting the analysis only on defect
 issues~\footnote{We conducted the same analysis on the defect issues and the top
 exceptions are similar to the ones mentioned on defect issues. Due to space
@@ -668,13 +668,10 @@ on the defect issues can be found here:
 \subsection{Top 10 most common exceptions in Java Projects}
 
 Table~\ref{tab:toptenjava} illustrates the top 10 most common root causes which
-represents more than 50\% of the analyzed set. The table illustrates  (i) the
+represents more than 50\% of the analyzed set. The table illustrates  i) the
 number of times each exception appeared as the root cause of a stack trace
-(\#occurrences), (ii) the number of distinct projects reporting such causes on
-stack traces, and (iii) the exception popularity. The exception popularity
-metric was defined in this work as follows: \emph{popularity = number of
-projects mentioning the exception in at least one stack/all projects that
-contain at least one stack}.
+(\#occurrences), ii) the number of distinct projects reporting such causes on
+stack traces, and iii) the exception popularity among projects.
 
 \begin{table}
 \begin{tabular}{lrrrr}
@@ -699,37 +696,34 @@ java.lang.OutOfMemoryError                 & 601  & 2,09\%  & 235  & 6,25\% \\
 All	 &	23956 &	100\%	& 3758 & 100\%	 \\
 \hline
   \end{tabular}
-\caption{Top 10 most popular exceptions on issues}
+\caption{Top 10 most popular exceptions on issues in Java projects}
 \label{tab:toptenjava}
 \end{table}
 
 We can observe that the NullPointerException was the one with the higher number
-of occurrences (22,5\% of all stacks were caused by NullPointerExceptions) and
+of occurrences (26,3\% of all stacks were caused by NullPointerExceptions) and
 the one which had the highest popularity across projects. Actually, most of the
-exceptions in the TOP 10 list (except java.lang.IllegalArgumentException,
+exceptions in the top 10 list (except java.lang.IllegalArgumentException,
 java.io.IOException and java.lang.RuntimeException) are exceptions implicitly
-signaled by Java Virtual Machine, when an expression violates the normal
+thrown by Java Virtual Machine, when an expression violates the normal
 semantics of the Java programming language (e.g. ArrayIndexOutOfBounds) or due
 to an internal error or resource limitation (OutOfMemoryError).
 
 The high prevalence of NullPointerExceptions, and the other implicitly-thrown
-exceptions  is aligned with the findings other works [Sunghun et al.][Gordon
-fraser and][Jcrasher].[Android-predict]~\todo{refs}. For instance, Sunghun et
-al. showed that in Eclipse bug report system 38\% the bugs related to exception
-handling were caused by NullPointerException; other works on robustness testing
-[JCrasher, Evol;suite, Amiya]~\todo{refs} showed that most of the automatically
+exceptions  is aligned with the findings other works~\cite{kim2013predicting,fraser20131600,csallner2004jcrasher}. For instance, Sunghun et
+al.~\cite{kim2013predicting} showed that in Eclipse bug report system 38\% the bugs related to exception handling were caused by NullPointerException; other works on robustness testing~\cite{maji2012empirical,csallner2004jcrasher}
+showed that most of the automatically
 detected bugs were due to NullPointerExceptions and implicitly-signaled of Java
 environment (as the ones found in this study).
 
-
 \subsection{Top 10 most common exceptions in Android Projects}
 
-As detailed in Section III, 482 Android projects were carefully selected to
-enable a deaper investigation of stack trace information, by leveraging stack
-trace information with the source code and bytecode analysis. For this subset of
-Android projects we could extract every package related to each exception
-signaler, and based on this information we could classify every stack trace
-based on its root signaler as presented in Table~\ref{signalers}.
+As detailed in Section~\ref{sec:android}, 482 Android projects were carefully
+selected to enable a deeper investigation of stack trace information, by
+leveraging stack trace information with the source code and bytecode analysis.
+For this subset of Android project, we could extract every package related to
+each exception signaler, and based on this information we could classify every
+stack trace based on its root signaler as presented in Table~\ref{tab:signalers}.
 
 \begin{table}
   \centering
@@ -748,13 +742,13 @@ based on its root signaler as presented in Table~\ref{signalers}.
   \label{tab:signalers}
 \end{table}
 
-For each exception we could discover: the number of times it occurred on stacks,
+For each exception we could discover the number of times it occurred on stacks,
 the number of distinct projects such stacks were defined (and consequently its
 popularity) and the of times it was signaled by different signaler types. We
 could calculate the popularity of each root cause, considering the number of
 distinct projects they were found and the whole set of projects analyzed with at
-least one stack trace (482). Table~\ref{toptenandroid} and
-Figuere~\ref{androidsignaler} presents the mined data.
+least one stack trace (482). Table~\ref{tab:toptenandroid} and
+Figure~\ref{fig:androidsignaler} presents the mined data.
 
 \begin{table*}
   \centering
@@ -787,26 +781,31 @@ java.util.ConcurrentModificationException & 54   & 1,33\%  & 38  & 7,88\%  & 5  
 \label{fig:androidsignaler}
 \end{figure}
 
-%\textbf{
 Coding errors are the most common root causes for most types of signalers. We
 could observe that the NullPointerException is still the exception with higher
 number of occurrences. The NullPoiterExceptions are mainly signaled inside
-Android platform and inside application code. Although we also find
+Android platform and inside application code, although we also find
 NullPointerExceptions being signaled from third-party libraries. Regarding
-reusable code, there is no consensus if it s a good or bad practice to re-throw
-NullPointerException. Some prefer to encapsulate such exception on
-IllegalArgumentException. But others~\cite{joshuabloch} argue that the
-NullPointerException  explicits the cause of the problem and hence should not be
-wrapped.
+reusable code, there is no consensus if it is a good or bad practice to re-throw
+NullPointerException. Some prefer to encapsulate such an exception on
+IllegalArgumentException, while others~\cite{bloch2008effective} argue that the
+NullPointerException makes the cause of the problem explicit and hence 
+should not be wrapped.
 
 %commented only for submission:
-\textbf{We could observe in this study that the NullPointerException and other
+We could observe in this study that the NullPointerException and other
 other implicitly signaled exceptions represented most of the exceptions reported
-on issues in both Java and Android subset. For such exceptions - which represent
-programming bugs or resource limitations - there is usually no proper handling
+on issues in both Java and Android subset. For such exceptions, which represent
+programming bugs or resource limitations, there is usually no proper handling
 besides presenting an error message to the user and restarting the application -
-only high fault tolerant systems need to provide solutions to handle them [REF:
-Java Specification].}
+only high fault tolerant systems need to provide solutions to handle them.
+
+\noindent \fbox{
+\begin{minipage}{0.96\columnwidth} 
+\emph{RQ2: Most exceptions are due to programming mistakes
+or generally irrecoverable errors.\todo{Revise this}}
+\end{minipage}}
+
 
 \subsection{Classification of the main causes of top exceptions}
 
