@@ -1110,87 +1110,76 @@ level.
 
 \section{Related Work}
 
-In this section, we present works thaat are related to our own, distributed in
-four categories: (i) works that use the information available on stack traces;
-(ii) empirical studies on the usage of Java exceptions and its fault proneness;
-(iii) tools to extract stack traces information from natural language artifacts
-(i.e., issues and emails);  and (iv) empirical studies involving Android apps.
+In this section, we present works that are related to our own, distributed in
+four categories: i) works that use the information available on stack traces;
+ii) empirical studies on the usage of Java exceptions and its fault proneness;
+iii) tools to extract stack traces information from natural language artifacts
+(i.e., issues and emails), and iv) empirical studies involving Android apps.
 
 \textit{Analysis of Java Exception Usage.} Since the manual analysis of the Java
-exception-flow can easily become infeasible Robillard and Murphy~\cite{Robil00}
-developed a tool called Jex that analyzes the flow of exceptions in Java source
-code. Based on java source code this tool performs dataflow analysis in order to
-find the propagation paths of checked and unchecked exception types. After this
-tool other tools have been proposed to support the static analysis of exception
-flows ~\cite{fu2007exception} ~\cite{coelho2008assessing}. The main limitation
-off all tools is the number of false positives inherent to static analysis
+exception flow can easily become infeasible, Robillard and Murphy~\cite{Robil00}
+employed dataflow analysis to find the propagation paths of checked and
+unchecked exception types. Modeled after Robillard and Murphy's work, other
+tools have been proposed to support the static analysis of exception
+flows~\cite{coelho2008assessing}. The main limitation off all
+static analysis tools is the number of false positives inherent to static analysis
 solutions, which can lead to a high number of exception flows, specially if
 considering Java Environment exceptions and exceptions signaled from libraries.
-This was the fist of some tools proposed to statically analyzed the exception
-flow of exceptions. Cabral and Marques~\cite{cabral2007exception} analyzed the
-exception handling code of 32 open-source systems, both for Java and .NET. The
-goal of their study was to identify how exceptions were handled in different
-categories of systems. They examined the exception handlers and the respective
-actions taken on them. They observed that the action handlers were very simple
-(e.g., logging and present a message to the user). In our work differs from
-previous works since in our study we tried to identify bad practices from the
-combined use of stack traces extracted from issues and bytecode and source code
-analysis. Finally, Reimer and Srinivasan~\cite{reimer2003analyzing} listed a set
-of bad practices on exception handling that hinder software maintainability and
-robustness. Their differs from ours it was solely based on their own experience
-on working with Java enterprise applications and focus on source code examples
-of bad patterns on ways of handling exceptions such as exception swallowing, log
-verbosity.
 
-\textit{Analysis and Use of Stack Trace Information.} Some works have
-investigated the usage of stack trace information to support bug classification
+Additionally, Cabral and Marques~\cite{cabral2007exception} analyzed the
+exception handling code of 32 open-source systems, both for Java and .NET. They
+observed that the action handlers were very simple (e.g., logging and present a
+message to the user). Reimer and Srinivasan~\cite{reimer2003analyzing} listed a
+set of bad practices on exception handling that hinder software maintainability
+and robustness, based on their own experience with Java enterprise applications.
+Our work differs from those two works as we tried to identify bad practices from
+the combined use of stack traces extracted from issues and bytecode and source
+code analysis. 
+
+\textit{Analysis and Use of Stack Trace Information.} Several works have
+investigated the use of stack trace information to support bug classification
 and clustering~\cite{wang2013improving, kim2011crash, dhaliwal2011classifying},
 fault-proneness prediction models~\cite{kim2013predicting} and even automated
-bug fixing~\cite{sinha2009fault} tools.Kim et al~\cite{kim2011crash} use of
-crash graphs (an aggregated form of multiple stack traces available in crash
-reports) to detect duplicate crash reports and to predict if a given crash will
-be fixed. Dhaliwal et al~\cite{} analyzed crash reports collected for Mozilla
-Firefox and proposed a crash grouping approach based on the Levenshtein
-distance. This work showed that a crash grouping approach can reduce bug fixing
-time in approximately 5\%. Wang et al~\cite{} proposes an approach to define
-correlated crash types automatically. Moreover it also provides a bug
-localization method to locate and rank files related to the bug described on a
-stack trace.  Schroter et al~\cite{schroter2010stack} conducted an empirical
-study on the usefulness of stack traces for bug fixing. The study used the
-development data of Eclipse project and could observe that developers fixed the
-bugs faster when failing stack traces were included on bug issues. This study is
-aligned with the one performed by Bettenburg et al. ~\cite{bettenburg2008makes}
-which evaluated what content could make a good bug report, and stack traces were
-mentioned as the second most important content for developers - just after the
-"steps to reproduce" information. Sinha et al~\cite{sinha2009fault} proposed an
-approach for locating and repairing faults that are caused by JVM implicitly
-signaled exceptions related to coding errors such as NullPointerExceptions. This
-approach uses the information available on the stack trace to guide a dataflow
-analysis, to locate the source statement responsible for the exception. Kim at
-al.~\cite{kim2013predicting} proposed an approach to predict the crash-proneness
-of methods based information extracted from stack traces and methods' bytecode
-operations. They used InfoZilla to extracted stack trace information from the
-bug reports of two open-source projects, i.e. AspectJ and Eclipse. They could
-observe that most of the stack traces were related to NullPointerException and
-other JMV implicitly thrown exceptions had the higher prevalence on the analyzed
-set of stacks.
+bug fixing tools~\cite{sinha2009fault}. Kim et al.~\cite{kim2011crash} use an
+aggregated form of multiple stack traces available in crash reports to detect
+duplicate crash reports and to predict if a given crash will be fixed. Dhaliwal
+et al.~\cite{dhaliwal2011classifying} proposed a crash grouping approach that
+can reduce bug fixing time in approximately 5\%. Wang et
+al.~\cite{wang2013improving} propose an approach to identify correlated crash
+types and describe a fault localization method to locate and rank files related
+to the bug described on a stack trace. Schroter et al.~\cite{schroter2010stack}
+conducted an empirical study on the usefulness of stack traces for bug fixing
+and showed that developers fixed the bugs faster when failing stack traces were
+included on bug issues.  In a similar study, Bettenburg et
+al.~\cite{bettenburg2008makes} identify stack traces as the second most stack
+trace feature for developers.  Sinha et al.~\cite{sinha2009fault} proposed an
+approach that uses stack traces to guide a dataflow analysis for locating and
+repairing faults that are caused by the JVM implicitly signaled exceptions. Kim
+at al.~\cite{kim2013predicting} proposed an approach to predict the
+crash-proneness of methods based information extracted from stack traces and
+methods' bytecode operations.  They observed that most of the stack traces were
+related to NullPointerException and other JMV implicitly thrown exceptions had
+the higher prevalence on the analyzed set of stacks.
 
-\textit{Extracting Stack Traces from Natural language artifacts.} Nowadays many
-software vendors embed automatic crash reporting tools in their software
-systems. Hence, whenever a software crashes this tool sends a detailed crash
-report to its vendors. Moreover, there are also find third party software
-solutions specialized in bug reporting, most of them for the increasing marked
-of mobile apps~\cite{BugSe14,BugSn14,Googl14,Acra14}. Hence most of the works
-described previously used the  information provided by crass reporting tools.
-Two works have proposed tools extract stack traces from natural language
-artifacts such as issues and emails: Infozilla ~\cite{bettenburg2008extracting}
-is based on a set of regular expressions that extract an the set of frames
-related to a stack trace, the main limitation of this solution is that it is not
+\textit{Extracting Stack Traces from natural language artifacts.} 
+%Currently, many
+%software vendors embed automatic crash reporting tools in their software
+%systems. Moreover, third party crash collection services exist, most of them 
+%targeted for applications run on mobile phones~\cite{BugSe14,BugSn14,Googl14,Acra14}.
+Apart from bug reports, stack traces can be embedded in other forms of
+communication between developers, such as discussion logs and emails.
+Being intermixed with text makes the accurate extraction of stacktraces 
+an involved process.
+Infozilla~\cite{bettenburg2008extracting}
+is based on a set of regular expressions that extract a set of frames
+related to a stack trace. The main limitation of this solution is that it is not
 able to extract stack traces embedded on verbose log files (i.e., on which we
-can find log text mixed with exception frames). Alberto and Lanza
-~\cite{bacchelli2012content}  propose a solution to recognize stack trace frames
+can find log text mixed with exception frames). Bacchelli and Lanza
+~\cite{bacchelli2012content} propose a solution to recognize stack trace frames
 from development emails and relate it to code artifacts (i.e. classes) mentioned
-on the stack trace.
+on the stack trace. In addition to those tools, ExceptionMiner is able to 
+both extract stack traces from natural language artifacts and to 
+classify them in a set of predefined categories.
 
 \textit{Empirical studies using Android apps.} Ruiz et al.~\cite{Ruiz12}
 investigated the degree of reuse across applications in Android Market, the
@@ -1208,12 +1197,12 @@ approximately 7K free Android apps and observed that the last successful apps
 used Android APIs that were on average 300\% more change-prone than the APIs
 used by the most successful apps. Pingyu and Elbaum~\cite{Zhang12} analyzed bug
 reports of 5 Android applications an observed that 29\% had to do with poor
-exceptional handling code.  Our work differs from the others as it aims at
+exceptional handling code. Our work differs from the others as it aims at
 distilling the information of bug reports describing uncaught exceptions created
-for mobile applications in Github and Googlecode, in order to get a first view
+for mobile applications in Github, in order to get a first view
 of what is causing the crashes across applications available and what the
 characteristics of the stack traces can tell us about the exception structure of
-those applications. %Moreover this work\ldots.
+those applications.
 
 \section{Conclusion}
 
