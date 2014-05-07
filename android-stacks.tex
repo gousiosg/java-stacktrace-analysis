@@ -895,7 +895,7 @@ top 100 most thrown exceptions (see ~\ref{tophundrend}) we could observe that
 stack traces on which direct instances of java.lang.Exception and
 java.lang.Error were thrown. 
 
-Throwing general exceptions is usually considered a
+Throwing general exceptions is  considered a
 bad practice, because the type does not carry enough information to identify the
 cause of the exceptional behaviour. In such cases, developers need to relying on
 exception message which can be neither complete nor precise
@@ -905,15 +905,15 @@ In Table ~\ref{toptenandroid} we can observe a high prevalence of
 RuntimeExceptions being thrown by the Android platform (167 out of 232).
 Manually inspecting the code on which RuntimeExceptions were thrown in Android
 Platform we could observe that direct instances of java.lang.RuntimeException
-they were thrown for 2 main reasons: (i) when there was no reasonable way of
-handling the exception, which means that regardless the kind of exception the
-only possible action was to abort the application; and when wrapping exceptions
+ were thrown due to two main reasons: (i) when there was no recovery action associated
+to the exceptional condition, which means that regardless the kind of exception the
+only possible action was to abort the application; and when translating exceptions
 signaled by application methods. Since Android platform is heavily based on
-"call backs", when the application does not handle its exceptions, they scape to
-Android platform which does not have contextual information to adequately handle
-the exception and simply terminates the application. What is apparently a bad
-practice of signaling general exceptions in this context it was and intended
-design decision.
+"call backs", when a application throws a runtime exception (i.e., one of the life cicle methods of an Activity) and does it, the exception scapes to compotenst of the Android platform 
+which do not have contextual information to adequately handle
+the exception and simply terminates the application. 
+
+We could observe that although been known as a bad practice, the signaling general exceptions in this context it was an intended design decision when no specific recovery action can be defined for the exception.
 
 %Even an instance of Throwable as signaled in one project. It points to a the
 %"dont worry from know behaviour".
@@ -983,13 +983,13 @@ causes of all stack traces reported on the Android repositories.
     \bfseries{Type} & \bfseries{Android} & \bfseries{Libcore} & \bfseries{App} & \bfseries{Lib} & \bfseries{Java} & \bfseries{All}\\
     \hline
 
-Runtime   & 1101 & 56  & 1446 & 423 & 10 & 3036  \\
-Error     & 148  & 34  & 168  & 114 & 9  & 473 \\
-Checked   & 115  & 241 & 139  & 176 & 12 & 683 \\
-Undefined & 1    & 0   & 6    & 8   & 0  & 15  \\
-Throwable & 0    & 0   & 1    & 0   & 0  & 1 \\
+Runtime	&	1075	&	56	&	1446	&	374	&	10	&	2961	\\
+Error	&	144	&	34	&	168	&	105	&	9	&	460	\\
+Checked	&	110	&	230	&	139	&	145	&	12	&	636	\\
+Throwable	&	0	&	0	&	1	&	0	&	0	&	1	\\
+Undefined	&	1	&	0	&	6	&	8	&	0	&	15	\\
     \hline
-All       &	1365	&	331	&	1760	&	721	&	31	&	4208	\\
+All		& 1330	&	320	&	1760	&	632	&	31	&	4073	\\
     \hline
   \end{tabular}
 \caption{Types of Root Exceptions.}
@@ -1032,30 +1032,33 @@ Error; and an Error wrapping a Runtime.
 \centering
 \begin{tabular}{llll}
     \hline
-    \bfseries{Exception Type} & \bfseries{Root Cause} & \bfseries{Occurrences} & \bfseries{Projects} \\
+    \bfseries{Root Cause} & \bfseries{Wrapper Type} & \bfseries{Occurrences} & \bfseries{Projects} \\
     \hline
-    Runtime   & None    & 2360 & 359 \\
+     Runtime    & -   &  2360 & 359 \\
+
     Runtime   & Runtime & 560  & 182 \\
-    Checked   & None    & 422  & 117 \\
-    Error     & None    & 381  & 141 \\
-    Runtime   & Checked & 109  & 70  \\
+    
+ Checked    &   -  & 422  & 117 \\
+     Error    &   -   & 381  & 141 \\
+   Checked &  Runtime   & 109  & 70  \\
     Checked   & Checked & 98   & 42  \\
-    Runtime   & Error   & 55   & 38  \\
-    Checked   & Runtime & 22   & 12  \\
+   Error   &  Runtime   & 55   & 38  \\
+   Runtime &  Checked   & 22   & 12  \\
     Error     & Error   & 15   & 14  \\
-    Undefined & None    & 15   & 10  \\
-    Error     & Runtime & 13   & 6 \\
-    Checked   & Error   & 8    & 7 \\
-    Error     & Checked & 7    & 4 \\
-    Throwable & Runtime & 3    & 1 \\
-    Undefined & Runtime & 3    & 3 \\
-    Throwable & None    & 1    & 1 \\
-    Undefined & Error   & 1    & 1 \\
+  Undefined    &  -  &  15   & 10  \\
+   Runtime & Error     &  13   & 6 \\
+  Error   & Checked   &  8    & 7 \\
+    Checked &Error     &  7    & 4 \\
+    Runtime &Throwable &  3    & 1 \\
+   Runtime & Undefined &  3    & 3 \\
+   Throwable    & -  &  1    & 1 \\
+   Error   & Undefined &  1    & 1 \\
     \hline
   \end{tabular}
 \caption{Kinds of wrappings found on the stacks of 482 ANDROID projects found on Github}
 \label{fig:wrappingandroid}
 \end{table}
+
 
 Java is the only language that provides a hybrid exception handling mechanism
 which offers different types to represent different exception behaviors (see
