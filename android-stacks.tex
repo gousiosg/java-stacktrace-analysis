@@ -96,6 +96,10 @@ signatures to include the new exception type or handle the new exception.
 
 \noindent\emph{Unchecked Approach}. In languages such as Lore, C++, and Arche all exceptions are unchecked but the developer can optionally list exception types on method signatures. However, the developer is not warned by the compiler if an unchecked exception is not handled inside the application. Such an approach may hinder robustness because the client of a method cannot easily know which unchecked exceptions may be thrown, unless the code of the method and the methods called from it is inspected, which can be a very time consuming or infeasible task.
 
+
+
+
+
 \noindent\emph{Hybrid Approach}. In Java a method can throw either checked or unchecked exceptions. Java is the only language that allows this hybrid approach.
 
 \subsection{Exception handling in Java}
