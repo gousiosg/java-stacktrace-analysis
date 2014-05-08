@@ -72,7 +72,7 @@ mechanism~\cite{mandrioli1992advances} making the program more complex and even
 less reliable. This behaviour may lead to the well known uncaught exceptions
 problem~\cite{jo2004uncaught}, one of the main causes of application crashes.
 
-Moreover, some languages use exceptions to represent coding errors
+Moreover, some languages use exceptions to represent programming mistakes
 (out-of-bounds array index, division-by-zero, access to a null). In these cases
 exceptions are implicitly signaled by the runtime environment when such
 condition happens. One of such implicit exceptions (caused by data conversion
@@ -156,7 +156,9 @@ this large scale analysis of exception stack traces in the wild, such as:
 
 \begin{itemize}
 
-  \item  A multitude undocumented runtime exceptions signaled by third party
+  \item  A multitude of programming mistakes as the main causes of stack traces.
+   
+  \item Undocumented runtime exceptions signaled by third party
     code (i.e., libraries and Android platform).
 
   \item  Odd exception chains (e.g., Error wrapping checked and runtime
@@ -206,14 +208,13 @@ directions for future work.
 
 \section{Background}
 
-\subsection{Error handling in programming languages}
+\subsection{Error Handling in Programming Languages}
 
 Techniques for error detection and handling are not  an optional add-on but a
 fundamental part of the system~\cite{bruntink2006discovering}. Several
 approaches exists for detecting errors and responding to them, such as the return-code 
 idiom (very popular in C programs and operating systems), and the exception handling 
-mechanism, embedded in many main
-stream programming languages.
+mechanism, embedded in many main stream programming languages.
 
 The main disadvantage of return codes is the fact that the programmer can just
 ignore the return code and let the program execute in inconsistent state. The
@@ -275,7 +276,7 @@ Java~\cite{javatut,stackoverlow,debate}\footnote{152 questions in Stackoverlow
 are related to this debate}, since there are pros and cons associated to each of
 them.
 
-\subsubsection{Exception Throwing and Handling}
+%\subsubsection{Exception Throwing and Handling}
 
 In Java an exception can be signaled in one of the following
 circumstances~\cite{gosling2000java}: (i) explicitly thrown when a throw statement is executed; 
@@ -322,7 +323,7 @@ stack trace as the first method call below the exception declaration.
 \label{fig:wrapping}
 \end{figure}
 
-\subsection{Exception Handling Best Practices}
+\subsection{Exception Handling Best Practices in Java}
 \label{sec:best}
 
 %\todo{This section feels a bit disconnected.}
@@ -330,10 +331,9 @@ Several general guidelines have been proposed on how to use Java
 exceptions~\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,
 bloch2008effective}. 
 % To guide our investigation, we compile the guidelines
-A compiled list of the guidelines related to exception types and exception propagation in Java the following:
+A compiled list of the guidelines related to exception types and exception propagation in Java the following
 \footnote{We also compiled guidelines related to exception handling but they are
-out of the scope of this paper, since they do not relate to information
-available on stack traces.}:
+out of the scope of this paper.}:
 
 %\noindent\emph{Meaning of Exception Types}
 
@@ -358,26 +358,26 @@ developers should either try to reuse the exception types already defined in the
 JVM or they should create a specific exception. Throwing general types such as a
 pure Exception or a RuntimeException is hence considered a bad practice.
 
-\textbf{IV-Do not repeatedly re-throw exceptions, handle exceptions as close as
-possible to the problem}~\cite{wirfs2006toward}. 
+%\textbf{IV-Do not repeatedly re-throw exceptions, handle exceptions as close as
+%possible to the problem}~\cite{wirfs2006toward}. 
 %Programs that frequently throw exceptions lose in performance ~\cite{wirfs2006toward,gosling2000java}.
 %Moreover, 
-Close to the place that the exception was throw the caller usually has
-enough contextual information to perform  corrective actions. When the exception
-is propagated far away from the method where it was signaled (i.e. further away
-from the problem) it can be difficult to take meaningful recovery actions.
-todo{RSC:this practice was not well explored, can be removed if we need space.}
+%Close to the place that the exception was throw the caller usually has
+%enough contextual information to perform  corrective actions. When the exception
+%is propagated far away from the method where it was signaled (i.e. further away
+%#from the problem) it can be difficult to take meaningful recovery actions.
+%*~\todo{RSC:this practice was not well explored, can be removed if we need space.}
 
 %\noindent\emph{Exception Documentation}
-\textbf{V-Document all exceptions thrown by a
+\textbf{IV-Document all exceptions thrown by a
 method}~\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective}).
 The exceptions thrown by a method are an important part of methods interface,
 and is required to use the method properly. The checked exceptions are already
 part of the  methods signature, and the method caller is aware of the checked
 exceptions being thrown by it. According to~\cite{bloch2008effective}, it is
 also wise to document the explicitly signaled runtime exceptions\footnote{This
-excludes the implicitly signaled JVM runtime exceptions related to coding
-errors} as carefully as checked exceptions. Doing so, the clients of a method
+excludes the implicitly signaled JVM runtime exceptions related to programming
+mistakes} as carefully as checked exceptions. Doing so, the clients of a method
 will be aware of the exceptions the method can throw. If the developer fails to
 do follow this practice (specially when developing library code) it will be
 difficult or even impossible for the caller to make effective use of such method
@@ -788,7 +788,7 @@ java.util.ConcurrentModificationException & 54   & 1,33\%  & 38  & 7,88\%  & 5  
 %\label{fig:androidsignaler}
 %\end{figure}
 
-Coding errors are the most common root causes for most types of signalers. We
+Programming mistakes are the most common root causes for most types of signalers. We
 could observe that the NullPointerException is still the exception with higher
 number of occurrences. The NullPoiterExceptions are mainly signaled inside
 Android platform and inside application code, although we also find
@@ -918,7 +918,7 @@ To better investigate the extent of this problem we classified each stack trace 
 root exception. Table~\ref{typeroottab} presents the types of root causes of all stack traces reported on 
 the Android repositories. As we can see from Table ~ref{typeroottab},  most of the exceptions signaled by third-party code
  (e.g., Android and libs) were runtime exceptions. If we filter the exceptions implicitly signaled by 
-JVM (due to coding erros) the number of runtime exceptions thrown by third party code is XXX 
+JVM (due to programming mistakes) the number of runtime exceptions thrown by third party code is XXX 
 signaled by Android and YYY signaled by library code.
 
 \begin{table}
@@ -954,9 +954,9 @@ All		& 1330	&	320	&	1760	&	632	&	31	&	4073	\\
 
 
 Manually inspecting 10% of each set we could also observe that none of the methods throwing 
-runtime exceptions documented the exceptions on the method signature (as suggested by Boch
- ~\cite{}) nor included a comment in Javadoc. This result is aligned with the results of other 
-study conducted by from Cabral and Marcques ~\cite{} which  observed that 
+runtime exceptions documented the exceptions on the method signature (as suggested by Bloch
+ ~\cite{bloch2008effective}) nor included a comment in Javadoc. This result is aligned with the results of other 
+study conducted by from Sacramento et al ~\cite{sacramento2006unchecked} which observed that the
 runtime exceptions in .Net programs are most often not documented.
 
 On the other hand, we could observe that the checked exceptionsmost represent most of the  
@@ -1032,8 +1032,8 @@ runtime and checked) (see Section ~\ref{extypes}) . According to Java specificat
 handled inside the system since they usually represent unrecoverable conditions
 detected by the JVM such as OutOfMemoryError. Checked exceptions should
 represent recoverable conditions and  Runtime exceptions represent are usually
-related to coding errors from which the developer is not expected to recover
-from.
+related to programming mistakes from which the developer is not expected to recover
+from. 
 
 %Table X illustrated examples of such wrappings.
 %TODO INCLUIR ESTA TABLEA
@@ -1042,16 +1042,18 @@ from.
   \begin{center}
     \includegraphics[scale=0.5]{only-wrap-histogram.pdf}
   \end{center}
-  \caption{Stack sizes (top) and wrappings (bottom) for Java (left) and Android (right) stack traces}
+  \caption{Number of  stack traces wrappings for Java and Android repositories. }
   \label{fig:sizewrapbhists}
 \end{figure}
 
+IMPORTANT:  ~\todo{We need to update this data because it is still including PulWifi. Gerogios I sent the filtered data to you by email, and saved on file java-new-stack-sizes.csv in this repository.}
+
 We could also observe that in 205 stacks found in Android repository the exception was wrapped 
 more then once. Figure ~\ref{sizewrapbhists}  illustrates the number of wrappings per stack, both
- in Java and Android studied repositories. One interesting wrapping found in ones Android repo was the 
+ in Java and Android studied repositories. One interesting multiple-wrapping found in Android repo was the 
 following: Runtime-Checked-Runtime-Checked-Runtime-Checked-Runtime.
 
-Since there is no way of enforcing such conventions during program development,
+Since there is no way of enforcing Java exception type conventions during program development,
 we could observe the stack trace analysis combined with types these three types
 of exceptions were used interchangeably. This interchangeability makes the
 behaviour of the exception handling code more complex and less reliable. For
@@ -1060,6 +1062,7 @@ should not be handled) was wrapped in a checked exception (a situation that must
 he handled), in this case this wrapping is telling to the caller that it should
 handled.
 
+%\section{Discussions}
 
 \section{Threats to Validity}
 
