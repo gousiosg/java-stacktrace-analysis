@@ -737,11 +737,11 @@ stack trace based on its root signaler as presented in Table~\ref{tab:signalers}
     \hline
     \bfseries{Type of signaler} & \bfseries{Description} \\
     \hline
-    \bfseries{android} & When the exception is explicitly thrown by a method defined in Android Platform, in a the JDK library used by it.\\
-    \bfseries{app}     & If the exception signaler was explicitly thrown by an application method or in a the JDK library used by it.\\
-    \bfseries{libcore} & If the application was signaled by one of the libraries reused by Android Platform (i.e., org.apache.harmony, org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml) besides the JDK. \\
-    \bfseries{lib}     & If the exceptions was not defined by any of the elements above.\\
-    \bfseries{java}    & If the application signaler and all the methods that composes the exception are defined in a the JDK library method.\\
+    \bfseries{android} & If the exception is thrown by a method defined in Android Platform or OS, or in a JDK library used by them.\\
+    \bfseries{app}     & If the exception is thrown by an application method or in a  DK library used by it.\\
+    \bfseries{libcore} & If the exception is thrown by one of the core libraries reused by Android (i.e., org.apache.harmony, org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml). \\
+    \bfseries{lib}     & If the exception is thrown by a method that was not defined by any of the elements above.\\
+    \bfseries{java}    & If all methods on the stack trace are JDK library methods.\\
     \hline
   \end{tabular}
   \caption{Sources of exceptions in Android}
@@ -780,12 +780,13 @@ java.util.ConcurrentModificationException & 54   & 1,33\%  & 38  & 7,88\%  & 5  
 \label{tab:toptenandroid}
 \end{table*}
 
-\begin{figure}
-\centering
-\includegraphics[width=\hsize]{top_exceptios_android.pdf}
-\caption{Top exceptions in Android repositories.}
-\label{fig:androidsignaler}
-\end{figure}
+%\begin{figure}
+%\centering
+%\includegraphics[width=\hsize]{top_exceptios_android_new2.pdf}
+%\includegraphics[width=\hsize]{top_exceptions_android_new}
+%\caption{Top exceptions in Android repositories.}
+%\label{fig:androidsignaler}
+%\end{figure}
 
 Coding errors are the most common root causes for most types of signalers. We
 could observe that the NullPointerException is still the exception with higher
@@ -943,7 +944,8 @@ All		& 1330	&	320	&	1760	&	632	&	31	&	4073	\\
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.3]{chart_exceptiontypes.pdf}
+%\includegraphics[width=\hsize]{chart_exceptiontypes.pdf}
+\includegraphics[width=\hsize]{exception_types.pdf}
 \caption{Distribution of Checked and Unchedked exceptions.}
 \label{fig:typeroot}
 \end{figure}
