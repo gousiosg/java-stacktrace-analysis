@@ -195,13 +195,9 @@ ExceptionMiner tool is a contribution in this direction.
 %GGG: Personally, I hate this paragraph in all papers as it usually reads like a space-filler
 %RSC: If needed we can remove it.
 The remainder of this paper is organized as follows. Section 2 presents a
-background on error handling mechanisms and Java exception handling constructs
-and practices. Section 3 defines research questions, the configuration of our
-exploratory study, the target applications and the evaluation procedures.
-Section 4 reports our analysis of the empirical data collected relating to the
-first research questions. Section X is dedicated to provide insights for the 3rd
-research question. Section 6 provides further discussions and lessons learned
-and discusses the threats to validity associated to this study. Finally Section
+background on exception handling mechanism. Section 3 presents the study design.
+Section 4 reports study findings. Section 5 provides further discussions and insights.
+Section 6 presents the threats to validity associated to this study. Finally Section
 7 describes the related work, and Section 8 presents our conclusions and
 directions for future work.
 
@@ -278,7 +274,7 @@ them.
 
 %\subsubsection{Exception Throwing and Handling}
 
-In Java an exception can be signaled in one of the following
+In Java an exception can be thrown in one of the following
 circumstances~\cite{gosling2000java}: (i) explicitly thrown when a throw statement is executed; 
 (ii) implicitly thrown by the JVM when the evaluation of an expression
  violates the normal semantics of language (e.g., out-of-bounds array index,
@@ -289,27 +285,23 @@ OutofMemoryError).
 %\todo{This sub-section is quite similar to the section introduction, shouldn't
 %we merge them?}
 
-When an exception is signaled it causes a transfer of control from the point
-where the exception occurred to a point that can be specified by the programmer
-(exception handler) - in Java it is represented by the try-catch block .
-The search for the handler to deal with a raised
-exception occurs along the dynamic invocation chain. 
-If no handler is found in the chain, the default handler associated to the 
-Thread or ThreadGroup is invoked, which usually terminates the system 
-and prints the exception stack trace. Figure~\ref{fig:wrapping} presents an 
-example of a stack trace, on which multiple 
-exception chaining is depicted. Exception Chaining (or exception wrapping) is  
-common way of propagating exceptions  across components of different 
-abstraction levels. It is implemented by special exception 
-constructor which receives another exception as a parameter. 
+%When an exception is signaled it causes a transfer of control from the point
+%where the exception occurred to a point that can be specified by the programmer
+%(exception handler) - in Java it is represented by the try-catch block .
+%The search for the handler to deal with a raised
+%exception occurs along the dynamic invocation chain. 
+%If no handler is found in the chain, the default handler associated to the 
+%Thread or ThreadGroup is invoked, which usually terminates the system 
+%and prints the exception stack trace. 
 
 %\subsubsection{Exception Chaining} Exception Chaining 
 %This stack trace was extracted from an issue of an Android application in
 %Github.
 
-
-
-The bottom part of the stack trace is the \emph{root cause}, which indicates the
+Exception chaining is a common way of propagating exceptions in Java programs, 
+which allows one exception to be wrapped in another exception and re-thrown. 
+Figure~\ref{fig:wrapping} presents a stack trace associated which illustrates an
+exception chaining. The bottom part of the stack trace is the \emph{root cause}, which indicates the
 first reason for the error to be thrown (in this case, the computer run out of
 memory). The top part of the stack trace indicates the location of the exception
 manifestation (which will call \emph{top level exception} along this paper). The
@@ -1038,7 +1030,7 @@ from.
 
 \begin{figure}
   \begin{center}
-    \includegraphics[scale=0.5]{stack-wrappings-hist.pdf}
+    \includegraphics[scale=0.4]{stack-wrappings-hist.pdf}
   \end{center}
   \caption{Number of stack traces wrappings for Java and Android repositories. }
   \label{fig:sizewrapbhists}
