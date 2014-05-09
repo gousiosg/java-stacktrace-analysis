@@ -2,7 +2,7 @@ library(ggplot2)
 library(reshape)
 library(plyr)
 
-data <- read.csv('stack-sizes.csv', sep=';')
+data <- read.csv('stack-sizes.csv')
 
 multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   require(grid)
