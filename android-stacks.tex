@@ -1184,21 +1184,21 @@ classify them in a set of predefined categories.
 
 \section{Conclusion}
 
-In this work, we mined and analyzed the stack traces embedded in all issues 
-of Java projects available GitHub focusing our attention on the stack traces reported on
-a subset of 482 Android projects. In this study the exception information available 
-on stack traces was used in combination with source code and bytecode analysis to 
-pin-point patterns of exceptions (mis-)use in Java. In this study some patterns of exception
+In this work we present an exploratory study on which we mined the stack 
+traces embedded in all issues of Java projects available GitHub, and analyzed the stack traces
+reported on a subset of 482 Android projects in more detail. In this study the information extracted 
+from stack traces was used in combination with source code and bytecode analysis to 
+pin-point patterns of exceptions (mis-)use in Java. And some patterns of exception
 (mis)-use were consistently detected such as: unexpected wrappings (e.g., Errors
 being wrapped in checked exceptions), revealing that Java hybrid exception
 model is not fully used according to its purpose; undocumented runtime
 exceptions signaled by third party code (which makes almost impossible for
 library clients to protect against such exceptions); and a high prevalence of
 java.lang exceptions reported on issues (representing approximately 50\% of the
-analyzed issues). Such (mis)uses detected in out study can negatively affecting the 
-robustness of current Java software systems.  As a result, there is a need for both 
-improving the design of exception handling code in Java 
-and developing tools support to help developers dealing with such problems. 
+analyzed issues). Such (mis)uses detected in out study can negatively affect the 
+robustness of current Java software systems. Such results shed light to needs for  
+ developing tools support to help developers dealing with such problems and 
+improving the design of exception handling mechanism in Java.
 
 %Nowadays many software vendors embed automatic crash reporting tools in their
 %software systems. Hence, whenever a software crashes this tool sends a detailed
