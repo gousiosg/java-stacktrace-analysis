@@ -799,14 +799,12 @@ IllegalArgumentException, while others~\cite{bloch2008effective} argue that the
 NullPointerException makes the cause of the problem explicit and hence 
 should not be wrapped.
 
-%commented only for submission:
 We could observe in this study that the NullPointerException and other
 other implicitly signaled exceptions represented most of the exceptions reported
 on issues in both Java and Android subset. For such exceptions, which represent
 programming bugs or resource limitations, there is usually no proper handling
 besides presenting an error message to the user and restarting the application -
 only high fault tolerant systems need to provide solutions to handle them.
-
 
 \subsection{Classification of the main causes of top exceptions}
 
@@ -885,7 +883,7 @@ To answer this question we analyzed general characteristics of reported stack tr
 source code and byte code analyses to enable a more detailed analysis.
 Doing so, we mined some characteristics of stacks that points to best practices violations.
 
-\subsection{Direct instances of RuntimeExceptions been thrown.}
+\subsection{Direct instances of RuntimeExceptions being thrown.}
 
 From Tables~\ref{tab:toptenjava} and ~\ref{tab:toptenandroid} we can observe that,
 in both Java and Android related issues, direct instances
@@ -901,7 +899,7 @@ the exception message which can be neither complete nor precise
 ~\cite{gosling2000java}.
 
 
-\subsection{Undocumente runtime exceptions been thrown.}
+\subsection{Undocumented runtime exceptions being thrown.}
 
 Manualy inspecting the code of the methods throwing direct instances of RuntimeException revealed 
 another and even worse bad practice:  none of the analyzed methods 
