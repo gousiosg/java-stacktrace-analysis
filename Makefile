@@ -2,7 +2,7 @@ FILE=android-stacks
 
 default: $(FILE).pdf
 
-$(FILE).pdf: $(FILE).tex $(FILE).bib
+$(FILE).pdf: *.tex $(FILE).bib
 	pdflatex $(FILE)
 	bibtex $(FILE)
 	pdflatex $(FILE)
