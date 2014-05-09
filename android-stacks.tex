@@ -630,13 +630,13 @@ stack trace. This is not true for the general case however.
 
 %Based on the assumption presented in Section III, we therefore did not use this label for further filtering.
 
-\noindent \fbox{
-\begin{minipage}{0.96\columnwidth} \emph{ RQ1: 28,37\% of Java
-  repositories on Github have at least 1 issue that includes a stack trace.
-  9,4\% of the defect issues of such repositories mentioned at least one stack
-  trace. Considering only defect-issues of Android subset 58,7\% mentioned at
-  least 1 stack trace.  }
-\end{minipage}}
+%\noindent \fbox{
+%\begin{minipage}{0.96\columnwidth} \emph{ RQ1: 28,37\% of Java
+%  repositories on Github have at least 1 issue that includes a stack trace.
+%  9,4\% of the defect issues of such repositories mentioned at least one stack
+%  trace. Considering only defect-issues of Android subset 58,7\% mentioned at
+%  least 1 stack trace.  }
+%\end{minipage}}
 
 \section{RQ2: What are the common characteristics of such stack traces?}
 
@@ -725,9 +725,9 @@ stack trace based on its root signaler as presented in Table~\ref{tab:signalers}
 
 \begin{table}
   \centering
-  \begin{tabular}{rp{22em}}
+  \begin{tabular}{rp{29em}}
     \hline
-    \bfseries{Type of signaler} & \bfseries{Description} \\
+    \bfseries{Signaler} & \bfseries{Description} \\
     \hline
     \bfseries{android} & If the exception is thrown by a method defined in Android Platform or OS, or in a JDK library used by them.\\
     \bfseries{app}     & If the exception is thrown by an application method or in a  DK library used by it.\\
@@ -863,11 +863,11 @@ compatibility and security issues than on the general data set.
 %\label{tab:toptenpopular2}
 %\end{table}
 
-\noindent \fbox{
-\begin{minipage}{0.96\columnwidth} 
-\emph{RQ2: Most exceptions are due to programming mistakes
-or generally irrecoverable errors.}
-\end{minipage}}
+%\noindent \fbox{
+%\begin{minipage}{0.96\columnwidth} 
+%\emph{RQ2: Most exceptions are due to programming mistakes
+%or generally irrecoverable errors.}
+%\end{minipage}}
 
 \section{RQ3.  What kinds of exception (mis)-use emerge from stack trace analysis? }
 
