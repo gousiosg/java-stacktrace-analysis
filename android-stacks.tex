@@ -899,9 +899,9 @@ the Android repositories. As we can see from Table ~ref{typeroottab},  most of t
  (e.g., Android and libs) were runtime exceptions. After filtering all the exceptions implicitly signaled by 
 JVM (due to programming mistakes) and inspecting the signaler methods of such exceptions (i.e.,  direct an inderect 
 instances of java.lang.RuntimeException). We could observe observe that only 1 method out of 118 inspected signalers
- (i.e., 0,8%) documented the explicitly thrown runtime exceptions in a Javadoc comment, and none of the analized 
-included the exception  as part of the exception interface of the method (i.e., using throws clause on method signature). 
-This result is aligned with the results of other  study conducted by from 
+ (i.e., 0,8%) documented the explicitly thrown runtime exception in a Javadoc comment; and none of these methods
+included the runtime exception  (reported on the stack) as part of the exception interface of the method (i.e., using 
+throws clause on method signature). This result is aligned with the results of other  study conducted by from 
 Sacramento et al ~\cite{sacramento2006unchecked} which observed that the
 runtime exceptions in .Net programs are most often not documented.
 
