@@ -32,17 +32,16 @@ Email: \texttt{\{g.gousios,arie.vandeursen\}@tudelft.nl}}
 In this work, we perform the first large scale analysis of Java stack traces and
 pinpoint how they can reveal bad programming practices. We mined and analyzed
 the stack traces embedded in all issues of Java projects available GitHub.
-Overall, our research set includes 356,057 issues define at 16,836 projects
-(from which 28,800 stack traces were extracted). From this set, the stack traces
+Overall, our research set includes 356,057 issues defined at 16,836 projects, 
+from which 28,800 stack traces were extracted. From this set, the stack traces
 of 482 Android projects were investigated in more detail, in combination with
 source code and bytecode analysis. In this study some patterns of exception
 (mis)-use were consistently detected such as: unexpected wrappings (e.g., Errors
 being wrapped in checked exceptions), revealing that Java hybrid exception
 model is not fully used according to its purpose;  undocumented runtime
-exceptions signaled by third party code, which makes almost impossible for
-library clients to protect against such exceptions; and a high prevalence of
-java.lang exceptions reported on issues, representing approximately 50\% of the
-analyzed issues.
+exceptions signaled by third party code, which is a serious threat to program
+dependability; and a high prevalence of java.lang exceptions reported on issues,  
+causing approximately 50\% of the analyzed stack traces.
 
 
 \end{abstract}
@@ -64,7 +63,7 @@ garcia2007extracting,garcia2001comparative,cabral2007exception,coelho2011unveili
 the exception handling code is often generally poorly understood and the least
 tested part of software systems.
 
-Often some languages constructions may lead the developers into believing that
+Often some exception handling constructions may lead the developers into believing that
 by just re-throwing the exceptions they can forget about the exceptional
 situations during the development of the "happy path". This "ignore-for-now"
 approach may turn the exception handling into a generalized "goto"
@@ -1005,7 +1004,7 @@ This analysis also revealed unexpected wrappings such as: Error wrapping a Check
 exception; a Runtime wrapping and Error; and an Error wrapping a Runtime.
 Java is the only language that provides a hybrid exception handling mechanism
 which offers  different types to represent different exception behaviors (i.e., error, 
-runtime and checked) (see Section ~\ref{extypes}) . According to Java specification Errors should not be
+runtime and checked) (see Section ~\ref{sec:best}) . According to Java specification Errors should not be
 handled inside the system since they usually represent unrecoverable conditions
 detected by the JVM such as OutOfMemoryError. Checked exceptions should
 represent recoverable conditions and  Runtime exceptions represent are usually
@@ -1032,7 +1031,7 @@ Since there is no way of enforcing Java exception type conventions during progra
 we could observe the stack trace analysis combined with types these three types
 of exceptions were used interchangeably. This interchangeability makes the
 behaviour of the exception handling code more complex and less reliable. For
-instance, considering a situation were an OutOfMemoryError (a situation that
+instance, considering a situation were an instance of OutOfMemoryError (a situation that
 should not be handled) was wrapped in a checked exception (a situation that must
 he handled), in this case this wrapping is telling to the caller that it should
 handled.
@@ -1185,8 +1184,8 @@ classify them in a set of predefined categories.
 \section{Conclusion}
 
 In this work we present an exploratory study on which we mined the stack 
-traces embedded in all issues of Java projects available GitHub, and analyzed the stack traces
-reported on a subset of 482 Android projects in more detail. In this study the information extracted 
+traces embedded in all issues of Java projects available GitHub, and analyzed in mode detail thr
+stack traces reported on a subset of 482 Android projects. In this study, the information extracted 
 from stack traces was used in combination with source code and bytecode analysis to 
 pin-point patterns of exceptions (mis-)use in Java. And some patterns of exception
 (mis)-use were consistently detected such as: unexpected wrappings (e.g., Errors
