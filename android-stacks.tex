@@ -941,9 +941,6 @@ All		& 1330	&	320	&	1760	&	632	&	31	&	4073	\\
 \label{fig:typeroot}
 \end{figure}
 
-
-
-
 On the other hand, we could observe that most of the exceptions signaled by the set of 
 libraries reused by Android platform (i.e., org.apache.harmony,
 org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml, javax - referred in
@@ -952,8 +949,6 @@ for libraries (see Section ~\ref{best}) because by using checked exceptions
 libraries can define a precise exception interface to its clients. Such
 libraries are heavily used in several projects, and such precise exception
 interface may be related to the libraries maturity.
-
-
 
 \subsection{Uncaught Checked Exceptions}
 
@@ -1045,7 +1040,22 @@ should not be handled) was wrapped in a checked exception (a situation that must
 he handled), in this case this wrapping is telling to the caller that it should
 handled.
 
-%\section{Discussions}
+\section{Discussions}
+
+The exception (mis-)use that emerged from this study shades light on two 
+
+It is wise to document the explicitly signaled runtime exceptions as carefully as checked exceptions. Doing so, the clients of a method will be aware of the exceptions the method can throw. 
+
+
+When developer fails to document the runtime exceptions thrown by a method (s)he will make difficult or even impossible for the caller to effective use of such method. 
+
+Specially when developing library code, developers must carefully document the runtime exceptions, since there is no compilation checking 
+
+
+
+have not been fully adopted, mainly there is no compilation or runtime tool to enforce such policies.
+noindent\emph{Undocumented runtime exceptions}
+
 
 \section{Threats to Validity}
 
