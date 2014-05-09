@@ -1039,19 +1039,21 @@ handled.
 
 \section{Discussions}
 
-The exception (mis-)use that emerged from this study shades light on two 
-
-It is wise to document the explicitly signaled runtime exceptions as carefully as checked exceptions. Doing so, the clients of a method will be aware of the exceptions the method can throw. 
-
-
-When developer fails to document the runtime exceptions thrown by a method (s)he will make difficult or even impossible for the caller to effective use of such method. 
-
-Specially when developing library code, developers must carefully document the runtime exceptions, since there is no compilation checking 
-
-
-
-have not been fully adopted, mainly there is no compilation or runtime tool to enforce such policies.
-noindent\emph{Undocumented runtime exceptions}
+The exception (mis-)use patterns that emerged  in this study sheds enough light on 
+problems that may be causeing the lack of rocustness of current Java programs in the face of
+exceptional conditions: (i) the undocumented runtime exceptions thrown by library code - 
+documenting runtime exceptions is a tedious and error prone task, to help developers
+mitigating this problem tools should be developed to automate document runtime exceptions
+scaping from library code. (ii) the odd wrappings found in this study can lead to what we call
+an \emph{exception handling confusion problem} which may lead the problem to an
+unpredictable state while trying to handle an exception. To illustrate this problem, we can use
+ one of the examples found in this study: when the developer is 
+confronted with a checked exception, the designer of the API is telling him 
+to handle the exceptional condition, however we could observe that in some cases the 
+checked exception wrapped an OutOfMemoryError, which represent resource deficiency detected 
+by the JVM which make impossible the program to recover. Further investigation
+is needed on finding ways to help developers in deadling with such problem, either preventing 
+odd wrappings or enabling the developer to better dealing with them - when they are innevitable. 
 
 
 \section{Threats to Validity}
