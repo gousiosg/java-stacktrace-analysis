@@ -2,7 +2,7 @@ library(ggplot2)
 library(reshape)
 library(plyr)
 
-data <- read.csv('stack-sizes.csv', sep=';')
+data <- read.csv('stack-sizes.csv')
 
 multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   require(grid)
@@ -53,6 +53,7 @@ p3 <- ggplot(subset(data, type == 'java')) +
       aes(x = wrappings) + 
       geom_histogram() +
       ggtitle("Java")
+
 p4 <- ggplot(subset(data, type == 'android')) + 
       aes(x = wrappings) + 
       geom_histogram() +
@@ -61,3 +62,8 @@ p4 <- ggplot(subset(data, type == 'android')) +
 pdf("stack-size-wrappings-hist.pdf")
 multiplot(p1, p3, p2, p4, cols = 2)
 dev.off()
+
+pdf("stack-wrappings-hist.pdf")
+multiplot(p3, p4, cols = 1)
+dev.off()
+
