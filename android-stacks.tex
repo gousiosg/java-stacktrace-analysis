@@ -1184,21 +1184,21 @@ classify them in a set of predefined categories.
 
 \section{Conclusion}
 
-In this work, we perform the first large scale analysis of Java stack traces and
-pinpoint how they can reveal bad programming practices. We mined and analyzed
-the stack traces embedded in all issues of Java projects available GitHub.
-Overall, our research set includes 356,057 issues define at 16,836 projects
-(from which 28,800 stack traces were extracted). From this set, the stack traces
-of 482 Android projects were investigated in more detail, in combination with
-source code and bytecode analysis. In this study some patterns of exception
+In this work, we mined and analyzed the stack traces embedded in all issues 
+of Java projects available GitHub focusing our attention on the stack traces reported on
+a subset of 482 Android projects. In this study the exception information available 
+on stack traces was used in combination with source code and bytecode analysis to 
+pin-point patterns of exceptions (mis-)use in Java. In this study some patterns of exception
 (mis)-use were consistently detected such as: unexpected wrappings (e.g., Errors
 being wrapped in checked exceptions), revealing that Java hybrid exception
 model is not fully used according to its purpose; undocumented runtime
-exceptions signaled by third party code, which makes almost impossible for
-library clients to protect against such exceptions; and a high prevalence of
-java.lang exceptions reported on issues, representing approximately 50\% of the
-analyzed issues.
-
+exceptions signaled by third party code (which makes almost impossible for
+library clients to protect against such exceptions); and a high prevalence of
+java.lang exceptions reported on issues (representing approximately 50\% of the
+analyzed issues). Such (mis)uses detected in out study can negatively affecting the 
+robustness of current Java software systems.  As a result, there is a need for both 
+improving the design of exception handling code in Java 
+and developing tools support to help developers dealing with such problems. 
 
 %Nowadays many software vendors embed automatic crash reporting tools in their
 %software systems. Hence, whenever a software crashes this tool sends a detailed
