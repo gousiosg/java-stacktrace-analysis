@@ -37,11 +37,11 @@ Overall, our research set includes 356,057 issues define at 16,836 projects
 of 482 Android projects were investigated in more detail, in combination with
 source code and bytecode analysis. In this study some patterns of exception
 (mis)-use were consistently detected such as: unexpected wrappings (e.g., Errors
-being wrapped in checked exceptions) - revealing that Java hybrid exception
+being wrapped in checked exceptions), revealing that Java hybrid exception
 model is not fully used according to its purpose;  undocumented runtime
-exceptions signaled by third party code - which makes almost impossible for
+exceptions signaled by third party code, which makes almost impossible for
 library clients to protect against such exceptions; and a high prevalence of
-java.lang exceptions reported on issues - representing approximately 50\% of the
+java.lang exceptions reported on issues, representing approximately 50\% of the
 analyzed issues.
 
 
@@ -318,19 +318,17 @@ stack trace as the first method call below the exception declaration.
 \subsection{Exception Handling Best Practices in Java}
 \label{sec:best}
 
-%\todo{This section feels a bit disconnected.}
 Several general guidelines have been proposed on how to use Java
 exceptions~\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,
 bloch2008effective}. 
-% To guide our investigation, we compile the guidelines
-A compiled list of the guidelines related to exception types and exception propagation in Java the following
-\footnote{We also compiled guidelines related to exception handling but they are
-out of the scope of this paper.}:
+A compiled list of the guidelines related to exception types and exception
+propagation in Java the following: \footnote{We also compiled guidelines related
+to exception handling but they are out of the scope of this paper.}
 
 %\noindent\emph{Meaning of Exception Types}
 
 \textbf{I-Use checked exceptions to represent recoverable
-conditions}(~\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective}).
+conditions} (\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective})
 The developer should use checked exceptions for conditions from which the caller
 is expected to recover. By confronting the API user with a checked exception,
 the API designer is telling the client to handle the exceptional condition. The
@@ -338,14 +336,14 @@ client can explicitly ignore the exception (swallowing, or converting it to
 other type) at the expense of the program's robustness~\cite{gosling2000java}.
 
 \textbf{II-Error represents an unrecoverable condition detected by the JVM which
-should not he handled}~\cite{gosling2000java}. It results from failures detected
+should not he handled} (\cite{gosling2000java}). It results from failures detected
 by the Java Virtual Machine which indicate resource deficiencies, invariant
 failures or other conditions that make impossible the program to recover.
 
 %\noindent\emph{Exception Throwing}
 
 \textbf{III-A method should throw exceptions that precisely define the
-exceptional condition}~\cite{gosling2000java,bloch2008effective}. To do so,
+exceptional condition} (\cite{gosling2000java,bloch2008effective}). To do so,
 developers should either try to reuse the exception types already defined in the
 JVM or they should create a specific exception. Throwing general types such as a
 pure Exception or a RuntimeException is hence considered a bad practice.
@@ -362,7 +360,7 @@ pure Exception or a RuntimeException is hence considered a bad practice.
 
 %\noindent\emph{Exception Documentation}
 \textbf{IV-Document all exceptions thrown by a
-method}~\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective}).
+method} (\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective}).
 The exceptions thrown by a method are an important part of methods interface,
 and is required to use the method properly. The checked exceptions are already
 part of the  methods signature, and the method caller is aware of the checked
@@ -375,8 +373,8 @@ do follow this practice (specially when developing library code) it will be
 difficult or even impossible for the caller to make effective use of such method
 ~\cite{wirfs2006toward, bloch2008effective}.
 
-These best practices guided our exploratory study described next
-. Based on information extracted from stack traces (complemented by
+These best practices guided our exploratory study described next.
+Based on information extracted from stack traces (complemented by
 bytecode and source-code analysis), we investigate whether stack characteristics
 can reveal whether these practices have been obeyed. 
 %Next section discusses the
@@ -401,8 +399,6 @@ the following research questions:
 
   \item[RQ3] What patterns of exception (mis)-use emerge from the stack trace
     analysis?
-    %~\todo{Perhaps rephrase this to: Are the identified best practices followed
-    %in practice?}
 
 \end{description}
 
@@ -431,7 +427,7 @@ in unprocessed format, in a MongoDB database, while metadata is extracted and
 stored in a relational database. The GHTorrent dataset covers a broad range of
 development activities on Github, including issues. The project has been
 collecting data since February 2012. Up to Dec 2013, when we queried it to
-retrieve our bootstrapping sample which included: 356.057 issues from 16.836
+retrieve our bootstrapping sample, it included 356.057 issues from 16.836
 Java projects (step 1).\footnote{A Java project is specified in GitHub with a
 specific label.}
 
@@ -441,7 +437,7 @@ exception defined on issues or on issue comments (step 2). Since this initial
 set of Java project is too diverse (it includes libraries, web-based or
 stand-alone applications), in the second phase of this study we restrict the
 analysis domain to Android projects (step 3). This decision was driven by the
-fact that most open source Android applications are known~\cite{ref} for dealing
+fact that most open source Android applications are known for dealing
 with several sources of exceptions due to multi-threaded execution and
 interaction with input/output resources; moreover they share a common
 well-defined platform and a limited set of libraries.
@@ -472,13 +468,13 @@ labels attached. Hence, this study does not restrict the analysis of stack
 traces defined on defect-issues, based on the assumption that: regardless the
 type of issue where its is defined the stack trace information contain relevant
 information concerning the exception use. Moreover, issue and pull requests are
-dual on Github; all pull requests have a corresponding ``backing'' issue - which
+dual on Github; all pull requests have a corresponding ``backing'' issue which
 are automatically generated. Therefore, we needed to exclude pull request based
 issues from our analysis. Finally, the Github API allows the automated
 generation of issues for specific repositories, which automated tools often use
 to report crashes. In some cases, this led to high number of issues that
 included stack traces. We identified and filtered those cases out (e.g.,
-pullWifi project was responsible for almost 50\% of all issues created on
+the \textsf{pullwifi} project was responsible for almost 50\% of all issues created on
 GitHub, it was removed from our analysis and also from GitHub).
 
 \subsection{Android Apps Selection}
@@ -496,7 +492,7 @@ Then we performed further cleanup, inspecting the site of every Android
 reporting at least one stack trace, to make sure that they represented real
 mobile apps. During this clean up 106 apps were removed because they were either
 example projects (i.e., toy projects) or tools to support Android development
-(e.g. selendroid, roboeletric -- tools to support the testing of Android apps).
+(e.g. \textsf{selendroid}, \textsf{roboeletric} --- tools to support the testing of Android apps).
 The filtered set consisted of 482 apps, from which approximately 50\% are also
 hosted in Google Market Place. For each one of the analyzed projects, we
 downloaded the source code and using custom scripts, we extracted their package
@@ -539,8 +535,8 @@ and stack traces embedded in logs files.
 \noindent\emph{Exception Classifier} The next step in the ExceptionMiner process
 is classifying exceptions as either checked exceptions, runtime exceptions or an
 errors. The exception classifier is based on bytecode analysis (based on Design
-Wizard~\cite{}) that walks up the type hierarchy of a Java exception until it
-reaches a base exception type.
+Wizard~\cite{Brunet09}) that walks up the type hierarchy of a Java exception
+until it reaches a base exception type.
 
 \noindent\emph{Exception Signaler Classifier} After its initialization it
 classifies each signaler according to its origin (i.e. Android Plaform,
@@ -657,11 +653,11 @@ stack trace. This is not true for the general case however.
 Based on the assumption that regardless the issue type, every exception stack
 trace contains relevant information concerning the exception structure of
 projects analyzed we opted for not restricting the analysis only on defect
-issues~\footnote{We conducted the same analysis on the defect issues and the top
+issues.\footnote{We conducted the same analysis on the defect issues and the top
 exceptions are similar to the ones mentioned on defect issues. Due to space
 limitation we limit to present the general analysis here. More detailed analysis
 on the defect issues can be found here:
-\url{www.dimap.ufrn.br/~roberta/icsm2014}}.
+\url{www.dimap.ufrn.br/~roberta/icsm2014}}
 
 \subsection{Top 10 most common exceptions in Java Projects}
 
@@ -745,8 +741,9 @@ the number of distinct projects such stacks were defined (and consequently its
 popularity) and the of times it was signaled by different signaler types. We
 could calculate the popularity of each root cause, considering the number of
 distinct projects they were found and the whole set of projects analyzed with at
-least one stack trace (482). Table~\ref{tab:toptenandroid} and
-Figure~\ref{fig:androidsignaler} presents the mined data.
+least one stack trace (482). Table~\ref{tab:toptenandroid} 
+%and Figure~\ref{fig:androidsignaler}
+presents the mined data.
 
 \begin{table*}
   \centering
@@ -795,7 +792,7 @@ We could observe in this study that the NullPointerException and other
 other implicitly signaled exceptions represented most of the exceptions reported
 on issues in both Java and Android subset. For such exceptions, which represent
 programming bugs or resource limitations, there is usually no proper handling
-besides presenting an error message to the user and restarting the application -
+besides presenting an error message to the user and restarting the application ---
 only high fault tolerant systems need to provide solutions to handle them.
 
 \subsection{Classification of the main causes of top exceptions}
@@ -877,12 +874,12 @@ Doing so, we mined some characteristics of stacks that points to best practices 
 
 \subsection{Direct instances of RuntimeExceptions being thrown.}
 
-From Tables~\ref{tab:toptenjava} and ~\ref{tab:toptenandroid} we can observe that,
+From Tables~\ref{tab:toptenjava} and~\ref{tab:toptenandroid} we can observe that,
 in both Java and Android related issues, direct instances
 java.lang.RuntimeException were thrown  in 10,94\% of Java repositories and
 18,88\% of Android repositories respectively. 
 In the Android repositories, most of such exceptions  were  thrown by the Android 
-platform/os (167 out of 232).
+platform/OS (167 out of 232).
 
 Throwing general exceptions, such as direct instances of RuntimeException, is  considered a
 bad practice, because the exception type does not carry enough information to identify the
@@ -894,7 +891,7 @@ the exception message which can be neither complete nor precise
 \subsection{Undocumented runtime exceptions being thrown.}
 
 To better investigate the extent of this problem we classified each stack trace according to the type of the
-root exception. Table~\ref{typeroottab} presents the types of root causes of all stack traces reported on 
+root exception. Table~\ref{tab:typeroottab} presents the types of root causes of all stack traces reported on 
 the Android repositories. As we can see from Table ~ref{typeroottab},  most of the exceptions signaled by third-party code
  (e.g., Android and libs) were runtime exceptions. After filtering all the exceptions implicitly signaled by 
 JVM (due to programming mistakes) and inspecting the signaler methods of such exceptions (i.e.,  direct an inderect 
@@ -928,8 +925,8 @@ Undefined	&	1	&	0	&	6	&	8	&	0	&	15	\\
 All		& 1330	&	320	&	1760	&	632	&	31	&	4073	\\
     \hline
   \end{tabular}
-\caption{Types of Root Exceptions.}
-  \label{fig:typeroottab}
+\caption{Types of root exceptions.}
+  \label{tab:typeroottab}
 \end{table}
 
 
@@ -943,9 +940,9 @@ All		& 1330	&	320	&	1760	&	632	&	31	&	4073	\\
 
 On the other hand, we could observe that most of the exceptions signaled by the set of 
 libraries reused by Android platform (i.e., org.apache.harmony,
-org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml, javax - referred in
+org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml, javax -- referred in
 this work as libcore) were checked exceptions. It is pointed as a good practice
-for libraries (see Section ~\ref{best}) because by using checked exceptions
+for libraries (see Section~\ref{sec:best}) because by using checked exceptions
 libraries can define a precise exception interface to its clients. Such
 libraries are heavily used in several projects, and such precise exception
 interface may be related to the libraries maturity.
@@ -968,7 +965,7 @@ about them.
 
 %\noindent\emph{3) Odd Wrappings}
 \subsection{Odd Wrappings}
-Table~\ref{wrappingandroid} presents the wrappings found in this study for all
+Table~\ref{tab:wrappingandroid} presents the wrappings found in this study for all
 stack traces found in Android repositories. As we can see, some of the checked
 exceptions where indeed wrapped in runtime exceptions or even errors, while most
 of them were not wrapped along the stack trace. 
@@ -1001,7 +998,7 @@ of them were not wrapped along the stack trace.
     \hline
   \end{tabular}
 \caption{Kinds of wrappings found on the stacks of 482 ANDROID projects found on Github}
-\label{fig:wrappingandroid}
+\label{tab:wrappingandroid}
 \end{table}
 
 This analysis also revealed unexpected wrappings such as: Error wrapping a Checked 
@@ -1027,7 +1024,7 @@ from.
 \end{figure}
 
 We could also observe that in 205 stacks found in Android repository the exception was wrapped 
-more then once. Figure ~\ref{sizewrapbhists}  illustrates the number of wrappings per stack, both
+more then once. Figure ~\ref{fig:sizewrapbhists}  illustrates the number of wrappings per stack, both
  in Java and Android studied repositories. One interesting multiple-wrapping found in Android repo was the 
 following: Runtime-Checked-Runtime-Checked-Runtime-Checked-Runtime.
 
@@ -1196,11 +1193,11 @@ Overall, our research set includes 356,057 issues define at 16,836 projects
 of 482 Android projects were investigated in more detail, in combination with
 source code and bytecode analysis. In this study some patterns of exception
 (mis)-use were consistently detected such as: unexpected wrappings (e.g., Errors
-being wrapped in checked exceptions) - revealing that Java hybrid exception
-model is not fully used according to its purpose;  undocumented runtime
-exceptions signaled by third party code - which makes almost impossible for
+being wrapped in checked exceptions), revealing that Java hybrid exception
+model is not fully used according to its purpose; undocumented runtime
+exceptions signaled by third party code, which makes almost impossible for
 library clients to protect against such exceptions; and a high prevalence of
-java.lang exceptions reported on issues - representing approximately 50\% of the
+java.lang exceptions reported on issues, representing approximately 50\% of the
 analyzed issues.
 
 
@@ -1212,7 +1209,7 @@ analyzed issues.
 %There is planty of information to be mined...
 
 
-\section*{Acknowledgment} This work is partially supported by: CNPq - Proc.
+\section*{Acknowledgment} This work is partially supported by: CNPq -- Proc.
 484209/2013-2 and the NWO TestRoots project (639.022.314).
 
 \bibliographystyle{IEEEtran}
