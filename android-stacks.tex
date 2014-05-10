@@ -1053,7 +1053,9 @@ to handle the exceptional condition, however we could observe that in some cases
 checked exception wrapped an OutOfMemoryError, which represent resource deficiency detected 
 by the JVM which make impossible the program to recover. Further investigation is needed on finding 
 ways to help developers in deadling with such problem, either preventing odd wrappings or enabling 
-the developer to better dealing with them. 
+the developer to better dealing with them. Last but not least, the high amout of null pointer exceptions 
+points to the usefullness of language designs which avoid such problems such as Monads ~cite{Walde95}, 
+used in functional languages  for values that may not be available or computations that may fail.
 
 
 \section{Threats to Validity}
