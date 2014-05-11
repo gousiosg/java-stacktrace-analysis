@@ -56,14 +56,14 @@ itself (e.g., access of null references), noisy user inputs or faults in
 underlying middleware or hardware. The exception handling
 mechanism~\cite{goodenough1975exception} is one of the most used schemes for
 detecting and recovering from such exceptional conditions. Although the
-exception handling mechanism have been embedded in several programming languages
-(e.g. Java, C++, C\#) and the target of several studies
+exception handling mechanism has been embedded in several programming languages
+(e.g. Java, C++, C\#) and was the target of several studies
 (e.g.~\cite{miller1997issues,Robil00,shah2010understanding,
 garcia2007extracting,garcia2001comparative,cabral2007exception,coelho2011unveiling}),
 the exception handling code is often generally poorly understood and the least
 tested part of software systems.
 
-Often some exception handling constructions may lead the developers into believing that
+Often exception handling constructions may lead the developers into believing that
 by just re-throwing the exceptions they can forget about the exceptional
 situations during the development of the "happy path". This "ignore-for-now"
 approach may turn the exception handling into a generalized "goto"
@@ -72,16 +72,16 @@ less reliable. This behaviour may lead to the well known uncaught exceptions
 problem~\cite{jo2004uncaught}, one of the main causes of application crashes.
 
 Moreover, some languages use exceptions to represent programming mistakes
-(out-of-bounds array index, division-by-zero, access to a null). In these cases
+(out-of-bounds array index, division-by-zero, access to null pointers). In these cases,
 exceptions are implicitly signaled by the runtime environment when such
-condition happens. One of such implicit exceptions (caused by data conversion
+conditions occur. One of such implicit exceptions (caused by data conversion
 from a 64-bit floating point to a 16-bit signed integer) was the responsible for
 the famous failure on Ariane 5's first test flight~\cite{lions1996ariane} ---
 leading to the rocket self-destructing 37 seconds after launch and a loss of 500
 million dollars. Besides Ariane 5, several applications crash everyday due to
-uncaught exceptions~\cite{jo2004uncaught}. The consequences of not careful
-exception usage may have the opposite effect of its initial intention of
-improving system robustness.
+uncaught exceptions~\cite{jo2004uncaught}. Not using exceptions carefully
+may have the opposite effect of the initial intention of improving
+system robustness.
 
 In Java, when the program fails due to an uncaught exception, it automatically
 terminates, while the system prints a stack trace to the console. A stack trace
@@ -117,7 +117,7 @@ developed to for this study, we mined stack traces from issues across all Java
 projects on GitHub. Overall, we analyzed 356,057 issues from 16,836 projects,
 from which 28,800 stack traces were extracted and used as a source of
 information for our analysis. The stack trace analysis  was augmented by
-additional information extracted using byte code and source code analyses done
+additional information extracted using byte code and source code analysis done
 on a carefully selected subset of our initial sample (482 Android projects).
 %This study was divided in two phases: in the fist phase all the issues of all
 %Java projects available on GitHub were analyzed and the embedded stack traces
@@ -174,19 +174,19 @@ Hence, the contributions of this study are as follows:
   \item  It performs the first large scale analysis of Java stack traces and how
     they can reveal bad-practices on the use of exceptions in Java.
 
-  \item  It briefly introduces ExceptionMiner, a tool developed to support the
+  \item  It introduces ExceptionMiner, a tool developed to support the
     analysis.
 
 \end{itemize}
 
 
-The contributions of this work allow for developers of robust Java applications
+The contributions of this work allow for developers of Java applications
 to familiarize with the most common reported exceptions mis-uses which is the
 first step to help developers to avoid making them; (ii) designers of languages
 to consider ways of reducing the abundance of NullPointerExceptions, (iii) and
 tool designers to consider developing tools that enable a cross-project defect
 analysis. We strongly believe that, specially in the open-source environment,
-faults are not to be hidden in a private bug issue. Faults should be share and
+faults are not to be hidden in a private bug issue. Faults should be shared and
 discussed, so that a developer can learn from other projects mistakes.
 Currently, the search facilities of repositories are very limited, and the
 ExceptionMiner tool is a contribution in this direction.
@@ -267,8 +267,8 @@ exceptions should be checked exceptions. The main reason is because doing so the
 callers of a method will know about the exceptions that a method can throw, and
 so they can decide what to do about them. However, there is a long-lasting
 debate about the use of checked and unchecked exceptions in
-Java~\cite{javatut,stackoverlow,debate}\footnote{152 questions in Stackoverlow
-are related to this debate}, since there are pros and cons associated to each of
+Java~\cite{javatut,stackoverlow,debate},\footnote{152 questions in Stackoverlow
+are related to this debate} since there are pros and cons associated to each of
 them.
 
 %\subsubsection{Exception Throwing and Handling}
@@ -320,8 +320,8 @@ stack trace as the first method call below the exception declaration.
 Several general guidelines have been proposed on how to use Java
 exceptions~\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,
 bloch2008effective}. 
-A compiled list of the guidelines related to exception types and exception
-propagation in Java the following: \footnote{We also compiled guidelines related
+A list of the guidelines related to exception types and exception
+propagation in Java the following:\footnote{We also compiled guidelines related
 to exception handling but they are out of the scope of this paper.}
 
 %\noindent\emph{Meaning of Exception Types}
@@ -330,7 +330,7 @@ to exception handling but they are out of the scope of this paper.}
 conditions} (\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective})
 The developer should use checked exceptions for conditions from which the caller
 is expected to recover. By confronting the API user with a checked exception,
-the API designer is telling the client to handle the exceptional condition. The
+the API designer is forcing the client to handle the exceptional condition. The
 client can explicitly ignore the exception (swallowing, or converting it to
 other type) at the expense of the program's robustness~\cite{gosling2000java}.
 
@@ -364,13 +364,13 @@ The exceptions thrown by a method are an important part of methods interface,
 and is required to use the method properly. The checked exceptions are already
 part of the  methods signature, and the method caller is aware of the checked
 exceptions being thrown by it. According to~\cite{bloch2008effective}, it is
-also wise to document the explicitly signaled runtime exceptions\footnote{This
+also wise to document the explicitly thrown runtime exceptions\footnote{This
 excludes the implicitly signaled JVM runtime exceptions related to programming
 mistakes} as carefully as checked exceptions. Doing so, the clients of a method
-will be aware of the exceptions the method can throw. If the developer fails to
+will be aware of all the exceptions the method can throw. If the developer fails to
 do follow this practice (specially when developing library code) it will be
-difficult or even impossible for the caller to make effective use of such method
-~\cite{wirfs2006toward, bloch2008effective}.
+difficult or even impossible for the caller to make effective use of such 
+method~\cite{wirfs2006toward, bloch2008effective}.
 
 These best practices guided our exploratory study described next.
 Based on information extracted from stack traces (complemented by
@@ -383,7 +383,7 @@ can reveal whether these practices have been obeyed.
 
 This work describes an exploratory study which was based on a sequential
 mixed-methods approach~\cite{ivankova2006using} for collecting, analyzing, and
-integrating both quantitative and qualitative analysis along the stages of the
+integrating both quantitative and qualitative evidence along the stages of the
 research process. The main goal of this study was to gain a better understanding
 of the use of exceptions in Java programs based mainly on the information
 available on exception stack traces. More specifically, we aimed at answering
@@ -402,11 +402,12 @@ the following research questions:
 \end{description}
 
 For RQ1 and RQ2, we explore the domain quantitatively, and use theirs answers as
-a basis to investigate the third research question. RQ3 aimed at finding whether
-of exception (mis)-uses could be revealed through stack trace analysis. To
+a basis to investigate the third research question. RQ3 aims at examining whether
+exception (mis)-uses could be revealed through stack trace analysis. To
 support this investigation, source code and bytecode analysis was used to
-leverage the  understanding of stack traces. For RQ3 we investigate
-quantitatively and highlight interesting cases by exploring cases qualitatively.
+leverage the  understanding of stack traces. 
+%For RQ3 we investigate
+%quantitatively and highlight interesting cases by exploring cases qualitatively.
 Figure~\ref{fig:overviewfig} presents an overview of the mixed-methods approach
 conducted to answer these questions.
 
@@ -419,7 +420,7 @@ conducted to answer these questions.
 
 We begun our investigation using the dataset provided by the GHTorrent
 project~\cite{Gousi13}, an off-line mirror of the data offered through the
-Github API. The Github API data come in two forms; a streaming data flow lists
+Github API. The Github API data come in two flavours; a streaming data flow lists
 events, such as reporting an issue, happening on repositories in real time,
 while a static view contains the current state of entities. The data is stored
 in unprocessed format, in a MongoDB database, while metadata is extracted and
@@ -464,17 +465,16 @@ select from (e.g. severity and priority); Github uses instead a more open ended
 tagging system. Repositories are offered a pre-defined set of labels, but
 repository owners can modify them at will. An issue can have an arbitrary set of
 labels attached. Hence, this study does not restrict the analysis of stack
-traces defined on defect-issues, based on the assumption that: regardless the
+traces defined on defect-issues, based on the assumption that regardless of the
 type of issue where its is defined the stack trace information contain relevant
-information concerning the exception use. Moreover, issue and pull requests are
+information concerning the exception use. Moreover, issues and pull requests are
 dual on Github; all pull requests have a corresponding ``backing'' issue which
-are automatically generated. Therefore, we needed to exclude pull request based
+are automatically generated. Therefore, we excluded pull request based
 issues from our analysis. Finally, the Github API allows the automated
 generation of issues for specific repositories, which automated tools often use
 to report crashes. In some cases, this led to high number of issues that
 included stack traces. We identified and filtered those cases out (e.g.,
-the \textsf{pullwifi} project was responsible for almost 50\% of all issues created on
-GitHub, it was removed from our analysis and also from GitHub).
+the~\textsf{pullwifi} project was responsible for almost 50\% of all Android issues in our dataset).
 
 \subsection{Android Apps Selection}
 \label{sec:android}
@@ -532,7 +532,7 @@ and stack traces embedded in logs files.
 %\end{tiny}
 
 \noindent\emph{Exception Classifier} The next step in the ExceptionMiner process
-is classifying exceptions as either checked exceptions, runtime exceptions or an
+is classifying exceptions as either checked exceptions, runtime exceptions or 
 errors. The exception classifier is based on bytecode analysis (based on Design
 Wizard~\cite{Brunet09}) that walks up the type hierarchy of a Java exception
 until it reaches a base exception type.
@@ -598,17 +598,17 @@ reported on GitHub repositories.
 \label{tab:overview}
 \end{table}
 
-The use of the Github issue tracker in repositories hosted on Github is optional
-and not widespread. As of March 2014, from the 332,864 non-fork Java
-repositories registered in the GHTorrent dataset, only 44,323 have received an
-issue report in their lifetime while from those only 16,837 are being watched by
-external users. To ensure that our work targets projects that are openly used by
-users other than their developers, we focused our analysis on just those
-projects. Using the heuristics presented in Section~\ref{sec:android}, we
-selected 482 repositories featuring Android projects. Table~\ref{tab:proj} and
-Table~\ref{tab:overview} presents two views of the extracted dataset, namely
-grouped by repository and grouped by issue.
-
+%The use of the Github issue tracker in repositories hosted on Github is optional
+%and not widespread. As of March 2014, from the 332,864 non-fork Java
+%repositories registered in the GHTorrent dataset, only 44,323 have received an
+%issue report in their lifetime while from those only 16,837 are being watched by
+%external users. To ensure that our work targets projects that are openly used by
+%users other than their developers, we focused our analysis on just those
+%projects. Using the heuristics presented in Section~\ref{sec:android}, we
+%selected 482 repositories featuring Android projects. Table~\ref{tab:proj} and
+%Table~\ref{tab:overview} presents two views of the extracted dataset, namely
+%grouped by repository and grouped by issue.
+%
 From Table~\ref{tab:overview}, we can see that repositories that include at
 least one exception or stack trace on an issue are fairly common: 28\% and 22\%
 respectively. Considering only the exceptions and stack traces reported on
@@ -781,8 +781,9 @@ could observe that the NullPointerException is still the exception with higher
 number of occurrences. The NullPoiterExceptions are mainly signaled inside
 Android platform and inside application code, although we also find
 NullPointerExceptions being signaled from third-party libraries. Regarding
-reusable code, there is no consensus if it is a good or bad practice to re-throw
-NullPointerException. Some prefer to encapsulate such an exception on
+reusable code, there is no consensus whether it is a good or bad practice to 
+re-throw
+a NullPointerException. Some prefer to encapsulate such an exception on
 IllegalArgumentException, while others~\cite{bloch2008effective} argue that the
 NullPointerException makes the cause of the problem explicit and hence 
 should not be wrapped.
@@ -791,8 +792,8 @@ We could observe in this study that the NullPointerException and other
 other implicitly signaled exceptions represented most of the exceptions reported
 on issues in both Java and Android subset. For such exceptions, which represent
 programming bugs or resource limitations, there is usually no proper handling
-besides presenting an error message to the user and restarting the application ---
-only high fault tolerant systems need to provide solutions to handle them.
+besides presenting an error message to the user and restarting the application.
+Only high fault tolerant systems need to provide solutions to handle them.
 
 \subsection{Classification of the main causes of top exceptions}
 
@@ -883,8 +884,7 @@ platform/OS (167 out of 232).
 Throwing general exceptions, such as direct instances of RuntimeException, is  considered a
 bad practice, because the exception type does not carry enough information to identify the
 cause of the exceptional behaviour, and as a consequence developers need to relying on
-the exception message which can be neither complete nor precise
-~\cite{gosling2000java}.
+the exception message which can be neither complete nor precise~\cite{gosling2000java}.
 
 
 \subsection{Undocumented runtime exceptions being thrown.}
@@ -894,17 +894,17 @@ root exception. Table~\ref{tab:typeroottab} presents the types of root causes of
 the Android repositories. As we can see from Table ~ref{typeroottab},  most of the exceptions signaled by third-party code
  (e.g., Android and libs) were runtime exceptions. After filtering all the exceptions implicitly signaled by 
 JVM (due to programming mistakes) and inspecting the signaler methods of such exceptions (i.e.,  direct an inderect 
-instances of java.lang.RuntimeException). We could observe observe that only 1 method out of 118 inspected signalers
- (i.e., 0,8%) documented the explicitly thrown runtime exception in a Javadoc comment; and none of these methods
+instances of java.lang.RuntimeException). We could observe that only 1 method out of 118 inspected signalers
+ (i.e., 0,8\%) documented the explicitly thrown runtime exception in a Javadoc comment; and none of these methods
 included the runtime exception  (reported on the stack) as part of the exception interface of the method (i.e., using 
 throws clause on method signature). This result is aligned with the results of other  study conducted by from 
 Sacramento et al ~\cite{sacramento2006unchecked} which observed that the
 runtime exceptions in .Net programs are most often not documented.
 
-Such undocumented runtime exceptions represent a serious threat to system robustness, specially
+Such undocumented runtime exceptions represent a threat to system robustness, specially
 when such exceptions are thrown then the third party code is invoked inside the application (e.g. libraries, or framework utility code).
-In such cases the client usualy do not have access to the source code, and in the absense of
-the exception documentation it is very difficult or even impossible for the client of such thrid party code to 
+In such cases the client usually do not have access to the source code, and in the absence of
+the exception documentation it is very difficult or even impossible for the client of such third party code to 
 protect the application against undocumented runtime exceptions. As a consequence, the
  undocumented runtime exception may remain uncaught and lead to system crashes.
 
@@ -944,7 +944,7 @@ this work as libcore) were checked exceptions. It is pointed as a good practice
 for libraries (see Section~\ref{sec:best}) because by using checked exceptions
 libraries can define a precise exception interface to its clients. Such
 libraries are heavily used in several projects, and such precise exception
-interface may be related to the libraries maturity.
+interface may be related to the library's maturity.
 
 \subsection{Uncaught Checked Exceptions}
 
@@ -1003,7 +1003,7 @@ This analysis also revealed unexpected wrappings such as: Error wrapping a Check
 exception; a Runtime wrapping and Error; and an Error wrapping a Runtime.
 Java is the only language that provides a hybrid exception handling mechanism
 which offers  different types to represent different exception behaviors (i.e., error, 
-runtime and checked) (see Section ~\ref{sec:best}) . According to Java specification Errors should not be
+runtime and checked) (see Section~\ref{sec:best}). According to Java specification Errors should not be
 handled inside the system since they usually represent unrecoverable conditions
 detected by the JVM such as OutOfMemoryError. Checked exceptions should
 represent recoverable conditions and  Runtime exceptions represent are usually
@@ -1035,14 +1035,14 @@ should not be handled) was wrapped in a checked exception (a situation that must
 he handled), in this case this wrapping is telling to the caller that it should
 handled.
 
-\section{Discussions}
+\section{Discussion}
 
 The exception (mis-)use patterns that emerged  in this study sheds light on 
 problems that may be reducing the robustness of current Java programs in the face of
 exceptional conditions. \noindent\emph{The undocumented runtime exceptions} thrown by library code -
 documenting runtime exceptions is a tedious and error prone task, to help developers
-mitigating this problem tools should be developed to automate document runtime exceptions
-scaping from library code, few solutions in this directions have been proposed so far ~\cite{van2005combining}. 
+mitigate this problem tools should be developed to automate the documentation of runtime exceptions
+scraping from library code, few solutions in this directions have been proposed so far ~\cite{van2005combining}. 
  \noindent\emph{The odd wrappings}  found in this study can lead to what we call
 an \emph{exception handling confusion problem} which can lead the program to
 an unpredictable state in the presence of exceptions. To illustrate this problem, we can use
@@ -1089,18 +1089,18 @@ level.
 \section{Related Work}
 
 In this section, we present works that are related to our own, distributed in
-four categories: i) works that use the information available on stack traces;
+three categories: i) works that use the information available on stack traces;
 ii) empirical studies on the usage of Java exceptions and its fault proneness;
 and iii) tools to extract stack traces information from natural language artifacts
 (i.e., issues and emails).
 %, and iv) empirical studies involving Android apps.
 
-\textit{Analysis of Java Exception Usage.} Since the manual analysis of the Java
+\textit{Analysis of Java Exception Usage.} As the manual analysis of the Java
 exception flow can easily become infeasible, Robillard and Murphy~\cite{Robil00}
 employed dataflow analysis to find the propagation paths of checked and
 unchecked exception types. Modeled after Robillard and Murphy's work, other
 tools have been proposed to support the static analysis of exception
-flows~\cite{coelho2008assessing}. The main limitation off all
+flows~\cite{coelho2008assessing}. The main limitation of all
 static analysis tools is the number of false positives inherent to static analysis
 solutions, which can lead to a high number of exception flows, specially if
 considering Java Environment exceptions and exceptions signaled from libraries.
@@ -1152,8 +1152,8 @@ Infozilla~\cite{bettenburg2008extracting}
 is based on a set of regular expressions that extract a set of frames
 related to a stack trace. The main limitation of this solution is that it is not
 able to extract stack traces embedded on verbose log files (i.e., on which we
-can find log text mixed with exception frames). Bacchelli and Lanza
-~\cite{bacchelli2012content} propose a solution to recognize stack trace frames
+can find log text mixed with exception frames). Bacchelli
+et al.~\cite{bacchelli2012content} propose a solution to recognize stack trace frames
 from development emails and relate it to code artifacts (i.e. classes) mentioned
 on the stack trace. In addition to those tools, ExceptionMiner is able to 
 both extract stack traces from natural language artifacts and to 
