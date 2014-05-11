@@ -952,9 +952,8 @@ Although most of the  reported exceptions were runtime, we could also find check
 exceptions as the root causes of stack traces reported on issues. A checked exception
 can remain uncaught in two circumstances: if all methods on the execution trace
 on which this exception flows explicitly specifies the exception, or if the
-checked exception is wrapped in a runtime and than re-thrown. 
-
-Since checked exceptions should be used to represent recoverable conditions, ignoring a
+checked exception is wrapped in a runtime and than re-thrown. Since checked exceptions 
+should be used to represent recoverable conditions, ignoring a
 checked exception, is considered a bad practice. As mentioned before, when the developer is confronted
 with a checked exception, the designer of the API is telling him to handle the
 exceptional condition. To better understand what was causing checked exceptions
