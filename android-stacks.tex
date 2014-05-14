@@ -209,10 +209,10 @@ directions for future work.
 \subsection{Error Handling in Programming Languages}
 
 Techniques for error detection and handling are not  an optional add-on but a
-fundamental part of the system~\cite{bruntink2006discovering}. Several
-approaches exists for detecting errors and responding to them, such as the return-code 
-idiom (very popular in C programs and operating systems), and the exception handling 
-mechanism, embedded in many main stream programming languages.
+fundamental part of any system~\cite{bruntink2006discovering}. Several
+approaches exist for detecting errors and responding to them, such as the return-code 
+idiom (widely used in systems written in C), and the exception handling 
+mechanism, embedded in many main-stream programming languages.
 
 The main disadvantage of return codes is the fact that the programmer can just
 ignore the return code and let the program execute in inconsistent state. The
@@ -1091,11 +1091,11 @@ level.
 
 \section{Related Work}
 
-In this section, we present works that are related to our own, distributed in
-three categories: i) works that use the information available on stack traces;
+In this section, we present work that is related to the present paper, divided into
+three categories: i) papers that use the information available on stack traces;
 ii) empirical studies on the usage of Java exceptions and its fault proneness;
 and iii) tools to extract stack traces information from natural language artifacts
-(i.e., issues and emails).
+(e.g., issues and emails).
 %, and iv) empirical studies involving Android apps.
 
 \textit{Analysis of Java Exception Usage.} As the manual analysis of the Java
@@ -1185,23 +1185,28 @@ classify them in a set of predefined categories.
 %characteristics of the stack traces can tell us about the exception structure of
 %those applications.
 
+\enlargethispage{-2\baselineskip}
+
 \section{Conclusion}
 
-In this work we present an exploratory study on which we mined the stack 
-traces embedded in all issues of Java projects available GitHub, and analyzed in mode detail thr
+In this paper we present an exploratory study in which we mined the stack 
+traces embedded in all issues of Java projects available GitHub.
+Furthermore, we analyzed in more detail the
 stack traces reported on a subset of 482 Android projects. In this study, the information extracted 
 from stack traces was used in combination with source code and bytecode analysis to 
-pin-point patterns of exceptions (mis-)use in Java. And some patterns of exception
-(mis)-use were consistently detected such as: unexpected wrappings (e.g., Errors
-being wrapped in checked exceptions), revealing that Java hybrid exception
+pin-point patterns of exception use and misuse in Java.
+Certain patterns of exception
+(mis)-use were consistently detected such as unexpected wrappings (e.g., Errors
+being wrapped in checked exceptions), revealing that  the Java hybrid exception
 model is not fully used according to its purpose; undocumented runtime
-exceptions signaled by third party code (which makes almost impossible for
-library clients to protect against such exceptions); and a high prevalence of
-java.lang exceptions reported on issues (representing approximately 50\% of the
-analyzed issues). Such (mis)uses detected in out study can negatively affect the 
-robustness of current Java software systems. Such results shed light to needs for  
+exceptions signaled by third party code (which makes it almost impossible for
+library clients to protect against such exceptions); 
+and a high prevalence of
+\texttt{java.lang} exceptions reported on issues (representing approximately 50\% of the
+analyzed issues). Such (mis)uses detected in our study can negatively affect the 
+robustness of current Java software systems. Our results call for  
  developing tools support to help developers dealing with such problems and 
-improving the design of exception handling mechanism in Java.
+improving the design of the exception handling mechanism in Java.
 
 %Nowadays many software vendors embed automatic crash reporting tools in their
 %software systems. Hence, whenever a software crashes this tool sends a detailed
