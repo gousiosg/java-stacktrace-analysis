@@ -64,19 +64,18 @@ the exception handling code is often generally poorly understood and the least
 tested part of software systems.
 
 Often exception handling constructions may lead the developers into believing that
-by just re-throwing the exceptions they can forget about the exceptional
+by just re-throwing and possibly logging the exceptions they can forget about the exceptional
 situations during the development of the "happy path". This "ignore-for-now"
 approach may turn the exception handling into a generalized "goto"
 mechanism~\cite{mandrioli1992advances} making the program more complex and even
-less reliable. This behaviour may lead to the well known uncaught exceptions
-problem~\cite{jo2004uncaught}, one of the main causes of application crashes.
+less reliable. This behaviour may lead to the problem of uncaught exceptions~\cite{jo2004uncaught}, one of the main causes of application crashes.
 
 Moreover, some languages use exceptions to represent programming mistakes
-(out-of-bounds array index, division-by-zero, access to null pointers). In these cases,
+(array index out-of-bounds, division-by-zero, dereferencing null pointers). In these cases,
 exceptions are implicitly signaled by the runtime environment when such
 conditions occur. One of such implicit exceptions (caused by data conversion
-from a 64-bit floating point to a 16-bit signed integer) was the responsible for
-the famous failure on Ariane 5's first test flight~\cite{lions1996ariane} ---
+from a 64-bit floating point to a 16-bit signed integer) was responsible for
+the infamous failure on Ariane 5's first test flight~\cite{lions1996ariane} ---
 leading to the rocket self-destructing 37 seconds after launch and a loss of 500
 million dollars. Besides Ariane 5, several applications crash everyday due to
 uncaught exceptions~\cite{jo2004uncaught}. Not using exceptions carefully
@@ -85,10 +84,10 @@ system robustness.
 
 In Java, when the program fails due to an uncaught exception, it automatically
 terminates, while the system prints a stack trace to the console. A stack trace
-includes a detail message and the execution stack frame when the exception
+includes an explanatory message and the execution stack frame when the exception
 occurred. A typical Java stack trace consists of an ordered list of methods that
-were active on the call stack before the exception has occurred. Stack traces
-are a useful source of information about system crashes, and is often used to
+were active on the call stack before the exception occurred. Stack traces
+are a useful source of information about system crashes, and are often used to
 support developers in debugging~\cite{schroter2010stack}. Moreover, information
 from stack traces combined with crash and bug reports can be used to support bug
 classification and clustering~\cite{wang2013improving, kim2011crash,
@@ -96,9 +95,9 @@ dhaliwal2011classifying}, fault-proneness prediction
 models~\cite{kim2013predicting} and even automated bug
 fixing~\cite{sinha2009fault} tools.
 
-However, all these works focus on the analysis of a single system at a time. In
-our current context, on which we have plenty access to the information available
-on open-source repositories like GitHub initial questions arise: What is the
+However, all existing research has focused on the analysis of a single system at a time. In
+our current context, on which we have access to wealth of information available
+on open-source repositories like GitHub additional questions arise: What is the
 prevalence of exception stack traces on reported issues? What are the common
 characteristics of such stack traces?
 
@@ -112,8 +111,8 @@ characteristics of such stack traces?
 %practices in Java programs?
 
 To answer these questions, we conduct an exploratory study of stack traces in
-the wild. Using a custom tool called ExceptionMiner, that was specifically
-developed to for this study, we mined stack traces from issues across all Java
+the wild. Using a custom tool called ExceptionMiner, which was specifically
+developed for this study, we mined stack traces from issues across all Java
 projects on GitHub. Overall, we analyzed 356,057 issues from 16,836 projects,
 from which 28,800 stack traces were extracted and used as a source of
 information for our analysis. The stack trace analysis  was augmented by
@@ -146,22 +145,21 @@ practices in Java programs.
 
 
 
-This study is built on the following assumption: the stack traces reported on
+This study builds upon the following assumption: the stack traces reported on
 issues contain relevant information related to system crashes. Several studies
-and techniques have also based on this assumption
-(e.g.,~\cite{sinha2009fault}~\cite{dhaliwal2011classifying}~\cite{kim2013predicting})
-and we build on it as well. Some outcomes were consistently detected through
-this large scale analysis of exception stack traces in the wild, such as:
+and techniques have also taken this assumption as starting point
+(e.g.,~\cite{sinha2009fault}~\cite{dhaliwal2011classifying}~\cite{kim2013predicting}). Some outcomes were consistently detected through
+our large scale analysis of exception stack traces in the wild, such as:
 
 \begin{itemize}
 
-  \item  A multitude of programming mistakes as the main causes of stack traces.
+  \item  A multitude of programming mistakes which are the main causes of stack traces.
    
   \item Undocumented runtime exceptions signaled by third party
     code (i.e., libraries and Android platform).
 
   \item  Odd exception chains (e.g., Error wrapping checked and runtime
-    exceptions and vice-versa). As an indication that the purpose of Java hybrid
+    exceptions and vice-versa), indicating that the purpose of Java's hybrid
     exception model may not have been adequately used.
 
   \item  Stack traces caused by uncaught checked exceptions.
@@ -174,26 +172,31 @@ Hence, the contributions of this study are as follows:
   \item  It performs the first large scale analysis of Java stack traces and how
     they can reveal bad-practices on the use of exceptions in Java.
 
-  \item  It introduces ExceptionMiner, a tool developed to support the
+  \item  It introduces ExceptionMiner, a tool developed to support cross-repository stack trace
     analysis.
 
 \end{itemize}
 
-
-The contributions of this work allow for developers of Java applications
+These contributions are relevant to:
+(i) developers of Java applications
 to familiarize with the most common reported exceptions mis-uses which is the
-first step to help developers to avoid making them; (ii) designers of languages
-to consider ways of reducing the abundance of NullPointerExceptions, (iii) and
+first step to help developers to avoid making them; 
+(ii) designers of languages
+to consider ways of reducing the abundance of NullPointerExceptions;
+and (iii)
 tool designers to consider developing tools that enable a cross-project defect
-analysis. We strongly believe that, specially in the open-source environment,
-faults are not to be hidden in a private bug issue. Faults should be shared and
-discussed, so that a developer can learn from other projects mistakes.
-Currently, the search facilities of repositories are very limited, and the
-ExceptionMiner tool is a contribution in this direction.
+analysis. 
+
+% AVD: We have not looked at private issues, and the tool is described above.
+%We strongly believe that, specially in the open-source environment,
+%faults are not to be hidden in a private bug issue. Faults should be shared and
+%discussed, so that a developer can learn from other projects mistakes.
+%Currently, the search facilities of repositories are very limited, and the
+%ExceptionMiner tool is a contribution in this direction.
 
 %GGG: Personally, I hate this paragraph in all papers as it usually reads like a space-filler
 %RSC: If needed we can remove it.
-The remainder of this paper is organized as follows. Section 2 presents a
+This paper is organized as follows. Section 2 presents a
 background on exception handling mechanism. Section 3 presents the study design.
 Section 4 reports study findings. Section 5 provides further discussions and insights.
 Section 6 presents the threats to validity associated to this study. Finally Section
@@ -206,10 +209,10 @@ directions for future work.
 \subsection{Error Handling in Programming Languages}
 
 Techniques for error detection and handling are not  an optional add-on but a
-fundamental part of the system~\cite{bruntink2006discovering}. Several
-approaches exists for detecting errors and responding to them, such as the return-code 
-idiom (very popular in C programs and operating systems), and the exception handling 
-mechanism, embedded in many main stream programming languages.
+fundamental part of any system~\cite{bruntink2006discovering}. Several
+approaches exist for detecting errors and responding to them, such as the return-code 
+idiom (widely used in systems written in C), and the exception handling 
+mechanism, embedded in many main-stream programming languages.
 
 The main disadvantage of return codes is the fact that the programmer can just
 ignore the return code and let the program execute in inconsistent state. The
@@ -1088,11 +1091,11 @@ level.
 
 \section{Related Work}
 
-In this section, we present works that are related to our own, distributed in
-three categories: i) works that use the information available on stack traces;
+In this section, we present work that is related to the present paper, divided into
+three categories: i) papers that use the information available on stack traces;
 ii) empirical studies on the usage of Java exceptions and its fault proneness;
 and iii) tools to extract stack traces information from natural language artifacts
-(i.e., issues and emails).
+(e.g., issues and emails).
 %, and iv) empirical studies involving Android apps.
 
 \textit{Analysis of Java Exception Usage.} As the manual analysis of the Java
@@ -1182,23 +1185,28 @@ classify them in a set of predefined categories.
 %characteristics of the stack traces can tell us about the exception structure of
 %those applications.
 
+\enlargethispage{-2\baselineskip}
+
 \section{Conclusion}
 
-In this work we present an exploratory study on which we mined the stack 
-traces embedded in all issues of Java projects available GitHub, and analyzed in mode detail thr
+In this paper we present an exploratory study in which we mined the stack 
+traces embedded in all issues of Java projects available GitHub.
+Furthermore, we analyzed in more detail the
 stack traces reported on a subset of 482 Android projects. In this study, the information extracted 
 from stack traces was used in combination with source code and bytecode analysis to 
-pin-point patterns of exceptions (mis-)use in Java. And some patterns of exception
-(mis)-use were consistently detected such as: unexpected wrappings (e.g., Errors
-being wrapped in checked exceptions), revealing that Java hybrid exception
+pin-point patterns of exception use and misuse in Java.
+Certain patterns of exception
+(mis)-use were consistently detected such as unexpected wrappings (e.g., Errors
+being wrapped in checked exceptions), revealing that  the Java hybrid exception
 model is not fully used according to its purpose; undocumented runtime
-exceptions signaled by third party code (which makes almost impossible for
-library clients to protect against such exceptions); and a high prevalence of
-java.lang exceptions reported on issues (representing approximately 50\% of the
-analyzed issues). Such (mis)uses detected in out study can negatively affect the 
-robustness of current Java software systems. Such results shed light to needs for  
+exceptions signaled by third party code (which makes it almost impossible for
+library clients to protect against such exceptions); 
+and a high prevalence of
+\texttt{java.lang} exceptions reported on issues (representing approximately 50\% of the
+analyzed issues). Such (mis)uses detected in our study can negatively affect the 
+robustness of current Java software systems. Our results call for  
  developing tools support to help developers dealing with such problems and 
-improving the design of exception handling mechanism in Java.
+improving the design of the exception handling mechanism in Java.
 
 %Nowadays many software vendors embed automatic crash reporting tools in their
 %software systems. Hence, whenever a software crashes this tool sends a detailed
