@@ -41,7 +41,7 @@ being wrapped in checked exceptions), revealing that Java hybrid exception
 model is not fully used according to its purpose;  undocumented runtime
 exceptions signaled by third party code, which is a serious threat to program
 dependability; and a high prevalence of java.lang exceptions reported on issues,  
-causing approximately 50\% of the analyzed stack traces.
+they were found in aproximately 50\% of all analyzed exception stack traces.
 
 
 \end{abstract}
@@ -49,6 +49,61 @@ causing approximately 50\% of the analyzed stack traces.
 %\IEEEpeerreviewmaketitle
 
 \section{Introduction}
+
+Along the recent years we have witnessed a rapid increase in 
+the number of open source software (oss) available on the Web.
+Since such projects make their control version system, mailing lists and 
+bug tracking systems (bts) publicly available, they represent a valuable 
+source of information for the "state of practice" on software development
+which has already started to be investigated [][][][][].
+
+In this scenario Github emerged as one of the most used repository hosting sites.
+It  alows developers to create and maintain opensource projects relying on Git distributed version 
+control and provides a set of tools which allow the information about developers 
+and their activities to be visible within and across open souce projects.
+
+Github is also known as a social coding platfotm [ref] as it ....
+
+Among those tools there is the Github issue tracking system, which makes
+issues related to new, features, bugs and general comments publicly available.
+
+The bug issues have been the focus of some research... In [ref] defined a 
+set of characteristics a good bug issue should have. The 2 most important information 
+are the: (1) steps to reproduce the bug; (2) and the failure stack trace.
+
+A typical stack trace consists of an ordered list of methods that
+were active on the call stack before the failure occurred. Stack traces
+are a useful source of information about system crashes, and are often used to
+support developers in debugging~\cite{schroter2010stack}. Moreover, information
+from stack traces combined with crash and bug reports can be used to support bug
+classification and clustering~\cite{wang2013improving, kim2011crash,
+dhaliwal2011classifying}, fault-proneness prediction
+models~\cite{kim2013predicting} and even automated bug
+fixing~\cite{sinha2009fault} tools.
+
+However, all existing research has focused on the analysis of a single system at a time. In
+our current context, on which we have access to wealth of information available
+on open-source repositories like GitHub additional questions arise: What are the common
+characteristics of such stack traces? Can developers benefit from other systems faults?
+
+
+-----
+Along the recent years we have witnessed a rapid increase in 
+the number of social applications on the Web. Applications which 
+allow their users to track the activities of a large number 
+of others regardless of his/her location and affiliation. 
+
+This tendency can also be seen on the software development context 
+where Github emerged and became an extensively used social coding 
+platform. Github alows developers to create and maintain opensource 
+projects relying  on Git distributed version control, and provides a set 
+of tools which allow the information about developers and their activities
+ to be visible within and across open souce projects.
+
+Among those tools there is the Github issue tracking system, which makes
+issues related to new, features, bugs and general comments publicly available.
+
+-----
 
 Modern applications have to cope with an increasing number of abnormal
 computation states that arise as a consequence of faults in the application
@@ -83,7 +138,9 @@ may have the opposite effect of the initial intention of improving
 system robustness.
 
 In Java, when the program fails due to an uncaught exception, it automatically
-terminates, while the system prints a stack trace to the console. A stack trace
+terminates, while the system prints a stack trace to the console. 
+
+A stack trace
 includes an explanatory message and the execution stack frame when the exception
 occurred. A typical Java stack trace consists of an ordered list of methods that
 were active on the call stack before the exception occurred. Stack traces
