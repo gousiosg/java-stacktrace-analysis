@@ -51,25 +51,27 @@ they were found in aproximately 50\% of all analyzed exception stack traces.
 \section{Introduction}
 
 Along the recent years we have witnessed a rapid increase in 
-the number of open source software (oss) available on the Web.
-Since such projects make their control version system, mailing lists and 
-bug tracking systems (bts) publicly available, they represent a valuable 
+the number of open source software  available on the Web.
+Since such projects make their control version and 
+issue tracking systems publicly available, they represent a valuable 
 source of information for the "state of practice" on software development
-which has already started to be investigated [][][][][].
+which had already started to be investigated [][][][][].
 
 In this scenario Github emerged as one of the most used repository hosting sites.
 It  alows developers to create and maintain opensource projects relying on Git distributed version 
 control and provides a set of tools which allow the information about developers 
 and their activities to be visible within and across open souce projects.
 
-Github is also known as a social coding platfotm [ref] as it ....
+Among these tools there is the Github issue tracking system, which makes
+issues related to new features, improvements, bugs publicly available.
 
-Among those tools there is the Github issue tracking system, which makes
-issues related to new, features, bugs and general comments publicly available.
+Bug issues have called the attention at have been the target of several 
+researchs [][][]. A subtype of a bug issue are the ones related to system 
+crashes [complete]...
 
-The bug issues have been the focus of some research... In [ref] defined a 
-set of characteristics a good bug issue should have. The 2 most important information 
-are the: (1) steps to reproduce the bug; (2) and the failure stack trace.
+In [ref] defined a set of characteristics a good bug issue should have. They showed that among 
+the most important relevant information are: (1) steps to reproduce the bug; 
+(2) and the failure stack trace.
 
 A typical stack trace consists of an ordered list of methods that
 were active on the call stack before the failure occurred. Stack traces
@@ -81,11 +83,37 @@ dhaliwal2011classifying}, fault-proneness prediction
 models~\cite{kim2013predicting} and even automated bug
 fixing~\cite{sinha2009fault} tools.
 
-However, all existing research has focused on the analysis of a single system at a time. In
-our current context, on which we have access to wealth of information available
-on open-source repositories like GitHub additional questions arise: What are the common
-characteristics of such stack traces? Can developers benefit from other systems faults?
+We could observe that existing research has focused on the analysis of a 
+single system at a time. Moreover, the search facilities of repositories are very limited, also
+enabling the analysis of a single project.
 
+Modern applications have to cope with similar and increasing number of abnormal
+computation states that arise as a consequence of faults in the application
+itself (e.g., access of null references), noisy user inputs or faults in
+underlying middleware or hardware. The exception handling mechanism~\cite{goodenough1975exception} is one of the most used schemes for detecting and recovering from such exceptional conditions. 
+
+Although the exception handling mechanism has been embedded in several 
+programming languages (e.g. Java, C++, C\#) and was the target of several studies
+(e.g.~\cite{miller1997issues,Robil00,shah2010understanding, garcia2007extracting, garcia2001comparative,cabral2007exception,coelho2011unveiling}),
+the exception handling code is often generally poorly understood and the least
+tested part of software systems.
+
+Often exception handling constructions may lead the developers into believing that
+by just re-throwing and possibly logging the exceptions they can forget about the exceptional
+situations during the development of the "happy path". This "ignore-for-now"
+approach may turn the exception handling into a generalized "goto"
+mechanism~\cite{mandrioli1992advances} making the program more complex and even
+less reliable. This behaviour may lead to the problem of uncaught exceptions~\cite{jo2004uncaught}, one of the main causes of application crashes.
+
+Specially in the open-source environment, where faults are usualy not hidden in a private trackers,  it would be intresting if developers could learn from other projects mistakes. Moreover, interesting knowledge may emerge from a cross-project crash analysis.
+ 
+Hence, in such context where we have access to wealth of information available
+on open-source repositories such as GitHub, some questions arise: What are the common
+characteristics of Github crash reports? How can we benefit from such cross-project crash analysis?
+
+
+
+. The ExceptionMiner tool is a contribution in this direction (to enable a cross-project defect analysis). 
 
 -----
 Along the recent years we have witnessed a rapid increase in 
