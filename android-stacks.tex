@@ -602,10 +602,10 @@ ExceptionMiner are as follows:
 \noindent\emph{StackTraceMiner and Distiller} The first step in the process is
 mining references to exceptions and stack traces embedded in issues, distilling
 the information that composes a stack trace and storing the results in a
-relational database. The extracted stack trace information  the exception
-signaler, the root cause, the exception wrappers. The tool is based on a
-combination of a regular expression based parser with heuristics able to
-identify and filter exception names and stack traces inline with text. In
+relational database. Some of the attributes extracted from the stack traces were:
+ the exception signaler, the root cause, and the root cause wrappers. 
+The tool is based on a combination between a regular expression based parser 
+with heuristics able to identify and filter exception names and stack traces inline with text. In
 contrast to existing issue parsing solutions such as Infozilla, the parser
 created in this work can extract all causes related to an exception on a stack,
 and stack traces embedded in logs files.
@@ -828,7 +828,7 @@ stack trace based on its root signaler as presented in Table~\ref{tab:signalers}
 \end{table}
 
 For each exception we could discover the number of times it occurred on stacks,
-the number of distinct projects such stacks were defined (and consequently its
+the number of distinct projects on which such stacks were defined (and consequently its
 popularity) and the of times it was signaled by different signaler types. We
 could calculate the popularity of each root cause, considering the number of
 distinct projects they were found and the whole set of projects analyzed with at
