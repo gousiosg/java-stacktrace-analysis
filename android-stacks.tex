@@ -302,13 +302,14 @@ mechanism, embedded in many main-stream programming languages.
 The main disadvantage of return codes is the fact that the programmer can just
 ignore the return code and let the program execute in inconsistent state. The
 exception mechanism~\cite{goodenough1975exception} was proposed as a way of
-preventing errors from being ignored, and was embedded in many mainstream
-programming languages. Among some similarities they mainly differ in the way
-exceptions are represented and handled in each
-language~\cite{garcia2001comparative}:
+preventing errors from being ignored and was embedded in many mainstream
+programming languages ~\cite{garcia2001comparative} since then. 
 
-\noindent\emph{Checked Approach}. In languages such Modula-3, Guide, and
-Extended Ada all exceptions are checked, which means that the compiler
+\noindent\emph{Checked Approach}. In languages such as CLU \footnote{In 
+CLU if a handler is found for a given exception, it is converted in a predened 
+default exception, called failure which is the only one which can be implicitly 
+propagated in this model.}, Modula-3, Guide, and Extended Ada all exceptions 
+are checked, which means that the compiler
 statically checks if appropriate handlers are provided within the system.
 Accordingly, the programmer must explicitly specify every exception that can be
 signaled to support the compile time checking. This approach is known to be
@@ -319,16 +320,19 @@ include the new exception type or handle the new exception.
 
 \noindent\emph{Unchecked Approach}. In languages such as Lore, C++, and Arche
 all exceptions are unchecked but the developer can optionally list exception
-types on method signatures. However, the developer is not warned by the compiler
-if an unchecked exception is not handled inside the application. Such an
-approach may hinder robustness because the client of a method cannot easily know
-which unchecked exceptions may be thrown, unless the code of the method and the
-methods called from it is inspected, which can be a very time consuming or
-infeasible task.
+types on method signatures. Although in some languages such exceptions can 
+be documented on the methods signature, the developer is not warned by the compiler
+if an unchecked exception is not handled inside the application. According to ~\cite{Robil00} 
+such an approach may hinder robustness because the client of a method cannot easily know
+which unchecked exceptions may be thrown (unless the code of the method and the
+methods called from it is inspected) which can be a very time consuming or
+infeasible task. 
 
 \noindent\emph{Hybrid Approach}. In Java a method can throw either checked or
-unchecked exceptions. Java is the only language that allows this hybrid
-approach.
+unchecked exceptions. Java is the only language that allows this hybrid approach,
+on which the developer can define exceptions of both types of exceptions to be thrown and
+handled in a single system.
+
 
 \subsection{Exception Handling in Java} \label{sec:extypes}
 
@@ -750,7 +754,7 @@ on the defect issues can be found at:
 
 Table~\ref{tab:toptenjava} illustrates the top 10 most common root causes which
 represents more than 50\% of the analyzed set. The table illustrates  i) the
-number of times each exception appeared as the root cause of a stack trace
+number of times each exception appeared as the root cause reported on the exception stack trace
 (\#occurrences), ii) the number of distinct projects reporting such causes on
 stack traces, and iii) the exception popularity among projects.
 
