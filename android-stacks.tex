@@ -305,34 +305,29 @@ exception mechanism~\cite{goodenough1975exception} was proposed as a way of
 preventing errors from being ignored and was embedded in many mainstream
 programming languages ~\cite{garcia2001comparative} since then. 
 
-\noindent\emph{Checked Approach}. In languages such as CLU \footnote{In 
-CLU if a handler is found for a given exception, it is converted in a predened 
-default exception, called failure which is the only one which can be implicitly 
-propagated in this model.}, Modula-3, Guide, and Extended Ada all exceptions 
-are checked, which means that the compiler
-statically checks if appropriate handlers are provided within the system.
+In languages such as CLU, Modula-3, Guide, and Extended Ada the exceptions are 
+checked, which means that the 
+compiler statically checks if appropriate handlers are provided within the system. 
 Accordingly, the programmer must explicitly specify every exception that can be
-signaled to support the compile time checking. This approach is known to be
+signaled to support the compile time checking \footnote{In CLU,  if a handler is 
+found for a given exception, it is converted in a predened default exception, 
+called failure which is the only one which can be implicitly 
+propagated in this model.}. This approach is known to be
 costly to maintain (Dooren and Steegmans, 2005) since exception updates are
 cascading; if a new exception type is added to a method signature then all other
 methods directly using this method must either change their signatures to
-include the new exception type or handle the new exception.
+include the new exception type or handle the new exception. 
 
-\noindent\emph{Unchecked Approach}. In languages such as Lore, C++, and Arche
-all exceptions are unchecked but the developer can optionally list exception
-types on method signatures. Although in some languages such exceptions can 
-be documented on the methods signature, the developer is not warned by the compiler
+In languages such as Lore, C++, and Arche all exceptions are unchecked but the developer can optionally list exception types on method signatures. Although exceptions can 
+be documented on methods signatures, the developer is not warned by the compiler
 if an unchecked exception is not handled inside the application. According to ~\cite{Robil00} 
 such an approach may hinder robustness because the client of a method cannot easily know
 which unchecked exceptions may be thrown (unless the code of the method and the
 methods called from it is inspected) which can be a very time consuming or
 infeasible task. 
 
-\noindent\emph{Hybrid Approach}. In Java a method can throw either checked or
-unchecked exceptions. Java is the only language that allows this hybrid approach,
-on which the developer can define exceptions of both types of exceptions to be thrown and
-handled in a single system.
-
+In Java a method can throw either checked or unchecked exceptions. Java is the only language that allows this hybrid approach, on which the developer can define exceptions of both kinds to be thrown and
+handled in a single system. Next section details Java exception handling model.
 
 \subsection{Exception Handling in Java} \label{sec:extypes}
 
@@ -385,14 +380,15 @@ OutofMemoryError).
 %Thread or ThreadGroup is invoked, which usually terminates the system 
 %and prints the exception stack trace. 
 
-%\subsubsection{Exception Chaining} Exception Chaining 
+%\subsubsection{Exception Chaining} Exception Wrapping 
 %This stack trace was extracted from an issue of an Android application in
 %Github.
 
-Exception chaining is a common way of propagating exceptions in Java programs, 
+The Exception wrapping (also known as exception chaining) is a common way of 
+propagating exceptions in Java programs, 
 which allows one exception to be wrapped in another exception and re-thrown. 
 Figure~\ref{fig:wrapping} presents a stack trace associated which illustrates an
-exception chaining. The bottom part of the stack trace is the \emph{root cause}, which indicates the
+exception wrapping. The bottom part of the stack trace is the \emph{root cause}, which indicates the
 first reason for the error to be thrown (in this case, the computer run out of
 memory). The top part of the stack trace indicates the location of the exception
 manifestation (which will call \emph{top level exception} along this paper). The
@@ -493,7 +489,7 @@ the following research questions:
 
 \end{description}
 
-For RQ1 and RQ2, we explore the domain quantitatively, and use theirs answers as
+For RQ1 and RQ2, we explore the domain quantitatively, and use their answers as
 a basis to investigate the third research question. RQ3 aims at examining whether
 exception (mis)-uses could be revealed through stack trace analysis. To
 support this investigation, source code and bytecode analysis was used to
@@ -519,14 +515,15 @@ in unprocessed format, in a MongoDB database, while metadata is extracted and
 stored in a relational database. The GHTorrent dataset covers a broad range of
 development activities on Github, including issues. The project has been
 collecting data since February 2012. Up to Dec 2013, when we queried it to
-retrieve our bootstrapping sample, it included 356.057 issues from 16.836
-Java projects (step 1).\footnote{A Java project is specified in GitHub with a
+retrieve our sample, it included  16.836 Java projects (step 1) which overall contained
+356.057 issues.\footnote{A Java project is specified in GitHub with a
 specific label.}
 
-After obtaining the bootstrap issue sample from GHTorrent, each issue was
-processed by ExceptionMiner tool developed in this work which extracted every
-exception defined on issues or on issue comments (step 2). Since this initial
-set of Java project is too diverse (it includes libraries, web-based or
+After obtaining this sample of projects and associated issues, 
+the ExceptionMiner tool, developed in this work, performed a per-project 
+mining task as follows: for each project, the content of each issue and issue comments 
+were analized and all exceptions and exception stack traces were extracted (step 2). 
+Since this initial set of Java project is too diverse (it includes libraries, web-based or
 stand-alone applications), in the second phase of this study we restrict the
 analysis domain to Android projects (step 3). This decision was driven by the
 fact that most open source Android applications are known for dealing
@@ -983,7 +980,7 @@ the exception message which can be neither complete nor precise~\cite{gosling200
 
 To better investigate the extent of this problem we classified each stack trace according to the type of the
 root exception. Table~\ref{tab:typeroottab} presents the types of root causes of all stack traces reported on 
-the Android repositories. As we can see from Table ~ref{typeroottab},  most of the exceptions signaled by third-party code
+the Android repositories. As we can see from Table ~\ref{tab:typeroottab},  most of the exceptions signaled by third-party code
  (e.g., Android and libs) were runtime exceptions. After filtering all the exceptions implicitly signaled by 
 JVM (due to programming mistakes) and inspecting the signaler methods of such exceptions (i.e.,  direct an inderect 
 instances of java.lang.RuntimeException). We could observe that only 1 method out of 118 inspected signalers
@@ -1146,7 +1143,7 @@ by the JVM which make impossible the program to recover. Further investigation i
 ways to help developers in deadling with such problem, either preventing odd wrappings or enabling 
 the developer to better dealing with them. Last but not least, the high number of null pointer exceptions 
 lead us to think on other pertinent research direction: whether language designs which avoid null pointers, 
-such as Monads ~cite{Walde95} (i.e., used in functional languages for values that may not be available 
+such as Monads ~\cite{Walde95} (i.e., used in functional languages for values that may not be available 
 or computations that may fail) could improve the robustness of Java programs. 
 
 \section{Threats to Validity}
