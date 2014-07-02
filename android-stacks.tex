@@ -446,7 +446,7 @@ pure Exception or a RuntimeException is hence considered a bad practice.
 %*~\todo{RSC:this practice was not well explored, can be removed if we need space.}
 
 %\noindent\emph{Exception Documentation}
-\textbf{IV-Document all exceptions thrown by a
+\textbf{ IV-Document all exceptions thrown by a
 method} (\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective}).
 The exceptions thrown by a method are an important part of methods interface,
 and is required to use the method properly. The checked exceptions are already
@@ -458,7 +458,8 @@ mistakes} as carefully as checked exceptions. Doing so, the clients of a method
 will be aware of all the exceptions the method can throw. If the developer fails to
 do follow this practice (specially when developing library code) it will be
 difficult or even impossible for the caller to make effective use of such 
-method~\cite{wirfs2006toward, bloch2008effective}.
+method~\cite{wirfs2006toward, bloch2008effective}. As mentioned in Section II, 
+in some languages such as C
 
 These best practices guided our exploratory study described next.
 Based on information extracted from stack traces (complemented by
@@ -506,30 +507,61 @@ conducted to answer these questions.
 \label{fig:overviewfig}
 \end{figure*}
 
-We begun our investigation using the dataset provided by the GHTorrent
-project~\cite{Gousi13}, an off-line mirror of the data offered through the
-Github API. The Github API data come in two flavours; a streaming data flow lists
-events, such as reporting an issue, happening on repositories in real time,
-while a static view contains the current state of entities. The data is stored
-in unprocessed format, in a MongoDB database, while metadata is extracted and
-stored in a relational database. The GHTorrent dataset covers a broad range of
-development activities on Github, including issues. The project has been
-collecting data since February 2012. Up to Dec 2013, when we queried it to
-retrieve our sample, it included  16.836 Java projects (step 1) which overall contained
-356.057 issues.\footnote{A Java project is specified in GitHub with a
-specific label.}
+%The GHTorrent dataset covers a broad range of
+% development activities on Github, including the all the issues per project. Such data 
+%is stored in unprocessed format, in a MongoDB database, while metadata is extracted 
+%and stored in a relational database. 
 
-After obtaining this sample of projects and associated issues, 
-the ExceptionMiner tool, developed in this work, performed a per-project 
-mining task as follows: for each project, the content of each issue and issue comments 
-were analized and all exceptions and exception stack traces were extracted (step 2). 
-Since this initial set of Java project is too diverse (it includes libraries, web-based or
-stand-alone applications), in the second phase of this study we restrict the
-analysis domain to Android projects (step 3). This decision was driven by the
-fact that most open source Android applications are known for dealing
+The mixed-methods approach is composed by the following steps:
+
+Step1. Retrieving the Dataset to be Analized. We begun our investigation using the dataset 
+provided by the GHTorrent project~\cite{Gousi13}, an off-line mirror of the data 
+offered through the Github API.  GHTorrent has been collecting data from Git since 
+February 2012. Up to Dec 2013, when we queried GHTorrent, it included 16.836 Java projects 
+which overall contained 356.057 issues.\footnote {A Java project is specified in GitHub with a
+specific label.} From GHTorrent we retrieved the metadata related to each Java project (e.g., 
+repository's names and short descriptions), and the content of every issue and issue comment 
+and stored in a relational database.
+
+Step 2. Extracting Exception Information from Issues. In this step, we used the ExceptionMiner tool,
+ developed in this work, to extract the exception names and exception stack traces of each
+ issue and issue comment - analyzing the information of each project at a time. This initial 
+set of analyzed Java projects included libraries, web-based, Android and stand-alone applications.  
+
+Step 3. Restricting the Dataset to Android Projects. We select a subset of all Android 
+projects available on the dataset to perform a deeper analysis (which combined mined
+ information extrated from issues with source-code analysis and manual inspection 
+of projects resources described on next steps). This decision was driven by the
+fact that most open source Anedroid applications are known for dealing
 with several sources of exceptions due to multi-threaded execution and
 interaction with input/output resources; moreover they share a common
 well-defined platform and a limited set of libraries.
+To identify Android projects, we performed a case insensitive search for 
+the term \textsf{android} in the repository's names and short descriptions.  The
+heuristic filtered 2.542 repositories, from which 589 apps had at least one
+issue containing a stack trace. Then we performed further cleanup, inspecting the site of every Android
+reporting at least one stack trace, to make sure that they represented real
+mobile apps. During this clean up 106 apps were removed because they were either
+example projects (i.e., toy projects) or tools to support Android development
+(e.g. \textsf{selendroid}, \textsf{roboeletric} --- tools to support the testing of Android apps).
+The filtered set consisted of 482 apps, from which approximately 50\% are also
+hosted in Google Market Place. 
+
+
+Step 4. Combining Information Mined From Issues with Bytecode-Code Analysis. 
+
+
+Step 5
+. Combining Information Mined From Issues with Source-Code Analysis.
+For each one of the analyzed projects, we
+downloaded the source code and using custom scripts, we extracted their package
+hierarchy (recursive list of of Java packages) and their custom exception types
+as described next.
+
+
+
+
+Step 5. Combining Information Mined From Issues with Manual Inspection.
 
 To support a deeper investigation of the stack traces of Android apps, every
 exception defined on a stack trace was then classified according to its type
