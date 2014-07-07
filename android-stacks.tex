@@ -108,7 +108,7 @@ Specially in the open-source environment, where faults are usualy not hidden in 
  
 Hence, in such context where we have access to wealth of information available
 on open-source repositories such as GitHub, some questions arise: What are the common
-characteristics of Github crash reports? How can we benefit from such cross-project crash analysis?
+characteristics of Github crash reports? 
 
 . The ExceptionMiner tool is a contribution in this direction (to enable a cross-project defect analysis). 
 
@@ -339,9 +339,7 @@ Java~\cite{javatut,stackoverlow,debate},\footnote{152 questions in Stackoverlow
 are related to this debate} since there are pros and cons associated to each of
 them.
 
-%\subsubsection{Exception Throwing and Handling}
-
-In Java an exception can be thrown in one of the following
+Hence, in Java an exception can be thrown in one of the following
 circumstances~\cite{gosling2000java}: (i) explicitly thrown when a throw statement is executed; 
 (ii) implicitly thrown by the JVM when the evaluation of an expression
  violates the normal semantics of language (e.g., out-of-bounds array index,
@@ -352,22 +350,11 @@ OutofMemoryError).
 %\todo{This sub-section is quite similar to the section introduction, shouldn't
 %we merge them?}
 
-%When an exception is signaled it causes a transfer of control from the point
-%where the exception occurred to a point that can be specified by the programmer
-%(exception handler) - in Java it is represented by the try-catch block .
-%The search for the handler to deal with a raised
-%exception occurs along the dynamic invocation chain. 
-%If no handler is found in the chain, the default handler associated to the 
-%Thread or ThreadGroup is invoked, which usually terminates the system 
-%and prints the exception stack trace. 
+When an exception is throw it causes a transfer of control from the point
+where the exception occurred to a point that can be specified by the programmer
+(exception handler) - in Java it is represented by the try-catch block .
 
-%\subsubsection{Exception Chaining} Exception Wrapping 
-%This stack trace was extracted from an issue of an Android application in
-%Github.
-
-The Exception wrapping (also known as exception chaining) is a common way of 
-propagating exceptions in Java programs, 
-which allows one exception to be wrapped in another exception and re-thrown. 
+A common way of  propagating exceptions in Java programs, is the exception wrapping (also known as exception chaining), which allows one exception to be wrapped in another exception and re-thrown. 
 Figure~\ref{fig:wrapping} presents a stack trace associated which illustrates an
 exception wrapping. The bottom part of the stack trace is the \emph{root cause}, which indicates the
 first reason for the error to be thrown (in this case, the computer run out of
@@ -456,26 +443,32 @@ mixed-methods approach~\cite{ivankova2006using} for collecting, analyzing, and
 integrating both quantitative and qualitative evidence along the stages of the
 research process. The main goal of this study was to gain a better understanding
 of the use of exceptions in Java programs based mainly on the information
-available on exception stack traces. More specifically, we aimed at answering
+available on exception stack traces. The exceptions available on exception stack trace
+are not limited to the exceptions expliciltly thrown by the Java developer but also include
+the exceptions implicitly thrown by the JVM during the program execution,
+due to a programming error (e.g., out-of-bounds array index, division-by-zero, 
+access to a null reference) or an internal error or resource limitation (e.g.,
+OutofMemoryError). 
+
+ More specifically, we aimed at answering
 the following research questions:
 
 \begin{description}
 
-  \item[RQ1] What is the prevalence of stack traces on  reported issues?
-    %\item[RQ2] What are the most common exceptions?
+  \item[RQ1] What are the common characteristics of such stack traces?
 
-  \item[RQ2] What are the common characteristics of such stack traces?
-
-  \item[RQ3] What patterns of exception (mis)-use emerge from the stack trace
+  \item[RQ2] What patterns of exception (mis)-use emerge from the stack trace
     analysis?
 
 \end{description}
 
-For RQ1 and RQ2, we explore the domain quantitatively, and use their answers as
-a basis to investigate the third research question. RQ3 aims at examining whether
-exception (mis)-uses could be revealed through stack trace analysis. To
-support this investigation, source code and bytecode analysis was used to
-leverage the  understanding of stack traces. 
+
+For RQ1 and RQ2, we explore the domain quantitatively and highlight interesting cases by 
+exploring cases qualitatively. To support this investigation, source code and bytecode 
+analysis were used in combination 
+with manual inspection to to everage the  understanding of stack traces. 
+
+
 %For RQ3 we investigate
 %quantitatively and highlight interesting cases by exploring cases qualitatively.
 Figure~\ref{fig:overviewfig} presents an overview of the mixed-methods approach
@@ -557,8 +550,12 @@ Android Platform and OS (level 19). Finally, additional meta-data is combined to
 each stack trace (step 6) which used together with manual inspections (step 7)
 enabled to provide answers to RQ3.
 
-\subsection{Github Data}
+\subsection{Study Context and Github Data}
 \label{sec:git}
+
+
+ What is the prevalence of stack traces on reported issues?
+   What are the most common exceptions?
 
 \noindent\emph{Kinds of Analyzed Issues.} Issues on Github are different from
 issues on dedicated bug tracking tools such as Bugzilla and Jira. The most
@@ -1158,6 +1155,12 @@ the developer to better dealing with them. Last but not least, the high number o
 lead us to think on other pertinent research direction: whether language designs which avoid null pointers, 
 such as Monads ~\cite{Walde95} (i.e., used in functional languages for values that may not be available 
 or computations that may fail) could improve the robustness of Java programs. 
+
+
+
+TO DISCUSS: How can we benefit from such cross-project crash analysis?
+
+
 
 \section{Threats to Validity}
 
