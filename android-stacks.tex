@@ -57,14 +57,13 @@ computation states that arise as a consequence of faults in the application
 itself (e.g., access of null references), noisy user inputs or faults in
 underlying middleware or hardware. The exception handling
 mechanism~\cite{goodenough1975exception} is one of the most used schemes for
-detecting and recovering from such exceptional conditions. When an exception is
-caught inside the application by the program's exception handling code, 
-the application has the opportunity
-to assess the conditions that caused the fault and either recover from them or abort. 
-An exception that remains uncaught (is not caught by an exception handler)
-leads to a program crash. In most programming languages with embedded exception handling mechanism, when a crash happens usually the language runtime 
-agenerates debugging information to help
-the programmer identify and fix the reason of the crash. The debugging
+detecting and recovering from such exceptional conditions. When an exception is thrown it can be caught inside the application (by the program's exception handling code) and the the application has the opportunity to assess the conditions that caused the fault and either recover from them or abort. 
+If the exception that remains uncaught (is not caught by an exception handler) it
+leads to a program crash -  uncaught exceptions ~\cite{jo2004uncaught} are one 
+of the main causes of application crashes.
+
+ In most programming languages with embedded exception handling mechanism, when a crash happens usually the language runtime generates debugging information to help
+the programmer identify and fix the cause of the crash. The debugging
 information is typical a stack trace, which includes an explanatory message and
 the execution stack frame when the exception occurred. In Java, stack trace
 consists of an ordered list of methods that were active on the call stack before
@@ -90,11 +89,15 @@ concequently the evaluation of exception handling mechanisms in programming
 languages.
 
 The availability of exception stack traces until recently was scarce, while the
-available data were only focused on few large scale projects. In the recent
-past, many open source software projects have their source code and issue
-repositories to Github. The concentration of projects and the existence of
-projects that mine such information, such as GHTorrent~\cite{Gousi13}, made full
-population studies possible.
+available data were only focused on few large scale projects.
+Along the recent years we have witnessed a rapid increase in the number of open source 
+projects that make their control version and issue tracking systems publicly 
+available in repository hosting sites such as GitHub.
+
+The concentration of open source projects and the existence of
+initiatives that mine such information, such as GHTorrent~\cite{Gousi13},
+ allow the information about projects to be visible within and across projects and
+ make a full population studies possible.
 
 In this work, we perform the first post mortem analysis of exception handling in
 Java.  Using a custom tool called ExceptionMiner, which we develop specifically
@@ -103,14 +106,15 @@ GitHub. Overall, we analyzed 356,057 issues from 16,836 projects, from which
 28,800 stack traces were extracted and used as a source of information for our
 analysis. The stack trace analysis was augmented by additional information
 extracted using byte code and source code analysis done on a carefully selected
-subset of our initial sample (482 Android projects).
-To guide this exploration we compiled general guidelines on how to use
-exceptions proposed by Gosling~\cite{gosling2000java},
+subset of our initial sample (482 Android projects). Manual inspection was also 
+used in this study to leverage the understanding of stack traces and support 
+further discussions and insights. 
+
+To guide this exploration we compiled general 
+guidelines on how to use exceptions proposed by Gosling~\cite{gosling2000java},
 Wirfs-Brock~\cite{wirfs2006toward} and Bloch~\cite{bloch2008effective} and then
 we investigate what stack traces can tell us about the adherence to such
-practices in Java programs.
-
-Some outcomes were consistently detected through
+practices in Java programs. Some outcomes were consistently detected through
 our large scale analysis of exception stack traces in the wild, such as:
 
 \begin{itemize}
@@ -168,7 +172,7 @@ analysis.
 %directions for future work.
 
 
-\subsection{Remaining Introductions :-)}
+\subsection{Tentative  Introductions to chance the focus}
 
 Along the recent years we have witnessed a rapid increase in 
 the number of open source software  available on the Web.
@@ -502,7 +506,7 @@ the following research questions:
 
 For RQ1 and RQ2, we explore the domain quantitatively and highlight interesting cases by 
 exploring cases qualitatively. To support this investigation, source code and bytecode 
-analysis were used in combination with manual inspection to to everage the  understanding of stack traces. 
+analysis were used in combination with manual inspection to leverage the  understanding of stack traces and support further discussions and insights. 
 
 \subsection{Github Data}
 \label{sec:git}
