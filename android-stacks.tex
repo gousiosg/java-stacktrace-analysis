@@ -62,25 +62,16 @@ It  alows developers to create and maintain opensource projects relying on Git d
 control and provides a set of tools which allow the information about developers 
 and their activities to be visible within and across open souce projects.
 
-Bug issues have called the attention of researhc community and  have been the target of several 
+Bug issues have called the attention of research community and have been the target of several 
 researches [][][]. A subtype of a bug issue are the ones related to system 
 crashes, also called crash reports such reports can be automatically generated 
 as the system crashes or can be manually reported by developers/users [complete]...
-
 
 One of the most important elements of a crash report genereted eigther manually
 or automatically is the failure stack trace [ref-paper], which tipically consists 
 of an ordered list of methods that were active on the call stack before the failure occurred. 
 
-Modern applications have to cope with similar and increasing number of sources of failures
- that arise as a consequence of faults in the application
-itself (e.g., access of null references), noisy user inputs or faults in
-underlying middleware or hardware.   The exception handling 
-mechanism~\cite{goodenough1975exception}, been embedded in several 
-programming languages (e.g. Java, C++, C\#), is one of the most used
- schemes for detecting and recovering from such failures. 
-
-Such exception stack traces are a useful source of 
+Such failure stack traces are a useful source of 
 information about system crashes, and are often used to
 support developers in debugging~\cite{schroter2010stack}. Moreover, information
 from stack traces combined with crash and bug reports can be used to support bug
@@ -89,9 +80,16 @@ dhaliwal2011classifying}, fault-proneness prediction
 models~\cite{kim2013predicting} and even automated bug
 fixing~\cite{sinha2009fault} tools.
 
-However existing research has focused on the analysis of a 
-single system at a time. Moreover, the search facilities of repositories are very limited, also
-enabling the analysis of a single project.
+
+The exception handling mechanism~\cite{goodenough1975exception},
+ is one of the most used schemes for detecting and recovering from such 
+failures. Exceptions may arrise as a consequence of faults in the application
+itself (e.g., access of null references), noisy user inputs or faults in
+underlying middleware or hardware.   
+
+Although moder application have to deal with a similar and increasing number of 
+source of failures, existing research has focused on the analysis of a 
+single system at a time.
 
 Although the exception handling mechanism has been embedded in several 
 programming languages (e.g. Java, C++, C\#) and was the target of several studies
