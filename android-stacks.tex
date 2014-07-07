@@ -50,7 +50,7 @@ they were found in aproximately 50\% of all analyzed exception stack traces.
 
 \section{Introduction}
 
-\subsection{Georgios's and Roberta Merged Introduction}
+\subsection{Georgios's and Roberta's Merged Introduction}
 
 Modern applications have to cope with an increasing number of abnormal
 computation states that arise as a consequence of faults in the application
@@ -171,137 +171,6 @@ analysis.
 %7 describes the related work, and Section 8 presents our conclusions and
 %directions for future work.
 
-
-\subsection{Tentative  Introductions to chance the focus}
-
-Along the recent years we have witnessed a rapid increase in 
-the number of open source software  available on the Web.
-Since such projects make their control version and 
-issue tracking systems publicly available, they represent a valuable 
-source of information for the "state of practice" on software development
-which had already started to be investigated [][][][][][I still need to collect these references].
-
-In this scenario Github emerged as one of the most used repository hosting sites.
-It  alows developers to create and maintain opensource projects relying on Git distributed version 
-control and provides a set of tools which allow the information about developers 
-and their activities to be visible within and across open souce projects.
-
-Bug issues have called the attention of the research community and have been the target of increasing 
-researches [][][]. A specific type of bug issue is the one related to system 
-crashes.  Such issues usually contain an exception stack trace [ref-paper], which tipically consists 
-of an ordered list of methods that were active on the call stack before the failure occurred [ref-bug-issues]. 
-
-Exception stack traces are a useful source of 
-information about system crashes, and are often used to
-support developers in debugging~\cite{schroter2010stack}. Moreover, information
-from stack traces combined with crash and bug reports can be used to support bug
-classification and clustering~\cite{wang2013improving, kim2011crash,
-dhaliwal2011classifying}, fault-proneness prediction
-models~\cite{kim2013predicting} and even automated bug
-fixing~\cite{sinha2009fault} tools.
-
-Although modern applications have to deal with increasinng and similar 
-sources of failures - that arise as a consequence of faults in the application
-itself (e.g., access of null references), noisy user inputs or faults in
-underlying middleware or hardware -  on bug classificationthe current research on 
-exploring bug issue information are structured on  a system at a time basis.
-
-Specially  in a context where we have access to wealth of information available
-on open-source repositories such as GitHub, interesting knowledge may emerge 
-from a cross-project crash analysis. Hence such initial questions arise: What are the common
-characteristics of the stack traces reported on GitHub? Which patterns of exception (mis)use may emerge?
-
-To answer these questions, we conduct an exploratory study of stack traces in
-the wild. Using a custom tool called ExceptionMiner, which was specifically
-developed for this study, we mined stack traces from issues across all Java
-projects on GitHub. Overall, we analyzed 356,057 issues from 16,836 projects,
-from which 28,800 stack traces were extracted and used as a source of
-information for our analysis. The stack trace analysis  was augmented by
-additional information extracted using byte code and source code analysis done
-on a carefully selected subset of our initial sample (482 Android projects).
-%This study was divided in two phases: in the fist phase all the issues of all
-%Java projects available on GitHub were analyzed and the embedded stack traces
-%extracted using ExceptionMiner.
-
-To guide this exploration we compiled general guidelines on how to use
-exceptions proposed by Gosling~\cite{gosling2000java},
-Wirfs-Brock~\cite{wirfs2006toward} and Bloch~\cite{bloch2008effective} and then
-we investigate what stack traces can tell us about the adherence to such
-practices in Java programs.
-%~\todo{This should be our motivation, as this is
-%our biggest contribution. I already changed the text. Lets discuss about this
-%new version}
-%RSC: I AGREE.
-
-
-%GGG: I think this is too much detail for the introduction In the second phase
-%of this study, we combined the information of the mined stack traces with
-%source code and bytecode analysis. To do so we selected the subset of 482
-%Android repositories. The Android repositories were chosen because this kind of
-%application is known for dealing with several sources of exceptions, as they
-%are usually io-intensive (i.e., deals with Network, Bluetooth, camera, and
-%other resources), and multi-htreaded. Moreover, they are based on a single
-%platform which allowed more fine-grained analysis of their exception behaviour.
-%RSC: I AGREE.
-
-
-This study builds upon the following assumption: the stack traces reported on
-issues contain relevant information related to system crashes. Several studies
-and techniques have also taken this assumption as starting point
-(e.g.,~\cite{sinha2009fault}~\cite{dhaliwal2011classifying}~\cite{kim2013predicting}). Some outcomes were consistently detected through
-our large scale analysis of exception stack traces in the wild, such as:
-
-\begin{itemize}
-
-  \item  A multitude of programming mistakes were reported as the main causes of stack traces:
-  41,1\%  (12,625)  of reported stack traces were caused by programming mistakes; and 26,31\% of analyzed stack traces reported a java.lang.NullPointerException as root cause; 
-
-   \item 1,671 projects (44,47\%) contained at least one issue reporting a java.lang.NullPointerException as the root cause of a stack trace.
-   
-  \item Undocumented runtime exceptions signaled by third party
-    code (i.e., libraries and Android platform). This study found 118 distinct methods defined on third party code and  reported as the root signalers of runtime exceptions. Only 1 of such methods (0,8\%) documented the explicitly thrown runtime exception in a Javadoc comment; and none of these methods included the exception as part of the exception interface (i.e., using throws clause).
-
-  \item  Odd exception chains (e.g., Error wrapping checked and runtime
-    exceptions and vice-versa), indicating that the purpose of Java's hybrid
-    exception model may not have been adequately used.
-
-  \item  Issues reporting uncaught checked exceptions.
-
-\end{itemize}
-
-%Hence, the contributions of this study are as follows:
-%\begin{itemize}
-%  \item  It performs a large scale analysis of Java stack traces and how
- %   they can reveal bad-practices on the use of exceptions in Java.
-% \item  It introduces ExceptionMiner, a tool developed to support cross-repository stack trace
-%    analysis.
-%\end{itemize}
-
-These contributions are relevant to:
-(i) developers of Java applications
-to familiarize with the most common reported exceptions mis-uses which is the
-first step to help developers to avoid making them; 
-(ii) designers of languages
-to consider ways of reducing the abundance of NullPointerExceptions;
-and (iii)
-tool designers to consider developing tools that enable a cross-project defect
-analysis. 
-
-% AVD: We have not looked at private issues, and the tool is described above.
-%We strongly believe that, specially in the open-source environment,
-%faults are not to be hidden in a private bug issue. Faults should be shared and
-%discussed, so that a developer can learn from other projects mistakes.
-%Currently, the search facilities of repositories are very limited, and the
-%ExceptionMiner tool is a contribution in this direction.
-
-%GGG: Personally, I hate this paragraph in all papers as it usually reads like a space-filler
-%RSC: If needed we can remove it.
-This paper is organized as follows. Section 2 presents a
-background on exception handling mechanism. Section 3 presents the study design.
-Section 4 reports study findings. Section 5 provides further discussions and insights.
-Section 6 presents the threats to validity associated to this study. Finally Section
-7 describes the related work, and Section 8 presents our conclusions and
-directions for future work.
 
 
 \section{Background}
@@ -1434,6 +1303,137 @@ directions for future work.
 
 
 
+
+\subsection{Tentative  Introductions to chance the focus}
+
+Along the recent years we have witnessed a rapid increase in 
+the number of open source software  available on the Web.
+Since such projects make their control version and 
+issue tracking systems publicly available, they represent a valuable 
+source of information for the "state of practice" on software development
+which had already started to be investigated [][][][][][I still need to collect these references].
+
+In this scenario Github emerged as one of the most used repository hosting sites.
+It  alows developers to create and maintain opensource projects relying on Git distributed version 
+control and provides a set of tools which allow the information about developers 
+and their activities to be visible within and across open souce projects.
+
+Bug issues have called the attention of the research community and have been the target of increasing 
+researches [][][]. A specific type of bug issue is the one related to system 
+crashes.  Such issues usually contain an exception stack trace [ref-paper], which tipically consists 
+of an ordered list of methods that were active on the call stack before the failure occurred [ref-bug-issues]. 
+
+Exception stack traces are a useful source of 
+information about system crashes, and are often used to
+support developers in debugging~\cite{schroter2010stack}. Moreover, information
+from stack traces combined with crash and bug reports can be used to support bug
+classification and clustering~\cite{wang2013improving, kim2011crash,
+dhaliwal2011classifying}, fault-proneness prediction
+models~\cite{kim2013predicting} and even automated bug
+fixing~\cite{sinha2009fault} tools.
+
+Although modern applications have to deal with increasinng and similar 
+sources of failures - that arise as a consequence of faults in the application
+itself (e.g., access of null references), noisy user inputs or faults in
+underlying middleware or hardware -  on bug classificationthe current research on 
+exploring bug issue information are structured on  a system at a time basis.
+
+Specially  in a context where we have access to wealth of information available
+on open-source repositories such as GitHub, interesting knowledge may emerge 
+from a cross-project crash analysis. Hence such initial questions arise: What are the common
+characteristics of the stack traces reported on GitHub? Which patterns of exception (mis)use may emerge?
+
+To answer these questions, we conduct an exploratory study of stack traces in
+the wild. Using a custom tool called ExceptionMiner, which was specifically
+developed for this study, we mined stack traces from issues across all Java
+projects on GitHub. Overall, we analyzed 356,057 issues from 16,836 projects,
+from which 28,800 stack traces were extracted and used as a source of
+information for our analysis. The stack trace analysis  was augmented by
+additional information extracted using byte code and source code analysis done
+on a carefully selected subset of our initial sample (482 Android projects).
+%This study was divided in two phases: in the fist phase all the issues of all
+%Java projects available on GitHub were analyzed and the embedded stack traces
+%extracted using ExceptionMiner.
+
+To guide this exploration we compiled general guidelines on how to use
+exceptions proposed by Gosling~\cite{gosling2000java},
+Wirfs-Brock~\cite{wirfs2006toward} and Bloch~\cite{bloch2008effective} and then
+we investigate what stack traces can tell us about the adherence to such
+practices in Java programs.
+%~\todo{This should be our motivation, as this is
+%our biggest contribution. I already changed the text. Lets discuss about this
+%new version}
+%RSC: I AGREE.
+
+
+%GGG: I think this is too much detail for the introduction In the second phase
+%of this study, we combined the information of the mined stack traces with
+%source code and bytecode analysis. To do so we selected the subset of 482
+%Android repositories. The Android repositories were chosen because this kind of
+%application is known for dealing with several sources of exceptions, as they
+%are usually io-intensive (i.e., deals with Network, Bluetooth, camera, and
+%other resources), and multi-htreaded. Moreover, they are based on a single
+%platform which allowed more fine-grained analysis of their exception behaviour.
+%RSC: I AGREE.
+
+
+This study builds upon the following assumption: the stack traces reported on
+issues contain relevant information related to system crashes. Several studies
+and techniques have also taken this assumption as starting point
+(e.g.,~\cite{sinha2009fault}~\cite{dhaliwal2011classifying}~\cite{kim2013predicting}). Some outcomes were consistently detected through
+our large scale analysis of exception stack traces in the wild, such as:
+
+\begin{itemize}
+
+  \item  A multitude of programming mistakes were reported as the main causes of stack traces:
+  41,1\%  (12,625)  of reported stack traces were caused by programming mistakes; and 26,31\% of analyzed stack traces reported a java.lang.NullPointerException as root cause; 
+
+   \item 1,671 projects (44,47\%) contained at least one issue reporting a java.lang.NullPointerException as the root cause of a stack trace.
+   
+  \item Undocumented runtime exceptions signaled by third party
+    code (i.e., libraries and Android platform). This study found 118 distinct methods defined on third party code and  reported as the root signalers of runtime exceptions. Only 1 of such methods (0,8\%) documented the explicitly thrown runtime exception in a Javadoc comment; and none of these methods included the exception as part of the exception interface (i.e., using throws clause).
+
+  \item  Odd exception chains (e.g., Error wrapping checked and runtime
+    exceptions and vice-versa), indicating that the purpose of Java's hybrid
+    exception model may not have been adequately used.
+
+  \item  Issues reporting uncaught checked exceptions.
+
+\end{itemize}
+
+%Hence, the contributions of this study are as follows:
+%\begin{itemize}
+%  \item  It performs a large scale analysis of Java stack traces and how
+ %   they can reveal bad-practices on the use of exceptions in Java.
+% \item  It introduces ExceptionMiner, a tool developed to support cross-repository stack trace
+%    analysis.
+%\end{itemize}
+
+These contributions are relevant to:
+(i) developers of Java applications
+to familiarize with the most common reported exceptions mis-uses which is the
+first step to help developers to avoid making them; 
+(ii) designers of languages
+to consider ways of reducing the abundance of NullPointerExceptions;
+and (iii)
+tool designers to consider developing tools that enable a cross-project defect
+analysis. 
+
+% AVD: We have not looked at private issues, and the tool is described above.
+%We strongly believe that, specially in the open-source environment,
+%faults are not to be hidden in a private bug issue. Faults should be shared and
+%discussed, so that a developer can learn from other projects mistakes.
+%Currently, the search facilities of repositories are very limited, and the
+%ExceptionMiner tool is a contribution in this direction.
+
+%GGG: Personally, I hate this paragraph in all papers as it usually reads like a space-filler
+%RSC: If needed we can remove it.
+This paper is organized as follows. Section 2 presents a
+background on exception handling mechanism. Section 3 presents the study design.
+Section 4 reports study findings. Section 5 provides further discussions and insights.
+Section 6 presents the threats to validity associated to this study. Finally Section
+7 describes the related work, and Section 8 presents our conclusions and
+directions for future work.
 
 
 \bibliographystyle{IEEEtran}
