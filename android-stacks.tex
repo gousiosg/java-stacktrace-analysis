@@ -57,73 +57,70 @@ computation states that arise as a consequence of faults in the application
 itself (e.g., access of null references), noisy user inputs or faults in
 underlying middleware or hardware. The exception handling
 mechanism~\cite{goodenough1975exception} is one of the most used schemes for
-detecting and recovering from such exceptional conditions. When an exception is thrown it can be caught inside the application (by the program's exception handling code) and the the application has the opportunity to assess the conditions that caused the fault and either recover from them or abort. 
-If the exception that remains uncaught (is not caught by an exception handler) it
-leads to a program crash -  uncaught exceptions ~\cite{jo2004uncaught} are one 
-of the main causes of application crashes.
+detecting and recovering from such exceptional conditions. When an exception is
+thrown it can be caught inside the application (by the program's exception
+handling code) and the application has the opportunity to assess the conditions
+that caused the fault and either recover from them or abort. If the exception
+that remains uncaught, the program crashes. Uncaught exceptions are one of the
+main causes of application crashes~\cite{jo2004uncaught}.
 
- In most programming languages with embedded exception handling mechanism, when a crash happens usually the language runtime generates debugging information to help
-the programmer identify and fix the cause of the crash. The debugging
-information is typical a stack trace, which includes an explanatory message and
-the execution stack frame when the exception occurred. In Java, stack trace
-consists of an ordered list of methods that were active on the call stack before
-the exception occurred.
+In most programming languages featuring exception handling, when a crash
+happens, the language runtime generates debugging information to help the
+programmer identify the cause of the crash. The debugging information is
+typically a stack trace, which includes an explanatory message and the execution
+stack frame when the exception occurred.
+%In Java, stack trace consists of an ordered list of methods that were active on
+%the call stack before the exception occurred.
 
 Although the exception handling mechanism has been the target of several studies
 (e.g.~\cite{miller1997issues,Robil00,shah2010understanding,
 garcia2007extracting,garcia2001comparative,cabral2007exception,coelho2011unveiling}),
-the exception handling code is often generally poorly understood and the least
-tested part of software systems~\cite{coelho2011unveiling}. 
-
-%Similarily to source
-%code, 
-%TODO GEORGIOUS I DID NOT UNDERESTA.ND THE IDEA OF THE PREVIOUS SENTENCE
-
-Such studies  perform the analysis of exception handling code based  either on static
-(source code-based) analysis or dynamic (runtime-based) testing methods. Neither of such methods, however,
-can explore the full execution space of a program and therefore they both fail
-to account for exceptions implicitly signaled by rutime environment (e.g. resource depletion) or
-dynamically loaded code. Exception stack traces, when available, enable the
-post-mortem analysis of exception handling behaviours of programs and
-concequently the evaluation of exception handling mechanisms in programming
-languages.
+the exception handling code is generally poorly understood and often the least
+tested part of software systems~\cite{coelho2011unveiling}.  To analyze the
+exception handling code, current studies use either static (source code-based)
+analysis or dynamic (runtime-based) testing methods. Neither method can explore
+the full execution space of a program and therefore they both fail to account
+for exceptions implicitly signaled by the runtime environment (e.g. due to
+resource depletion) or dynamically loaded code. Exception stack traces, when
+available, enable the post-mortem analysis of exception handling behaviours of
+programs and consequently the evaluation of exception handling mechanisms in
+programming languages.
 
 The availability of exception stack traces until recently was scarce, while the
-available data were only focused on few large scale projects.
-Along the recent years we have witnessed a rapid increase in the number of open source 
-projects that make their control version and issue tracking systems publicly 
-available in repository hosting sites such as GitHub.
-
-The concentration of open source projects and the existence of
-initiatives that mine such information, such as GHTorrent~\cite{Gousi13},
- allow the information about projects to be visible within and across projects and
- make a full population studies possible.
+available data concerned a few large scale projects (e.g. the Mozilla
+crash report
+dataset\footnote{https://code.google.com/p/promisedata/issues/detail?id=88}).
+Along the recent years, we have witnessed a rapid increase in the number of open
+source projects that make their control version and issue tracking systems
+publicly available in repository hosting sites such as GitHub. The
+concentration of open source projects and the existence of initiatives that mine
+such information, such as GHTorrent~\cite{Gousi13}, allow the information about
+projects to be visible within and across projects and make a full population
+studies possible.
 
 In this work, we perform the first post mortem analysis of exception handling in
-Java.  Using a custom tool called ExceptionMiner, which we develop specifically
+Java. Using a custom tool called ExceptionMiner, which we develop specifically
 for this study, we mine stack traces from issues across all Java projects on
 GitHub. Overall, we analyzed 356,057 issues from 16,836 projects, from which
 28,800 stack traces were extracted and used as a source of information for our
 analysis. The stack trace analysis was augmented by additional information
 extracted using byte code and source code analysis done on a carefully selected
-subset of our initial sample (482 Android projects). Manual inspection was also 
-used in this study to leverage the understanding of stack traces and support 
-further discussions and insights. 
-
-To guide this exploration we compiled general 
-guidelines on how to use exceptions proposed by Gosling~\cite{gosling2000java},
-Wirfs-Brock~\cite{wirfs2006toward} and Bloch~\cite{bloch2008effective} and then
-we investigate what stack traces can tell us about the adherence to such
-practices in Java programs. Some outcomes were consistently detected through
-our large scale analysis of exception stack traces in the wild, such as:
+subset of our initial sample (482 Android projects). Manual inspection was
+used to leverage the understanding of stack traces and support
+further discussions and insights.
+To guide our analysis, we compiled a set of best practices on how to use
+exceptions by composing relevant suggestions by Gosling~\cite{gosling2000java},
+Wirfs-Brock~\cite{wirfs2006toward} and Bloch~\cite{bloch2008effective}.  The
+comparison of those with the mined exceptions revealed several interesting
+findings, such as:
 
 \begin{itemize}
 
    \item  A multitude of programming mistakes were reported as the main causes of stack traces:
-  41,1\%  (12,625)  of reported stack traces were caused by programming mistakes; and 26,31\% of analyzed stack traces reported a java.lang.NullPointerException as root cause; 
+  41,1\%  (12,625)  of reported stack traces were caused by programming mistakes; and 26,31\% of analyzed stack traces reported a java.lang.NullPointerException as root cause;
 
    \item 1,671 projects (44,47\%) contained at least one issue reporting a java.lang.NullPointerException as the root cause of a stack trace.
-   
+
   \item Undocumented runtime exceptions signaled by third party
     code (i.e., libraries and Android platform). This study found 118 distinct methods defined on third party code and  reported as the root signalers of runtime exceptions. Only 1 of such methods (0,8\%) documented the explicitly thrown runtime exception in a Javadoc comment; and none of these methods included the exception as part of the exception interface (i.e., using throws clause).
 
@@ -170,8 +167,6 @@ analysis.
 %Section 6 presents the threats to validity associated to this study. Finally Section
 %7 describes the related work, and Section 8 presents our conclusions and
 %directions for future work.
-
-
 
 \section{Background}
 
