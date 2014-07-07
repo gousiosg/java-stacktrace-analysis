@@ -506,7 +506,7 @@ From this set of 16.836 Java projects which overall contained 356.057 issues, we
 
 Using the heuristics presented in Section~\ref{sec:android}, we selected 482 repositories featuring Android projects on which we perform manual inspection was performed.
 
-\subsection{Study Context}
+\subsection{Stack Traces on Issues}
 
 Before investigating the research questions listed above we analyzed the prevalence of stack traces 
 on issues created on Github. Prevalence or prevalence proportion, a term often used in epidemiology,
@@ -515,86 +515,33 @@ represents the proportion of a population found to have a particular condition
 this term to evaluate a condition (i.e., presence of a stack trace) over issues
 reported on GitHub repositories.
 
-\input{stacktrace-stats}
+Using the ExceptionMiner tool, developed in this work, we could extract the exception stack traces defined on issues and issue comments. Executing ExceptionMiner tool each issue and issue comment defined on the 16,836 projects considered in this study, we could observe that 3,758 projects (22,32\%) contained at least 1 issue on which a stack trace was found.
 
-\begin{table}
-\centering
-\begin{tabular}{p{1em}lrr}
-\hline
- \multicolumn{2}{l}{\bfseries{Java repository-level metrics}} & \\
-\hline
-\multicolumn{2}{l}{\bfseries{Repositories}} & 16,836\\
-    & incl. exception on 1+ issues & 4,776 (28,37\%) \\
-    & incl. stack trace on 1+ issues & 3,758 (22,32\%) \\
-    & incl. exception on 1+ defect issues & 2,019 (41,44\%)\\
-    & incl. stack trace on 1+ defect issues  & 1,698 (34,84\%) \\
+Overall the number of issues on which a stack trace was found was 21,013 from which 28,800 stack traces were extracted and analyzed - some issues defined more than one stack trace.
 
-\hline
-\end{tabular}
-\caption{Projects x Stack Traces}
-\label{tab:proj}
-\end{table}
+We then analyzed the lables associated to such issues, and we discovered that only 5,196 were labled as defect ~\footnote{the dedect lables considered in this work were every lable containing as substring: defect, bug, crash, failure, fail, exception} (which represent only 24,7% of the issues on which a stack trace was found), most of the issues on which stack traces were found contained no lable. Such observation supports our assumption to consider not only the issues related with defect issues on this analysis.
 
-\begin{table}
-\centering
-\begin{tabular}{p{1em}lrr}
-\hline
-\multicolumn{2}{l}{\bfseries{Issue-level metrics}} & \bfseries{Java} & \bfseries{Android Subset}\\
-\hline
-   \multicolumn{2}{l}{\bfseries{Repositories}} & 16,836 & 482\\
- \multicolumn{2}{l}{\bfseries{Issues}} & 356,057 & 32,582\\
-    & incl. exceptions & 30,236 (8,5\%) & 3,956 (12,1\%) \\
-    & incl. stack traces & 21,013 (5,9\%) & 3,101 (7,3\%) \\
- \multicolumn{2}{l}{\bfseries{Defect Issues}} & 55,226 & 2,376 \\
-    & incl. exception & 6,741 (12,2\%) & 1,557 (65,6\%) \\
-    & incl. stack trace &  5,196 (9,4\%) & 1,393 (58,7\%)\\
-\multicolumn{2}{l}{\bfseries{Exception Stack Traces}} &  & \\
-    & on issues  & 28,800 & 4,208  \\
-    & on issues labeled as defect & 6,529 & 1,699 \\
-\hline
-\end{tabular}
-\caption{Quantitative overview of the analyzed dataset}
-\label{tab:overview}
-\end{table}
+\subsection{Android Apps Selection}
+\label{sec:android}
 
-%The use of the Github issue tracker in repositories hosted on Github is optional
-%and not widespread. As of March 2014, from the 332,864 non-fork Java
-%repositories registered in the GHTorrent dataset, only 44,323 have received an
-%issue report in their lifetime while from those only 16,837 are being watched by
-%external users. To ensure that our work targets projects that are openly used by
-%users other than their developers, we focused our analysis on just those
-%projects. Using the heuristics presented in Section~\ref{sec:android}, we
-%selected 482 repositories featuring Android projects. Table~\ref{tab:proj} and
-%Table~\ref{tab:overview} presents two views of the extracted dataset, namely
-%grouped by repository and grouped by issue.
-%
-From Table~\ref{tab:overview}, we can see that repositories that include at
-least one exception or stack trace on an issue are fairly common: 28\% and 22\%
-respectively. Considering only the exceptions and stack traces reported on
-defect issues we find out that 41\% of the repositories reported at least one
-exception in a defect issue, and approximately 35\% of the projects mentioned
-one stack trace in at least one defect issue.
+As mentioned before, in this study we selected a subset of Java projects to
+be analyzed in more detail. The subset chosen was comprised by the Android apps
+included on GitHub (until 23 Feb 2013).
+To identify Android projects, we performed a case insensitive search for the
+term \textsf{android} in the repository's names and short descriptions.  The
+heuristic filtered 2.542 repositories, from which 589 apps had at least one
+issue containing a stack trace.
 
-At the individual issue level, 8,5\% and 5,9\% of all issues reported in Java
-repositories contain the full name of an exception or a stack trace
-respectively. The numbers are similar if we isolate Android projects from the
-general population (12,1\% and 7,3\%). Considering only the defect-issues
-however, in the Android repositories as almost 58,7\% of defect-issues include a
-stack trace. This is not true for the general case however.
+Then we performed further cleanup, inspecting the site of every Android
+reporting at least one stack trace, to make sure that they represented real
+mobile apps. During this clean up 106 apps were removed because they were either
+example projects (i.e., toy projects) or tools to support Android development
+(e.g. \textsf{selendroid}, \textsf{roboeletric} --- tools to support the testing of Android apps).
+The filtered set consisted of 482 apps, from which approximately 50\% are also
+hosted in Google Market Place. 
 
-%Based on the assumption presented in Section III, we therefore did not use this label for further filtering.
-
-%\noindent \fbox{
-%\begin{minipage}{0.96\columnwidth} \emph{ RQ1: 28,37\% of Java
-%  repositories on Github have at least 1 issue that includes a stack trace.
-%  9,4\% of the defect issues of such repositories mentioned at least one stack
-%  trace. Considering only defect-issues of Android subset 58,7\% mentioned at
-%  least 1 stack trace.  }
-%\end{minipage}}
-
-
-
-
+This set of 482 projects contained overall 32,582 issues from which 4,208 stacktraces 
+were extracted. From this set of issues 44,9% were labled as defect.
 
 
 
@@ -654,6 +601,10 @@ hosted in Google Market Place.
 
 Step 4. Combining Information Mined From Issues with Bytecode-Code Analysis. 
 
+For each one of the analyzed projects, we
+downloaded the source code and using custom scripts, we extracted their package
+hierarchy (recursive list of of Java packages) and their custom exception types
+as described next.
 
 Step 5
 . Combining Information Mined From Issues with Source-Code Analysis.
@@ -729,27 +680,6 @@ signaler name and the packages associated to each category.
 Next section presents the results for each of the study phases, providing both a
 quantitative and qualitative analysis of the outcomes.
 
-\subsection{Android Apps Selection}
-\label{sec:android}
-
-%In the second phase of this study we selected a subset of Java applications to
-%be analyzed in more detail.The subset chosen was comprised by the Android apps
-%included on GitHub (until 23 Feb 2013).
-To identify Android projects, we performed a case insensitive search for the
-term \textsf{android} in the repository's names and short descriptions.  The
-heuristic filtered 2.542 repositories, from which 589 apps had at least one
-issue containing a stack trace.
-
-Then we performed further cleanup, inspecting the site of every Android
-reporting at least one stack trace, to make sure that they represented real
-mobile apps. During this clean up 106 apps were removed because they were either
-example projects (i.e., toy projects) or tools to support Android development
-(e.g. \textsf{selendroid}, \textsf{roboeletric} --- tools to support the testing of Android apps).
-The filtered set consisted of 482 apps, from which approximately 50\% are also
-hosted in Google Market Place. For each one of the analyzed projects, we
-downloaded the source code and using custom scripts, we extracted their package
-hierarchy (recursive list of of Java packages) and their custom exception types
-as described next.
 
 
 %\subsection{Phase 1: Analyzing Pure Stack Trace Information of Java Programs}
