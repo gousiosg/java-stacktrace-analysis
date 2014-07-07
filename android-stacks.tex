@@ -50,7 +50,7 @@ they were found in aproximately 50\% of all analyzed exception stack traces.
 
 \section{Introduction}
 
-\subsection{Georgios's Introduction}
+\subsection{Georgios's and Roberta Merged Introduction}
 
 Modern applications have to cope with an increasing number of abnormal
 computation states that arise as a consequence of faults in the application
@@ -58,11 +58,12 @@ itself (e.g., access of null references), noisy user inputs or faults in
 underlying middleware or hardware. The exception handling
 mechanism~\cite{goodenough1975exception} is one of the most used schemes for
 detecting and recovering from such exceptional conditions. When an exception is
-caught by the program's exception handling code, the program has the opportunity
-to assess the conditions that caused the fault and either recover the
-computation or abort. An exception that is not caught by an exception handler
-leads to a program crash. In most programming languages with exceptions, a crash
-usually causes debugging information to emited by the language runtime to help
+caught inside the application by the program's exception handling code, 
+the application has the opportunity
+to assess the conditions that caused the fault and either recover from them or abort. 
+An exception that remains uncaught (is not caught by an exception handler)
+leads to a program crash. In most programming languages with embedded exception handling mechanism, when a crash happens usually the language runtime 
+agenerates debugging information to help
 the programmer identify and fix the reason of the crash. The debugging
 information is typical a stack trace, which includes an explanatory message and
 the execution stack frame when the exception occurred. In Java, stack trace
@@ -73,11 +74,16 @@ Although the exception handling mechanism has been the target of several studies
 (e.g.~\cite{miller1997issues,Robil00,shah2010understanding,
 garcia2007extracting,garcia2001comparative,cabral2007exception,coelho2011unveiling}),
 the exception handling code is often generally poorly understood and the least
-tested part of software systems~\cite{coelho2011unveiling}. Similarily to source
-code, current works focus their exception handling analysis on either static
-(source code-based) or dynamic (runtime-based) analysis methods. Neither method
+tested part of software systems~\cite{coelho2011unveiling}. 
+
+%Similarily to source
+%code, 
+%TODO GEORGIOUS I DID NOT UNDERESTA.ND THE IDEA OF THE PREVIOUS SENTENCE
+
+Such studies  perform the analysis of exception handling code based  either on static
+(source code-based) analysis or dynamic (runtime-based) testing methods. Neither of such methods, however,
 can explore the full execution space of a program and therefore they both fail
-to account for exceptions caused by rutime issues (e.g. resource depletion) or
+to account for exceptions implicitly signaled by rutime environment (e.g. resource depletion) or
 dynamically loaded code. Exception stack traces, when available, enable the
 post-mortem analysis of exception handling behaviours of programs and
 concequently the evaluation of exception handling mechanisms in programming
@@ -109,16 +115,20 @@ our large scale analysis of exception stack traces in the wild, such as:
 
 \begin{itemize}
 
-  \item  A multitude of programming mistakes which are the main causes of stack traces.
+   \item  A multitude of programming mistakes were reported as the main causes of stack traces:
+  41,1\%  (12,625)  of reported stack traces were caused by programming mistakes; and 26,31\% of analyzed stack traces reported a java.lang.NullPointerException as root cause; 
 
+   \item 1,671 projects (44,47\%) contained at least one issue reporting a java.lang.NullPointerException as the root cause of a stack trace.
+   
   \item Undocumented runtime exceptions signaled by third party
-    code (i.e., libraries and Android platform).
+    code (i.e., libraries and Android platform). This study found 118 distinct methods defined on third party code and  reported as the root signalers of runtime exceptions. Only 1 of such methods (0,8\%) documented the explicitly thrown runtime exception in a Javadoc comment; and none of these methods included the exception as part of the exception interface (i.e., using throws clause).
 
   \item  Odd exception chains (e.g., Error wrapping checked and runtime
     exceptions and vice-versa), indicating that the purpose of Java's hybrid
     exception model may not have been adequately used.
 
-  \item  Stack traces caused by uncaught checked exceptions.
+  \item  Issues reporting uncaught checked exceptions.
+
 
 \end{itemize}
 
