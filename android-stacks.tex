@@ -441,10 +441,13 @@ can reveal whether these practices have been obeyed.
 This work describes an exploratory study which was based on a sequential
 mixed-methods approach~\cite{ivankova2006using} for collecting, analyzing, and
 integrating both quantitative and qualitative evidence along the stages of the
-research process. The main goal of this study was to gain a better understanding
+research process. 
+
+The main goal of this study was to gain a better understanding
 of the use of exceptions in Java programs based mainly on the information
-available on exception stack traces. The exceptions available on exception stack trace
-are not limited to the exceptions expliciltly thrown by the Java developer but also include
+available on exception stack traces embedded on Github issues.
+The exceptions available on exception stack trace are not limited to the exceptions 
+expliciltly thrown by the Java developer but also include
 the exceptions implicitly thrown by the JVM during the program execution,
 due to a programming error (e.g., out-of-bounds array index, division-by-zero, 
 access to a null reference) or an internal error or resource limitation (e.g.,
@@ -462,194 +465,51 @@ the following research questions:
 
 \end{description}
 
-
 For RQ1 and RQ2, we explore the domain quantitatively and highlight interesting cases by 
 exploring cases qualitatively. To support this investigation, source code and bytecode 
-analysis were used in combination 
-with manual inspection to to everage the  understanding of stack traces. 
+analysis were used in combination with manual inspection to to everage the  understanding of stack traces. 
 
-
-%For RQ3 we investigate
-%quantitatively and highlight interesting cases by exploring cases qualitatively.
-Figure~\ref{fig:overviewfig} presents an overview of the mixed-methods approach
-conducted to answer these questions.
-
-\begin{figure*}
-\centering
-\includegraphics[width=\hsize]{overview.pdf}
-\caption{Overview of the study based on mixed approaches.}
-\label{fig:overviewfig}
-\end{figure*}
-
-%The GHTorrent dataset covers a broad range of
-% development activities on Github, including the all the issues per project. Such data 
-%is stored in unprocessed format, in a MongoDB database, while metadata is extracted 
-%and stored in a relational database. 
-
-The mixed-methods approach is composed by the following steps:
-
-Step1. Retrieving the Dataset to be Analized. We begun our investigation using the dataset 
-provided by the GHTorrent project~\cite{Gousi13}, an off-line mirror of the data 
-offered through the Github API.  GHTorrent has been collecting data from Git since 
-February 2012. Up to Dec 2013, when we queried GHTorrent, it included 16.836 Java projects 
-which overall contained 356.057 issues.\footnote {A Java project is specified in GitHub with a
-specific label.} From GHTorrent we retrieved the metadata related to each Java project (e.g., 
-repository's names and short descriptions), and the content of every issue and issue comment 
-and stored in a relational database.
-
-Step 2. Extracting Exception Information from Issues. In this step, we used the ExceptionMiner tool,
- developed in this work, to extract the exception names and exception stack traces of each
- issue and issue comment - analyzing the information of each project at a time. This initial 
-set of analyzed Java projects included libraries, web-based, Android and stand-alone applications.  
-
-Step 3. Restricting the Dataset to Android Projects. We select a subset of all Android 
-projects available on the dataset to perform a deeper analysis (which combined mined
- information extrated from issues with source-code analysis and manual inspection 
-of projects resources described on next steps). This decision was driven by the
-fact that most open source Anedroid applications are known for dealing
-with several sources of exceptions due to multi-threaded execution and
-interaction with input/output resources; moreover they share a common
-well-defined platform and a limited set of libraries.
-To identify Android projects, we performed a case insensitive search for 
-the term \textsf{android} in the repository's names and short descriptions.  The
-heuristic filtered 2.542 repositories, from which 589 apps had at least one
-issue containing a stack trace. Then we performed further cleanup, inspecting the site of every Android
-reporting at least one stack trace, to make sure that they represented real
-mobile apps. During this clean up 106 apps were removed because they were either
-example projects (i.e., toy projects) or tools to support Android development
-(e.g. \textsf{selendroid}, \textsf{roboeletric} --- tools to support the testing of Android apps).
-The filtered set consisted of 482 apps, from which approximately 50\% are also
-hosted in Google Market Place. 
-
-
-Step 4. Combining Information Mined From Issues with Bytecode-Code Analysis. 
-
-
-Step 5
-. Combining Information Mined From Issues with Source-Code Analysis.
-For each one of the analyzed projects, we
-downloaded the source code and using custom scripts, we extracted their package
-hierarchy (recursive list of of Java packages) and their custom exception types
-as described next.
-
-
-
-
-Step 5. Combining Information Mined From Issues with Manual Inspection.
-
-To support a deeper investigation of the stack traces of Android apps, every
-exception defined on a stack trace was then classified according to its type
-(e.g. Error, Exception or RuntimeException) (step 4). The exception classifier
-was initialized with all the exceptions defined on the Java SDK version 7, the
-exceptions of the Android (Platform and OS) (level 19), and all the exceptions
-of the 482 Android projects selected for this study, extracted in the previous
-step. Moreover, all the packages associated to exceptions and signalers were
-also extracted to support further analysis (step 5). The signaler classifier is
-initialized with information about all packages found on Java SDK version 7, and
-Android Platform and OS (level 19). Finally, additional meta-data is combined to
-each stack trace (step 6) which used together with manual inspections (step 7)
-enabled to provide answers to RQ3.
-
-\subsection{Study Context and Github Data}
+\subsection{Github Data}
 \label{sec:git}
 
+As mentioned before, this study amined at mining information available on GitHub issues,
+more specifically, extracting and distilling the stack traces embedded on GItHub issues.
 
- What is the prevalence of stack traces on reported issues?
-   What are the most common exceptions?
+Issues on Github are different from issues on dedicated bug tracking tools such as 
+Bugzilla and Jira. The most important difference is that there are no predefined fields
+  (e.g. severity and priority). Instead, Github uses a more open ended tagging system, on which
+repositories are offered a pre-defined set of labels, but repository owners can modify 
+them at will. Therefore, an issue may have none ore an arbitrary set of labels depending 
+on which repository it was created. 
 
-\noindent\emph{Kinds of Analyzed Issues.} Issues on Github are different from
-issues on dedicated bug tracking tools such as Bugzilla and Jira. The most
-important difference is that there are no predefined fields for bug reporters to
-select from (e.g. severity and priority); Github uses instead a more open ended
-tagging system. Repositories are offered a pre-defined set of labels, but
-repository owners can modify them at will. An issue can have an arbitrary set of
-labels attached. Hence, this study does not restrict the analysis of stack
-traces defined on defect-issues, based on the assumption that regardless of the
-type of issue where its is defined the stack trace information contain relevant
-information concerning the exception use. Moreover, issues and pull requests are
-dual on Github; all pull requests have a corresponding ``backing'' issue which
-are automatically generated. Therefore, we excluded pull request based
+Therefore, this study is based on the assumption if an stack trace information embedded
+ in an issue, it contain relevant information concerning the exception use -  regardless the
+ lables associated to the issue.
+
+Moreover, issues and pull requests are dual on Github; all pull requests have a corresponding 
+``backing'' issue which
+are automatically generated. Therefore, we excluded such automatically generated
 issues from our analysis. Finally, the Github API allows the automated
 generation of issues for specific repositories, which automated tools often use
 to report crashes. In some cases, this led to high number of issues that
 included stack traces. We identified and filtered those cases out (e.g.,
 the~\textsf{pullwifi} project was responsible for almost 50\% of all Android issues in our dataset).
 
-\subsection{Android Apps Selection}
-\label{sec:android}
+This study used the dataset provided by the GHTorrent project~\cite{Gousi13}, an off-line mirror of the data 
+offered through the Github API.  GHTorrent has been collecting data from Git since 
+February 2012. Up to Dec 2013, and when we queried GHTorrent, it included 332,864 non-fork Java
+repositories \footnote {A Java project is specified in GitHub with a
+specific label.}  from which only 44,323 have contained at least issue report in their lifetime. From this set only 16,837 were watched by external users. To ensure that our work targets projects that are openly used by
+users other than their developers, we focused our analysis on just those projects. 
 
-%In the second phase of this study we selected a subset of Java applications to
-%be analyzed in more detail.The subset chosen was comprised by the Android apps
-%included on GitHub (until 23 Feb 2013).
-To identify Android projects, we performed a case insensitive search for the
-term \textsf{android} in the repository's names and short descriptions.  The
-heuristic filtered 2.542 repositories, from which 589 apps had at least one
-issue containing a stack trace.
+From this set of 16.836 Java projects which overall contained 356.057 issues, we retrieved the metadata related to each Java project (e.g., repository's names and short descriptions), and the content of every issue and issue comment and stored in a relational database.
 
-Then we performed further cleanup, inspecting the site of every Android
-reporting at least one stack trace, to make sure that they represented real
-mobile apps. During this clean up 106 apps were removed because they were either
-example projects (i.e., toy projects) or tools to support Android development
-(e.g. \textsf{selendroid}, \textsf{roboeletric} --- tools to support the testing of Android apps).
-The filtered set consisted of 482 apps, from which approximately 50\% are also
-hosted in Google Market Place. For each one of the analyzed projects, we
-downloaded the source code and using custom scripts, we extracted their package
-hierarchy (recursive list of of Java packages) and their custom exception types
-as described next.
+Using the heuristics presented in Section~\ref{sec:android}, we selected 482 repositories featuring Android projects on which we perform manual inspection was performed.
 
-\subsection{The ExceptionMiner Tool}
-\label{sec:exceptionminer}
+\subsection{Study Context}
 
-To extract exceptions from issues, we implemented ExceptionMiner, a modular
-mining tool able to connect to various repositories (such as Google Code,
-GHTorrent or even directly to Bugzilla), extract issues, mine stack traces from
-them and classify them in predefined categories. The main components of
-ExceptionMiner are as follows:
-
-\noindent\emph{StackTraceMiner and Distiller} The first step in the process is
-mining references to exceptions and stack traces embedded in issues, distilling
-the information that composes a stack trace and storing the results in a
-relational database. Some of the attributes extracted from the stack traces were:
- the exception signaler, the root cause, and the root cause wrappers. 
-The tool is based on a combination between a regular expression based parser 
-with heuristics able to identify and filter exception names and stack traces inline with text. In
-contrast to existing issue parsing solutions such as Infozilla, the parser
-created in this work can extract all causes related to an exception on a stack,
-and stack traces embedded in logs files.
-
-%\begin{tiny}
-%\begin{verbatim}
-
-%03-01 W/dalvikvm(7924): threadid=1: thread exiting with uncaught exception (group=0x40adf210)
-%03-01 15:55:01.609 (7924): FATAL EXCEPTION: main
-%03-01  (7924): java.lang.RuntimeException: ...
-%E/AndroidRuntime( 7924):  at android....performLaunchActivity(ActivityThread.java:1967)
-%03-01 15:55:01.609 (7924):  at android....handleLaunchActivity(ActivityThread.java:1992)
-%03-01 15:55:01.609:  at android.app.ActivityThread.access\$600(ActivityThread.java:127)
-%E/AndroidRuntime( 7924):  at android....handleMessage(ActivityThread.java:1158)
-%\end{verbatim}
-%\end{tiny}
-
-\noindent\emph{Exception Classifier} The next step in the ExceptionMiner process
-is classifying exceptions as either checked exceptions, runtime exceptions or 
-errors. The exception classifier is based on bytecode analysis (based on Design
-Wizard~\cite{Brunet09}) that walks up the type hierarchy of a Java exception
-until it reaches a base exception type.
-
-\noindent\emph{Exception Signaler Classifier} After its initialization it
-classifies each signaler according to its origin (i.e. Android Plaform,
-Aplication, Library, Libcore, or Java) based on pattern matching between the
-signaler name and the packages associated to each category.
-
-%\section{Study Operation and Results}
-Next section presents the results for each of the study phases, providing both a
-quantitative and qualitative analysis of the outcomes.
-
-%\subsection{Phase 1: Analyzing Pure Stack Trace Information of Java Programs}
-
-\section{RQ1: What is the prevalence of stack traces on reported issues?}
-
-Prevalence or prevalence proportion, a term often used in epidemiology,
+Before investigating the research questions listed above we analyzed the prevalence of stack traces 
+on issues created on Github. Prevalence or prevalence proportion, a term often used in epidemiology,
 represents the proportion of a population found to have a particular condition
 (e.g. a disease) over the total number of the studied population. In our work, we used
 this term to evaluate a condition (i.e., presence of a stack trace) over issues
@@ -731,6 +591,172 @@ stack trace. This is not true for the general case however.
 %  trace. Considering only defect-issues of Android subset 58,7\% mentioned at
 %  least 1 stack trace.  }
 %\end{minipage}}
+
+
+
+
+
+
+
+\subsection{The Mining Process}
+\label{sec:miningproc}
+
+Figure~\ref{fig:overviewfig} presents an overview of the mixed-methods approach
+conducted to answer these questions.
+
+\begin{figure*}
+\centering
+\includegraphics[width=\hsize]{overview.pdf}
+\caption{Overview of the study based on mixed approaches.}
+\label{fig:overviewfig}
+\end{figure*}
+
+%The GHTorrent dataset covers a broad range of
+% development activities on Github, including the all the issues per project. Such data 
+%is stored in unprocessed format, in a MongoDB database, while metadata is extracted 
+%and stored in a relational database. 
+
+The mixed-methods approach is composed by the following steps:
+
+Step1. Retrieving the Dataset to be Analized. We begun our investigation using the dataset 
+provided by the GHTorrent project~\cite{Gousi13}, an off-line mirror of the data 
+offered through the Github API.  GHTorrent has been collecting data from Git since 
+February 2012. Up to Dec 2013, when we queried GHTorrent, it included 16.836 Java projects 
+which overall contained 356.057 issues.\footnote {A Java project is specified in GitHub with a
+specific label.} From GHTorrent we retrieved the metadata related to each Java project (e.g., 
+repository's names and short descriptions), and the content of every issue and issue comment 
+and stored in a relational database.
+
+Step 2. Extracting Exception Information from Issues. In this step, we used the ExceptionMiner tool,
+ developed in this work, to extract the exception names and exception stack traces of each
+ issue and issue comment - analyzing the information of each project at a time. This initial 
+set of analyzed Java projects included libraries, web-based, Android and stand-alone applications.  
+
+Step 3. Restricting the Dataset to Android Projects. We select a subset of all Android 
+projects available on the dataset to perform a deeper analysis (which combined mined
+ information extrated from issues with source-code analysis and manual inspection 
+of projects resources described on next steps). This decision was driven by the
+fact that most open source Anedroid applications are known for dealing
+with several sources of exceptions due to multi-threaded execution and
+interaction with input/output resources; moreover they share a common
+well-defined platform and a limited set of libraries.
+To identify Android projects, we performed a case insensitive search for 
+the term \textsf{android} in the repository's names and short descriptions.  The
+heuristic filtered 2.542 repositories, from which 589 apps had at least one
+issue containing a stack trace. Then we performed further cleanup, inspecting the site of every Android
+reporting at least one stack trace, to make sure that they represented real
+mobile apps. During this clean up 106 apps were removed because they were either
+example projects (i.e., toy projects) or tools to support Android development
+(e.g. \textsf{selendroid}, \textsf{roboeletric} --- tools to support the testing of Android apps).
+The filtered set consisted of 482 apps, from which approximately 50\% are also
+hosted in Google Market Place. 
+
+
+Step 4. Combining Information Mined From Issues with Bytecode-Code Analysis. 
+
+
+Step 5
+. Combining Information Mined From Issues with Source-Code Analysis.
+For each one of the analyzed projects, we
+downloaded the source code and using custom scripts, we extracted their package
+hierarchy (recursive list of of Java packages) and their custom exception types
+as described next.
+
+
+
+
+Step 5. Combining Information Mined From Issues with Manual Inspection.
+
+To support a deeper investigation of the stack traces of Android apps, every
+exception defined on a stack trace was then classified according to its type
+(e.g. Error, Exception or RuntimeException) (step 4). The exception classifier
+was initialized with all the exceptions defined on the Java SDK version 7, the
+exceptions of the Android (Platform and OS) (level 19), and all the exceptions
+of the 482 Android projects selected for this study, extracted in the previous
+step. Moreover, all the packages associated to exceptions and signalers were
+also extracted to support further analysis (step 5). The signaler classifier is
+initialized with information about all packages found on Java SDK version 7, and
+Android Platform and OS (level 19). Finally, additional meta-data is combined to
+each stack trace (step 6) which used together with manual inspections (step 7)
+enabled to provide answers to RQ3.
+
+
+\subsection{The ExceptionMiner Tool}
+\label{sec:exceptionminer}
+
+To extract exceptions from issues, we implemented ExceptionMiner, a modular
+mining tool able to connect to various repositories (such as Google Code,
+GHTorrent or even directly to Bugzilla), extract issues, mine stack traces from
+them and classify them in predefined categories. The main components of
+ExceptionMiner are as follows:
+
+\noindent\emph{StackTraceMiner and Distiller} The first step in the process is
+mining references to exceptions and stack traces embedded in issues, distilling
+the information that composes a stack trace and storing the results in a
+relational database. Some of the attributes extracted from the stack traces were:
+ the exception signaler, the root cause, and the root cause wrappers. 
+The tool is based on a combination between a regular expression based parser 
+with heuristics able to identify and filter exception names and stack traces inline with text. In
+contrast to existing issue parsing solutions such as Infozilla, the parser
+created in this work can extract all causes related to an exception on a stack,
+and stack traces embedded in logs files.
+
+%\begin{tiny}
+%\begin{verbatim}
+
+%03-01 W/dalvikvm(7924): threadid=1: thread exiting with uncaught exception (group=0x40adf210)
+%03-01 15:55:01.609 (7924): FATAL EXCEPTION: main
+%03-01  (7924): java.lang.RuntimeException: ...
+%E/AndroidRuntime( 7924):  at android....performLaunchActivity(ActivityThread.java:1967)
+%03-01 15:55:01.609 (7924):  at android....handleLaunchActivity(ActivityThread.java:1992)
+%03-01 15:55:01.609:  at android.app.ActivityThread.access\$600(ActivityThread.java:127)
+%E/AndroidRuntime( 7924):  at android....handleMessage(ActivityThread.java:1158)
+%\end{verbatim}
+%\end{tiny}
+
+\noindent\emph{Exception Classifier} The next step in the ExceptionMiner process
+is classifying exceptions as either checked exceptions, runtime exceptions or 
+errors. The exception classifier is based on bytecode analysis (based on Design
+Wizard~\cite{Brunet09}) that walks up the type hierarchy of a Java exception
+until it reaches a base exception type.
+
+\noindent\emph{Exception Signaler Classifier} After its initialization it
+classifies each signaler according to its origin (i.e. Android Plaform,
+Aplication, Library, Libcore, or Java) based on pattern matching between the
+signaler name and the packages associated to each category.
+
+%\section{Study Operation and Results}
+Next section presents the results for each of the study phases, providing both a
+quantitative and qualitative analysis of the outcomes.
+
+\subsection{Android Apps Selection}
+\label{sec:android}
+
+%In the second phase of this study we selected a subset of Java applications to
+%be analyzed in more detail.The subset chosen was comprised by the Android apps
+%included on GitHub (until 23 Feb 2013).
+To identify Android projects, we performed a case insensitive search for the
+term \textsf{android} in the repository's names and short descriptions.  The
+heuristic filtered 2.542 repositories, from which 589 apps had at least one
+issue containing a stack trace.
+
+Then we performed further cleanup, inspecting the site of every Android
+reporting at least one stack trace, to make sure that they represented real
+mobile apps. During this clean up 106 apps were removed because they were either
+example projects (i.e., toy projects) or tools to support Android development
+(e.g. \textsf{selendroid}, \textsf{roboeletric} --- tools to support the testing of Android apps).
+The filtered set consisted of 482 apps, from which approximately 50\% are also
+hosted in Google Market Place. For each one of the analyzed projects, we
+downloaded the source code and using custom scripts, we extracted their package
+hierarchy (recursive list of of Java packages) and their custom exception types
+as described next.
+
+
+%\subsection{Phase 1: Analyzing Pure Stack Trace Information of Java Programs}
+
+\section{RQ1: What is the prevalence of stack traces on reported issues?}
+
+
 
 \section{RQ2: What are the common characteristics of such stack traces?}
 
