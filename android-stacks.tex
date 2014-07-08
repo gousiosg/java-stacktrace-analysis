@@ -183,12 +183,8 @@ The exception mechanism~\cite{goodenough1975exception} was proposed as a way of
 preventing errors from being ignored and was embedded in many mainstream
 programming languages ~\cite{garcia2001comparative} since then. 
 
-In languages such as CLU\footnote{In CLU,  if a handler is 
-found for a given exception, it is converted in a predened default exception, 
-called failure which is the only one which can be implicitly 
-propagated in this model [ref-clue].}, Modula-3, Guide, and Extended Ada the exceptions are 
-checked, which means that the 
-compiler statically checks if appropriate handlers are provided within the system. 
+In languages such as Modula-3, Guide, and Extended Ada the exceptions are 
+checked, which means that the compiler statically checks if appropriate handlers are provided within the system. 
 Accordingly, the programmer must explicitly specify every exception that can be
 signaled to support the compile time checking. This approach is known to be
 costly to maintain (Dooren and Steegmans, 2005) since exception updates are
@@ -196,7 +192,8 @@ cascading; if a new exception type is added to a method signature then all other
 methods directly using this method must either change their signatures to
 include the new exception type or handle the new exception. 
 
-In languages such as Lore, C++, and Arche all exceptions are unchecked but the developer can optionally list exception types on method signatures. Although exceptions can 
+In languages such as Lore, C++, and Arche all exceptions are unchecked but the developer can 
+optionally list exception types on method signatures. Although exceptions can 
 be documented on methods signatures, the developer is not warned by the compiler
 if an unchecked exception is not handled inside the application. According to ~\cite{Robil00} 
 such an approach may hinder robustness because the client of a method cannot easily know
@@ -204,13 +201,24 @@ which unchecked exceptions may be thrown (unless the code of the method and the
 methods called from it is inspected) which can be a very time consuming or
 infeasible task. 
 
-In Java a method can throw either checked or unchecked exceptions. Java is the only language that allows a hybrid approach on which the developer can define exceptions of both kinds to be thrown and handled in a single system. Next section details Java exception handling model.
+Both Java [ref: Gosling et al. 1996] and CLU [Liskov and Snyder 1979] support the declaration of exceptions
+ in method signatures, hence the compiler can then check if handlers are provided to such exceptions.
+ However, this support is only partial because both languages also provides a form of unchecked exceptions.
+In CLU,  if a handler is found for a given exception, it is converted in a predened default exception, 
+called failure which is the only one which can be implicitly propagated in this model [ref-clue].
+ Java allows a hybrid approach on which the developer can define specific exceptions of both kinds 
+(checked or unchecked) to be thrown and handled inside the system.
+Therefore, in both languages the developer of a client module is not warned by the compiler of the possibility of 
+an unchecked exception being thrown. 
 
-Although exception handling mechanism is the most used technique to deal with such 
-failures - been embedded in several programming languages as show above,   
-the exception handling code is often generally poorly understood and the least
-tested part of software systems.This behaviour may lead to the problem of uncaught exceptions~\cite{jo2004uncaught}, one of the main causes of application crashes
-(e.g.~\cite{miller1997issues,Robil00,shah2010understanding, garcia2007extracting, garcia2001comparative,cabral2007exception,coelho2011unveiling}).
+[REF]: Static Analysis to Support the Evolution of Exception Structure in Object-Oriented Systems
+
+Although exception handling mechanism has been embedded in several programming languages 
+as show above,   the exception handling code is often generally poorly understood and the least
+tested part of software systems.
+
+% This behaviour may lead to the problem of uncaught exceptions~\cite{jo2004uncaught}, one of the main causes of application crashes
+%(e.g.~\cite{miller1997issues,Robil00,shah2010understanding, garcia2007extracting, garcia2001comparative,cabral2007exception,coelho2011unveiling}).
 
 
 \subsection{Checked an Unchecked Exceptions in Java} \label{sec:extypes}
@@ -650,11 +658,14 @@ classification.
 \end{table}
 
 Programming errors are the causes of most of the exception stack traces reported
-on issues. In the Android subset we could find more issues related to Backward
-compatibility and security issues than on the general data set.
+on issues both in  general Java data set and Android subset. In the Android subset we could find 
+more stack traces reporting exceptions related to Backward
+compatibility and security concerns than on the general data set.
 
 
-\subsection{Investigating Android Subset}
+TODO: Discuss about the interater agreement here...
+
+\subsection{Investigating The Android Subset}
 
 As detailed in Section~\ref{sec:android}, 482 Android projects were carefully
 selected to enable a deeper investigation of stack trace information, by
