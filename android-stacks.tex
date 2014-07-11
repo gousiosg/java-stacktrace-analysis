@@ -935,6 +935,60 @@ represent recoverable conditions and  Runtime exceptions represent are usually
 related to programming mistakes from which the developer is not expected to recover
 from. 
 
+
+\subsubsection{Checked Exception wrapping Error}
+
+We could observe that in 4 projects this strange wrapping happend 7 times in total.
+
+
+
+\subsubsection{Error wrapping Checked Exception}
+
+We could observe that in 7 projects this strange wrapping happend 8 times in total.
+Inspecting the stack traces we could observe that 7 out of 8 wrappings were caused
+by the reflection java library on which "java.lang.OutOfMemoryError"
+"java.lang.NoSuchMethodError" were wrapped into a "java.lang.reflect.InvocationTargetException".
+
+
+In one of the cases, however, in project OpenDocument.droid a java.lang.Exception was 
+wrappings a java.lang.OutOfMemoryError.
+This general handlers is a known bad practice and here we could observe a bad consequence of
+such bad practice.
+
+
+\begin{table}
+\centering
+\begin{tabular}{llll}
+    \hline
+    \bfseries{Project} & \bfseries{Stars} & \bfseries{Watchers} & \bfseries{Forks} \\
+    \hline
+androidremocons &  9  &  2    & 10 \\
+android-timepicker &  73  &  13    & 32 \\
+PathfinderOpenReference &  23  &  12   & 15 \\
+ActionBarSherlock &  5926  &   767  & 3356 \\
+OpenDocument.droid &  40  &  9   & 12 \\
+TouchDB-Android &  -  &  -    & - \\
+ContractionTimer &  -  &  -    & - \\
+\hline
+  \end{tabular}
+\caption{Projects containing wrappings (Error-Checked)}
+\label{tab:wrappings2}
+\end{table}
+
+
+
+
+
+\subsubsection{Runtime Exception wrapping Error}
+
+\subsubsection{Error wrapping Runtime Exception}
+
+\subsubsection{Runtime wrapping Checked Exception}
+
+\subsubsection{Checked wrapping Runtime Exception}
+
+
+
 %Table X illustrated examples of such wrappings.
 %TODO INCLUIR ESTA TABLEA
 
