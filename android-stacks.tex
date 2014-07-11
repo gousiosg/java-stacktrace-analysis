@@ -201,15 +201,15 @@ which unchecked exceptions may be thrown (unless the code of the method and the
 methods called from it is inspected) which can be a very time consuming or
 infeasible task. 
 
-Both Java [ref: Gosling et al. 1996] and CLU [Liskov and Snyder 1979] support the declaration of exceptions
- in method signatures, hence the compiler can then check if handlers are provided to such exceptions.
+Both Java [ref: Gosling et al. 1996] and CLU [Liskov and Snyder 1979] support the checked exceptions,
+ hence the compiler can then check if handlers are provided to such exceptions.
  However, this support is only partial because both languages also provides a form of unchecked exceptions.
 In CLU,  if a handler is found for a given exception, it is converted in a predened default exception, 
-called failure which is the only one which can be implicitly propagated in this model [ref-clue].
- Java allows a hybrid approach on which the developer can define specific exceptions of both kinds 
-(checked or unchecked) to be thrown and handled inside the system.
-Therefore, in both languages the developer of a client module is not warned by the compiler of the possibility of 
-an unchecked exception being thrown. 
+called failure which is the only one which can be implicitly propagated [ref-clue].
+ Java allows a hybrid approach on which the developer can define specific unchecked and checked exceptions,
+and use both kinds of exceptions inside a single system.
+In both languages the developer of a client module is not warned by the compiler if 
+ unchecked exceptions are thrown by a module. 
 
 [REF]: Static Analysis to Support the Evolution of Exception Structure in Object-Oriented Systems
 
