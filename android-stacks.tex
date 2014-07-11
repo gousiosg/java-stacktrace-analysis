@@ -217,6 +217,12 @@ Although exception handling mechanism has been embedded in several programming l
 as show above,   the exception handling code is often generally poorly understood and the least
 tested part of software systems.
 
+There is a long-lasting debate about the pros and cons of checked and unchecked exceptions 
+~\cite{javatut,stackoverlow,debate},\footnote{152 questions in Stackoverlow
+are related to this debate}. The debates, however, are based on the developers own experience in
+using both models. There is a lack of empirical study tackling the pros and cons of each model.
+
+
 % This behaviour may lead to the problem of uncaught exceptions~\cite{jo2004uncaught}, one of the main causes of application crashes
 %(e.g.~\cite{miller1997issues,Robil00,shah2010understanding, garcia2007extracting, garcia2001comparative,cabral2007exception,coelho2011unveiling}).
 
@@ -244,13 +250,9 @@ normally should not be handled inside the application.
 The Java specification~\cite{gosling2000java} suggests that user-defined
 exceptions should be checked exceptions. The main reason is because doing so the
 callers of a method will know about the exceptions that a method can throw, and
-so they can decide what to do about them. However, there is a long-lasting
-debate about the use of checked and unchecked exceptions in
-Java~\cite{javatut,stackoverlow,debate},\footnote{152 questions in Stackoverlow
-are related to this debate} since there are pros and cons associated to each of
-them.
+so they can decide what to do about them. 
 
-Hence, in Java an exception can be thrown in one of the following
+In Java an exception can be thrown in one of the following
 circumstances~\cite{gosling2000java}: (i) explicitly thrown when a throw statement is executed; 
 (ii) implicitly thrown by the JVM when the evaluation of an expression
  violates the normal semantics of language (e.g., out-of-bounds array index,
