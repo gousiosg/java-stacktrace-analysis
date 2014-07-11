@@ -603,11 +603,16 @@ The high prevalence of NullPointerExceptions is aligned with the findings other 
 al.~\cite{kim2013predicting} showed that in Eclipse bug report system 38\% the bugs related to exception handling were caused by NullPointerException; other works on robustness testing~\cite{maji2012empirical,csallner2004jcrasher} showed that most of the automatically detected bugs were due to NullPointerExceptions and implicitly-signaled of Java
 environment (as the ones found in this study).
 
-To better understand the root causes reported on stacks, we performed a categorization 
-study on which the top 100 root causes reported on stack-issues were manually inspected.
-The characterization process consisted of classifiying each exception in one of the
-chategories listed on Table X, based on the inspection of source code, Javadoc, 
-or additional documentation related to the exception.
+To better understand the root causes reported on stacks, we categorized the top
+100 distinct exception types in in one of the chategories listed on
+Table~\ref{tab:categories}, based on the inspection of source code, Javadoc, or
+additional documentation related to the exception. To ensure the quality
+of the classification, three independent coders classified a randomly selected
+sample of 25 exception types (from the total 100) using the same categories;
+the interater agreement was high (96\%). We can therefore assume that the
+categories are descriptive enough for covering the whole range of exception
+types that can occur in real world Java projects.
+
 
 \begin{table}
   \centering
@@ -628,7 +633,7 @@ Such exceptions are usually defined on java.lang and java.util packages. \\ \hli
       General (Exception, Error, Runtime)    & The top level exceptions in Java    \\ \hline
     \hline
   \end{tabular}
-  \caption{Categories description.}
+  \caption{Description of categories.}
   \label{tab:categories}
 \end{table}
 
