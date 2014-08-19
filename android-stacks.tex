@@ -351,8 +351,33 @@ Using the ExceptionMiner tool, developed in this work, we could extract the exce
 
 We then analyzed the lables associated to such issues, and we discovered that only 5,196 were labled as defect ~\footnote{the dedect lables considered in this work were every lable containing as substring: defect, bug, crash, failure, fail, exception} (which represent only 24,7\% of the issues on which a stack trace was found), most of the issues on which stack traces were found contained no lable. Such observation supports our assumption to consider not only the issues related with defect issues on this analysis.
 
+\subsubsection{Distiling Exception Stack Trace Information}
+
+\- root exception
+
+\- signaler
+\- method
+\- class
+\- package
+
+\- Exception
+
+
+
 \subsubsection{Android Apps Selection}
 \label{sec:android}
+
+
+ % SELECT id, exception, exception_extends, exception_from, exception_package, 
+ %      issueid_onexminer, main_cause, main_extends, main_from, main_package, 
+ %      main_pre_signaler_java, main_signaler, mainsignaler_class, mainsignaler_from, 
+ %      mainsignaler_method, mainsignaler_package, pre_signaler_java, 
+ %      repo, root_cause, root_extends, root_from, root_package, root_pre_signaler_java, 
+ %      root_signaler, rootsignaler_class, rootsignaler_from, rootsignaler_method, 
+ %      rootsignaler_package, signaler, signaler_class, signaler_from, 
+ %      signaler_method, signaler_package, stack
+ % FROM stacktracesummary;
+
 
 As mentioned before, in this study we selected a subset of Java projects to
 be analyzed in more detail. The subset chosen was comprised by the Android apps
@@ -902,13 +927,13 @@ All		& 1330	&	320	&	1760	&	632	&	31	&	4073	\\
 \end{table}
 
 
-\begin{figure}
-\centering
+%\begin{figure}
+%\centering
 %\includegraphics[width=\hsize]{chart_exceptiontypes.pdf}
-\includegraphics[width=\hsize]{exception_types.pdf}
-\caption{Distribution of Checked and Unchedked exceptions.}
-\label{fig:typeroot}
-\end{figure}
+%\includegraphics[width=\hsize]{exception_types.pdf}
+%\caption{Distribution of Checked and Unchedked exceptions.}
+%\label{fig:typeroot}
+%\end{figure}
 
 On the other hand, we could observe that most of the exceptions signaled by the set of 
 libraries reused by Android platform (i.e., org.apache.harmony,
@@ -947,16 +972,16 @@ of them were not wrapped along the stack trace.
     \hline
     \bfseries{Wrapper Type} & \bfseries{Root Cause} & \bfseries{Occurrences} & \bfseries{Projects} \\
     \hline
-      none   & Runtime   &  2360 & 359 \\
-      none  &   Checked  & 422  & 117 \\
-      none  &   Error   & 381  & 141 \\
-      none &  Undefined  &  15   & 10  \\
-      none & Throwable  &  1    & 1 \\
-     \hline
-      Runtime   & Runtime & 560  & 182 \\    
-      Checked   & Checked & 98   & 42  \\
-      Error     & Error   & 15   & 14  \\
-    \hline
+      %none   & Runtime   &  2360 & 359 \\
+      %none  &   Checked  & 422  & 117 \\
+      %none  &   Error   & 381  & 141 \\
+      %none &  Undefined  &  15   & 10  \\
+      %none & Throwable  &  1    & 1 \\
+     %\hline
+      %Runtime   & Runtime & 560  & 182 \\    
+      %Checked   & Checked & 98   & 42  \\
+      %Error     & Error   & 15   & 14  \\
+    %\hline
       Runtime &  Checked   & 114  & 70  \\
       Runtime   &  Error   & 57   & 38  \\
       Checked &  Runtime   & 22   & 12  \\
@@ -964,8 +989,8 @@ of them were not wrapped along the stack trace.
       Error & Checked     &  7    & 4 \\
       Error & Runtime     &  13   & 6 \\
       Throwable & Runtime &  3    & 1 \\
-      Undefined & Runtime &  3    & 3 \\
-      Undefined & Error &  1    & 1 \\
+      %Undefined & Runtime &  3    & 3 \\
+      %Undefined & Error &  1    & 1 \\
     \hline
   \end{tabular}
 \caption{Kinds of wrappings found on the stacks of 482 ANDROID projects found on Github}
@@ -986,60 +1011,101 @@ from.
 
 \subsubsection{Runtime wrapping Checked Exception}
 
-Such wrapping was detected on distinct 70 projects. Inspecting the elements responsible for performing such wrapping we could observe that,
+Such wrapping was detected on distinct 70 projects. Inspecting the 
+elements responsible for performing such wrapping we could observe that,
 most of such wrappings were perform on methods defined on Android. 
 
 
-ANDROID	 \- 66
-APP	\- 29 	(HOW MANY?? AND WHICH??)
-LIB  \- 19 (HOW MANY AND WHICH?)
+\begin{table}
+\centering
+\begin{tabular}{ll}
+    \hline
+    \bfseries{signaler from} & \bfseries{Ocurrences} \\
+    \hline
+ANDROID	 & 66 \\
+APP	& 29 	(HOW MANY?? AND WHICH??) \\
+LIB  & 19 (HOW MANY AND WHICH?)\\
+\hline
+  \end{tabular}
+\caption{Elements responsible for the wrapping.}
+\label{tab:wrapping01}
+\end{table}
+
 
 Taking a closer look on the signalers reposponsible for wrapping we could observe that, aproximately 41%
 of all wrappings were performed by a single class, called ActivityThread, responsible for managing the life cycle 
 of an Android application. It performs the application callbacks.
 
-android.app.ActivityThread \- 47
-android.view.LayoutInflater \- 7
-org.gege.caldavsyncadapter.syncadapter.SyncAdapter \- 7
-org.springframework.web.client.RestTemplate \- 6
-android.os.AsyncTask \- 5
 
-Code snipet:
+\begin{table}
+\centering
+\begin{tabular}{ll}
+ \bfseries{Signaler class} & \bfseries{Ocurrences} \\
+    \hline
+android.app.ActivityThread & 47 \\
+android.view.LayoutInflater & 7 \\
+org.gege.caldavsyncadapter.syncadapter.SyncAdapter & 7 \\
+org.springframework.web.client.RestTemplate & 6 \\
+android.os.AsyncTask & 5 \\
+\hline
+  \end{tabular}
+\caption{Elements tresponsible for the wrapping.}
+\label{tab:wrapping01}
+\end{table}
 
-android.app.ActivityThread.
+Code snipet extracted from android.app.ActivityThread.
 
-public final Activity startActivityNow(...) \{
-...
-return performLaunchActivity(r, null);
-\}
+{\footnotesize
+\begin{verbatim}
 
-private Activity performLaunchActivity(...) \{
-try \{
-.....
-\} catch (Exception e) {
-..
-throw new RuntimeException(
-"Unable to instantiate activity " + component
-+ ": " + e.toString(), e);
-..
-\}
-\}
+private Activity performLaunchActivity(...) {
+  try {
+   ...
+  } catch (Exception e) {
+    ...
+    throw new RuntimeException(..., e);
+  }
+}
+\end{verbatim}
+}
 
 The exceptions most wrapped on RuntimeExceptinos were:
 
-(java.lang.RuntimeException,java.lang.ClassNotFoundException)	32
-(java.lang.RuntimeException,java.lang.NoSuchMethodException)	6
-(java.lang.RuntimeException,java.lang.InstantiationException)	5
-(com.github.andlyticsproject.console.NetworkException,org.apache.http.client.HttpResponseException)	5
-(android.view.InflateException,java.lang.NoSuchMethodException)	4
+
+\begin{table}
+\centering
+\begin{tabular}{lll}
+    \hline
+    \bfseries{wrapper} & \bfseries{root} & \bfseries{\#} \\
+    \hline
+java.lang.RuntimeException & java.lang.ClassNotFoundException &	32 \\
+java.lang.RuntimeException & java.lang.NoSuchMethodException &	6 \\
+java.lang.RuntimeException & java.lang.InstantiationException) & 5 \\
+...andlyticsproject.NetworkException & org.apache...HttpResponseException &	5\\
+android.view.InflateException & java.lang.NoSuchMethodException & 4 \\
+\hline
+  \end{tabular}
+\caption{Elements tresponsible for the wrapping.}
+\label{tab:wrapping01}
+\end{table}
 
 
-java.lang.RuntimeException	69 \- 61%
-android.view.InflateException	10 \- 8,7%
-com.github.andlyticsproject.console.NetworkException	7
-java.lang.IllegalStateException	6
-org.springframework.web.client.ResourceAccessException	6
-com.github.andlyticsproject.console.DevConsoleProtocolException	3
+\begin{table}
+\centering
+\begin{tabular}{lll}
+    \hline
+    \bfseries{Exception} & \bfseries{Ocurrences} \\
+    \hline
+java.lang.RuntimeException &	69 & 61\% \\
+android.view.InflateException	& 10 & 8,7\% \\
+com.github.andlyticsproject.console.NetworkException	& 7 & - \\
+java.lang.IllegalStateException	& 6 & - \\
+
+\hline
+  \end{tabular}
+\caption{Elements tresponsible for the wrapping.}
+\label{tab:wrapping01}
+\end{table}
 
 
 
@@ -1048,71 +1114,118 @@ com.github.andlyticsproject.console.DevConsoleProtocolException	3
 
  We could find  57 stack traces on 38 projects on which an Error was wrapped in a Runtime Exception.
 
-ANDROID	50
-LIB 	6
-APP	1
 
-android.os.AsyncTask \-	25
-android.app.ActivityThread \- 15
-android.view.LayoutInflater \- 7
-org.asynctasktex.AsyncTaskExd \- 3
-android.support.v4.content.ModernAsyncTask \- 2
+
+\begin{table}
+\centering
+\begin{tabular}{ll}
+ \bfseries{Signaler from} & \bfseries{Ocurrences} \\
+    \hline
+ANDROID	& 50 \\
+LIB  & 6 \\
+APP	& 1 \\
+\hline
+  \end{tabular}
+\caption{Elements tresponsible for the wrapping.}
+\label{tab:wrapping01}
+\end{table}
+
+
+\begin{table}
+\centering
+\begin{tabular}{ll}
+ \bfseries{Signaler method} & \bfseries{Ocurrences} \\
+    \hline
+android.os.AsyncTask &	25 \\
+android.app.ActivityThread & 15 \\
+android.view.LayoutInflater & 7 \\
+org.asynctasktex.AsyncTaskExd & 3 \\
+android.support.v4.content.ModernAsyncTask & 2\\
+\hline
+  \end{tabular}
+\caption{Elements tresponsible for the wrapping.}
+\label{tab:wrapping01}
+\end{table}
 
 
 EXAMPLE: android.os.AsyncTask
 
-@Override
-protected void done() \{
-...
-try \{
-...
-
-\} catch (InterruptedException e) \{
-android.util.Log.w(.., e);
-\} catch (ExecutionException e) \{
-throw new RuntimeException("An error occured while executing doInBackground()",
-e.getCause());
-\} catch (CancellationException e)  \{
-...
-\} catch (Throwable t) \{
-throw new RuntimeException("An error occured while executing "
-+ "doInBackground()", t);
-\}
-...
-\}
-\}
-
+{\footnotesize
+\begin{verbatim}
+protected void done() {
+ ...
+   try {
+      ...
+   } catch (InterruptedException e) {
+      android.util.Log.w(..., e);
+   } catch (ExecutionException e) {
+      throw new RuntimeException("...",e.getCause());
+   } catch (CancellationException e) {
+      ...
+   } catch (Throwable t) {
+     throw new RuntimeException("...", t);
+   }
+    ...
+ }
+}
+\end{verbatim}
+}
 
 %SELECT (exception, root_cause) AS PAIR, COUNT (*) AS N FROM stacktracesummary where 
 %EXCEPTION_EXTENDS='RUNTIME' AND ROOT_EXTENDS='ERROR' GROUP BY PAIR ORDER BY N DESC;
 
-(java.lang.RuntimeException,java.lang.OutOfMemoryError) \- 30
-(java.lang.RuntimeException,java.lang.NoClassDefFoundError) \- 6
-(java.lang.RuntimeException,java.lang.UnsatisfiedLinkError) \- 5
-(android.view.InflateException,java.lang.OutOfMemoryError) \- 4
-(java.lang.RuntimeException,java.lang.StackOverflowError) \- 4
 
+
+\begin{table}
+\centering
+\begin{tabular}{ll}
+ \bfseries{Signaler method} & \bfseries{Ocurrences} \\
+    \hline
+java.lang.RuntimeException,java.lang.OutOfMemoryError & 30\\
+java.lang.RuntimeException,java.lang.NoClassDefFoundError & 6\\
+java.lang.RuntimeException,java.lang.UnsatisfiedLinkError) & 5\\
+android.view.InflateException,java.lang.OutOfMemoryError) & 4\\
+java.lang.RuntimeException,java.lang.StackOverflowError)  & 4\\
+\hline
+  \end{tabular}
+\caption{Elements tresponsible for the wrapping.}
+\label{tab:wrapping01}
+\end{table}
 
 TO INVESTIGATE: WHICH WERE THE LIBS AND THE APP? AND ITS REPUTATION?
 
-
-
-
-
-
-
-
 \subsubsection{Checked wrapping Runtime Exception}
 
-APP	9
-LIB	9
-ANDROID	4
 
-(com.octo.android.robospice.persistence.exception.CacheSavingException,java.lang.ClassCastException)	6
-(java.lang.reflect.InvocationTargetException,java.lang.NullPointerException)	3
-(java.lang.reflect.InvocationTargetException,android.content.res.ResourcesdNotFoundException)	2
-(java.sql.SQLException,android.database.sqlite.SQLiteDiskIOException)	2
-(java.lang.Exception,at.andiwand.odf2html.odf.IllegalMimeTypeException)	2
+
+\begin{table}
+\centering
+\begin{tabular}{ll}
+ \bfseries{Origin} & \bfseries{Ocurrences} \\
+    \hline
+APP	& 9 \\
+LIB	& 9 \\
+ANDROID &	4 \\
+\hline
+  \end{tabular}
+\caption{Elements tresponsible for the wrapping.}
+\label{tab:wrapping01}
+\end{table}
+\begin{table}
+\centering
+\begin{tabular}{lll}
+ \bfseries{Wrapper} & \bfseries{Root} & \bfseries{Ocurrences}\\
+ \hline
+...android.robospice.CacheSavingException,java.lang.ClassCastException & 6 \\
+java.lang.reflect.InvocationTargetException,java.lang.NullPointerException &  3 \\
+java.lang.reflect.InvocationTargetException,android...ResourcesdNotFoundException & 2 \\
+java.sql.SQLException,android.database.sqlite.SQLiteDiskIOException & 2 \\
+java.lang.Exception,at.andiwand.odf2html.odf.IllegalMimeTypeException & 	2 \\
+  \end{tabular}
+\caption{Elements tresponsible for the wrapping.}
+\label{tab:wrapping01}
+\end{table}
+
 
 The most frequent exception wrapping were were performed inside RoboSpice is an android library that supports the creation of asynchronous long running tasks.
 This library has 1.682 stars and 367 forks.
@@ -1128,25 +1241,38 @@ Inspecting the stack traces we could observe that 7 out of 8 wrappings were caus
 by the reflection java library on which java.lang.OutOfMemoryError
 java.lang.NoSuchMethodError were wrapped into a java.lang.reflect.InvocationTargetException.
 
+\begin{table}
+\centering
+\begin{tabular}{ll}
+ \bfseries{Origin} & \bfseries{Ocurrences} \\
+    \hline
+ANDROID	& 5 \\
+APP	& 3 \\
+  \end{tabular}
+\caption{Elements tresponsible for the wrapping.}
+\label{tab:wrapping01}
+\end{table}
 
 
-ANDROID	5
-APP	3
-
-(java.lang.reflect.InvocationTargetException,java.lang.OutOfMemoryError)	5
-(java.lang.Exception,java.lang.OutOfMemoryError)	1
-(java.lang.reflect.InvocationTargetException,java.lang.NoSuchMethodError)	1
-(java.lang.reflect.InvocationTargetException,java.lang.UnsatisfiedLinkError)	1
+\begin{table}
+\centering
+\begin{tabular}{lll}
+ \bfseries{Wrapper} & \bfseries{Root} & \bfseries{Ocurrences}\\
+ \hline
+java.lang.reflect.InvocationTargetException,java.lang.OutOfMemoryError & 5 \\
+java.lang.Exception,java.lang.OutOfMemoryError & 1 \\
+java.lang.reflect.InvocationTargetException,java.lang.NoSuchMethodError &	1 \\
+java.lang.reflect.InvocationTargetException,java.lang.UnsatisfiedLinkError&	1 \\
+  \end{tabular}
+\caption{Elements tresponsible for the wrapping.}
+\label{tab:wrapping01}
+\end{table}
 
 All wrappings except 1 were caused by the reflection library.
-
-at java.lang.reflect.Constructor.constructNative(Native Method)
-NATIVE IMPLEMENTATION, WE DO NOT HAVE ACCESS TO THE SOURCE CODE… IT IS IN C…
-CHECKED EXCEPTIONS CAN BE THROWN BY NATIVE METHODS…. ANY CHANING IS PERFORMED?
-
-In one of the cases, however, in project OpenDocument.droid a java.lang.Exception was 
+The method responsible for the wrappings (e.g., at java.lang.reflect.Constructor.constructNative(Native Method))
+were native methods written in C. In one of the cases, however, in project OpenDocument.droid a java.lang.Exception was 
 wrapping a java.lang.OutOfMemoryError. General handlers are considered as bad practice, 
-but wrapphing any exception on a general Exception make the matters worse.
+but wrapping an Error on a general Exception make the matters worse.
 
 \subsubsection{Error wrapping Checked Exception}
 
@@ -1154,30 +1280,65 @@ but wrapphing any exception on a general Exception make the matters worse.
 %EXCEPTION_EXTENDS='ERROR' AND ROOT_EXTENDS='CHECKED' GROUP BY PAIR ORDER BY N DESC;
 
 
-libcore	\- 3
- JAVA ENV \- 	4
+\begin{table}
+\centering
+\begin{tabular}{ll}
+libcore	&  3 \\
+ JAVA ENV  & 	4 \\
+  \end{tabular}
+\caption{Elements tresponsible for the wrapping.}
+\label{tab:wrapping01}
+\end{table}
 
-(java.lang.NoClassDefFoundError,java.lang.ClassNotFoundException);4
-(java.lang.AssertionError,javax.crypto.ShortBufferException);3
 
-All ClassDefFound wrappings were caused by java.lang.Class methods such as 
+
+\begin{table}
+\centering
+\begin{tabular}{lll}
+ \bfseries{Wrapper} & \bfseries{Root} & \bfseries{Ocurrences}\\
+ \hline
+java.lang.NoClassDefFoundError & java.lang.ClassNotFoundException & 4 \\
+java.lang.AssertionError & javax.crypto.ShortBufferException) & 3 \\
+ \end{tabular}
+\caption{Elements tresponsible for the wrapping.}
+\label{tab:wrapping01}
+\end{table}
+
+Some wrappings were performed by methods defined by java.lang.Class methods such as 
 at java.lang.Class.getDeclaredFields(Native Method)
-at java.lang.Class.getDeclaredConstructors(Native Method). They are all NATIVE METHODS.
-
+at java.lang.Class.getDeclaredConstructors(Native Method).  While were performed by javax.crypto package.
 
 \subsubsection{Error wrapping Runtime}
 
-APP	11
-ANDROID	1
-LIB	1
+\begin{table}
+\centering
+\begin{tabular}{ll}
+APP & 11 \\
+ANDROID	& 1 \\
+LIB	& 1 \\
+  \end{tabular}
+\caption{Elements tresponsible for the wrapping.}
+\label{tab:wrapping01}
+\end{table}
 
 
+\begin{table}
+\centering
+\begin{tabular}{lll}
+ \bfseries{Wrapper} & \bfseries{Root} & \bfseries{Ocurrences}\\
+ \hline
+java.lang.ExceptionInInitializerError,java.lang.NullPointerException & 9 \\
+java.lang.ExceptionInInitializerError,java.lang.IllegalArgumentException &	2 \\
+java.lang.ExceptionInInitializerError,java.util.MissingResourceException) &	1 \\
+java.lang.ExceptionInInitializerError,org.andengine.util.exception.AndEngineRuntimeException &	1 \\
+ \end{tabular}
+\caption{Elements tresponsible for the wrapping.}
+\label{tab:wrapping01}
+\end{table}
 
-
-
-
-
-
+after manually inspecting the code associated to such wrappings we discovered that all of them were 
+caused by static initializers. If any exception is thrown in the context of a static initializer (i.e., static block) 
+it is converted into an ExceptionInitializerError on the point where the class is first used.
 
 %Table X illustrated examples of such wrappings.
 %TODO INCLUIR ESTA TABLEA
@@ -1190,17 +1351,189 @@ LIB	1
 %  \label{fig:sizewrapbhists}
 %\end{figure}
 
+
+\subsubsection{Multiple Wrappings}
+
 We could also observe that in 205 stacks found in Android repository the exception was wrapped 
 more then once. Figure ~\ref{fig:sizewrapbhists}  illustrates the number of wrappings per stack, both
  in Java and Android studied repositories. One interesting multiple-wrapping found in Android repo was the 
 following: Runtime-Checked-Runtime-Checked-Runtime-Checked-Runtime.
 
-Since there is no way of enforcing Java exception type conventions during program development,
-the exceptions regardless its types can se used interchangeably. This interchangeability makes the
-behaviour of the exception handling code more complex and less reliable. For
-instance, considering a situation were an instance of OutOfMemoryError (a situation that usually cannot
- be handled) was wrapped in a checked exception which tells the caller that such exception should
-handled.
+\subsection{Checked and Unchecked Exceptions in JVM and Android and what they can tell us?}
+
+We could observe that some of the type-changing-wrappings were performed by JDK classes.
+Such finding lead us to think that the exception types have been used as intercheagable and may not being carrying 
+the meaning they were firstly designed to carry.
+
+The way the exceptions are being handle are more important that the type itself, it points to the fact already discussed 
+by other languages such as M\# blog [ref] and \"thinking in Java author\" and other blogs. It is all about the exception handling
+politics of a system and not the type itself. The exception type is not enought to ensure a more strict or robust development,
+since the checked exceptions may be silienced or converted to a checked exception. According to Java manual,
+they say that it can actually happen but it will be done intentionally and they advocate that it is a bad practice.
+
+Present the number of checke and unchecked exceptions in JVM, JDK, Android SO, and Android SDK.
+Discuss about the amount of checked and unchecked defined in each, and discuss about interesting exceptions that
+have the same name ex: classNotFound...
+
+\subsection{Top Signalers and what they can tell us?}
+
+Present the top signalers found in this study, and top pairs (signalers and exceptions), and discuss 
+about inversion of control and the difficult to adequately handle exceptions in this style of development.
+Inversion of control stimulate the use of unchecked exceptions since the "call back" do not know which exception to expect.
+
+
+{\tiny
+\begin{verbatim}
+
+%SELECT (mainsignaler_method, main_cause), count(distinct(repo)) as n
+%  FROM stacktracesummary group by (mainsignaler_method, main_cause) order by n desc;
+
+
+
+GITHUB:
+"(dalvik.system.BaseDexClassLoader.findClass,java.lang.ClassNotFoundException)";19
+"(android.app.Instrumentation.checkStartActivityResult,android.content.ActivityNotFoundException)";17
+"(android.graphics.BitmapFactory.nativeDecodeStream,java.lang.OutOfMemoryError)";16
+"(android.os.Parcel.readException,java.lang.SecurityException)";16
+"(android.view.WindowManagerImpl.findViewLocked,java.lang.IllegalArgumentException)";14
+"(android.graphics.BitmapFactory.nativeDecodeAsset,java.lang.OutOfMemoryError)";14
+"(dalvik.system.PathClassLoader.findClass,java.lang.ClassNotFoundException)";13
+"(android.support.v4.app.FragmentManagerImpl.checkStateLoss,java.lang.IllegalStateException)";12
+"(android.graphics.Bitmap.nativeCreate,java.lang.OutOfMemoryError)";11
+
+
+GOOGLECODE:
+"(android.app.Instrumentation.checkStartActivityResult,android.content.ActivityNotFoundException)";8
+"(dalvik.system.BaseDexClassLoader.findClass,java.lang.ClassNotFoundException)";6
+"(java.lang.ClassLoader.loadClass,java.lang.ClassNotFoundException)";6
+"(com.android.dx.dex.file.ClassDefsSection.add,java.lang.IllegalArgumentException)";6
+"(android.graphics.Bitmap.nativeCreate,java.lang.OutOfMemoryError)";6
+"(android.view.WindowManagerImpl.findViewLocked,java.lang.IllegalArgumentException)";5
+"(android.graphics.BitmapFactory.nativeDecodeStream,java.lang.OutOfMemoryError)";5
+"(junit.framework.Assert.fail,junit.framework.AssertionFailedError)";4
+"(android.graphics.BitmapFactory.nativeDecodeAsset,java.lang.OutOfMemoryError)";4
+"(dalvik.system.PathClassLoader.findClass,java.lang.ClassNotFoundException)";4
+
+
+COMBINED:
+"(dalvik.system.BaseDexClassLoader.findClass,java.lang.ClassNotFoundException)"; 25
+"(android.app.Instrumentation.checkStartActivityResult,android.content.ActivityNotFoundException)";25
+"(android.graphics.BitmapFactory.nativeDecodeStream,java.lang.OutOfMemoryError)";21
+"(android.view.WindowManagerImpl.findViewLocked,java.lang.IllegalArgumentException)";19
+"(dalvik.system.PathClassLoader.findClass,java.lang.ClassNotFoundException)";17
+"(android.os.Parcel.readException,java.lang.SecurityException)";16
+"(android.graphics.BitmapFactory.nativeDecodeAsset,java.lang.OutOfMemoryError)";14
+"(android.support.v4.app.FragmentManagerImpl.checkStateLoss,java.lang.IllegalStateException)";12
+"(android.graphics.Bitmap.nativeCreate,java.lang.OutOfMemoryError)";11
+
+%SELECT (mainsignaler_class, main_cause), count(distinct(repo)) as n
+ % FROM stacktracesummary group by (mainsignaler_class, main_cause) order by n desc;
+
+
+GITHUB:
+"(android.graphics.BitmapFactory,java.lang.OutOfMemoryError)";27
+"(dalvik.system.BaseDexClassLoader,java.lang.ClassNotFoundException)";19
+"(android.content.res.Resources,android.content.res.ResourcesdNotFoundException)";18
+"(android.app.Instrumentation,android.content.ActivityNotFoundException)";17
+"(libcore.io.Posix,libcore.io.ErrnoException)";17
+"(android.os.Parcel,java.lang.SecurityException)";16
+"(android.app.ActivityThread,java.lang.RuntimeException)";15
+"(android.support.v4.app.FragmentManagerImpl,java.lang.IllegalStateException)";14
+"(android.view.WindowManagerImpl,java.lang.IllegalArgumentException)";14
+"(android.graphics.Bitmap,java.lang.OutOfMemoryError)";13
+"(dalvik.system.PathClassLoader,java.lang.ClassNotFoundException)";13
+"(android.os.Parcel,java.lang.NullPointerException)";12
+"(android.support.v4.app.Fragment,java.lang.IllegalStateException)";11
+
+GOOGLECODE:
+"(android.app.Instrumentation,android.content.ActivityNotFoundException)";8
+"(android.graphics.BitmapFactory,java.lang.OutOfMemoryError)";7
+"(android.app.ActivityThread,java.lang.RuntimeException)";7
+"(java.lang.ClassLoader,java.lang.ClassNotFoundException)";6
+"(dalvik.system.BaseDexClassLoader,java.lang.ClassNotFoundException)";6
+"(android.graphics.Bitmap,java.lang.OutOfMemoryError)";6
+"(com.android.dx.dex.file.ClassDefsSection,java.lang.IllegalArgumentException)";6
+"(android.view.WindowManagerImpl,java.lang.IllegalArgumentException)";5
+"(android.database.sqlite.SQLiteDatabase,android.database.sqlite.SQLiteException)";4
+"(android.os.Parcel,java.lang.IllegalArgumentException)";4
+
+COMBINED:
+"(android.graphics.BitmapFactory,java.lang.OutOfMemoryError)"; 34
+"(dalvik.system.BaseDexClassLoader,java.lang.ClassNotFoundException)"; 27
+"(android.content.res.Resources,android.content.res.ResourcesdNotFoundException)";18
+"(android.app.Instrumentation,android.content.ActivityNotFoundException)";25
+"(libcore.io.Posix,libcore.io.ErrnoException)";17
+"(android.os.Parcel,java.lang.SecurityException)";20
+"(android.app.ActivityThread,java.lang.RuntimeException)"; 22
+"(android.support.v4.app.FragmentManagerImpl,java.lang.IllegalStateException)";14
+"(android.view.WindowManagerImpl,java.lang.IllegalArgumentException)";19
+"(android.graphics.Bitmap,java.lang.OutOfMemoryError)";19
+"(dalvik.system.PathClassLoader,java.lang.ClassNotFoundException)";13
+"(android.os.Parcel,java.lang.NullPointerException)";12
+"(android.support.v4.app.Fragment,java.lang.IllegalStateException)";11
+
+PACKAGE:
+
+GITHUB:
+"(android.graphics,java.lang.OutOfMemoryError)";35
+"(dalvik.system,java.lang.ClassNotFoundException)";32
+"(android.os,java.lang.RuntimeException)";27
+"(android.support.v4.app,java.lang.IllegalStateException)";27
+"(android.view,java.lang.IllegalArgumentException)";26
+"(android.database.sqlite,android.database.sqlite.SQLiteException)";24
+"(libcore.io,libcore.io.ErrnoException)";20
+"(android.widget,java.lang.NullPointerException)";19
+"(android.graphics,java.lang.RuntimeException)";18
+"(android.content.res,android.content.res.ResourcesdNotFoundException)";18
+
+GOOGLECODE:
+"(android.os,java.lang.RuntimeException)";9
+"(android.app,java.lang.RuntimeException)";9
+"(android.app,java.lang.NullPointerException)";9
+"(android.graphics,java.lang.OutOfMemoryError)";9
+"(android.app,android.content.ActivityNotFoundException)";8
+"(dalvik.system,java.lang.ClassNotFoundException)";8
+"(android.view,java.lang.IllegalArgumentException)";7
+"(java.lang,java.lang.ClassNotFoundException)";7
+"(android.app,java.lang.IllegalArgumentException)";7
+"(android.database.sqlite,android.database.sqlite.SQLiteException)";6
+
+
+% SELECT mainsignaler_method,count(distinct(repo)) as n, string_agg(distinct(main_cause), ',')
+% FROM stacktracesummary group by (mainsignaler_method) order by n desc;
+
+GITHUB:
+"android.os.Parcel.readException";28;"java.lang.IllegalArgumentException,java.lang.IllegalStateException,java.lang.NullPointerException,java.lang.SecurityException"
+"dalvik.system.BaseDexClassLoader.findClass";19;"java.lang.ClassNotFoundException"
+"android.app.Instrumentation.checkStartActivityResult";17;"android.content.ActivityNotFoundException"
+"android.graphics.BitmapFactory.nativeDecodeStream";16;"java.lang.OutOfMemoryError"
+"android.view.WindowManagerImpl.findViewLocked";15;"java.lang.IllegalArgumentException"
+"android.graphics.Bitmap.nativeCreate";15;"java.lang.IllegalArgumentException,java.lang.OutOfMemoryError"
+"android.graphics.BitmapFactory.nativeDecodeAsset";14;"java.lang.OutOfMemoryError,java.lang.RuntimeException"
+"dalvik.system.PathClassLoader.findClass";13;"java.lang.ClassNotFoundException"
+"android.support.v4.app.FragmentManagerImpl.checkStateLoss";12;"java.lang.IllegalStateException"
+"android.os.BinderProxy.transact";12;"android.os.DeadObjectException,android.os.TransactionTooLargeException,java.lang.RuntimeException"
+
+
+GOOGLECODE:
+"android.app.Instrumentation.checkStartActivityResult";8;"android.content.ActivityNotFoundException"
+"android.graphics.Bitmap.nativeCreate";8;"java.lang.IllegalArgumentException,java.lang.OutOfMemoryError,java.lang.RuntimeException"
+"java.lang.ClassLoader.loadClass";6;"java.lang.ClassNotFoundException,java.lang.IncompatibleClassChangeError,java.lang.UnsupportedClassVersionError"
+"dalvik.system.BaseDexClassLoader.findClass";6;"ClassNotFoundException,java.lang.ClassNotFoundException"
+"com.android.dx.dex.file.ClassDefsSection.add";6;"java.lang.IllegalArgumentException"
+"android.os.Parcel.readException";6;"Exception,java.lang.IllegalArgumentException,java.lang.IllegalStateException,java.lang.NullPointerException,java.lang.SecurityException"
+"android.view.WindowManagerImpl.findViewLocked";5;"java.lang.IllegalArgumentException"
+"android.os.BinderProxy.transact";5;"android.os.DeadObjectException,android.os.RemoteException,android.os.TransactionTooLargeException,java.lang.RuntimeException,java.lang.SecurityException"
+"android.app.ActivityThread.performLaunchActivity";5;"Error,java.lang.NullPointerException,java.lang.RuntimeException"
+"android.graphics.BitmapFactory.nativeDecodeStream";5;"java.lang.OutOfMemoryError"
+
+
+COMBINED:
+
+
+
+\end{verbatim}
+}
 
 \section{Discussion}
 
@@ -1233,6 +1566,17 @@ checked exception wrapped an OutOfMemoryError, which represent resource deficien
 by the JVM which make impossible the program to recover. Further investigation is needed on finding 
 ways to help developers in deadling with such problem, either preventing odd wrappings or enabling 
 the developer to better deal with them. 
+
+
+\subsubsection{Ways of Preventing Odd Wrappings}
+
+Since there is no way of enforcing Java exception type conventions during program development,
+the exceptions regardless its types can se used interchangeably. This interchangeability makes the
+behaviour of the exception handling code more complex and less reliable. For
+instance, considering a situation were an instance of OutOfMemoryError (a situation that usually cannot
+ be handled) was wrapped in a checked exception which tells the caller that such exception should
+handled.
+
 
 %\noindent\emph{The high number of null pointer exceptions}  
 
@@ -1270,8 +1614,6 @@ During such analysis we could also find the undocumented runtime exceptions
 signaled by libraries. 
 
 It allows the developers to benefit from the faults happening on different systems.
-
-
 
 
 \section{Threats to Validity}
