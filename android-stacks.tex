@@ -12,7 +12,7 @@
 %\title{ What GitHub and Googlecode can tell us about the Causes of Crashes of Android Apps? }
 %\title{ A Mining Study the Googlecode can tell us about the Causes of Crashes of Android Apps? }
 
-\title{ What can GitHub and Googlecode Issues tell us about Exceptions in Android Apps? }
+\title{ What can GitHub and Googlecode Issues tell us about Exceptions in Android? }
 
 %\title{On the Common Characteristics Android-Apps Crashes: Results of a GitHub and Googlecode Mining Study}
 
@@ -183,49 +183,71 @@ directions for future work.
 
 \section{Background}
 
-\subsection{Java Exception Handling Mechanism} \label{sec:extypes}
+\subsection{The Android Platform} \label{sec:extypes}
+
+\begin{figure} \centering \includegraphics[scale=0.8]{arch3.png}
+  \caption{Android Archtecture} \label{fig:exchier} \end{figure}
+
+- opensource
+- elements of archtecture.
+- Inversion of control development model.
+- Activity onStart onResume onStop...
+- Acess and share resources...
+
+
+\subsection{Exceptions in Java} \label{sec:extypes}
 
 In Java, an exception is represented according to the class hierarchy shown in
 Figure~\ref{fig:exchier}.  According to it every exception is an
 instance of the Throwable class, and can be of three kinds: the checked exceptions
-(extends Exception) - means that the compiler statically checks if appropriate handlers 
-are provided within the system, to enable such checking each checked exception must be specified 
-on the method signature;  the run-time exceptions (extends RuntimeException) and errors
-(extends Error)~\cite{gosling2000java}  -  which do not need to be specified on method
-signatures, and hence both are referred as unchecked exceptions. 
+(extends Exception), the runtime exceptions (extends RuntimeException) and errors
+(extends Error)~\cite{gosling2000java}. 
+
+The checked exceptions must be specified on the method signature that may throw it, 
+and the compiler statically checks if appropriate handlers are provided within the system.
+Both runtime exceptions and errors are known as unchecked exceptions, because 
+they do not need to be specified on method signatures and do not trigger any 
+compile time checking.
+
+By convention an Error represents an unrecoverable condition which usually results
+from failures detected by the Java Virtual Machine, such as OutOfMemoryError and
+normally should not be handled inside the application. The user-defined exceptions 
+can be either checked or runtime. Although the Java specification~\cite{gosling2000java} 
+suggests that user-defined exceptions should be checked exception (because doing so 
+the callers of a method will know about the exceptions that a method can throw and so 
+they can decide what to do about them) there is a long lasting debate about the use of 
+checked and unchecked exceptions in Java. 
 
 \begin{figure} \centering \includegraphics[width=\hsize]{new2_hierarchy.png}
   \caption{Exception Hierarchy in Java} \label{fig:exchier} \end{figure}
 
-The Java Virtual Machine represents as runtime exceptions invalid operations detected in
-the program (out-of-bounds array index, divide-by-zero error, null pointer
-references) from which most of the programs are not expected to recover. By
-convention an Error represents an unrecoverable condition which usually results
-from failures detected by the Java Virtual Machine, such as OutOfMemoryError and
-normally should not be handled inside the application. The Java specification~\cite{gosling2000java} 
-suggests that user-defined exceptions should be checked exceptions. The main reason is because doing so the
-callers of a method will know about the exceptions that a method can throw, and
-so they can decide what to do about them. 
+The runtime exceptions, however are not only used to represent user-defined
+exceptional conditions, they are used by the JVM when a program violates 
+the semantic constraints of the Java programming language (out-of-bounds array index, divide-by-zero 
+error, null pointer references) from which most of the programs are not expected to recover. 
+\footnote{Some programming languages react to such errors by peremptorily terminating the program; 
+other programming languages allow similar approaches e.g.C\#; and others let the program to continue
+ its execution in some situations such as the out-of-bounds array index e.g., C++. }
 
-Hence, in Java an exception can be thrown in one of the following
-circumstances~\cite{gosling2000java}: 
-(i) explicitly thrown when a throw statement is executed; 
-(ii) implicitly thrown by the JVM when the evaluation of an expression
- violates the normal semantics of language, also refered as a coding error
- (e.g., out-of-bounds array index, division-by-zero, access to a null reference); or 
-(iii) implicitly thrown by the JVM due to an internal error or resource limitation (e.g.,
-OutofMemoryError). 
-
+%In Java an exception can be thrown in one of the following
+%circumstances~\cite{gosling2000java}: 
+%(i) explicitly thrown when a throw statement is executed; 
+%(ii) implicitly thrown by the JVM when the evaluation of an expression
+% violates the normal semantics of language, also refered as a coding error
+% (e.g., out-of-bounds array index, division-by-zero, access to a null reference); or 
+%(iii) implicitly thrown by the JVM due to an internal error or resource limitation (e.g.,
+%OutofMemoryError). 
 %\todo{This sub-section is quite similar to the section introduction, shouldn't
 %we merge them?}
 
-When an exception is throw, it causes a transfer of control from the point
+When an exception is thrown, it causes a transfer of control from the point
 where the exception occurred to a point that can be specified by the programmer
 (exception handler) - in Java it is represented by the try-catch block . A common way of  
 propagating exceptions in Java programs is through exception wrapping
- (also known as exception chaining). Exception wrapping allows one exception to be wrapped in another one and re-thrown. 
-Figure~\ref{fig:wrapping} presents a stack trace associated which illustrates an
-exception wrapping. The bottom part of the stack trace is the \emph{root cause}, which indicates the
+ (also known as exception chaining). Exception wrapping allows one exception 
+to be wrapped in another one and re-thrown. Figure~\ref{fig:wrapping} presents 
+a stack trace associated which illustrates an exception wrapping. The bottom 
+part of the stack trace is the \emph{root cause}, which indicates the
 first reason for the error to be thrown (in this case, the computer run out of
 memory). The top part of the stack trace indicates the location of the exception
 manifestation (which will call \emph{top level exception} along this paper). The
@@ -234,7 +256,7 @@ include other intermediate exception wrappings. In all levels, the exception
 \emph{signaler}, is the method that threw the exception, represented on the
 stack trace as the first method call below the exception declaration.
 
-\begin{figure} \centering \includegraphics[scale=0.]{stacktrace.png}
+\begin{figure} \centering \includegraphics[scale=0.8]{stacktrace.png}
 \caption{Example of an Exception stack trace in Java.}
 \label{fig:wrapping}
 \end{figure}
@@ -246,12 +268,75 @@ stack trace as the first method call below the exception declaration.
 % Such repositories provides facilities such as....
 % The issue trackers available in such projects ....
 
-\subsection{The Android Platform} \label{sec:extypes}
+
+\subsection{Related Best Practices}
+\label{sec:best}
+
+Several general guidelines have been proposed on how to use Java
+exceptions~\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,
+bloch2008effective}. 
+We compiled a list of the guidelines related to exception types and exception propagation in Java, summarized below:\footnote{We also compiled guidelines related
+to exception handling but they are out of the scope of this paper.}
+
+%\noindent\emph{Meaning of Exception Types}
+
+\textbf{I-Checked exceptions should be used to represent recoverable
+conditions} (\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective})
+The developer should use checked exceptions for conditions from which the caller
+is expected to recover. By confronting the API user with a checked exception,
+the API designer is forcing the client to handle the exceptional condition. The
+client can explicitly ignore the exception (swallowing, or converting it to
+other type) at the expense of the program's robustness~\cite{gosling2000java}.
+
+\textbf{II-Error represents an unrecoverable condition detected by the JVM which
+should not he handled} (\cite{gosling2000java}). It results from failures detected
+by the Java Virtual Machine which indicate resource deficiencies, invariant
+failures or other conditions that make impossible the program to recover.
+
+%\noindent\emph{Exception Throwing}
+
+\textbf{III-A method should throw exceptions that precisely define the
+exceptional condition} (\cite{gosling2000java,bloch2008effective}). To do so,
+developers should either try to reuse the exception types already defined in the
+JVM or they should create a specific exception. Throwing general types such as a
+pure java.lang.Exception or a java.lang.RuntimeException is considered a bad practice.
+
+%\textbf{IV-Do not repeatedly re-throw exceptions, handle exceptions as close as
+%possible to the problem}~\cite{wirfs2006toward}. 
+%Programs that frequently throw exceptions lose in performance ~\cite{wirfs2006toward,gosling2000java}.
+%Moreover, 
+%Close to the place that the exception was throw the caller usually has
+%enough contextual information to perform  corrective actions. When the exception
+%is propagated far away from the method where it was signaled (i.e. further away
+%#from the problem) it can be difficult to take meaningful recovery actions.
+%*~\todo{RSC:this practice was not well explored, can be removed if we need space.}
+
+%\noindent\emph{Exception Documentation}
+%\textbf{IV- It is wise to document all exceptions thrown by a method} 
+
+\textbf{IV- All exceptions explicitly thrown by a method should be documented.}
+(\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective}).
+The exceptions thrown by a method are an important part of methods interface,
+and is required to use the method properly. The checked exceptions are already
+part of the  methods signature, and the method caller is aware of the checked
+exceptions being thrown by it. According to~\cite{bloch2008effective}, it is
+also wise to document the explicitly thrown runtime exceptions\footnote{This
+excludes the implicitly signaled JVM runtime exceptions related to programming
+mistakes} as carefully as checked exceptions. Doing so, the clients of a method
+will be aware of all the exceptions the method can throw. If the developer fails to
+do follow this practice (specially when developing library code) it will be
+difficult or even impossible for the caller to make effective use of such 
+method~\cite{wirfs2006toward, bloch2008effective} and protect its code
+against unforeseen exceptions. 
+
+These best practices guided our exploratory study described next.
+Based on information extracted from stack traces (complemented by
+bytecode and source-code analysis), we investigate whether stack characteristics
+can reveal whether these practices have been obeyed. 
+%Next section discusses the
+%study procedure and the practices' misuses that emerged from this study.
 
 
-
-\begin{figure} \centering \includegraphics[scale=0.8]{arch3.png}
-  \caption{Android Archtecture} \label{fig:exchier} \end{figure}
 
 \section{Study Design}
 
@@ -500,72 +585,6 @@ quantitative and qualitative analysis of the outcomes.
 
 
 
-\subsection{Meaning of Exception Types and related Best Practices}
-\label{sec:best}
-
-Several general guidelines have been proposed on how to use Java
-exceptions~\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,
-bloch2008effective}. 
-We compiled a list of the guidelines related to exception types and exception
-propagation in Java the following:\footnote{We also compiled guidelines related
-to exception handling but they are out of the scope of this paper.}
-
-%\noindent\emph{Meaning of Exception Types}
-
-\textbf{I-Use checked exceptions to represent recoverable
-conditions} (\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective})
-The developer should use checked exceptions for conditions from which the caller
-is expected to recover. By confronting the API user with a checked exception,
-the API designer is forcing the client to handle the exceptional condition. The
-client can explicitly ignore the exception (swallowing, or converting it to
-other type) at the expense of the program's robustness~\cite{gosling2000java}.
-
-\textbf{II-Error represents an unrecoverable condition detected by the JVM which
-should not he handled} (\cite{gosling2000java}). It results from failures detected
-by the Java Virtual Machine which indicate resource deficiencies, invariant
-failures or other conditions that make impossible the program to recover.
-
-%\noindent\emph{Exception Throwing}
-
-\textbf{III-A method should throw exceptions that precisely define the
-exceptional condition} (\cite{gosling2000java,bloch2008effective}). To do so,
-developers should either try to reuse the exception types already defined in the
-JVM or they should create a specific exception. Throwing general types such as a
-pure Exception or a RuntimeException is hence considered a bad practice.
-
-%\textbf{IV-Do not repeatedly re-throw exceptions, handle exceptions as close as
-%possible to the problem}~\cite{wirfs2006toward}. 
-%Programs that frequently throw exceptions lose in performance ~\cite{wirfs2006toward,gosling2000java}.
-%Moreover, 
-%Close to the place that the exception was throw the caller usually has
-%enough contextual information to perform  corrective actions. When the exception
-%is propagated far away from the method where it was signaled (i.e. further away
-%#from the problem) it can be difficult to take meaningful recovery actions.
-%*~\todo{RSC:this practice was not well explored, can be removed if we need space.}
-
-%\noindent\emph{Exception Documentation}
-\textbf{ IV-Document all exceptions thrown by a
-method} (\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective}).
-The exceptions thrown by a method are an important part of methods interface,
-and is required to use the method properly. The checked exceptions are already
-part of the  methods signature, and the method caller is aware of the checked
-exceptions being thrown by it. According to~\cite{bloch2008effective}, it is
-also wise to document the explicitly thrown runtime exceptions\footnote{This
-excludes the implicitly signaled JVM runtime exceptions related to programming
-mistakes} as carefully as checked exceptions. Doing so, the clients of a method
-will be aware of all the exceptions the method can throw. If the developer fails to
-do follow this practice (specially when developing library code) it will be
-difficult or even impossible for the caller to make effective use of such 
-method~\cite{wirfs2006toward, bloch2008effective}. As mentioned in Section II, 
-in some languages such as C
-
-These best practices guided our exploratory study described next.
-Based on information extracted from stack traces (complemented by
-bytecode and source-code analysis), we investigate whether stack characteristics
-can reveal whether these practices have been obeyed. 
-%Next section discusses the
-%study procedure and the practices' misuses that emerged from this study.
-
 
 \section{RQ1: What are the common characteristics of such stack traces?}
 
@@ -703,13 +722,6 @@ environment (as the ones found in this study).
 
 In Section XX we provide further discussion on the NullPointerException problem, pointing 
 to ways of how to deal with it and mitigate it.
-
-\subsection{Investigating The Android Subset}
-
-----------
-
-
-
 
 
 \subsection{Direct instances of RuntimeExceptions being thrown.}
@@ -928,39 +940,20 @@ of them were not wrapped along the stack trace.
 
 \begin{table*}
   \centering
-  \begin{tabular}{rccccccc}
+  \begin{tabular}{llcccccc}
     \hline
-    \bfseries{Wrapper Type}  &  \bfseries{Root Cause Type} &  \bfseries{\#Projects}  &  \bfseries{\#Occurrences} & \textsf{Android} & \textsf{Libcore} & \textsf{App} & \textsf{Lib}  \\
+    \bfseries{Wrapper Type}  &  \bfseries{Root Cause Type} &  \bfseries{Projects}  &  \bfseries{Occurrences} & \textsf{Android} & \textsf{Libcore} & \textsf{App} & \textsf{Lib}  \\
     \hline
-
-%\begin{table}
-%\centering
-%\begin{tabular}{llll}
-%    \hline
-%    \bfseries{Wrapper Type} & \bfseries{Root Cause Type} & \bfseries{Occurrences} & \bfseries{Projects} \\
-%    \hline
-      %none   & Runtime    & 359 &  2360  & - &  - \\
-      %none  &   Checked   & 117 & 422 & - &  -   \\
-      %none  &   Error    & 141 & 381 & - &  -  \\
-      %none &  Undefined  & 10  &  15  & - &  -    \\
-      %none & Throwable   & 1  &  1 & - &  -   \\
-     %\hline
-      %Runtime   & Runtime  & 182 & 560 & - &  -  \\    
-      %Checked   & Checked   & 42 & 98  & - &  -  \\
-      %Error     & Error    & 14 & 15  & - &  -   \\
-    %\hline
-     
-
-     Runtime &  Checked   & 70 & 114 & 0 &  0  & 0 &  0   \\
-      Runtime   &  Error   & 38  & 57 & 0 &  0  & 0 &  0       \\
-      Checked &  Runtime   & 12 & 22 & 0 &  0  & 0 &  0        \\
-      Checked & Error      & 7 &  8 & 0 &  0  & 0 &  0       \\
+      Runtime &  Checked   & 70 & 114 & 0 &  0  & 0 &  0 \\
+      Runtime   &  Error   & 38  & 57 & 0 &  0  & 0 &  0 \\
+      Checked &  Runtime   & 12 & 22 & 0 &  0  & 0 &  0 \\
+      Checked & Error      & 7 &  8 & 0 &  0  & 0 &  0 \\
       Error & Checked      & 4  &  7 & 0 &  0  & 0 &  0     \\
-      Error & Runtime     & 6  &  13   & 0 &  0  & 0 &  0    \
-    % Throwable & Runtime   & 1 &  3   & 0 &  0  & 0 &  0    \\
+      Error & Runtime     & 6  &  13   & 0 &  0  & 0 &  0    \\
+     Throwable & Runtime   & 1 &  3   & 0 &  0  & 0 &  0    \\
     \hline
   \end{tabular}
-\caption{Kinds of wrappings found on the stacks of 482 ANDROID projects found on Github}
+\caption{Wrappings comprising different exception types.}
 \label{tab:wrappingandroid}
 \end{table*}
 
@@ -1544,7 +1537,9 @@ signaled by libraries.
 It allows the developers to benefit from the faults happening on different systems.
 
 
-%\subsection{Actionable Advices}
+\subsection{Actionable Advices - The Unwrittern rules of Android development}
+
+
 %The results of a mining study should be a set of actionalble advices (tao xie).
 
 
@@ -1802,6 +1797,7 @@ org.gradle.groovy.scripts.internal.DefaultScriptRunnerFactorydScriptRunnerImpl.r
 \caption{Top 10 most popular exceptions on issues in Java projects}
 \label{tab:toptenjava}
 \end{table}
+
 
 
 
