@@ -187,20 +187,19 @@ directions for future work.
 
 Android is an open source platform for mobile devices based on Linux kernel.
 The plaftom is also comprised of a core Java library, a set of libraries third-party libraries e.g.  SQLite,
-the Dalvik runtime environment, and the framework which provides higher-level services to the applications
+the Dalvik runtime environment, and the Aplication Framework which provides higher-level services to the applications
 running on the platform e.g., controlling activities or providing data access.
 
 Android supports an event-driven development model. The main element responsible for 
-receiving the GUI events is the Activity, it is the unity of user interaction and execution in
+receiving the GUI events is called Activity, which is the unity of user interaction and execution in
 Android. Android also provides APIs for data storage, communication between Activities, 
-and other services. Moreover, it also provide frameworks for concurrent developement (e.g. AsyncTask) 
-which is higly encouraged in Android development due to plaftorm restrictions [shimidit and arie].
-\footnote{Other elements compose an application such as the Intents, resources
-but are out of the scope for this paper.}.
+and other services. Moreover, it also provides frameworks for concurrent developement (e.g. AsyncTask) 
+which is highly needed due to the demand of responsiveness in such environment  - 
+mobile apps can easily become unresponsivedue to resurce limitation and excessive
+ network access [shimidit and arie].
 
 \begin{figure} \centering \includegraphics[scale=0.8]{arch3.png}
   \caption{Android Archtecture} \label{fig:exchier} \end{figure}
-
 
 \subsection{Exceptions in Java} \label{sec:extypes}
 
