@@ -201,7 +201,7 @@ mobile apps can easily become unresponsivedue to resurce limitation and excessiv
 \begin{figure} \centering \includegraphics[scale=0.8]{arch3.png}
   \caption{Android Archtecture} \label{fig:exchier} \end{figure}
 
-\subsection{Exceptions in Java} \label{sec:extypes}
+\subsection{Exception Types in Java} \label{sec:extypes}
 
 In Java, an exception is represented according to the class hierarchy shown in
 Figure~\ref{fig:exchier}.  According to it every exception is an
@@ -274,14 +274,20 @@ stack trace as the first method call below the exception declaration.
 % Such repositories provides facilities such as....
 % The issue trackers available in such projects ....
 
-
-\subsection{Related Best Practices}
+\subsection{Best Practices}
 \label{sec:best}
 
-Several general guidelines have been proposed on how to use Java
+There is a long-lasting debate about the pros and cons of checked and unchecked exceptions 
+~\cite{javatut,stackoverlow,debate},\footnote{152 questions in Stackoverlow
+are related to this debate}. Such debates, however, are mainly based on the developers own experience in
+using both types - since there is of a lack empirical studies on their the pros and cons.
+
+Nevertheless, several general guidelines have been proposed on how to use Java
 exceptions~\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,
-bloch2008effective}. 
-We compiled a list of the guidelines related to exception types and exception propagation in Java, summarized below:\footnote{We also compiled guidelines related
+bloch2008effective}, regardless the exception type chosen. Such guidelines do not focus on 
+advocating any specific type but rather propose ways to effectively use each of them.
+ We compiled a list of the guidelines related to exception types in Java, 
+summarized below:\footnote{We also compiled guidelines related
 to exception handling but they are out of the scope of this paper.}
 
 %\noindent\emph{Meaning of Exception Types}
@@ -368,7 +374,7 @@ In the context of our study we formulated the following reseach questions:
 
   \item[RQ1] \noindent\emph{What are the common characteristics of exception stack traces reported on issues?} What are the main causes of crashes reported on issues? (more explicit?)
 
-  \item[RQ2] What patterns of exception (mis)-use related to exception types and exception propagation emerge from the exception stack trace analysis?
+  \item[RQ2] \noindent\emph{What patterns of exception (mis)-use related to exception types and propagation emerge from the exception stack trace analysis?}
 
 \end{description}
 
