@@ -106,7 +106,8 @@ have shown that it is generally poorly understood and the less tested parts of t
 The consequence of the exception handling code may come the other way around making the code even less robust.
 
 Our conjecture is that several Android applicatons may be suffering from similar vulnerabilities on the exception
-handling code, and that such vulnerabiliries may be leading to application crashes.
+handling code of the applications themselves or on the underlaying platform, and that such vulnerabiliries may be leading
+ to application crashes.
 
 Untill recent years, the availability of issues reporting abnormal
 computation states (e.g., crashes) was scarce, while the
@@ -125,13 +126,15 @@ publicly available in repository hosting sites such as GitHub and Googlecode.
 %Among the issues defined on issue trackers, we can find issues reporting bugs, and system crashes 
 %found as a result of application executions. Such issues usually contain exception stack traces [ref][ref]. 
 
+<SUCH ISSUES INCLUDE STACK TRACES. WHAT IS THE RELATION BETWEEN STACK TRACE AND CRASH>
+<stack traces are part of good issues....>
 When available, such information can enable different kinds of post-mortem analysis, such as:
 : classify .... (get from previous versions). Previous studies on crash report analysis focused a system 
 at a time. Moreover, none of them target 
 a family of Android applications (which share a common core) extracting the characteristics on exceptional issues 
 and looking for similar vulnerabilities on applications and underlaying platform.
 
-In this work, we perform the first post mortem analysis of the exception stack traces embedded on issues
+In this work, we perform the first post mortem analysis of the exception stack traces embedded on the issues
 of all Android applications available in GitHub and Googlecode. Using a custom tool called ExceptionMiner,
  which we develop specifically for this study, we mine stack traces from issues across all Android projects on
 GitHub and Googlecode. Overall, we analyzed the XXXX issues extracted from on XXX Android projects defined in
@@ -146,6 +149,10 @@ used to leverage the understanding of exception stack traces and support further
 %Wirfs-Brock~\cite{wirfs2006toward} and Bloch~\cite{bloch2008effective}.  The
 %comparison of those with the mined exceptions revealed several interesting
 %findings, such as:
+
+
+This study is built on the following assumption: the stack traces reported on issues contain 
+relevant information related to application crashes. Several studies and techniques have also based on this assumption (e.g.,~\cite{sinha2009fault}~\cite{dhaliwal2011classifying}~\cite{kim2013predicting}).
 
 Some outcomes consistently detected during this study were the following:
 
