@@ -42,6 +42,10 @@ Email: \texttt{\{g.gousios,arie.vandeursen\}@tudelft.nl}}
 
 \begin{abstract}
 
+
+
+
+
 This paper reports a repository mining study which analyzed all the issues created on
  Android projects available in GitHub (482 applications) and Google code (141 appplications)
 Overall, our research set includes XXXX issues from which XXX stack traces 
@@ -59,27 +63,43 @@ model is not fully used according to its purpose.
 
 \section{Introduction}
 
-The pervasiveness of the World Wide Web and the astonishing increase in the
-number of smartphones have stimulated the creation of a new class of
-applications which extend the phones capabilities far beyond of the basic calls
-and textual messages. 
+The pervasiveness of the World Wide Web and the astonishing increase 
+in the number of smartphones stimulated the creation of applications which extend the phones
+ capabilities far beyond of the basic calls and textual messages. 
 
-Such applications run over one or more platforms, among them the Android platform
-leads the smartphone market, comprising around XXXX [GoogleIO2014], thanks to its
-Java-based open-source model and hardware partners like Samsung, HTC, Motorola, Asus 
-(besides Nexus its own device) [ref]. 
+If we look at global smartphone shipments the numbers are astoning;
+the mobile industry shiped over 315 million smartphones in the last quarter of 2013.
+Such increase on smartphones combined with the pervasiveness of the World Wide Web
+ have stimulated the creation of applications which extend the phones capabilities 
+far beyond of the basic calls and textual messages. 
 
-Such applications are intrinsically multi-threaded and the development model and used APIs 
-can be  slightly or drastically different and more error prone than tradicional development [arie-icse]. 
+In this context, Android  leads the smartphone market, having over then 1 billion 
+active users per month; thanks to its open-source model and hardware partners
+ like Samsung, HTC, Motorola, Asus (besides Nexus its own device) [ref]. 
 
-Moreover, such applications have to cope with an increasing number of abnormal
-computation states. Besides the known source of failures (i.e., programmming errors, noisy 
-user inputs or faults in underlying middleware or hardware) such applications need to deal with abnormal states that 
- arise as a consequence of:  memory and batery restrictions [ref], faults on third party services and libraries, 
-compatibility issues caused by constant platforms updates [ref], conection with devices such as GPS, camera.
+The number of apps built on top of Android increases in a daily rate <INCLUDE SOME STATISTICS>.
 
-Therefore, techniques for error detection and handling are not  an optional add-on but a fundamental part of any system~\cite{bruntink2006discovering}. The Android Platform uses the exception handling mechanism embeeded
- in Java to deal with such conditions. However, although the exception handling mechanism
+%If on the one hand such applications are getting mode and more popular....
+%On the other hand... there is a need for realiability, as some core functionalities 
+%are moving to apps....such applications impose more challenges to software reliability 
+
+%Such mobile platforms are intrinsically multi-threaded and support a development model 
+% slightly (or sometimes drastically) different from those adopted on Web development [arie-icse],  
+
+%abnormal computation states
+
+Such applications have to cope with an increasing number of abnormal
+computation states, arising from: programmming errors (e.g. null dereferences);
+ noisy user inputs; faults in underlying middleware or hardware; 
+faults on third party services and libraries, compatibility issues [ref], 
+conection with devices e.g., as GPS, camera, among others; memory and batery restrictions
+among others.
+
+Therefore, techniques for error detection and handling are not  an optional add-on but a 
+fundamental part of such apps.
+% as any other modern system~\cite{bruntink2006discovering}. 
+The Android platform uses the exception handling mechanism embeeded
+ in Java to deal with such conditions. Although the exception handling mechanism
 ~\cite{goodenough1975exception} is one of the most used schemes for
 detecting and recovering from such exceptional conditions, studies (e.g.~\cite{miller1997issues,Robil00,shah2010understanding, garcia2007extracting,garcia2001comparative,cabral2007exception,coelho2011unveiling}),
 have shown that it is generally poorly understood and the less tested parts of the system ~\cite{coelho2011unveiling}.
@@ -88,7 +108,8 @@ The consequence of the exception handling code may come the other way around mak
 Our conjecture is that several Android applicatons may be suffering from similar vulnerabilities on the exception
 handling code, and that such vulnerabiliries may be leading to application crashes.
 
-Untill recent years, the availability of issues reporting exceptional conditions was scarce, while the
+Untill recent years, the availability of issues reporting abnormal
+computation states (e.g., crashes) was scarce, while the
 available data concerned a few large scale projects (e.g. the Mozilla
 crash report dataset\footnote{https://code.google.com/p/promisedata/issues/detail?id=88}).
 Along the recent years, we have witnessed a rapid increase in the number of open
@@ -101,13 +122,14 @@ publicly available in repository hosting sites such as GitHub and Googlecode.
 %projects to be visible within and across projects and make a full population
 %studies possible.
 
-Among the issues defined on issue trackers, we can find issues reporting bugs, and system crashes 
-found as a result of application executions. Such issues usually contain exception stack traces [ref][ref]. 
-When available, such information can enable different kinds of post-mortem analysis, such as:
-: classify .... (get from previous versions).
+%Among the issues defined on issue trackers, we can find issues reporting bugs, and system crashes 
+%found as a result of application executions. Such issues usually contain exception stack traces [ref][ref]. 
 
-Such analysis focuses a system at a time, and none of them target a family of Android Application
-(which share a common core) looking for similar characteristics and vulnerabilitys on the crashes reported.
+When available, such information can enable different kinds of post-mortem analysis, such as:
+: classify .... (get from previous versions). Previous studies on crash report analysis focused a system 
+at a time. Moreover, none of them target 
+a family of Android applications (which share a common core) extracting the characteristics on exceptional issues 
+and looking for similar vulnerabilities on applications and underlaying platform.
 
 In this work, we perform the first post mortem analysis of the exception stack traces embedded on issues
 of all Android applications available in GitHub and Googlecode. Using a custom tool called ExceptionMiner,
@@ -284,7 +306,7 @@ using both approaches - since there is a lack of empirical studies on their the 
 
 Nevertheless, several general guidelines have been proposed on how to use Java
 exceptions~\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,
-bloch2008effective}, regardless the exception type chosen. Such guidelines do not focus on 
+bloch2008effective} regardless the exception type used. Such guidelines do not focus on 
 advocating any specific type but rather propose ways to effectively use each of them.
  We compiled a list of the guidelines related to exception types in Java, 
 summarized below:\footnote{We also compiled guidelines related
