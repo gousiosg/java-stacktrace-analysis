@@ -42,10 +42,6 @@ Email: \texttt{\{g.gousios,arie.vandeursen\}@tudelft.nl}}
 
 \begin{abstract}
 
-
-
-
-
 This paper reports a repository mining study which analyzed all the issues created on
  Android projects available in GitHub (482 applications) and Google code (141 appplications)
 Overall, our research set includes XXXX issues from which XXX stack traces 
@@ -63,36 +59,41 @@ model is not fully used according to its purpose.
 
 \section{Introduction}
 
-The pervasiveness of the World Wide Web and the astonishing increase 
-in the number of smartphones stimulated the creation of applications which extend the phones
- capabilities far beyond of the basic calls and textual messages. 
+Along the recent years, we have witnessed an astonishing increase in the number 
+mobile applications available. Such increase is motivated by pervasiveness of the World Wide Web 
+and the unprecedent increase of global smartphone shipments -
+the mobile industry shiped over 315 million smartphones in the last quarter of 2013 [ref-IO].
 
-If we look at global smartphone shipments the numbers are astoning;
-the mobile industry shiped over 315 million smartphones in the last quarter of 2013.
-Such increase on smartphones combined with the pervasiveness of the World Wide Web
- have stimulated the creation of applications which extend the phones capabilities 
-far beyond of the basic calls and textual messages. 
+%the mobile industry shiped over 315 million smartphones in the last quarter of 2013
+%The pervasiveness of the World Wide Web and the astonishing increase 
+%in the number of smartphones stimulated the creation of applications which extend the phones
+% capabilities far beyond of the basic calls and textual messages. 
+%f we look at global smartphone shipments the numbers are astoning;
+%the mobile industry shiped over 315 million smartphones in the last quarter of 2013 [ref-googleIO].
+%Such increase on smartphones combined with the pervasiveness of the World Wide Web
+%have stimulated the creation of applications which extend the phones capabilities 
+%far beyond of the basic calls and textual messages. 
 
-In this context, Android  leads the smartphone market, having over then 1 billion 
-active users per month; thanks to its open-source model and hardware partners
- like Samsung, HTC, Motorola, Asus (besides Nexus its own device) [ref]. 
-
-The number of apps built on top of Android increases in a daily rate <INCLUDE SOME STATISTICS>.
+In this context, Android is currently the leading plaftorm of such applictions - thanks to its open-source 
+model and hardware partners like Samsung, HTC, Motorola, Asus (besides Nexus its
+ own device) [ref].  Google estimates that there is over 1 billion Android active users per month [ref-IO],
+and the number of apps built on top of Android increases in a daily rate.
 
 %If on the one hand such applications are getting mode and more popular....
 %On the other hand... there is a need for realiability, as some core functionalities 
 %are moving to apps....such applications impose more challenges to software reliability 
-
 %Such mobile platforms are intrinsically multi-threaded and support a development model 
 % slightly (or sometimes drastically) different from those adopted on Web development [arie-icse],  
-
 %abnormal computation states
 
+If on the one hand such applications extend the phones capabilities 
+far beyond of the basic calls and textual messages, on the other hand
+they have to face to new challenges imposed by mobile environmet.
 Such applications have to cope with an increasing number of abnormal
-computation states, arising from: programmming errors (e.g. null dereferences);
+computation states, arising from: programmming errors;
  noisy user inputs; faults in underlying middleware or hardware; 
 faults on third party services and libraries, compatibility issues [ref], 
-conection with devices e.g., as GPS, camera, among others; memory and batery restrictions
+conection with devices e.g., as GPS, camera, memory and batery restrictions
 among others.
 
 Therefore, techniques for error detection and handling are not  an optional add-on but a 
@@ -103,17 +104,20 @@ The Android platform uses the exception handling mechanism embeeded
 ~\cite{goodenough1975exception} is one of the most used schemes for
 detecting and recovering from such exceptional conditions, studies (e.g.~\cite{miller1997issues,Robil00,shah2010understanding, garcia2007extracting,garcia2001comparative,cabral2007exception,coelho2011unveiling}),
 have shown that it is generally poorly understood and the less tested parts of the system ~\cite{coelho2011unveiling}.
-The consequence of the exception handling code may come the other way around making the code even less robust.
+As a consequence that the exception handling code may become  ilself a source of faults, 
+and may affect the system the other way around, making the system even less robust ~\cite{coelho2011unveiling}[ref FU CHEN].
 
-Our conjecture is that several Android applicatons may be suffering from similar vulnerabilities on the exception
-handling code of the applications themselves or on the underlaying platform, and that such vulnerabiliries may be leading
- to application crashes.
+In the same rathe the number of number of mobile appsincreases, also increases 
+the number of users affected by their failures. Our conjecture is that several 
+Android applicatons may be suffering from similar vulnerabilities on the exception 
+handling code of the applications themselves or on the underlaying platform, and 
+that such vulnerabiliries may be leading to application crashes.
 
 Untill recent years, the availability of issues reporting abnormal
-computation states (e.g., crashes) was scarce, while the
-available data concerned a few large scale projects (e.g. the Mozilla
+computation states (e.g., crashes) was scarce. The
+available data comprised few large scale projects (e.g. the Mozilla
 crash report dataset\footnote{https://code.google.com/p/promisedata/issues/detail?id=88}).
-Along the recent years, we have witnessed a rapid increase in the number of open
+Recently we have observed a rapid increase in the number of open
 source projects that make their control version and issue tracking systems
 publicly available in repository hosting sites such as GitHub and Googlecode.
 
@@ -128,11 +132,14 @@ publicly available in repository hosting sites such as GitHub and Googlecode.
 
 <SUCH ISSUES INCLUDE STACK TRACES. WHAT IS THE RELATION BETWEEN STACK TRACE AND CRASH>
 <stack traces are part of good issues....>
-When available, such information can enable different kinds of post-mortem analysis, such as:
-: classify .... (get from previous versions). Previous studies on crash report analysis focused a system 
-at a time. Moreover, none of them target 
-a family of Android applications (which share a common core) extracting the characteristics on exceptional issues 
-and looking for similar vulnerabilities on applications and underlaying platform.
+
+When available, crash-related information added on issues and crash reports can enable different kinds of post-mortem analysis, such as
+ bug classification and clustering ~\cite{wang2013improving, kim2011crash, dhaliwal2011classifying},  the automated bug fixing ~\cite{sinha2009fault},  
+fault-proneness prediction models ~\cite{kim2013predicting} and can also be used to support developers in debugging ~\cite{schroter2010stack}. 
+
+Previous studies on crash report analysis focused a system 
+at a time. Moreover, none of them target a family of Android applications (which share a common core) extracting 
+the characteristics on exceptional issues and looking for similar vulnerabilities on applications and underlaying platform.
 
 In this work, we perform the first post mortem analysis of the exception stack traces embedded on the issues
 of all Android applications available in GitHub and Googlecode. Using a custom tool called ExceptionMiner,
@@ -149,7 +156,6 @@ used to leverage the understanding of exception stack traces and support further
 %Wirfs-Brock~\cite{wirfs2006toward} and Bloch~\cite{bloch2008effective}.  The
 %comparison of those with the mined exceptions revealed several interesting
 %findings, such as:
-
 
 This study is built on the following assumption: the stack traces reported on issues contain 
 relevant information related to application crashes. Several studies and techniques have also based on this assumption (e.g.,~\cite{sinha2009fault}~\cite{dhaliwal2011classifying}~\cite{kim2013predicting}).
