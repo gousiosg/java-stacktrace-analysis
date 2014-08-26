@@ -60,7 +60,7 @@ model is not fully used according to its purpose.
 \section{Introduction}
 
 Along the recent years, we have witnessed an astonishing increase in the number 
-mobile applications available. Such increase is motivated by pervasiveness of the World Wide Web 
+mobile applications publicly available. Such increase is motivated by pervasiveness of the World Wide Web 
 and the unprecedent increase of global smartphone shipments -
 the mobile industry shiped over 315 million smartphones in the last quarter of 2013 [ref-IO].
 
@@ -74,7 +74,7 @@ the mobile industry shiped over 315 million smartphones in the last quarter of 2
 %have stimulated the creation of applications which extend the phones capabilities 
 %far beyond of the basic calls and textual messages. 
 
-In this context, Android is currently the leading plaftorm of such applictions - thanks to its open-source 
+In this context, Android has become the leading plaftorm of such applictions - thanks to its open-source 
 model and hardware partners like Samsung, HTC, Motorola, Asus (besides Nexus its
  own device) [ref].  Google estimates that there is over 1 billion Android active users per month [ref-IO],
 and the number of apps built on top of Android increases in a daily rate.
@@ -88,7 +88,7 @@ and the number of apps built on top of Android increases in a daily rate.
 
 If on the one hand such applications extend the phones capabilities 
 far beyond of the basic calls and textual messages, on the other hand
-they have to face to new challenges imposed by mobile environmet.
+they have to cope to new challenges imposed by mobile environmet.
 Such applications have to cope with an increasing number of abnormal
 computation states, arising from: programmming errors;
  noisy user inputs; faults in underlying middleware or hardware; 
@@ -104,21 +104,34 @@ The Android platform uses the exception handling mechanism embeeded
 ~\cite{goodenough1975exception} is one of the most used schemes for
 detecting and recovering from such exceptional conditions, studies (e.g.~\cite{miller1997issues,Robil00,shah2010understanding, garcia2007extracting,garcia2001comparative,cabral2007exception,coelho2011unveiling}),
 have shown that it is generally poorly understood and the less tested parts of the system ~\cite{coelho2011unveiling}.
-As a consequence that the exception handling code may become  ilself a source of faults, 
+As a consequence that the exception handling code may become ilself a source of faults, 
 and may affect the system the other way around, making the system even less robust ~\cite{coelho2011unveiling}[ref FU CHEN].
 
-In the same rathe the number of number of mobile appsincreases, also increases 
-the number of users affected by their failures. Our conjecture is that several 
-Android applicatons may be suffering from similar vulnerabilities on the exception 
-handling code of the applications themselves or on the underlaying platform, and 
-that such vulnerabiliries may be leading to application crashes.
+
+Google estimates that Android has over 1 billion active users per month, 
+who pull out theirs phones and check it over 100 bilion times. 
+In the same rate the number of mobile users increase, also increases 
+the number of users affected by faulty apps and app crashes.
+
+
+%If we google for "Android app crashes"
+% we can find 1.200.000 pages about the subject on forums and blogs. In Feb. 2014
+%Gartner issue a report on mobile technologies and capabilities 
+%[ref-https://www.gartner.com/doc/2665315/top--mobile-technologies-capabilities], 
+%which emphasized the importance of monitoring application crashes.
+
+Our conjecture is that several Android applicatons may be suffering from similar 
+vulnerabilities on the exception handling code of the applications themselves or 
+on the underlaying platform, and that such vulnerabiliries may be leading to
+ application crashes -  as Uncaught Exceptions lead to app to crashes in
+Android and is one of the main causes of application crashes in Java [ref AST] .
 
 Untill recent years, the availability of issues reporting abnormal
 computation states (e.g., crashes) was scarce. The
-available data comprised few large scale projects (e.g. the Mozilla
+available data comprised only few large scale projects (e.g. the Mozilla
 crash report dataset\footnote{https://code.google.com/p/promisedata/issues/detail?id=88}).
 Recently we have observed a rapid increase in the number of open
-source projects that make their control version and issue tracking systems
+source projects that make their control version as well as the issue tracking systems
 publicly available in repository hosting sites such as GitHub and Googlecode.
 
 % The
@@ -137,9 +150,10 @@ When available, crash-related information added on issues and crash reports can 
  bug classification and clustering ~\cite{wang2013improving, kim2011crash, dhaliwal2011classifying},  the automated bug fixing ~\cite{sinha2009fault},  
 fault-proneness prediction models ~\cite{kim2013predicting} and can also be used to support developers in debugging ~\cite{schroter2010stack}. 
 
-Previous studies on crash report analysis focused a system 
-at a time. Moreover, none of them target a family of Android applications (which share a common core) extracting 
-the characteristics on exceptional issues and looking for similar vulnerabilities on applications and underlaying platform.
+Most of such studies, however, focused the analysis on one or two system at a time. None 
+of them target crash-related information of family of Android applications 
+(which share a common core) aiming at  extracting their common characteristics 
+ and looking for similar vulnerabilities on applications and underlaying platform.
 
 In this work, we perform the first post mortem analysis of the exception stack traces embedded on the issues
 of all Android applications available in GitHub and Googlecode. Using a custom tool called ExceptionMiner,
@@ -997,15 +1011,14 @@ of them were not wrapped along the stack trace.
   \centering
   \begin{tabular}{llcccccc}
     \hline
-    \bfseries{Wrapper Type}  &  \bfseries{Root Cause Type} &  \bfseries{Projects}  &  \bfseries{Occurrences} & \textsf{Android} & \textsf{Libcore} & \textsf{App} & \textsf{Lib}  \\
+    \bfseries{Wrapper Type}  &  \bfseries{Root Cause Type} &  \bfseries{Projects}  &  \bfseries{Occurrences} & \textsf{Android} & \textsf{Java/Libcore} & \textsf{Lib} & \textsf{App}  \\
     \hline
-      Runtime &  Checked   & 70 & 114 & 0 &  0  & 0 &  0 \\
-      Runtime   &  Error   & 38  & 57 & 0 &  0  & 0 &  0 \\
-      Checked &  Runtime   & 12 & 22 & 0 &  0  & 0 &  0 \\
-      Checked & Error      & 7 &  8 & 0 &  0  & 0 &  0 \\
-      Error & Checked      & 4  &  7 & 0 &  0  & 0 &  0     \\
-      Error & Runtime     & 6  &  13   & 0 &  0  & 0 &  0    \\
-     Throwable & Runtime   & 1 &  3   & 0 &  0  & 0 &  0    \\
+      Runtime &  Checked   & 70 & 114 & 66 &  0  & 19 &  29 \\
+      Runtime   &  Error   & 38  & 57 & 50 &  0  & 6 &  1 \\
+      Checked &  Runtime   & 12 & 22 & 4 &  0  & 9 &  9 \\
+      Checked & Error      & 7 &  8 & 5 &  0  & 0 &  3 \\
+      Error & Checked      & 4  &  7 &  &  0  & 7 &  0     \\
+      Error & Runtime     & 6  &  13   & 1 &  1  & 0 &  11    \\
     \hline
   \end{tabular}
 \caption{Wrappings comprising different exception types.}
@@ -1022,7 +1035,6 @@ detected by the JVM such as OutOfMemoryError. Checked exceptions should
 represent recoverable conditions and  Runtime exceptions represent are usually
 related to programming mistakes from which the developer is not expected to recover
 from. 
-
 
 \subsubsection{Runtime wrapping Checked Exception}
 
