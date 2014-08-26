@@ -113,7 +113,6 @@ who pull out theirs phones and check it over 100 bilion times.
 In the same rate the number of mobile users increase, also increases 
 the number of users affected by faulty apps and app crashes.
 
-
 %If we google for "Android app crashes"
 % we can find 1.200.000 pages about the subject on forums and blogs. In Feb. 2014
 %Gartner issue a report on mobile technologies and capabilities 
@@ -234,18 +233,21 @@ directions for future work.
 
 \subsection{The Android Platform} \label{sec:extypes}
 
-Android is an open source platform for mobile devices based on Linux kernel.
-The plaftom is also comprised of a core Java library, a set of libraries third-party libraries e.g.  SQLite,
-the Dalvik runtime environment, and the Aplication Framework which provides higher-level services to the applications
-running on the platform e.g., controlling activities or providing data access.
+Android is an open source platform for mobile devices based on Linux kernel,
+which is also composed by a core Java library, a set of libraries third-party libraries (e.g.  SQLite),
+the Dalvik runtime environment, and the Aplication Framework (which provides higher-level services to the applications
+running on the platform).
 
-Android supports an event-driven development model. The main element responsible for 
-receiving the GUI events is called Activity, which is the unity of user interaction and execution in
-Android. Android also provides APIs for data storage, communication between Activities, 
-and other services. Moreover, it also provides frameworks for concurrent developement (e.g. AsyncTask) 
-which is highly needed due to the demand of responsiveness in such environment  - 
-mobile apps can easily become unresponsivedue to resurce limitation and excessive
- network access [shimidit and arie].
+The Android framework supports an event-driven development model. 
+Among the basic elements that comprise an Android application, we can cite the
+Activity. Each application usually defines one Activity per application Window.
+ Each Activity defines a set of hook methods  (e.g., OnCreate(), onPause()) that are dispatched
+automatically by the Android framework (by inversion of
+control [ref]), in response to infrastructure and application events.
+
+Due to the high demand for responsiveness in mobile environment (mobile apps can easily become 
+unresponsivedue due to resurce limitation and excessive network access [shimidit and arie]) the
+Android framework also provides APIs to support concurrent developement (e.g. AsyncTask).
 
 \begin{figure} \centering \includegraphics[scale=0.8]{arch3.png}
   \caption{Android Archtecture} \label{fig:exchier} \end{figure}
@@ -1468,11 +1470,6 @@ In such cases the client usually do not have access to the source code, and in t
 the exception documentation it is very difficult or even impossible for the client of such third party code to 
 protect the application against undocumented runtime exceptions. As a consequence, the
  undocumented runtime exception may remain uncaught and lead to system crashes.
-
-
-
-
-
 
 
 \section{Discussions and Actionable Advices}
