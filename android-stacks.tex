@@ -234,7 +234,7 @@ directions for future work.
 \subsection{The Android Platform} \label{sec:extypes}
 
 Android is an open source platform for mobile devices based on Linux kernel,
-which also contains by a core Java library, a set of libraries third-party libraries (e.g.  SQLite),
+which also contains  a core Java library, a set of libraries third-party libraries (e.g.  SQLite),
 the Dalvik runtime environment, and the Application Framework (which provides higher-level services to the applications
 running on the platform).
 
@@ -319,6 +319,9 @@ stack trace as the first method call below the exception declaration.
 \caption{Example of an Exception stack trace in Java.}
 \label{fig:wrapping}
 \end{figure}
+
+<AVALIAR MOVER ESTE STACK TRACES PARA UMA FIGURA QUE MOSTR COMO ELE É QUEBRADO...
+PELO EXCEPTION MINER E AS INFORMAÇÕES VAO PARA O BANCO...>
 
 % \subsection{Public Project Repositories and Issue Trackers} 
 % ONE OF THE REVIEWERS COMPLAINED ABOUT THE ABSENCE OF EXPLANATIONS OF WHAT AN ISSU IS...
@@ -405,18 +408,23 @@ can reveal whether these practices have been obeyed.
 
 \section{Empirical Study Design}
 
-The goal of this study was to extract nformation available on exception stack 
-traces embedded on issues reported on Android projects, looking for the common characteristics of
-those issues and investigating whether they could reveal common defficiencies
-on the exception handling code of both the applications and the underlaying 
+This study focus on the analysis of crash information (related to uncaught exceptions) of a family of Android applications
+aiming at  extracting their common characteristics and looking for similar vulnerabilities on applications and underlaying platform.
+
+In Java when an application crashes dut to an uncaught exception ... 
+Exception Stach trace is usually (procurar por artigo).
+
+Falar da assumption que stacj trá relacionada a crash?
+
+The goal of this study was to extract exception stack 
+traces embedded on issues of Android projects (hosted in GitHub and GoogleCode), looking for the 
+common characteristics of such stack-trace and investigating whether
+ they could reveal common defficiencies on the exception handling code of both the applications and the underlaying 
  framework. 
 
-We choose Android apps because it is the only top platform that is open-source,
-and due to its increasing popularity it xxxx.
-
-Our study focused on free apps, since the information needed to perform our study
-cannot be retrieved from commercial apps because their issue reports and their
-source code is not publicly available. The Android open-source apps were also 
+Our study focused on open-source apps, since the information needed to perform our study
+cannot be retrieved from commercial apps, whose issue reports and 
+source code are not publicly available. The Android open-source apps were also 
 target of other research studies [fse2013][ahimed].   
 
 
@@ -425,28 +433,22 @@ In the context of our study we formulated the following reseach questions:
 
 \begin{description}
 
-  \item[RQ1] \noindent\emph{What are the common characteristics of exception stack traces reported on issues?} What are the main causes of crashes reported on issues? (more explicit?)
+  \item[RQ1] \noindent\emph{What are the common characteristics of exception stack traces reported on issues?} Some of the common characteristics to be investigated are the 
+ main causes reported on exception stack traces, the elements responsible for signaling such exceptions.
 
-  \item[RQ2] \noindent\emph{What patterns of exception (mis)-use related to exception types and propagation emerge from the exception stack trace analysis?}
+  \item[RQ2] \noindent\emph{What patterns of exception (mis)-use related to exception types and propagation emerge from the exception stack trace analysis? Based on a set of best practices
+compiled in this study, looked for characteristics on stack traces that could pinpoint to practices that were not being obeyed.}
 
 \end{description}
-
-
 
 %Based mainly on the information available on exception stack traces embedded 
 %on issues, the goal of this study was to gain a better understanding 
 %of exception-related system crashes.
 
- 
-The exceptions available on exception stack traces are not limited to the exceptions 
-expliciltly thrown by the Java developer but also include
-the exceptions implicitly thrown by the JVM due to programming errors (e.g., out-of-bounds array index, division-by-zero, 
-access to a null reference) or resource limitation (e.g., OutOfMemoryError).
-
-
 For RQ1 and RQ2, we explore the domain quantitatively and highlight interesting cases by 
 exploring cases qualitatively. To support this investigation, source code and bytecode 
-analysis were used in combination with manual inspection to leverage the  understanding of stack traces and support further discussions and insights. 
+analysis were used in combination with manual inspection to leverage the  understanding 
+of stack traces and support further discussions and insights. 
 
 \subsection{Data Extraction Process}
 \label{sec:miningproc}
@@ -779,6 +781,14 @@ on issues in both Java and Android subset. For such exceptions, which represent
 programming bugs or resource limitations, there is usually no proper handling
 besides presenting an error message to the user and restarting the application.
 Only high fault tolerant systems need to provide solutions to handle them.
+
+
+INSERIR EM ALGUM PONTO DO TEXTO:
+The exceptions available on exception stack traces are not limited to the exceptions 
+expliciltly thrown by the Java developer but also include
+the exceptions implicitly thrown by the JVM due to programming errors (e.g., out-of-bounds array index, division-by-zero, 
+access to a null reference) or resource limitation (e.g., OutOfMemoryError).
+
 
 
 ----------
@@ -1482,6 +1492,8 @@ exceptional conditions.
 
 Discuss about the actionable advices propagated by TAO XIE.
 
+\subsection{Inversion of Control and Exception Handling}
+- Falar de Pytolomy e Ridresh rajan... desafios ja apontados.... 
 
 %\noindent\emph{The undocumented runtime exceptions} 
 \subsection{The undocumented runtime exceptions thrown by thrid party code} 
