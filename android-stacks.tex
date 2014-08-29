@@ -167,23 +167,23 @@ publicly available in repository hosting sites such as GitHub and Googlecode.
 
 %Among the issues defined on issue trackers, we can find issues reporting bugs, and system crashes 
 %found as a result of application executions. Such issues usually contain exception stack traces [ref][ref]. 
-
-<SUCH ISSUES INCLUDE STACK TRACES. WHAT IS THE RELATION BETWEEN STACK TRACE AND CRASH>
-<stack traces are part of good issues....>
+%<SUCH ISSUES INCLUDE STACK TRACES. WHAT IS THE RELATION BETWEEN STACK TRACE AND CRASH>
+%<stack traces are part of good issues....>
 
 %Stack traces are a useful source of information about system crashes, and is often used to support developers in debugging~\cite{schroter2010stack}. Moreover, information %from stack traces combined with crash and bug reports can be used to support bug classification and clustering~\cite{wang2013improving, kim2011crash, %dhaliwal2011classifying}, fault-proneness prediction models~\cite{kim2013predicting} and even automated bug fixing~\cite{sinha2009fault} tools. 
 
-When available, exception stack traces provides a useful source of information about system crashes and 
- can enable different kinds of post-mortem analysis, such as:   debugging~\cite{schroter2010stack}, 
+When available, exception stack traces provides a useful source of information about system crashes ~\cite{bettenburg2008makes} which 
+ can enable different kinds of post-mortem analysis to support:  debugging~\cite{schroter2010stack}, 
  bug classification and clustering ~\cite{wang2013improving, kim2011crash, dhaliwal2011classifying},  
-automated bug fixing ~\cite{sinha2009fault} and fault-proneness prediction models analysis ~\cite{kim2013predicting}. 
+automated bug fixing ~\cite{sinha2009fault} and fault-proneness prediction models ~\cite{kim2013predicting}. 
 
-Most of such studies, however, focused the analysis on one or two system at a time. None 
-of them targeted a family of applications (sharing a common framework) aiming at extracting 
-the common characteristics of crash information and checking whether they could provide
-insights on  similar vulnerabilities on the applications and underlaying framework.
+Most of such studies, however, focused the analysis on one or two system at a time.
+This paper reports an exploratory study which targets a family of applications 
+(sharing the common Android framework) aiming at extracting 
+the common characteristics of exception stack traces reported to such systems to provide
+insights on similar fragilities on the exception related code of the applications and underlaying framework.
 
-In this work, we perform the first post mortem analysis of the exception stack traces embedded on all issues
+To do so we perform a post mortem analysis of the exception stack traces embedded on all issues
 created on Android projects available in GitHub and Googlecode. Using a custom tool called ExceptionMiner,
  which we develop specifically for this study, we mine stack traces from issues across all Android projects on
 GitHub and Googlecode. Overall, we analyzed the XXXX issues extracted from on XXX Android projects defined in
@@ -191,6 +191,11 @@ GitHub and XXX projects defined in Googlecode. From these issues,  XXX stack tra
  a source of information for our analysis. The stack trace analysis was augmented by additional information
 extracted from JDK, Android SO and Android SDK and the applications using byte code and source code analysis.
  Manual inspection was used to leverage the understanding of exception stack traces and support further discussions and insights.
+
+%projects: 788	 - projects with issues - 724 - 
+%projects with issues (with exceptions): 243 
+%projects with stacks: 158  -  stacks: 3559 (defect)
+%Github: issues: 50342 - stacks: 3865 - projects: 2542 - projects with stacks: 293
 
 %To guide our analysis, we compiled a set of best practices on how to use
 %exceptions by composing relevant suggestions by Gosling~\cite{gosling2000java},
@@ -202,29 +207,32 @@ Some outcomes consistently detected during this study were the following:
 
 \begin{itemize}
 
-   \item  A multitude of programming mistakes were reported as the main causes of stack traces:
-  41,1\%  (12,625)  of reported stack traces were caused by programming mistakes; and 26,31\% of analyzed stack traces reported a java.lang.NullPointerException as root cause;
-
-   \item 1,671 projects (44,47\%) contained at least one issue reporting a java.lang.NullPointerException as the root cause of a stack trace.
-
-   \item Undocumented runtime exceptions signaled by third party
-    code (i.e., libraries and Android platform). This study found 118 distinct methods defined on third party code and  reported as the root signalers of runtime exceptions. Only 1 of such methods (0,8\%) documented the explicitly thrown runtime exception in a Javadoc comment; and none of these methods included the exception as part of the exception interface (i.e., using throws clause).
 
    \item  Unexpected exception wrappings (e.g., Error wrapping checked and runtime
     exceptions and vice-versa), indicating that the purpose of Java's hybrid exception model may not have been adequately used.
 
-   \item  The development model of Android platform (strongly based on system call-backs) encouraged 
-     the use of general RuntimeExceptions.
+   \item Undocumented runtime exceptions signaled by third party  code (i.e., libraries and Android platform). 
+This study found 118 distinct methods defined on third party code and  reported as the root signalers of 
+runtime exceptions. Only 1 of such methods (0,8\%) documented the explicitly thrown runtime exception 
+in a Javadoc comment; and none of these methods included the exception as part of the exception 
+interface (i.e., using throws clause).
 
-  %\item  Issues reporting uncaught checked exceptions.
+   \item Undocumented checked exception signaled by native Android library. This finding points to a fragility 
+on the way exceptions on JNI interface funcions, which can lead to uncaught exceptions that are difficult do 
+debug.  
+
+  \item  A multitude of programming mistakes were reported as the main causes of stack traces:
+ XXX  of reported stack traces were caused by programming mistakes; and XXX of analyzed stack traces reported a java.lang.NullPointerException as root cause;
 
 \end{itemize}
 
-Although the study focused on Android opensource applications, some of the results are not restricted to this context, 
+Such fragilities represent obstacles to the development of dependable mobile apps as well as other Java-based systems
+as they share the same exception model. Although the study focused on Android opensource applications, some of the results are not restricted to this context, 
 for instance: some of the unexpected wrappings were performed by Java libraries and elements (e.g. reflection library and 
-the static blocks); and the undocumented runtime exceptions were also found in Java libraries beyonds the Android plaftorm.
-The study results are relevant to: (i) Android and Java developers to familiarize with the most common reported exceptions 
-mis-uses which is the first step to help developers to avoid making them; (ii) designers of languages to consider ways of reducing the abundance of NullPointerExceptions; and (iii) tool designers to consider developing tools that enable a cross-project defect analysis.
+the static blocks); and the undocumented runtime exceptions were also found in Java libraries besides the Android plaftorm.
+The study results are relevant to: (i) Android and Java developers to familiarize common characteristics and fragilities of exception-related code 
+which is the first step to help developers preventing and dealing with them; (ii) designers of languages and tools to consider ways of reducing 
+such fragilities in Android and Java environments.
 
 Hence, the main contributions of this study are as follows:
 \begin{itemize}
@@ -233,8 +241,6 @@ Hence, the main contributions of this study are as follows:
 
   \item  It introduces ExceptionMiner, a tool developed to support cross-repository stack trace
     analysis.
-
-  \item  It presents the the exploratory study methodology to ..... (complete - view the reviewer comment)
 
 \end{itemize}
 
