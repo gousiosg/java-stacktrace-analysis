@@ -267,22 +267,23 @@ directions for future work.
 
 Android is an open source platform for mobile devices based on Linux kernel,
 which also contains  a core Java library, a set of libraries third-party libraries (e.g.  SQLite),
-the Dalvik runtime environment, and the Application Framework (which provides higher-level services to the applications
-running on the platform).
+the Dalvik runtime environment, and the Application Framework (which provides 
+higher-level services to the applications running on the platform) ~cite{andguide}.
+Android platform is mostly implemented in Java and uses JNI[ref] to access native C/C++ code. 
+And as mentioned before, it reuses the embedded Java Exception model to detect and handle 
+abnormal computation states.
 
 The Android Application Framework supports an event-driven development model. 
 Among the basic elements that comprise an Android application, we can cite the
 Activity. Each application usually defines one Activity per application Window.
  Each Activity defines a set of hook methods  (e.g., OnCreate(), onPause()) that are dispatched
 automatically by the Android framework (by inversion of
-control [ref]), in response to infrastructure and application events.
+control), in response to infrastructure and application events.
 
 Due to the high demand for responsiveness in mobile environment (mobile apps can easily become 
-unresponsivedue due to resurce limitation and excessive network access [shimidit and arie]) the
-Android Application Framework also provides APIs to support concurrent developement (e.g. AsyncTask).
-
-Android platform is mostly implemented in Java, uses JNI[ref] to access native C code, and 
-reuses the embedded Java Exception model to detect and handle abnormal computation states.
+unresponsivedue due to resurce limitation and excessive network access) the
+Android Application Framework also provides APIs to support concurrent 
+developement (e.g. AsyncTask).
 
 \begin{figure} \centering \includegraphics[scale=0.8]{arch3.png}
   \caption{Android Archtecture} \label{fig:exchier} \end{figure}
