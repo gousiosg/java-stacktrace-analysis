@@ -287,8 +287,8 @@ in mobile environment (mobile apps can easily become
 unresponsivedue due to resurce limitation and excessive network access).
 
 
-\begin{figure} \centering \includegraphics[scale=0.8]{arch3.png}
-  \caption{Android Archtecture} \label{fig:exchier} \end{figure}
+%\begin{figure} \centering \includegraphics[scale=0.8]{arch3.png}
+%  \caption{Android Archtecture} \label{fig:exchier} \end{figure}
 
 \subsection{Exception Model in Java} \label{sec:extypes}
 
@@ -490,7 +490,7 @@ the exception stack trace, the origin of such exceptions (e.g., the application,
   \item[RQ2] \noindent\emph{Which patterns of exception (mis)-use emerge?}
 Based on a set of best practices compiled in this study, the study investigates whether characteristics on exception stack traces  
 can pinpoint best practices violations. Chraracteristics of exception stack traces and detected violations can reveal fragilities
- on the exception handling code, which threats the application dependability. }
+ on the exception handling code, which threats the application dependability. 
 
 \end{description}
 
@@ -545,9 +545,17 @@ Bugzilla and Jira. The most important difference is that there are no predefined
   (e.g. severity and priority). Instead, Github uses a more open ended tagging system, on which
 repositories are offered a pre-defined set of labels, but repository owners can modify 
 them at will. Therefore, an issue may have none ore an arbitrary set of labels depending 
-on which repository it was created. Therefore, this study is based on the assumption 
-if an stack trace information embedded in an issue, it contain relevant information
-that can reveal violation to best practices - regardless the lables associated to the issue.
+on which repository it was created. 
+
+Based on the assumption that regardless the issue type, every exception stack
+trace contains relevant information concerning the exception structure of the
+projects analyzed - and therefore can review fragilities on the exceptio related code -  
+we opted for not restricting the analysis only on defect
+issues.\footnote{We conducted the same analysis on the defect issues and the top
+exceptions are similar to the ones mentioned on defect issues. Due to space
+limitation we limit to present the general analysis here. More detailed analysis
+on the defect issues can be found at:
+\url{www.dimap.ufrn.br/~roberta/android_repo_mining}}
 
 Moreover, issues and pull requests are dual on Github; all pull requests have a corresponding 
 ``backing'' issue which are automatically generated. Therefore, we excluded such automatically generated
@@ -560,7 +568,7 @@ the~\textsf{pullwifi} project was responsible for almost 50\% of all Android iss
 \subsubsection{Android Apps in GoogleCode}
 
 Different from GitHub, Googlecode does not provide an API to access the information related
- to hosted projects ~\footnote{Googlecode previoulsly provided a webservice but was deacrivated in June 2013.}.
+ to hosted projects \footnote{Googlecode previoulsly provided a webservice but was deacrivated in June 2013.}.
 However many well used open source Android application such as K9mail, is hosted in Googlecode which stores
 the issue history of this and other apps are store there ~\footnote{K9mail moved to Github but advice their users to create issues on Googlecode as a way of not loosing the issue history.}.
 
@@ -684,7 +692,7 @@ in this work to support stack trace extraction and distilling.
 Next section presents the results for each of the study phases, providing both a
 quantitative and qualitative analysis of the outcomes.
 
-\section{RQ1: What are the common characteristics of such stack traces?}
+\section{The Study Results}
 
 %To answer this question, we mined from every extracted stack trace the top level
 %exception being signaled, its signaler (the first method signature frame after
@@ -698,16 +706,10 @@ quantitative and qualitative analysis of the outcomes.
 %RSC: I WAS ABOUT TO MOOVE BUT THERE WAS ALREADY A SIMILAR TEXT ON 
 %THE EXCEPTION DISTEILLER}
 
-Based on the assumption that regardless the issue type, every exception stack
-trace contains relevant information concerning the exception structure of the
-projects analyzed, we opted for not restricting the analysis only on defect
-issues.\footnote{We conducted the same analysis on the defect issues and the top
-exceptions are similar to the ones mentioned on defect issues. Due to space
-limitation we limit to present the general analysis here. More detailed analysis
-on the defect issues can be found at:
-\url{www.dimap.ufrn.br/~roberta/android_repo_mining}}
+This section presents the results amed at answering the research 
+questions presented before.
 
-\subsection{Characterizing the Most Common Root Exceptions}
+\subsection{The Most Common Root Exceptions }
 
 After distilling the information available on the XXXX  stack traces, extracted from the 
 issues and issues comments of XXXX Android projects on GitHub and Googlecode,  
@@ -751,7 +753,8 @@ Table \ref{tab:toptenandroid} illustrate the number of times each exception was 
 the root cause of a stack trace, the number of distinct projects reporting such causes on stack traces, 
 and the percentages of such in relation to all reported exceptions and analyzed projects respectaly.
 The table also presents the whether the method responsible for signaling the exceptions were
-part of Android, the aplication itself, libcore, or a third-party library as presented in Table  \ref{tab:signalers}  \footnote{9 stack traces contained only elements of JVM and were discarded from the analysis}.
+part of Android, the aplication itself, libcore, or a third-party library as presented in Table  \ref{tab:signalers} 
+ \footnote{9 stack traces contained only elements of JVM and were discarded from the analysis}.
 
 \begin{table}
   \centering
@@ -822,6 +825,8 @@ In Section XX we provide further discussion on the NullPointerException problem,
 to ways of how to deal with it and mitigate it.
 
 
+\subsubsection{What They can Tell us?}
+
 \subsubsection{Direct instances of RuntimeExceptions being thrown.}
 
 From Tables~\ref{tab:toptenjava} and~\ref{tab:toptenandroid} we can observe that,
@@ -843,7 +848,7 @@ expliciltly thrown by the Java developer but also include
 the exceptions implicitly thrown by the JVM due to programming errors (e.g., out-of-bounds array index, division-by-zero, 
 access to a null reference) or resource limitation (e.g., OutOfMemoryError).
 
-\subsection{Classifying Top 100 Exceptions}
+\subsubsection{Classifying Top 100 Exceptions}
 
 To get a broather view of the root causes of stack traces, we performed an empirical evaluation
 whose goal was to categorized the top 100 root causes.
@@ -1258,8 +1263,8 @@ android.support.v4.content.ModernAsyncTask & 2\\
 
 \begin{table}
 \centering
-\begin{tabular}{ll}
- \bfseries{Method} & \bfseries{Project} & & \bfseries{Ocurrences}\\
+\begin{tabular}{lll}
+ \bfseries{Method} & \bfseries{Project} & \bfseries{Ocurrences}\\
     \hline
 android.os.AsyncTask &	122 & 549  \\
 android.view.LayoutInflater & 63 & 163 \\
@@ -1841,6 +1846,10 @@ and robustness, based on their own experience with Java enterprise applications.
 Our work differs from those two works as we tried to identify bad practices from
 the analysis of stack traces extracted from issues in combination with and bytecode and source
 code analysis. 
+
+RESSALTAR LIMITACAO DE QUANTIDADE DE FALSOS POSITIVOS... E QUE OS STACKS SAO REAIS...
+REPRESENTAM FLUXOS REAIS.... POST MOSTERN ANALISYS OF REAL EXECUTIONS....
+
 
 
 \enlargethispage{-2\baselineskip}
