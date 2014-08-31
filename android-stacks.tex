@@ -782,11 +782,7 @@ java.util.ConcurrentModificationException & 38  & 7,88\% & 54   & 1,33\%   & 5  
 %\caption{Top exceptions in Android repositories.}
 %\label{fig:androidsignaler}
 %\end{figure}
-
-
-INSERIR EM ALGUM PONTO DO TEXTO:
  
-
 
 We can observe that most of this set is composed by exceptions defined by java.lang,
 which are mostly not expliciltly thrown by the developer but include
@@ -798,7 +794,6 @@ there is usually no proper handling besides presenting an error message to
  the user and restarting the application. Only high fault tolerant systems need to 
 provide solutions to handle them. Hence, the best strategy to deal with them
 is try to prevent them.
-
 
 \subsubsection{The high number of NullPointerExceptions}
 From this set the java.lang.NullPointerException was the most reported root cause; 1225 stack traces 
@@ -836,31 +831,23 @@ java.lang.RuntimeException were thrown  in 10,94\% of Java repositories and
 In the Android repositories, most of such exceptions  were  thrown by the Android 
 platform/OS (167 out of 232).
 
-Throwing general exceptions, such as direct instances of RuntimeException, is  considered a
-bad practice, because the exception type does not carry enough information to identify the
-cause of the exceptional behaviour, and as a consequence developers need to relying on
+Throwing general exceptions, such as direct instances of RuntimeException, violates best
+practice III. It is considered a bad practice because exception type does not carry enough
+ information to identify the cause of the exceptional behaviour, and as a consequence developers need to relying on
 the exception message which can be neither complete nor precise~\cite{gosling2000java}.
-
 
 \subsubsection{Classifying Top 100 Exceptions}
 
 To get a broather view of the root causes of stack traces, we performed an empirical evaluation
-whose goal was to categorized the top 100 root causes.
+whose goal was to categorized the top 100 root exceptions. The top 100 root causes correspond 
+to approximately 95\% of all exception types reported on the exception stack-issues. 
 
-After a first inspection of the complete list of exceptions reported, a first set of exception 
-categories was defined. This list represent the most common terms reffered on exception
-names and javadoc documentation. A similar approach was addopted in [COELHO-ECOOP].
-The list of categories is illustrated in Table~\ref{tab:categories}. Hence in the second phase
-of the study, each exception was mapped to one of the categories previously defined - 
-this analysis was based on the inspection of source code, Javadoc, or additional 
-documentation related to the exception. 
-
-To ensure the quality of the classification, three independent coders classified a randomly selected
-sample of 25 exception types (from the total 100) using the same categories;
-the interater agreement was high (96\%). We can therefore assume that the
-categories are descriptive enough for covering the whole range of exception
-types that can occur in real world Java projects.
-
+Such categorization was based known sources of faults mobile developement: concurrency ~cite{to_include}
+, backward compatibility ~cite{to_include}, security  ~cite{to_include} and resource management (IO, Memory, Batery) ~cite{to_include}.
+We added to this set categories to represent the exceptions caused by programming mistakes,
+ and general Java exceptions (whose types not convey any specific cause of failure), and 
+exceptions that represent specific  exceptional situations of apps, frameworks or libraries.
+The list of categories is illustrated in Table~\ref{tab:categories}. 
 
 \begin{table}
   \centering
@@ -871,12 +858,11 @@ types that can occur in real world Java projects.
       Programming logic &  Exceptions thrown by the JVM when the 
 evaluation of an expression violates the normal semantics of language (e.g., 
 out-of-bounds array index, division-by-zero, access to a null reference). \\ \hline
-      Resources (IO, Memory, Energy)  & Exception releated to the manipulation or restriction of resources (e.g., file, network, memory) \\ \hline
+      Resources (IO, Memory, Batery)  & Exception releated to the manipulation or restriction of resources (e.g., file, network, memory) \\ \hline
       Security                               & Exception releated to security issues (e.g. password validation, criptography) \\ \hline
       Concurrency                            & Exceptions related to multi-threaded programming \\ \hline
       Backward compatibility                 &  A list of exceptions related to backward compatibility - a complete list can be found here [ref]  \\ \hline
-      Reflection                             & Exceptions related to Java reflection library  \\ \hline
-      Specific                & Exceptions created for specific applications, frameworks or libraries \\ \hline
+      Specific Exceptions              & Exceptions created for specific applications, frameworks or libraries \\ \hline
       General (Exception, Error, Runtime)    & The top level exceptions in Java    \\ \hline
     \hline
   \end{tabular}
@@ -884,39 +870,44 @@ out-of-bounds array index, division-by-zero, access to a null reference). \\ \hl
   \label{tab:categories}
 \end{table}
 
-The top 100 root causes correspond to approximately 77\% of all stack traces
-reported reported on Java stack-issues and 95\% of all exceptions reported on
-Android stack-issues. Table~\ref{tab:tophundrend} illustrates the result of such 
-classification.
+Each top 100 root exceptions was mapped to one of these categories - 
+this analysis was based on the inspection of source code, Javadoc, or additional 
+documentation related to each exception.  Table~\ref{tab:tophundrend} 
+illustrates the result of such classification, the number of exception stack traces
+on which the exceptions of each category was found as the root cause.
 
 \begin{table}
   \centering
   \begin{tabular}{lrr}
     \hline
-    \bfseries{Category} &  \bfseries{ Ocurrences (\%)} \\
+    \bfseries{Category} &  \bfseries{Occurence on Stacks (\%)} \\
     \hline
-      Programming logic (java.lang and util) & 2235 (55,64\%)\\
-      Resources (IO)                         &  727 (18,10\%) \\
-      Security                               &  165 (4,11\%)\\
-      Concurrency                            & 116  (2,89\%)\\
-      Backward compatibility                 &  219 (5,45\%) \\
-      Reflection                             &  91 (2,27\%)\\
-      Specific (GUI,FRAMEWORK)               &  197 (4,90\%)\\
-      General (Error, Exception, Runtime)    &  267 (6,65\%)\\
+      Programming logic (java.lang and util) & 2326 (57,9\%)\\
+      Resources (IO)                         &  727 (18,1\%) \\
+      Security                               &  165 (4,1\%)\\
+      Concurrency                            & 116  (2,9\%)\\
+      Backward compatibility                 &  219 (5,5\%) \\
+      Specific Exceptions               &  197 (4,9\%)\\
+      General (Error, Exception, Runtime)    &  267 (6,7\%)\\
     \hline
   \end{tabular}
   \caption{Characterization of the 100 root causes.}
   \label{tab:tophundrend}
 \end{table}
 
-This classification also enable us to find stack traces reporting exceptions 
-directly related to concerns often mentioned on research
-works on Android Plaftorm, such as: Concurrency, Backward compatibility, Security, etc.
-Considering this broader set the programming mistakesstill represent most of the causes (55,64\%)
-of the analyzed exception stack traces.
+To ensure the quality of the classification, three independent coders classified a randomly selected
+sample of 25 exception types (from the total 100) using the same categories;
+the interater agreement was high (96\%). We could also observe that
+We can therefore assume that the categories are descriptive 
+enough for covering the range of exception types analyzed.
+
+In this second analysis the programming mistakes were also the
+most mentioned root causes, followed by exceptions related to resource 
+management (which was expected since on mobile environment 
+resources are usualy scarse). We could observe that there were 
+stack traces related to the main concerns of mobile develoment.
 
 %TODO: Discuss about the interater agreement here...
-
 %\subsection{Sizes of Stack traces}
 %Concerning the size of the stacks (i.e. the number of frames composing them), we
 %could observe that  sometimes it exceeded 100 frames (158 stack frames).
@@ -955,18 +946,13 @@ of the analyzed exception stack traces.
 %or generally irrecoverable errors.}
 %\end{minipage}}
 
-\subsection{Characterizing the Most Common Root Exceptions Signalers}
-<COMPLEMENT.... INCLUDE THE METHODS AND CLASSES RESPONSIBLE FOR SIGNALING
-MOST OF THE EXCEPTIONS AND THE EXCEPTIONS SIGNALED BY THEM. SIMILAR TO THE WRAPPINGS TABLES>
+\subsection{What the Types of Root Exceptions can tell us?}
+%\subsection{Exploring the Information Embeeded on Exception Types}
+%\subsection{The Exception Types and What They can Tell us? }
 
-
-\section{RQ2.  What kinds of exception (mis)-use emerge from stack trace analysis? }
-
-To answer this question, besides distilling the information available on stack traces (i.e., exception signalers, root causes, exception wrappings),
+Besides distilling the information available on stack traces (i.e., exception signalers, root causes, exception wrappings),
 we mined the exception types (i.e., RuntimeException, checked Exception or Error) related to each exception reported on stack traces 
-using source code and byte code analyses supported by Exception Miner; and finally checked 
-this information against the compiled best practices. Doing so, we mined some characteristics 
-of exception stack traces that points to best practices violations.
+using source code and byte code analyses supported by Exception Miner described before. 
 
  Table~\ref{tab:typeroottab} presents the types of root causes of all stack traces reported on the analyzed issues. As we can see 
 from Table ~\ref{tab:typeroottab},  most of the reported exceptions were signaled by Android and libraries reused by Apps were runtime exceptions. 
@@ -978,7 +964,6 @@ for libraries (see Section~\ref{sec:best}) because by using checked exceptions
 libraries can define a precise exception interface to its clients. Such
 libraries are heavily used in several projects, and such precise exception
 interface may be related to the library's maturity.
-
 
 \begin{table}
 \centering
@@ -1000,7 +985,6 @@ All		& 1330	&	320	&	1760	&	632	&	4042	\\
   \label{tab:typeroottab}
 \end{table}
 
-
 %\begin{figure}
 %\centering
 %\includegraphics[width=\hsize]{chart_exceptiontypes.pdf}
@@ -1008,7 +992,6 @@ All		& 1330	&	320	&	1760	&	632	&	4042	\\
 %\caption{Distribution of Checked and Unchedked exceptions.}
 %\label{fig:typeroot}
 %\end{figure}
-
 
 % REMOVED BECAUSE WE DO NOT HAVE SPACE TO DISCUSS IT, AND IT IS NOT WELL
 % CONNECTED WITH PREVIOUS.
@@ -1026,15 +1009,18 @@ All		& 1330	&	320	&	1760	&	632	&	4042	\\
 %on stacks the stacks.  Next sections presents the wrappings found and discuss
 %about them.
 
-\subsection{What the Types of Root Exceptions can tell us?}
-\subsection{Exploring the Information Embeeded on Exception Types}
+We could observe that most of the exceptions reported on issues were runtime, 
+mainly  signaled on the Android Platform and in the Application code. we could also find 
+runtime exceptions signaled from libraries.
 
-<falar dos tipos mais comuns.... Runtime e NullPointer???>
-<LINKCAR COM ANALISE DOS SUPERTIPOS>
-<complementar falando do grafico acima>
-\subsubsection{Undocumented runtime exceptions.} After filtering out all the exceptions implicitly 
-signaled by  JVM (due to programming mistakes) and inspecting the signaler methods of such exceptions (i.e.,  direct an indirect 
-instances of java.lang.RuntimeException). We could observe that only 1 method out of 118 inspected signalers
+In order to evaluate if  best practice IV was being obeyed, we manualy inspected the   
+signature of each method signaling a runtime exception, that was defined by third 
+party code (lib or Android) and reused by an application.
+In this task we filtered out all the exceptions implicitly 
+signaled by  JVM (due to programming mistakes) since these exceptions should not be documented on the 
+method signature. 
+
+We could observe that only 1 method out of 118 inspected signalers
  (i.e., 0,8\%) documented the explicitly thrown runtime exception in a Javadoc comment; and none of these methods
 included the runtime exception  (reported on the stack) as part of the exception interface of the method (i.e., using 
 throws clause on method signature). This result is aligned with the results of other  study conducted by from 
@@ -1048,14 +1034,20 @@ the exception documentation it is very difficult or even impossible for the clie
 protect the application against undocumented runtime exceptions. As a consequence, the
  undocumented runtime exception may remain uncaught and lead to system crashes.
 
-<fazer o link com wrappings>
+We could also observe checked exceptions (which according to Java specification represent
+recoverable conditions) as the root causes of reported exception stack traces.
+A checked exception can remain uncaught if it is declared by evey method on the call chain or if 
+it is wrapped in a runtime exception and rethrown. Next, section describes the kinds of 
+wrappings found in this study.
 
-\subsection{What the Exception Wrappings can Tell us?}
+\subsection{What the Cross-Type  Exception Wrappings can Tell us?}
+
 \subsection{Exploring the Information Embeeded on Exception Wrappings}
 Table~\ref{tab:wrappingandroid} presents the wrappings found in this study for all
 stack traces found in Android repositories. As we can see, some of the checked
-exceptions were indeed wrapped in runtime exceptions or even errors, while most
-of them were not wrapped along the stack trace. 
+exceptions were indeed wrapped in runtime exceptions or even errors.
+
+%, while most of them were not wrapped along the stack trace.
 
 \begin{table*}
   \centering
@@ -1070,12 +1062,22 @@ of them were not wrapped along the stack trace.
       Error & Checked      & 4  &  7 &  &  0  & 7 &  0     \\
       Error & Runtime     & 6  &  13   & 1 &  1  & 0 &  11    \\
     \hline
+      %none   & Runtime   &  2360 & 359 \\
+      %none  &   Checked  & 422  & 117 \\
+      %none  &   Error   & 381  & 141 \\
+      %none &  Undefined  &  15   & 10  \\
+      %none & Throwable  &  1    & 1 \\
+     %\hline
+      %Runtime   & Runtime & 560  & 182 \\    
+      %Checked   & Checked & 98   & 42  \\
+      %Error     & Error   & 15   & 14  \\
+    %\hline
   \end{tabular}
 \caption{Wrappings comprising different exception types.}
 \label{tab:wrappingandroid}
 \end{table*}
 
-This analysis also revealed unexpected wrappings such as: Error wrapping a Checked 
+This analysis revealed unexpected wrappings such as: Error wrapping a Checked 
 exception; a Runtime wrapping and Error; and an Error wrapping a Runtime.
 Java is the only language that provides a hybrid exception handling mechanism
 which offers  different types to represent different exception behaviors (i.e., error, 
@@ -1084,7 +1086,7 @@ handled inside the system since they usually represent unrecoverable conditions
 detected by the JVM such as OutOfMemoryError. Checked exceptions should
 represent recoverable conditions and  Runtime exceptions represent are usually
 related to programming mistakes from which the developer is not expected to recover
-from. 
+from. Next sections discusses about such types of wrappings.
 
 \subsubsection{Runtime wrapping Checked Exception}
 
@@ -1149,14 +1151,6 @@ it is wrapped in a general Runtime exception and rethrown.
 }
 
 
-
-(1) 
-
-
-
-
-
-
 The inversion of control makes it dificult to the application developer to associate 
 a specific handler to the exceptions thrown during the onCreate method (or any other Activity life cycle method).
 Since according to Java handling model the handler should me added on any method in the call chain,
@@ -1216,65 +1210,10 @@ problem~\cite{jo2004uncaught}, one of the main causes of application crashes.
 
 \subsubsection{Runtime Exception wrapping Error}
 
+We could find  57 stack traces on 38 projects on which an Error was wrapped in a runtime exception.
+Manually inspecting each exception stack trace, we could observe that 44% of the wrappings were performed 
+by android.os.AsyncTask.
 
- We could find  57 stack traces on 38 projects on which an Error was wrapped in a Runtime Exception.
-
-
-\begin{table}
-\centering
-\begin{tabular}{ll}
- \bfseries{Signaler from} & \bfseries{Ocurrences} \\
-    \hline
-ANDROID	& 50 \\
-LIB  & 6 \\
-APP	& 1 \\
-\hline
-  \end{tabular}
-\caption{Elements tresponsible for the wrapping.}
-\label{tab:wrapping01}
-\end{table}
-
-
-\begin{table}
-\centering
-\begin{tabular}{ll}
- \bfseries{Signaler method} & \bfseries{Ocurrences} \\
-    \hline
-android.os.AsyncTask &	25 \\
-android.app.ActivityThread & 15 \\
-android.view.LayoutInflater & 7 \\
-org.asynctasktex.AsyncTaskExd & 3 \\
-android.support.v4.content.ModernAsyncTask & 2\\
-\hline
-  \end{tabular}
-\caption{Elements tresponsible for the wrapping.}
-\label{tab:wrapping01}
-\end{table}
-
-
-\begin{table}
-\centering
-\begin{tabular}{lll}
- \bfseries{Method} & \bfseries{Project} & \bfseries{Ocurrences}\\
-    \hline
-android.os.AsyncTask &	122 & 549  \\
-android.view.LayoutInflater & 63 & 163 \\
-android.support.v4.* & 100 & 512\\
-\hline
-  \end{tabular}
-\caption{Elements tresponsible for the wrapping.}
-\label{tab:wrapping01}
-\end{table}
-
-
-
-
-
-
-
-
-
-EXAMPLE: android.os.AsyncTask
 
 {\footnotesize
 \begin{verbatim}
@@ -1318,11 +1257,11 @@ java.lang.RuntimeException,java.lang.StackOverflowError)  & 4\\
 \label{tab:wrapping01}
 \end{table}
 
-TO INVESTIGATE: WHICH WERE THE LIBS AND THE APP? AND ITS REPUTATION?
+%TO INVESTIGATE: WHICH WERE THE LIBS AND THE APP? AND ITS REPUTATION?
 
 \subsubsection{Checked wrapping Runtime Exception}
 
-
+COMPLETE
 
 \begin{table}
 \centering
@@ -1353,12 +1292,13 @@ java.lang.Exception,at.andiwand.odf2html.odf.IllegalMimeTypeException & 	2 \\
 \end{table}
 
 
-The most frequent exception wrapping were were performed inside RoboSpice is an android library that supports the creation of asynchronous long running tasks.
+The most frequent exception wrapping were were performed inside RoboSpice
+ is an android library that supports the creation of asynchronous long running tasks.
 This library has 1.682 stars and 367 forks.
 
-Most of such wrappings however were caused by the reflection Java library, used by Android, Application and library classes.
-relaction methods convert every exception thata happens when invoking a reflected method into an INVOCATION TARGET EXCEPTION
-this conversion is performed inside native code.
+Most of such wrappings however were caused by the reflection Java library, used by Android, 
+Application and library classes. Reflaction methods convert every exception thata happens 
+when invoking a reflected method into an InvoncationTargetException (this conversion is performed inside native code).
 
 \subsubsection{Checked Exception wrapping Error}
 
