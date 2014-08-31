@@ -25,8 +25,10 @@
 
 
 \author{\IEEEauthorblockN{Roberta Coelho\IEEEauthorrefmark{1},
-Georgios Gousios\IEEEauthorrefmark{2}, Arie van Deursen\IEEEauthorrefmark{2},
-Lucas Almeida\IEEEauthorrefmark{1}}
+Georgios Gousios\IEEEauthorrefmark{2}, 
+Arie van Deursen\IEEEauthorrefmark{2},
+Lucas Almeida\IEEEauthorrefmark{1}
+}
 \IEEEauthorblockA{\IEEEauthorrefmark{1}Federal University of Rio Grande do Norte\\
 Natal, Brazil\\
 Email: \texttt{roberta@dimap.ufrn.br,lucas.almeida@ppgsc.ufrn.br}}
@@ -53,7 +55,7 @@ exception stacks traces - e.g., the NullPointerException was the reported cause
 on 30,08\% of all analyzed exception stack traces, and was mentioned in approximately 
 50\% of all projects analyzed. Moreover,  the cross-project analysis 
 of exception stack traces enabled to consistently reveal   
-fragilities of exception handling code: 
+fragilities of the exception-related code: 
 (1) undocumented runtime exceptions signaled by third party code,
 (2) undocumented checked exceptions thrown by Android native code
 (3) unexpected exception wrappings (e.g., Errors being wrapped in checked exceptions) 
@@ -68,7 +70,7 @@ in Android environment but also to other systems based on Java exception model.
 \section{Introduction}
 
 Along the recent years, we have witnessed an astonishing increase in the number 
-mobile applications being developed and some of them being largely used. 
+mobile applications being developed and some of them becoming largely used. 
 Such increase is motivated by pervasiveness of the World Wide Web 
 and the unprecedented increase of global smartphone shipments -
 the mobile industry shipped over 315 million smartphones in the last quarter of 2013 ~\cite{googleio}.
@@ -104,13 +106,13 @@ In the same rate the number of a users increase, also increases
 the number of users affected by application faults and crashes.
 If on the one hand such applications extend phones capabilities 
 far beyond of the basic calls and textual messages, on the other hand
-they have to face new threats to application robustness imposed by mobile environment.
+they have to face threats to application robustness.
 Such applications have to cope with an increasing number of abnormal
-computation states, arising from: programming errors;
+computation states, arising from:
  noisy user inputs; faults in underlying middleware or hardware; 
-faults on third party services and libraries, compatibility issues [ref], 
-connection with devices e.g., as GPS, camera, memory and battery restrictions
-among others.
+faults on third party services and libraries; compatibility issues [ref]; 
+connection with devices e.g., as GPS, camera; memory and battery restrictions; 
+ programming errors, among others.
 
 %Hence, in the same rate the number of mobile users increase, also increases 
 %the number of users affected by such threats.
@@ -125,7 +127,7 @@ The Android platform uses the exception handling mechanism embedded
 ~\cite{goodenough1975exception} is one of the most used schemes for
 detecting and recovering from such exceptional conditions, studies (e.g.~\cite{miller1997issues,Robil00,shah2010understanding, garcia2007extracting,garcia2001comparative,cabral2007exception,coelho2011unveiling}),
 have shown that it is generally poorly understood and the less tested parts of the system ~\cite{coelho2011unveiling}.
-As a consequence that the exception handling code may become itself a source of faults, 
+As a consequence that the exception-related code may become itself a source of faults, 
 and may affect the system the other way around, making the system even less robust ~\cite{robillard2003static,coelho2011unveiling}.
 
 % Google estimates that Android has over 1 billion active users per month, 
@@ -138,10 +140,10 @@ and may affect the system the other way around, making the system even less robu
 %which emphasized the importance of monitoring application crashes.
 
 Our conjecture is that several Android applications may be suffering from similar 
-fragilities on the exception handling code (of the applications themselves or 
+fragilities on the exception-related code (of the applications themselves or 
 the underlaying platform), and that such fragilities may be leading to
-decrease the application robustness, leading for instance to the Uncaught Exception problem
- are one of the main causes of application crashes ~\cite{jo2004uncaught} ~\cite{zhang2012amplifying}.
+decrease the application robustness, leading for instance to the Uncaught Exception problem -
+ which is one of the main causes of application crashes ~\cite{jo2004uncaught} ~\cite{zhang2012amplifying}.
 
 %[ref AST].
 
@@ -462,7 +464,7 @@ can reveal whether these practices have been obeyed.
 %In Java when an application crashes due to an uncaught exception ... 
 %Exception Stach trace is usually (procurar por artigo).
 
-The goal of this study was to extract exception stack traces embedded on issues of Android projects 
+The goal of this mining study was to extract exception stack traces embedded on issues of Android projects 
 (hosted in GitHub and GoogleCode), looking for its 
 common characteristics and investigating whether
  they could reveal common fragilities on the exception code of both the 
@@ -489,10 +491,11 @@ the exception stack trace, the origin of such exceptions (e.g., the application,
 %Which fragilities on the exception-related code emerge from the exception stack trace analysis? 
 %Can such characteristics reveal common fragilities on the exception code of applications or the underlying framework
 
-  \item[RQ2] \noindent\emph{Which patterns of exception (mis)-use emerge?}
-Based on a set of best practices compiled in this study, the study investigates whether characteristics on exception stack traces  
-can pinpoint best practices violations. Characteristics of exception stack traces and detected violations can reveal fragilities
- on the exception handling code, which threats the application dependability. 
+%Which patterns of exception (mis)use emerge?
+  \item[RQ2] \noindent\emph{Which fragilities on the exception-related code emerge from them?}
+Based on a set of best practices compiled in this study, we investigated whether characteristics of exception stack traces  
+can pinpoint best practices violations. Such  violations reveal fragilities
+on the exception-related code, which threats the application dependability.
 
 \end{description}
 
@@ -500,10 +503,14 @@ can pinpoint best practices violations. Characteristics of exception stack trace
 %on issues, the goal of this study was to gain a better understanding 
 %of exception-related system crashes.
 
+%Characteristics of exception stack traces and detected violations can reveal fragilities
+% on the exception-related code, which threats the application dependability. 
+
 For RQ1 and RQ2, we explore the domain quantitatively and highlight interesting cases by 
 exploring cases qualitatively. To support this investigation, source code and bytecode 
 analysis were used in combination with manual inspection to leverage the  understanding 
 of stack traces and support further discussions and insights. 
+
 
 \subsection{Data Extraction Process}
 \label{sec:miningproc}
@@ -597,12 +604,12 @@ to connect to repositories, extract issues, mine stack traces from
 them and distill exception stack trace information. The main components of
 ExceptionMiner are as follows:
 
-\noindent\emph{Repository Connectors}  This component is responsible to connect to
+\noindent\emph{Repository Connectors.}  This component is responsible to connect to
  the host repositories in order to collect project issues. The GitHub Connector connected
  to GiHub through GHTorrent. The GoogleCode connector comprised of a Web Crawler,
  that traversed Googlecode Web interface in order to extract the project issues.
 
-\noindent\emph{Exception Stack Trace Distiller} 
+\noindent\emph{Exception Stack Trace Distiller.} 
 Distills the information that composes a stack trace and storing the results in a
 relational database. Some of the information extracted from the stack traces were:
  the exception being thrown, its signaler, the exception root cause, its corresponding signaler,
@@ -636,7 +643,7 @@ This module analyzed the exception hierarchy of all exceptions thrown on:
  the last version of SDK version 7, and Android Platform and OS (level 19).
 
 
-\noindent\emph{Exception Signaler Classifier} 
+\noindent\emph{Exception Signaler Classifier.} 
 This module is responsible for classifying each signaler according 
 to its origin (i.e. Android Plaform, Android Libcore, Aplication, Library). 
 We downloaded the source code of Android Platform and OS (level 19)
@@ -686,7 +693,7 @@ exception wrappers,  types, and its signalers).
 %contained no lable. Such observation supports our assumption to consider not only the issues 
 % related with defect issues on this analysis.
 
-\subsubsection{Manual Inspections}
+\subsection{Manual Inspections}
 This study was also based in a set of manual inspection tasks. Besides the 
  identification of Android projects details previously. 
 Manual inspections were used discover the type of exceptions thrown by 
@@ -704,6 +711,15 @@ remained undefined and were removed from this study.
 %ESPALHAR ESTA SECAO NAS OUTRAS.
 %Figure~\ref{fig:overviewfig} presents an overview of the mixed-methods approach
 %conducted to answer these questions. The mixed-methods approach is composed by the following steps:
+
+%\begin{figure*}
+%\centering
+%\includegraphics[width=\hsize]{overview.pdf}
+%\caption{Overview of the study based on mixed approaches.}
+%\label{fig:overviewfig}
+%\end{figure*}
+
+
 
 \subsection{Replication Package}
 All the data used in this study will be publicly available at http://.....
@@ -1044,7 +1060,7 @@ Two possible ways of a checked exception can remain uncaught are: the checked
 exception is declared by every method on the call chain or if it is wrapped in a 
 runtime exception and re-thrown. However the inspection of stack traces 
 and the signatured of methods revealed the a third option: an undocumented
-checked exception thrown by a native method. 
+checked exception thrown by a native method.
 
 The code snippet in Figure X illustrate this scenario.
  The java/lang/Class declares a native method named getDeclaredMethods. 
@@ -1052,19 +1068,18 @@ The Java-side declaration of of this method does not have any throws clause,
 leading programmers and the compiler to think that no checked exceptions can be thrown.
 
  However, the C-code implementation did throw a "checked exception" NoSuchMethodException, 
-violating the declaration. The Java compiler, could not detect this violation because does 
-not perform static exception  checking on native methods. This type of bugs is hard to diagnose
-because the developer usualy do not have access to the native code (written in other language). 
+violating the declaration. The Java compiler, could not detect this violation because it does 
+not perform static exception checking on native methods. This type of bug is hard to diagnose
+because the developer usualy do not have access to the native implementations. 
 
-Consequently, since it was not expected by the programmer, when such method throws 
+Consequently, since it is not expected by the programmer, when such method throws 
 this exception, such undocumented exception may remain
-uncaught and cause the app to crash, or be mistakenly handled by subsumption - 
+uncaught and cause the app to crash, or may be mistakenly handled by subsumption - 
 The exception stack traces reporting this scenario is actually a real bug of Android 
 Gingerbread version (which still accounts for 13.6% of devices running Android).
 
-
 \noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
-  0,8\% of the methods documented the explicitly signaled runtime exceptions.
+ Only 0,8\% of the methods documented the explicitly signaled runtime exceptions.
   The study also detected an undocumented checked exception signaled by
   a native method defined in Android.
 }
@@ -1164,20 +1179,20 @@ calling the Activities onCreate method. Hence, as we can see from lines 4-8,
  in case any exception is thrown by an application Activity during its creation, 
 it is wrapped in a general Runtime exception and re-thrown.
 
-{\footnotesize
-\begin{verbatim}
-
-1. private Activity performLaunchActivity(...) {
-2.  try {
-3.   ...
-4.   ...callActivityOnCreate(...);
-5.  } catch (Exception e) {
-6.    ...
-7.   throw new RuntimeException(..., e);
-8.  }
-9.}
-\end{verbatim}
-}
+%MOVED TO THE PICTURE
+%{\footnotesize
+%\begin{verbatim}
+%1. private Activity performLaunchActivity(...) {
+%2.  try {
+%3.   ...
+%4.   ...callActivityOnCreate(...);
+%5.  } catch (Exception e) {
+%6.    ...
+%7.   throw new RuntimeException(..., e);
+%8.  }
+%9.}
+%\end{verbatim}
+%}
 
 
 The inversion of control makes it difficult to the application developer to associate 
@@ -1251,26 +1266,26 @@ INCONSISTENCY…. DEPENDS ON DEVELOPERS
 WORK INSTEAD OF TOOLS.
 
 
-{\footnotesize
-\begin{verbatim}
-protected void done() {
- ...
-   try {
-      ...
-   } catch (InterruptedException e) {
-      android.util.Log.w(..., e);
-   } catch (ExecutionException e) {
-      throw new RuntimeException("...",e.getCause());
-   } catch (CancellationException e) {
-      ...
-   } catch (Throwable t) {
-     throw new RuntimeException("...", t);
-   }
-    ...
- }
-}
-\end{verbatim}
-}
+%{\footnotesize
+%\begin{verbatim}
+%protected void done() {
+% ...
+ %  try {
+ %     ...
+  % } catch (InterruptedException e) {
+  %    android.util.Log.w(..., e);
+  % } catch (ExecutionException e) {
+  %    throw new RuntimeException("...",e.getCause());
+  % } catch (CancellationException e) {
+  %    ...
+ %  } catch (Throwable t) {
+ %    throw new RuntimeException("...", t);
+ %  }
+ %   ...
+% }
+%}
+%\end{verbatim}
+%}
 
 We could observe that several types of exceptions were encapsulated in 
 instances of Runtime. Table X shows some kinds of errors encapsulated a
@@ -1299,36 +1314,36 @@ RuntimeException.
  %\begin{tabular}{|p{7.9cm} p{0.1cm}|}
 \begin{tabular}{ll}
     \hline
- \bfseries{Runtime-Error Wrapping Examples} &   \\  %\bfseries{\#}
+ id & \bfseries{Runtime-Error Wrapping Examples}    \\  %\bfseries{\#}
     \hline
-java.lang.RuntimeException - java.lang.OutOfMemoryError & \\ %30
-java.lang.RuntimeException - java.lang.NoClassDefFoundError &\\ %6
-java.lang.RuntimeException - java.lang.UnsatisfiedLinkError) & \\ %5
-java.lang.RuntimeException -  java.lang.StackOverflowError)  & \\ %4
+1 & java.lang.RuntimeException - java.lang.OutOfMemoryError  \\ %30
+2 &java.lang.RuntimeException - java.lang.NoClassDefFoundError \\ %6
+3 &java.lang.RuntimeException - java.lang.UnsatisfiedLinkError)  \\ %5
+4& java.lang.RuntimeException -  java.lang.StackOverflowError)   \\ %4
 \hline
-\bfseries{Checked-Runtime Wrapping Examples} &  \\
+ & \bfseries{Checked-Runtime Wrapping Examples}   \\
  \hline
-...android.robospice.CacheSavingException - java.lang.ClassCastException &  \\ %6
-java.lang.reflect.InvocationTargetException - java.lang.NullPointerException &   \\ %3
-java.lang.reflect.InvocationTargetException - ...ResourcesdNotFoundException &  \\ %2
-java.sql.SQLException - android.database.sqlite.SQLiteDiskIOException &  \\ %2
+5& ...android.robospice.CacheSavingException - java.lang.ClassCastException   \\ %6
+6&java.lang.reflect.InvocationTargetException - java.lang.NullPointerException    \\ %3
+7&java.lang.reflect.InvocationTargetException - ...ResourcesdNotFoundException  \\ %2
+8&java.sql.SQLException - android.database.sqlite.SQLiteDiskIOException   \\ %2
  \hline
-\bfseries{Checked-Error Wrapping Examples} & \\
+& \bfseries{Checked-Error Wrapping Examples}  \\
  \hline
-java.lang.reflect.InvocationTargetException - java.lang.OutOfMemoryError &  \\ %5
-java.lang.Exception - java.lang.OutOfMemoryError &  \\ %1
-java.lang.reflect.InvocationTargetException - java.lang.NoSuchMethodError &	 \\ %1
-java.lang.reflect.InvocationTargetException - java.lang.UnsatisfiedLinkError&	 \\ %1
+9&java.lang.reflect.InvocationTargetException - java.lang.OutOfMemoryError  \\ %5
+10&java.lang.Exception - java.lang.OutOfMemoryError   \\ %1
+11&java.lang.reflect.InvocationTargetException - java.lang.NoSuchMethodError 	 \\ %1
+12&java.lang.reflect.InvocationTargetException - java.lang.UnsatisfiedLinkError	 \\ %1
 \hline
-\bfseries{Error-Checked Wrapping Examples} & \\
+& \bfseries{Error-Checked Wrapping Examples}  \\
  \hline
-java.lang.NoClassDefFoundError - java.lang.ClassNotFoundException &  \\ %4
-java.lang.AssertionError - javax.crypto.ShortBufferException) &  \\ %3
+13&java.lang.NoClassDefFoundError - java.lang.ClassNotFoundException   \\ %4
+14&java.lang.AssertionError - javax.crypto.ShortBufferException)   \\ %3
 \hline
-\bfseries{Error-Runtime Wrapping Examples} &   \\
+& \bfseries{Error-Runtime Wrapping Examples}    \\
  \hline
-java.lang.ExceptionInInitializerError - java.lang.NullPointerException &  \\ %9
-java.lang.ExceptionInInitializerError - java.lang.IllegalArgumentException &	 \\ %2
+15&java.lang.ExceptionInInitializerError - java.lang.NullPointerException   \\ %9
+16&java.lang.ExceptionInInitializerError - java.lang.IllegalArgumentException 	 \\ %2
  \hline
   \end{tabular}
 \caption{Examples of Cross-type wrappings}
@@ -1430,8 +1445,8 @@ reveal fragilities on Java Exception Model.
 
 \section{Futher Discussions}
 
-\begin{figure} \centering \includegraphics[scale=0.4]{codeexample2.pdf}
-\caption{Code snippets illustrating fragilities on the exception handling code} \label{fig:exchier} \end{figure}
+\begin{figure*} \centering \includegraphics[scale=0.55]{codeexamples.pdf}
+\caption{Code snippets illustrating fragilities on the exception-related code} \label{fig:exchier} \end{figure*}
 
 
 \emph{``Everybody hates thinking about exceptions, because they are not supposed to happen."}
@@ -1470,7 +1485,7 @@ wrappings may prevent exception types from being used according to its initial p
  to bypass the language restrictions imposed by checked exceptions  (e.g,
  checked exceptions may be wrapped in runtime exceptions).
 
-Hence, when (mis)applied, the exception wrapping can make the exception handling code
+Hence, when (mis)applied, the exception wrapping can make the exception-related code
  more complex and lead to what we call an \emph{exception handling confusion problem}.
 Such problem can lead the program to
 an unpredictable state in the presence of exceptions. To illustrate this problem, we can use
@@ -1666,10 +1681,10 @@ related to NullPointerException and other JMV implicitly thrown exceptions had
 the higher prevalence on the analyzed set of stacks.
 
 
-\textit{Tools Support for Detecting Faults on Java Exception Handling Code.} 
+\textit{Tools Support for Detecting Faults on Java Exception-Related Code.} 
 
-Manually analyzing the exception handling code looking for defects, can easily 
-become infeasible [ref]. Hence, some tools have been proposed to detect faults 
+Manually analyzing the exception-related code and looking for defects, can easily 
+become infeasible ~\cite{Robil00}. Hence, some tools have been proposed to detect faults 
 on the exception handling code either statically (cabral, roberta,nelio,chang) 
 or dynamicaly through testing (roberta). Both approaches, however, have inherent
  limitations. On the one hand, the static analysis tools needs to deal with the false 
