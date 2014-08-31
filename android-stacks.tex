@@ -629,58 +629,78 @@ every exception defined on a stack trace need to be classified according to its 
 (e.g. Error, Exception or RuntimeException). The exception classifier is based on 
 bytecode analysis (based on Design Wizard~\cite{Brunet09}) that walks up the 
 type hierarchy of a Java exception until it reaches a base exception type.
+This module analyzed the exception hierachy of all exceptions thrown on:
+ the last version of SDK version 7, and Android Platform and OS (level 19).
+
 
 \noindent\emph{Exception Signaler Classifier} 
 This module is responsible for classifying each signaler according 
-to its origin (i.e. Android Plaform, Aplication, Library, Libcore, or Java) 
-based on pattern matching between the signaler name and the packages associated to each category.
-TELL THAT ALL PACKAGES COMPOSISNG APPS .... WERE RECOVED....
+to its origin (i.e. Android Plaform, Android Libcore, Aplication, Library). 
+We downloaded the source code of Android Platform and OS (level 19)
+and this module extractes the packages hierarchies (recursive list of 
+of Java packages), that composes it. To discover the packages that compose 
+each application, this module extracted the manifest files of each Android apps
+ - which defines the main packages that compose the applications.
+Then based on pattern matching between the signaler name and the packages 
+ this module identifies the origin of the exception signalers.
+The exceptions were considered from libraries if their packages were not defined 
+on Android Platform, core libraries nor on applications.
+Table ~ref{signalers} summarizes the signaler classification.
 
-\textbf{Step 4.}  Bytecode-Code analysis of JVM and Android Exceptions. We developerd a bytecode analysis tool based on DesignWizard to discover all exceptions thrown by the last version of SDK version 7, and Android Platform and OS (level 19). Every exception was extracted and classified as Runtime, Checked or Error based on the analysis of the exception hierarchy. Our analysis found XXX runtime exceptions in JVM and XX checked, on Android xxx checked and YYY runtime.
+\begin{table}
+  \centering
+  \begin{tabular}{rp{29em}}
+    \hline
+    \bfseries{Signaler} & \bfseries{Description} \\
+    \hline
+    \bfseries{android} & If the exception is thrown by a method defined in Android Platform, or in a JDK library used by i.\\
+    \bfseries{app}     & If the exception is thrown by an application method or in a JDK library used by it.\\
+    \bfseries{libcore} & If the exception is thrown by one of the core libraries reused by Android (i.e., org.apache.harmony, org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml). \\
+    \bfseries{lib}     & If the exception is thrown by a method that was not defined by any of the elements above.\\
+    \hline
+  \end{tabular}
+  \caption{Sources of exceptions in Android}
+  \label{tab:signalers}
+\end{table}
 
-\textbf{Step 5.}  Source-Code Analysis of Android Projects. 
-For each one of the analyzed projects, we
-downloaded the source code and using custom scripts, we extracted their package
-hierarchy (recursive list of of Java packages) and their custom exception types.
+The information extracted by each module was structured in a Database,
+which contained the distilled information of stack traces, exception types,
+and signalers origin (e.g., root exception and its type, root signaler and its origin,
+exception wrapper type, wrapper signaler).
 
-\textbf{Step 6.}  Manual Inspection. XXXX of the exceptions reported on stack traces  could not be found on JMV, SO or inside the last version of the project. Based on the full name of the exception, a manual inspection was performed on the artifacts associated to the project and libraries used by the project. When even on those sources the exception was not foung [grep-code and similar sites] the exception, in order to discover the exception type. Only 3 exceptions remained undefined and were removed from this study.
+%\subsubsection{The ExceptionMiner Tool}
+%Using the ExceptionMiner tool, developed in this work, we could extract the exception stack traces defined 
+%on issues and issue comments. Executing ExceptionMiner tool each issue and issue comment defined on the 
+%16,836 projects considered in this study, we could observe that 3,758 projects (22,32\%) contained at 
+%least 1 issue on which a stack trace was found. Overall the number of issues on which a stack trace was
+% found was 21,013 from which 28,800 stack traces were extracted and analyzed - some issues defined 
+% more than one stack trace.
 
+%We then analyzed the lables associated to such issues, and we discovered that only 5,196 were
+% labled as defect ~\footnote{the dedect lables considered in this work were every lable containing 
+%as substring: defect, bug, crash, failure, fail, exception} (which represent only 24,7\% of the
+% issues on which a stack trace was found), most of the issues on which stack traces were found 
+%contained no lable. Such observation supports our assumption to consider not only the issues 
+% related with defect issues on this analysis.
 
-\subsubsection{The ExceptionMiner Tool}
+\subsubsection{Manual Inspections}
+This study was also based in a set of manual inspection tasks. Besides the 
+ identification of Android projects detailes previously. 
+Manual inspections were used discover the type of exceptions thrown by 
+the applications and libraries we manually inspect the sourcecode or javadoc
+ documentation of each of them. When the exception was removed from the 
+last app version, the previous versions were analyzed. When the exception was
+ not found on the previous versions, the exception was discarded.  Only 3 exceptions 
+remained undefined and were removed from this study.
 
-Before investigating the research questions listed above we analyzed the prevalence of stack traces 
-on issues created on Github. Prevalence or prevalence proportion, a term often used in epidemiology,
-represents the proportion of a population found to have a particular condition
-(e.g. a disease) over the total number of the studied population. In our work, we used
-this term to evaluate a condition (i.e., presence of a stack trace) over issues
-reported on GitHub repositories.
-
-Using the ExceptionMiner tool, developed in this work, we could extract the exception stack traces defined on issues and issue comments. Executing ExceptionMiner tool each issue and issue comment defined on the 16,836 projects considered in this study, we could observe that 3,758 projects (22,32\%) contained at least 1 issue on which a stack trace was found. Overall the number of issues on which a stack trace was found was 21,013 from which 28,800 stack traces were extracted and analyzed - some issues defined more than one stack trace.
-
-We then analyzed the lables associated to such issues, and we discovered that only 5,196 were labled as defect ~\footnote{the dedect lables considered in this work were every lable containing as substring: defect, bug, crash, failure, fail, exception} (which represent only 24,7\% of the issues on which a stack trace was found), most of the issues on which stack traces were found contained no lable. Such observation supports our assumption to consider not only the issues related with defect issues on this analysis.
-
-\subsubsection{The Minig Process}
-
-{MOSTRAR UMA FIGURA COM TODOS OS PASSOS E RESSALTAR OS PASSOS MANUAIS}
-COMPLETE HERE.....
-
-\subsubsection{Database of Exception Stack Trace Information}
-\subsubsection{Distiling Exception Stack Trace Information}
-
-\- root exception
-\- signaler
-\- method
-\- class
-\- package
-\- Exception
-
-\subsection{Process}
-
-ESPALHAR ESTA SECAO NAS OUTRAS.
-
-Figure~\ref{fig:overviewfig} presents an overview of the mixed-methods approach
-conducted to answer these questions. The mixed-methods approach is composed by the following steps:
-
+%{MOSTRAR UMA FIGURA COM TODOS OS PASSOS E RESSALTAR OS PASSOS MANUAIS}
+%COMPLETE HERE.....
+%\subsubsection{Database of Exception Stack Trace Information}
+%\subsubsection{Distiling Exception Stack Trace Information}
+%\subsection{Process}
+%ESPALHAR ESTA SECAO NAS OUTRAS.
+%Figure~\ref{fig:overviewfig} presents an overview of the mixed-methods approach
+%conducted to answer these questions. The mixed-methods approach is composed by the following steps:
 
 \subsection{Replication Package}
 All the data used in this study will be publicly available at http://.....
@@ -709,13 +729,27 @@ quantitative and qualitative analysis of the outcomes.
 This section presents the results amed at answering the research 
 questions presented before.
 
-\subsection{The Most Common Root Exceptions }
+\subsection{The Common Root Exceptions and What They can Tell us? }
 
-After distilling the information available on the XXXX  stack traces, extracted from the 
-issues and issues comments of XXXX Android projects on GitHub and Googlecode,  
-we found XXXX  distinct exceptions reported as the root causes of stack traces.
-Table \ref{tab:toptenandroid} illustrates the top 10 root couses found in the study ranked by the number of distinct
-project repositories on which they were reported. 
+After distilling the information available on the exception stack traces we could find 
+the the exceptions commonly reported as the root causes of stack traces.
+Table \ref{tab:toptenandroid} illustrates the top 10 root couses found in the study,
+ ranked by the number of distinct project repositories on which they were reported. 
+Thes table shows: the number of times each exception was reported as 
+the root cause of a stack trace, the number of distinct projects reporting such causes on stack traces, 
+and the percentages of such in relation to all reported exceptions and analyzed projects respectaly.
+It also presents the whether the method responsible for signaling the exceptions were
+part of Android, the aplication itself, libcore, or a third-party library as presented in Table  \ref{tab:signalers} 
+ \footnote{9 stack traces contained only elements of JVM and were discarded from the analysis}.
+
+
+%For each exception we could discover the number of times it was reported as the root caused on exception stack traces,
+%the number of distinct projects on which such stacks were defined (and consequently its
+%popularity) and the of times it was signaled by different signaler types. We
+%could calculate the popularity of each root cause, considering the number of
+%distinct projects they were found and the whole set of projects analyzed with at
+%least one stack trace (482). Table~\ref{tab:toptenandroid} 
+%and Figure~\ref{fig:androidsignaler} presents the mined data.
 
 \begin{table*}
   \centering
@@ -749,69 +783,38 @@ java.util.ConcurrentModificationException & 38  & 7,88\% & 54   & 1,33\%   & 5  
 %\label{fig:androidsignaler}
 %\end{figure}
 
-Table \ref{tab:toptenandroid} illustrate the number of times each exception was reported as 
-the root cause of a stack trace, the number of distinct projects reporting such causes on stack traces, 
-and the percentages of such in relation to all reported exceptions and analyzed projects respectaly.
-The table also presents the whether the method responsible for signaling the exceptions were
-part of Android, the aplication itself, libcore, or a third-party library as presented in Table  \ref{tab:signalers} 
- \footnote{9 stack traces contained only elements of JVM and were discarded from the analysis}.
 
-\begin{table}
-  \centering
-  \begin{tabular}{rp{29em}}
-    \hline
-    \bfseries{Signaler} & \bfseries{Description} \\
-    \hline
-    \bfseries{android} & If the exception is thrown by a method defined in Android Platform or OS, or in a JDK library used by them.\\
-    \bfseries{app}     & If the exception is thrown by an application method or in a  DK library used by it.\\
-    \bfseries{libcore} & If the exception is thrown by one of the core libraries reused by Android (i.e., org.apache.harmony, org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml). \\
-    \bfseries{lib}     & If the exception is thrown by a method that was not defined by any of the elements above.\\
-    \hline
-  \end{tabular}
-  \caption{Sources of exceptions in Android}
-  \label{tab:signalers}
-\end{table}
+INSERIR EM ALGUM PONTO DO TEXTO:
+ 
 
-For each exception we could discover the number of times it occurred on exception stack traces,
-the number of distinct projects on which such stacks were defined (and consequently its
-popularity) and the of times it was signaled by different signaler types. We
-could calculate the popularity of each root cause, considering the number of
-distinct projects they were found and the whole set of projects analyzed with at
-least one stack trace (482). Table~\ref{tab:toptenandroid} 
-%and Figure~\ref{fig:androidsignaler}
-presents the mined data.
 
-Programming mistakes are the most common root causes for most types of signalers. We
-could observe that the NullPointerException is still the exception with higher
-number of occurrences. The NullPoiterExceptions are mainly signaled inside
-Android platform and inside application code, although we also find
+We can observe that most of this set is composed by exceptions defined by java.lang,
+which are mostly not expliciltly thrown by the developer but include
+the exceptions implicitly thrown by the JVM due to programming errors 
+(e.g., out-of-bounds array index, division-by-zero, access to a null reference)
+ or resource limitation (e.g., OutOfMemoryError).
+For such exceptions, which represent programming bugs or resource limitations, 
+there is usually no proper handling besides presenting an error message to
+ the user and restarting the application. Only high fault tolerant systems need to 
+provide solutions to handle them. Hence, the best strategy to deal with them
+is try to prevent them.
+
+
+\subsubsection{The high number of NullPointerExceptions}
+From this set the java.lang.NullPointerException was the most reported root cause; 1225 stack traces 
+had a java.lang.NullPointerException  as root cause, which corresponds of 30,08\%  of 
+all analyzed stack traces. Considering the number of distinct project repositories, 
+the java.lang.NullPointerException, was reported on at least one issue of 99 projects 
+(which represents 20,54\% of all projects reporting at least one stack trace).
+
+ The NullPoiterExceptions are mainly signaled inside Android platform and inside 
+application code, although we also find
 NullPointerExceptions being signaled from third-party libraries. Regarding
 reusable code, there is no consensus whether it is a good or bad practice to 
-re-throw
-a NullPointerException. Some prefer to encapsulate such an exception on
+re-throw a NullPointerException. Some prefer to encapsulate such an exception on
 IllegalArgumentException, while others~\cite{bloch2008effective} argue that the
 NullPointerException makes the cause of the problem explicit and hence 
 should not be wrapped.
-
-We could observe in this study that the NullPointerException and other
-other implicitly signaled exceptions represented most of the exceptions reported
-on issues in both Java and Android subset. For such exceptions, which represent
-programming bugs or resource limitations, there is usually no proper handling
-besides presenting an error message to the user and restarting the application.
-Only high fault tolerant systems need to provide solutions to handle them.
-
-
-
-
-----------
-
-We can observe that most of this set is composed by exceptions defined by java.lang,
-which are usually implicitly thrown by JMV dur to a programming mistake. From thi set
-the java.lang.NullPointerException  was the most reported root cause;  7578 stack traces 
-had a java.lang.NullPointerException  as root cause, which corresponds of 26,31\%  of 
-all analyzed stack traces. Considering the number of distinct project repositories, 
-the java.lang.NullPointerException, was reported on at least one issue of 1,671 projects 
-(which represents 44,47\% of all projects reporting at least one stack trace).
 
 The high prevalence of NullPointerExceptions is aligned with the findings other 
 works~\cite{kim2013predicting,fraser20131600,csallner2004jcrasher}. For instance, Sunghun et
@@ -823,9 +826,6 @@ environment (as the ones found in this study).
 
 In Section XX we provide further discussion on the NullPointerException problem, pointing 
 to ways of how to deal with it and mitigate it.
-
-
-\subsubsection{What They can Tell us?}
 
 \subsubsection{Direct instances of RuntimeExceptions being thrown.}
 
@@ -841,12 +841,6 @@ bad practice, because the exception type does not carry enough information to id
 cause of the exceptional behaviour, and as a consequence developers need to relying on
 the exception message which can be neither complete nor precise~\cite{gosling2000java}.
 
-
-INSERIR EM ALGUM PONTO DO TEXTO:
-The exceptions available on exception stack traces are not limited to the exceptions 
-expliciltly thrown by the Java developer but also include
-the exceptions implicitly thrown by the JVM due to programming errors (e.g., out-of-bounds array index, division-by-zero, 
-access to a null reference) or resource limitation (e.g., OutOfMemoryError).
 
 \subsubsection{Classifying Top 100 Exceptions}
 
@@ -866,9 +860,6 @@ sample of 25 exception types (from the total 100) using the same categories;
 the interater agreement was high (96\%). We can therefore assume that the
 categories are descriptive enough for covering the whole range of exception
 types that can occur in real world Java projects.
-
-
-TODO: SEPARAR JAVA DE ANDROID
 
 
 \begin{table}
@@ -918,13 +909,13 @@ classification.
   \label{tab:tophundrend}
 \end{table}
 
-Programming errors are the causes of most of the exception stack traces reported
-on issues both in  general Java data set and Android subset. In the Android subset we could find 
-more stack traces reporting exceptions related to Backward
-compatibility and security concerns than on the general data set.
+This classification also enable us to find stack traces reporting exceptions 
+directly related to concerns often mentioned on research
+works on Android Plaftorm, such as: Concurrency, Backward compatibility, Security, etc.
+Considering this broader set the programming mistakesstill represent most of the causes (55,64\%)
+of the analyzed exception stack traces.
 
-
-TODO: Discuss about the interater agreement here...
+%TODO: Discuss about the interater agreement here...
 
 %\subsection{Sizes of Stack traces}
 %Concerning the size of the stacks (i.e. the number of frames composing them), we
