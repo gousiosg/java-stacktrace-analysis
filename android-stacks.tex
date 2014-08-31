@@ -732,7 +732,7 @@ quantitative and qualitative analysis of the outcomes.
 This section presents the results aimed at answering the research 
 questions presented before.
 
-\subsection{What the Common Root Exceptions can tell us? }
+\subsection{What can the Common Root Exceptions tell us? }
 
 After distilling the information available on the exception stack traces we could find 
 the the exceptions commonly reported as the root causes of stack traces.
@@ -798,13 +798,12 @@ there is usually no proper handling besides presenting an error message to
 provide solutions to handle them. Hence, the best strategy to deal with them
 is try to prevent them.
 
-\subsubsection{The high number of NullPointerExceptions}
+\emph{\textbf{The high number of NullPointerExceptions.}}
 From this set the java.lang.NullPointerException was the most reported root cause; 1225 stack traces 
 had a java.lang.NullPointerException  as root cause, which corresponds of 30,08\%  of 
 all analyzed stack traces. Considering the number of distinct project repositories, 
 the java.lang.NullPointerException, was reported on at least one issue of 99 projects 
 (which represents 20,54\% of all projects reporting at least one stack trace).
-
  The NullPointerExceptions are mainly signaled inside Android platform and inside 
 application code, although we also find
 NullPointerExceptions being signaled from third-party libraries. Regarding
@@ -820,28 +819,22 @@ al.~\cite{kim2013predicting} showed that in Eclipse bug report system 38\% the b
 related to exception handling were caused by NullPointerException; other works on robustness 
 testing~\cite{maji2012empirical,csallner2004jcrasher} showed that most of the automatically 
 detected bugs were due to NullPointerExceptions and implicitly-signaled of Java
-environment (as the ones found in this study).
+environment (as the ones found in this study).In Section XX we provide further 
+discussion on the NullPointerException problem, pointing 
+to ways of how to mitigate it.
 
-In Section XX we provide further discussion on the NullPointerException problem, pointing 
-to ways of how to deal with it and mitigate it.
-
-\subsubsection{Direct instances of RuntimeExceptions being thrown.}
-
-From Tables~\ref{tab:toptenjava} and~\ref{tab:toptenandroid} we can observe that,
-in both Java and Android related issues, direct instances
-java.lang.RuntimeException were thrown  in 10,94\% of Java repositories and
-18,88\% of Android repositories respectively. 
-In the Android repositories, most of such exceptions  were  thrown by the Android 
-platform/OS (167 out of 232).
+\emph{\textbf{Direct instances of RuntimeExceptions being thrown.}}
+From Table ~\ref{tab:toptenandroid} we can observe that direct instances
+java.lang.RuntimeException were thrown in 18,88\% of Android repositories, and
+most of such exceptions  were  thrown by the Android platform (167 out of 232).
 
 Throwing general exceptions, such as direct instances of RuntimeException, violates best
 practice III. It is considered a bad practice because exception type does not carry enough
  information to identify the cause of the exceptional behavior, and as a consequence developers need to relying on
 the exception message which can be neither complete nor precise~\cite{gosling2000java}.
 
-\subsubsection{Classifying Top 100 Exceptions}
-
-To get a broader view of the root causes of stack traces, we performed an empirical evaluation
+\emph{\textbf{Classifying Top 100 Exceptions.}} To get a broader view of the root causes of stack traces,
+ we performed an empirical evaluation
 whose goal was to categorized the top 100 root exceptions. The top 100 root causes correspond 
 to approximately 95\% of all exception types reported on the exception stack-issues. 
 
@@ -885,14 +878,13 @@ on which the exceptions of each category was found as the root cause.
     \hline
     \bfseries{Category} &  \bfseries{\% reported on stacks} \\
     \hline
-      Programming logic (java.lang and util) &  57,9\%\\ %2326
-      Resources (IO)                         &   18,1\% \\ %727
-      Security                               &  4,1\%\\ %165 
-      Concurrency                            &  2,9\% \\ %116 
-      Backward compatibility                 & 5,5\% \\ %219
-      Specific Exceptions               &  4,9\%\\ %197 
-      General (Error, Exception, Runtime)    &  6,7\%\\ %267 
-    \hline
+      Programming logic (java.lang and util) &  52,0\%\\ 
+      Resources (IO, Memory, Batery)       &   23,9\% \\ 
+      Security                               &  4,1\%\\  
+      Concurrency                            &  2,9\% \\ 
+      Backward compatibility                 & 5,5\% \\ 
+      Specific Exceptions               &  4,9\%\\ 
+      General (Error, Exception, Runtime)    &  6,7\%\\
   \end{tabular}
   \caption{Characterization of the 100 root causes.}
   \label{tab:tophundrend}
@@ -904,14 +896,19 @@ the interater agreement was high (96\%). We could also observe that
 We can therefore assume that the categories are descriptive 
 enough for covering the range of exception types analyzed.
 
-In this second analysis the programming mistakes were also the
-most mentioned root causes, followed by exceptions related to resource 
-management (which was expected since on mobile environment 
-resources are usually scarce). Some of such programming mistakes,
-however, may be interactly related to one of the other concerns. For 
-instance, a concurrency problem may lead to a NullPointerException.
-This classification however, was only based on the semantic embedded 
-on the exception types.
+Analizing the Top 100 exceptions the programming mistakes
+were also the most reported. However, they may be interactly related 
+to one of the other concerns. For  instance, a concurrency problem may 
+lead to a NullPointerException. This classification however, 
+was only based on the semantic embedded  on the exception types.
+
+\noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
+Programming mistakes were reported as the root cause of  52\% of the analyzed stack traces. 
+In 30,08\% NullPointerExceptions was reported as the root cause.
+}
+\end{minipage}}
+
+
 
 %TODO: Discuss about the interater agreement here...
 %\subsection{Sizes of Stack traces}
@@ -952,7 +949,7 @@ on the exception types.
 %or generally irrecoverable errors.}
 %\end{minipage}}
 
-\subsection{What the Types of Root Exceptions can tell us?}
+\subsection{What can the Types of Root Exceptions tell us?}
 %\subsection{Exploring the Information Embedded on Exception Types}
 %\subsection{The Exception Types and What They can Tell us? }
 
@@ -1034,26 +1031,52 @@ Sacramento et al ~\cite{sacramento2006unchecked} which observed that the
 runtime exceptions in .Net programs are most often not documented.
 
 Such undocumented runtime exceptions represent a threat to system robustness, specially
-when such exceptions are thrown then the third party code is invoked inside the application (e.g. libraries, or framework utility code).
-In such cases the client usually do not have access to the source code, and in the absence of
+when such exceptions are thrown then the third party code is invoked inside the application 
+(e.g. libraries, or framework utility code). In such cases the client usually do not have access to 
+the source code, and in the absence of
 the exception documentation it is very difficult or even impossible for the client of such third party code to 
 protect the application against undocumented runtime exceptions. As a consequence, the
  undocumented runtime exception may remain uncaught and lead to system crashes.
 
 We could also observe checked exceptions (which according to Java specification represent
 recoverable conditions) as the root causes of reported exception stack traces.
-A checked exception can remain uncaught if it is declared by every method on the call chain or if 
-it is wrapped in a runtime exception and re-thrown. Next, section describes the kinds of 
-wrappings found in this study.
+Two possible ways of a checked exception can remain uncaught are: the checked 
+exception is declared by every method on the call chain or if it is wrapped in a 
+runtime exception and re-thrown. However the inspection of stack traces 
+and the signatured of methods revealed the a third option: an undocumented
+checked exception thrown by a native method. 
 
-\subsection{What the Exception Wrappings can tell us?}
+The code snippet in Figure X illustrate this scenario.
+ The java/lang/Class declares a native method named getDeclaredMethods. 
+The Java-side declaration of of this method does not have any throws clause, 
+leading programmers and the compiler to think that no checked exceptions can be thrown.
+
+ However, the C-code implementation did throw a "checked exception" NoSuchMethodException, 
+violating the declaration. The Java compiler, could not detect this violation because does 
+not perform static exception  checking on native methods. This type of bugs is hard to diagnose
+because the developer usualy do not have access to the native code (written in other language). 
+
+Consequently, since it was not expected by the programmer, when such method throws 
+this exception, such undocumented exception may remain
+uncaught and cause the app to crash, or be mistakenly handled by subsumption - 
+The exception stack traces reporting this scenario is actually a real bug of Android 
+Gingerbread version (which still accounts for 13.6% of devices running Android).
+
+
+\noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
+  0,8\% of the methods documented the explicitly signaled runtime exceptions.
+  The study also detected an undocumented checked exception signaled by
+  a native method defined in Android.
+}
+\end{minipage}}
+
+\subsection{What can the Exception Wrappings tell us?}
 %\subsection{Exploring the Information Embedded on Exception Wrappings}
 Table~\ref{tab:wrappingandroid} presents the wrappings found in this study for all
 stack traces found in Android repositories. As we can see, some of the checked
 exceptions were indeed wrapped in runtime exceptions or even errors.
 
 %, while most of them were not wrapped along the stack trace.
-
 
 \begin{table*}
   \centering
@@ -1095,9 +1118,8 @@ related to programming mistakes from which the developer is not expected to reco
 from. Next sections discusses about such types of wrappings.
 
 
-\subsubsection{Runtime wrapping Checked Exception}
-
-Such wrapping was detected on 70 distinct projects. Inspecting the 
+\emph{\textbf{Runtime wrapping Checked Exception.}} Such wrapping was 
+detected on 70 distinct projects. Inspecting the 
 elements responsible for performing such wrapping, we could observe that
 most of such wrappings were performed on methods defined on Android
 Platform (approximately 58%). 
@@ -1215,9 +1237,8 @@ problem~\cite{jo2004uncaught}, one of the main causes of application crashes.
 % \end{table}
 
 
-\subsubsection{Runtime Exception wrapping Error}
-
-We could find  57 stack traces on 38 projects on which an Error was wrapped in a runtime exception.
+\emph{\textbf{Runtime Exception wrapping Error.}} We could find  57 stack traces 
+on 38 projects on which an Error was wrapped in a runtime exception.
 Manually inspecting each exception stack trace, we could observe that 44% of the wrappings were performed 
 by android.os.AsyncTask. This class is responsible for dealing with asynchronous tasks in Android.
 The code snippet below shows that any throwable signaled in the context of an asynchronous 
@@ -1275,8 +1296,8 @@ RuntimeException.
 \begin{table}
 \centering
 
-  \begin{tabular}{|p{7.9cm} p{0.1cm}|}
-%\begin{tabular}{ll}
+ %\begin{tabular}{|p{7.9cm} p{0.1cm}|}
+\begin{tabular}{ll}
     \hline
  \bfseries{Runtime-Error Wrapping Examples} &   \\  %\bfseries{\#}
     \hline
@@ -1310,16 +1331,13 @@ java.lang.ExceptionInInitializerError - java.lang.NullPointerException &  \\ %9
 java.lang.ExceptionInInitializerError - java.lang.IllegalArgumentException &	 \\ %2
  \hline
   \end{tabular}
-\caption{Wrapping examples}
+\caption{Examples of Cross-type wrappings}
 \label{tab:wrapping01}
 \end{table}
 
 
-
-
-\subsubsection{Checked wrapping Runtime Exception}
-
-Manually inspecting the stack traces we could observe that most of the wrappings were performed 
+\emph{\textbf{Checked wrapping Runtime Exception.}} Manually inspecting the stack 
+traces we could observe that most of the wrappings were performed 
 by RoboSpice (an android library that supports the creation of asynchronous long running tasks.
 This library has 1.682 stars and 367 forks) and by the reflection Java library (used by Android, 
 Application and library classes). Inspecting the code related to such wrappings we could observe that
@@ -1342,9 +1360,8 @@ performed inside native code).
 %\end{table}
 
 
-\subsubsection{Checked Exception wrapping Error}
-
-Almost all of these wrappings were also caused by the reflection library 
+\emph{\textbf{Checked Exception wrapping Error.}} Almost all of these wrappings
+ were also caused by the reflection library 
 used by Android applications. The method responsible for the wrappings
 were native methods written in C. Table  ~\ref{tab:wrapcheckerr} illustrates
 some oth these wrappings some of them are masking an OutOfMemoryError
@@ -1364,9 +1381,7 @@ into a checked exception.
 %\label{tab:wrapcheckerr}
 %\end{table}
 
-\subsubsection{Error wrapping Checked Exception}
-
-Some of these wrappings were performed by methods defined by java.lang.Class methods such as 
+\emph{\textbf{Error wrapping Checked Exception.}} Some of these wrappings were performed by methods defined by java.lang.Class methods such as 
 at java.lang.Class.getDeclaredFields(Native Method)
 at java.lang.Class.getDeclaredConstructors(Native Method), 
 while others were performed by javax.crypto package. Table X illustrates
@@ -1384,9 +1399,7 @@ the exception types involved in such wrappings.
 %\label{tab:wrapping01}
 %\end{table}
 
-\subsubsection{Error wrapping Runtime}
-
-After manually inspecting the code associated to such wrappings we discovered that all of them were 
+\emph{\textbf{Error wrapping Runtime.}} After manually inspecting the code associated to such wrappings we discovered that all of them were 
 caused by static initializers. If any exception is thrown in the context of a static initializer (i.e., static block) 
 it is converted into an ExceptionInitializerError on the point where the class is first used. Table X illustrates
 the exception types involved in such wrappings.
@@ -1404,12 +1417,16 @@ the exception types involved in such wrappings.
 %\end{table}
 
 
-\subsubsection{Multiple Wrappings}
-
-We could also observe that in 205 stacks found in Android repository the exception was wrapped 
-more then once. Figure ~\ref{fig:sizewrapbhists}  illustrates the number of wrappings per stack, both
- in Java and Android studied repositories. One interesting multiple-wrapping found in Android repo was the 
+\emph{\textbf{Multiple Wrappings.}} We could also observe that in 205 stacks found
+ in Android repository the exception was wrapped 
+more then once. One interesting multiple-wrapping found in Android repo was the 
 following: Runtime-Checked-Runtime-Checked-Runtime-Checked-Runtime.
+
+\noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
+Odd wrappings were detected (e.g., a checked exception wrapping an OutOfMemoryError)
+reveal fragilities on Java Exception Model.
+}
+\end{minipage}}
 
 \section{Futher Discussions}
 
@@ -1417,9 +1434,34 @@ following: Runtime-Checked-Runtime-Checked-Runtime-Checked-Runtime.
 \caption{Code snippets illustrating fragilities on the exception handling code} \label{fig:exchier} \end{figure}
 
 
-
-\emph{"Everybody hates thinking about exceptions,                   							because they’re not supposed to happen."}
+\emph{``Everybody hates thinking about exceptions, because they are not supposed to happen."}
 \textbf{Brian Foote} 
+
+\subsection{On the need of a rescue to the almost infeasible task of preventing uncaught exceptions}
+In this study we could observe undocumented runtime exceptions thrown by third party code,
+and even undocumented checked exception thrown by Java supporting library.
+Such undocumented exceptions make difficult, and most of the times infeasible
+for the client code to protect against `unforeseen" situations that may happen 
+while calling a library code.
+
+One may think that the solution for the uncaught exceptions 
+may be to define a general handler, 
+which is responsible for handling any exception that is not
+adequately handled inside the applications. Although this 
+solution may prevent  the system of abruptly crashing,
+ such general handler will not have enough
+contextual information to adequately handle the exception, 
+and only tasks possible are: to present a message to the user
+ and restart the application.
+
+Such handler does not replace a carefully designed exception 
+handling policy, which can hardly be designed in the absence of 
+third-party documentation on the exceptions that
+may the thrown by it.
+
+On the other hand documenting runtime exceptions is a tedious and error prone task, to help developers
+mitigate this problem tools should be developed to automate the documentation of runtime exceptions
+scraping from library code, few solutions in this directions have been proposed so far ~\cite{van2005combining}. 
 
 \subsection{On the cross-type wrappings as a threat to dependability}
 The cross-type wrappings detected in this study points to the fact that: (1) exception 
@@ -1443,33 +1485,8 @@ Hence, further investigation is needed on finding ways to help developers in dea
  problem, either preventing odd wrappings or enabling the developer to better deal with them or even
 researches on the real usefulness of Java hybrid exception model. 
 
-\subsection{On the need of a rescue to the almost Infeasible task of preventing uncaught exceptions}
-In this study we could observe undocumented runtime exceptions thrown by third party code,
-and even undocumented checked exception thrown by Java supporting library.
-Such undocumented exceptions make difficult, and most of the times infeasible
-for the client code to protect against "unforeseen" situations that may happen 
-while calling a library code.
 
-One may think that the solution for the uncaught exceptions 
-may be to define a general handler, 
-which is responsible for handling any exception that is not
-adequately handled inside the applications. Although this 
-solution may prevent  the system of abruptly crashing,
- such general handler will not have enough
-contextual information to adequately handle the exception, 
-and only tasks possible are: to present a message to the user
- and restart the application.
-
-Such handler does not replace a carefully designed exception 
-handling policy, which can hardly be designed in the absence of 
-third-party documentation on the exceptions that
-may the thrown by it.
-
-On the other hand documenting runtime exceptions is a tedious and error prone task, to help developers
-mitigate this problem tools should be developed to automate the documentation of runtime exceptions
-scraping from library code, few solutions in this directions have been proposed so far ~\cite{van2005combining}. 
-
-\subsection{On the Null Pointer Problem}
+\subsection{On the null pointer problem}
 
 Besides the explicitly thrown runtime exceptions, in this work we also observe a high number of 
 stack traces reporting coding errors (out-of-bounds array index, division-by-zero, access to a null).
@@ -1478,9 +1495,9 @@ were the reported root cause in most of the analyzed exception stack traces.
 
 The null references was firstly introduced by Tony Hoare in ALGOL W, which after some years he called his “one-billion-dollar mistake”:
 
-"I call it my billion-dollar mistake. It was the invention of the null reference in 1965 [...] I couldn’t resist the temptation to put 
+\emph{``I call it my billion-dollar mistake. It was the invention of the null reference in 1965 [...] I couldn’t resist the temptation to put 
 in a null reference, simply because it was so easy to implement. This has led to innumerable errors, vulnerabilities, and system 
-crashes, which have probably caused a billion dollars of pain and damage in the last forty year."
+crashes, which have probably caused a billion dollars of pain and damage in the last forty year."}
 
 The high number of null pointer exceptions found in this mining study shed light into a problem
 that although known was not supported by large scale studies. 
