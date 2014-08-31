@@ -51,7 +51,7 @@ combination with source code and bytecode analysis. This study
 consistently identifies common characteristics of reported 
 exception stacks traces - e.g., the NullPointerException was the reported cause 
 on 30,08\% of all analyzed exception stack traces, and was mentioned in approximately 
-50% of all projects analyzed. Moreover,  the cross-project analysis 
+50\% of all projects analyzed. Moreover,  the cross-project analysis 
 of exception stack traces enabled to consistently reveal   
 fragilities of exception handling code: 
 (1) undocumented runtime exceptions signaled by third party code,
@@ -222,14 +222,16 @@ on the way exceptions on JNI interface functions, which can lead to uncaught exc
 debug.  
 
   \item  A multitude of programming mistakes were reported as the main causes of stack traces:
- XXX  of reported stack traces were caused by programming mistakes; and XXX of analyzed stack traces reported a java.lang.NullPointerException as root cause;
+ XXX  of reported stack traces were caused by programming mistakes; and XXX of analyzed stack
+ traces reported a java.lang.NullPointerException as root cause;
 
 \end{itemize}
 
 Such fragilities represent obstacles to the development of dependable java-based applications as they make difficult and 
 sometimes almost impossible to protect the code against the Uncaught Exceptions that lead to system crashes.
-Although the study focused on Android open-source applications, some of the results are not restricted to this context, 
-for instance: some of the unexpected wrappings were performed by Java libraries and elements (e.g. reflection library and 
+Although the study focused on Android open-source applications, these findings are not restricted to this context, since 
+the above mentioned fragilities may happen in any Java-based system. 
+For instance: the unexpected wrappings were performed by Java libraries and elements (e.g. reflection library and 
 the static blocks); and the undocumented runtime exceptions were also found in Java libraries besides the Android platform.
 The study results are relevant to: (i) Android and Java developers to familiarize common characteristics and fragilities of exception-related code 
 which is the first step to help developers preventing and dealing with them; (ii) designers of languages and tools to consider ways of reducing 
@@ -348,11 +350,11 @@ since the invoker of an operation can handle it in a wider context ~/cite{miller
  A common way of  propagating exceptions in Java programs is through exception wrapping
  (also known as exception chaining). Exception wrapping allows one exception 
 to be wrapped in another one and re-thrown. Figure~\ref{fig:wrapping} presents 
-a stack trace associated which illustrates an exception wrapping. The bottom 
+a stack trace  illustrates an exception wrapping. The bottom 
 part of the stack trace is the \emph{root cause}, which indicates the
 first reason for the error to be thrown (in this case, the computer run out of
 memory). The top part of the stack trace indicates the location of the exception
-manifestation (which will call \emph{top level exception} along this paper). The
+manifestation (which will call \emph{top level wrapper} along this paper). The
 execution flow  between the root cause and the exception manifestation may
 include other intermediate exception wrappings. In all levels, the exception
 \emph{signaler}, is the method that threw the exception, represented on the
@@ -666,8 +668,8 @@ Table ~ref{signalers} summarizes the signaler classification.
 
 The information extracted by each module was structured in a Database,
 which contained the distilled information of stack traces, exception types,
-and signalers origin (e.g., root exception and its type, root signaler and its origin,
-exception wrapper type, wrapper signaler).
+and signalers origin (e.g., root cause, root cause type, root cause signaler and its origin,
+exception wrappers,  types, and its signalers).
 
 %\subsubsection{The ExceptionMiner Tool}
 %Using the ExceptionMiner tool, developed in this work, we could extract the exception stack traces defined 
@@ -1373,6 +1375,9 @@ wrappings may prevent exception types from being used according to its initial p
  (e.g, Errors should represent situations that should not be handled); and (2) may  be used
  to bypass the language restrictions imposed by checked exceptions  (e.g,
  checked exceptions may be wrapped in runtime exceptions).
+
+\begin{figure} \centering \includegraphics[scale=0.4]{codeexample2.pdf}
+\caption{Code snipets illustrating fragilities on the exception handling code} \label{fig:exchier} \end{figure}
 
 Hence, when (mis)applied, the exception wrapping can make the exception handling code
  more complex and lead to what we call an \emph{exception handling confusion problem} which can lead the program to
