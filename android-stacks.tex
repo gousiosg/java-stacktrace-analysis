@@ -12,7 +12,7 @@
 %\title{ What GitHub and Googlecode can tell us about the Causes of Crashes of Android Apps? }
 %\title{ A Mining Study the Googlecode can tell us about the Causes of Crashes of Android Apps? }
 
-\title{ What can GitHub and Googlecode Issues tell us about Exceptions in Android? }
+\title{ What can GitHub and Googlecode Issues tell us about Exceptions in Android and Java? }
 
 %\title{On the Common Characteristics Android-Apps Crashes: Results of a GitHub and Googlecode Mining Study}
 
@@ -44,8 +44,8 @@ Email: \texttt{\{g.gousios,arie.vandeursen\}@tudelft.nl}}
 
 
 This paper reports a repository mining study which analyzed all the issues created on
-Android projects available in GitHub (482 applications) and Google code (141 applications)
-Overall, our research set includes XXXX issues from which XXX stack traces 
+Android projects available in GitHub (482 applications) and Google code (157 applications)
+Overall, our research set includes 32,582 issues in GitHub and 41,674 issues in Googlecode from which (4,208)  (1,986) in GC stack traces 
 were extracted. Such stack traces were distilled and analyzed in 
 combination with source code and bytecode analysis. This study 
 consistently identifies common characteristics of reported 
@@ -586,8 +586,8 @@ To identify Android projects in Googlecode, we performed a similar heuristic, we
 (on Googlecode search interface) for the term \textsf{android}.  On January 2014, when we queried Googlecode, such heuristic could
  find 788  projects, from which 724 defined at least 1 issue and, 183 projects 
 had at least one issue including a stack trace. Then we performed further cleanup, inspecting the site of every Android
-reporting at least one stack trace, and as a result we could identify 158 
-Android projects.
+reporting at least one stack trace, and as a result we could identify 157. 
+Android projects.  From this set all issues (41,674) were analyzed and 1,986 stack traces were extracted.
 
 \subsection{The ExceptionMiner Tool}
 \label{sec:exceptionminer}
@@ -732,7 +732,7 @@ quantitative and qualitative analysis of the outcomes.
 This section presents the results aimed at answering the research 
 questions presented before.
 
-\subsection{The Common Root Exceptions and What They can Tell us? }
+\subsection{What the Common Root Exceptions can tell us? }
 
 After distilling the information available on the exception stack traces we could find 
 the the exceptions commonly reported as the root causes of stack traces.
@@ -743,7 +743,7 @@ the root cause of a stack trace, the number of distinct projects reporting such 
 and the percentages of such in relation to all reported exceptions and analyzed projects respectively.
 It also presents the whether the method responsible for signaling the exceptions were
 part of Android, the application itself, libcore, or a third-party library as presented in Table  \ref{tab:signalers} 
- \footnote{9 stack traces contained only elements of JVM and were discarded from the analysis}.
+ \footnote{Nine exception stack traces contained only elements of JVM and were discarded from the analysis}.
 
 
 %For each exception we could discover the number of times it was reported as the root caused on exception stack traces,
@@ -758,19 +758,19 @@ part of Android, the application itself, libcore, or a third-party library as pr
   \centering
   \begin{tabular}{rcccccccc}
     \hline
-    \bfseries{Root Exception} &  \multicolumn{2}{c}{\bfseries{Projects}} &  \multicolumn{2}{c}{\bfseries{Occurrences}} & \textsf{Android} & \textsf{Libcore} & \textsf{App} & \textsf{Lib} \\
+    \bfseries{Root Exception} &  \multicolumn{2}{c}{\bfseries{Projects (GH/CG)}} &  \multicolumn{2}{c}{\bfseries{Occurrences (GH/CG)}} & \textsf{Android} & \textsf{Libcore} & \textsf{App} & \textsf{Lib} \\
     & \bfseries{\#} &  \bfseries{\%} & \bfseries{\# } & \bfseries{\% } &&&&\\
     \hline
-java.lang.NullPointerException            & 254 & 52,70\%  & 1225 & 30,08\% & 473 & 18 & 595 & 137 \\
-java.lang.IllegalStateException          & 99  & 20,54\%  & 234  & 5,75\%  & 165 & 12 & 36  & 20  \\
-java.lang.IllegalArgumentException          & 94  & 19,50\% & 255  & 6,26\% & 146 & 6  & 64  & 39   \\
-java.lang.RuntimeException                & 91  & 18,88\% & 232  & 5,70\%  & 167 & 1  & 47  & 17   \\
-java.lang.OutOfMemoryError                 & 56  & 11,62\% & 180  & 4,42\% & 121 & 15 & 17  & 23   \\
-java.lang.NoClassDefFoundError           & 52  & 10,79\%  & 73   & 1,79\%  & 9   & 0  & 37  & 26   \\
-java.lang.ClassCastException             & 49  & 10,17\%  & 94   & 2,31\%  & 43  & 0  & 40  & 11   \\
-java.lang.IndexOutOfBoundsException       & 47  & 9,75\%   & 127  & 3,12\% & 47  & 0  & 71  & 8    \\
-java.lang.NoSuchMethodError               & 40  & 8,30\%  & 57   & 1,40\%  & 9   & 0  & 39  & 9   \\
-java.util.ConcurrentModificationException & 38  & 7,88\% & 54   & 1,33\%   & 5   & 0  & 43  & 6   \\
+java.lang.NullPointerException            & 254 /  78  & 52,70\%  & 1225 / 439  & 30,08\% & 473 /  26  & 18 & 595 & 137 \\  %LIBORAPP=408
+java.lang.IllegalStateException          & 99 / 21  & 20,54\%  & 234 / 44  & 5,75\%  & 165 & 12 & 36  & 20  \\
+java.lang.IllegalArgumentException          & 94 / 48  & 19,50\% & 255 / 98  & 6,26\% & 146 & 6  & 64  & 39   \\
+java.lang.RuntimeException                & 91 / 31 & 18,88\% & 232 / 87  & 5,70\%  & 167 & 1  & 47  & 17   \\
+java.lang.OutOfMemoryError                 & 56  / 22  & 11,62\% & 180 / 57 & 4,42\% & 121 & 15 & 17  & 23   \\
+java.lang.NoClassDefFoundError           & 52  / 15 & 10,79\%  & 73 / 21   & 1,79\%  & 9   & 0  & 37  & 26   \\
+java.lang.ClassCastException             & 49  / 15 & 10,17\%  & 94 / 36   & 2,31\%  & 43  & 0  & 40  & 11   \\
+java.lang.IndexOutOfBoundsException       & 47  / 15 & 9,75\%   & 127 / 39  & 3,12\% & 47  & 0  & 71  & 8    \\
+java.lang.NoSuchMethodError               & 40 / 14  & 8,30\%  & 57 / 23  & 1,40\%  & 9   & 0  & 39  & 9   \\
+java.util.ConcurrentModificationException & 38 / 5 & 7,88\% & 54 / 11  & 1,33\%   & 5   & 0  & 43  & 6   \\
 
     \hline
   \end{tabular}
@@ -883,15 +883,15 @@ on which the exceptions of each category was found as the root cause.
   \centering
   \begin{tabular}{lrr}
     \hline
-    \bfseries{Category} &  \bfseries{Occurence on Stacks (\%)} \\
+    \bfseries{Category} &  \bfseries{\% reported on stacks} \\
     \hline
-      Programming logic (java.lang and util) & 2326 (57,9\%)\\
-      Resources (IO)                         &  727 (18,1\%) \\
-      Security                               &  165 (4,1\%)\\
-      Concurrency                            & 116  (2,9\%)\\
-      Backward compatibility                 &  219 (5,5\%) \\
-      Specific Exceptions               &  197 (4,9\%)\\
-      General (Error, Exception, Runtime)    &  267 (6,7\%)\\
+      Programming logic (java.lang and util) &  57,9\%\\ %2326
+      Resources (IO)                         &   18,1\% \\ %727
+      Security                               &  4,1\%\\ %165 
+      Concurrency                            &  2,9\% \\ %116 
+      Backward compatibility                 & 5,5\% \\ %219
+      Specific Exceptions               &  4,9\%\\ %197 
+      General (Error, Exception, Runtime)    &  6,7\%\\ %267 
     \hline
   \end{tabular}
   \caption{Characterization of the 100 root causes.}
@@ -907,8 +907,11 @@ enough for covering the range of exception types analyzed.
 In this second analysis the programming mistakes were also the
 most mentioned root causes, followed by exceptions related to resource 
 management (which was expected since on mobile environment 
-resources are usually scarce). We could observe that there were 
-stack traces related to the main concerns of mobile develoment.
+resources are usually scarce). Some of such programming mistakes,
+however, may be interactly related to one of the other concerns. For 
+instance, a concurrency problem may lead to a NullPointerException.
+This classification however, was only based on the semantic embedded 
+on the exception types.
 
 %TODO: Discuss about the interater agreement here...
 %\subsection{Sizes of Stack traces}
@@ -1043,14 +1046,14 @@ A checked exception can remain uncaught if it is declared by every method on the
 it is wrapped in a runtime exception and re-thrown. Next, section describes the kinds of 
 wrappings found in this study.
 
-\subsection{What the Cross-Type  Exception Wrappings can Tell us?}
-
-\subsection{Exploring the Information Embedded on Exception Wrappings}
+\subsection{What the Exception Wrappings can tell us?}
+%\subsection{Exploring the Information Embedded on Exception Wrappings}
 Table~\ref{tab:wrappingandroid} presents the wrappings found in this study for all
 stack traces found in Android repositories. As we can see, some of the checked
 exceptions were indeed wrapped in runtime exceptions or even errors.
 
 %, while most of them were not wrapped along the stack trace.
+
 
 \begin{table*}
   \centering
@@ -1091,6 +1094,7 @@ represent recoverable conditions and  Runtime exceptions represent are usually
 related to programming mistakes from which the developer is not expected to recover
 from. Next sections discusses about such types of wrappings.
 
+
 \subsubsection{Runtime wrapping Checked Exception}
 
 Such wrapping was detected on 70 distinct projects. Inspecting the 
@@ -1120,6 +1124,7 @@ Taking a closer look on the methods responsible for such wrappings,
 \begin{table}
 \centering
 \begin{tabular}{lll}
+    \hline
  \bfseries{Signaler class} &  \bfseries{Wrapper Type} & \bfseries{Ocurrences} \\
     \hline
 android.app.ActivityThread & java.lang.RuntimeException & 47 \\
@@ -1250,20 +1255,66 @@ We could observe that several types of exceptions were encapsulated in
 instances of Runtime. Table X shows some kinds of errors encapsulated a
 RuntimeException.
 
+%\begin{table}
+%\centering
+%\begin{tabular}{ll}
+% \bfseries{Wrapper type - Root cause type} & \bfseries{\#} \\
+%    \hline
+%java.lang.RuntimeException - java.lang.OutOfMemoryError & 30\\
+%java.lang.RuntimeException - java.lang.NoClassDefFoundError & 6\\
+%java.lang.RuntimeException - java.lang.UnsatisfiedLinkError) & 5\\
+%java.lang.RuntimeException -  java.lang.StackOverflowError)  & 4\\
+%\hline
+%  \end{tabular}
+%\caption{Elements responsible for the wrapping.}
+%\label{tab:wrapping01}
+%\end{table}
+
+
+
 \begin{table}
 \centering
-\begin{tabular}{ll}
- \bfseries{Wrapper type - Root cause type} & \bfseries{Ocurrences} \\
+
+  \begin{tabular}{|p{7.9cm} p{0.1cm}|}
+%\begin{tabular}{ll}
     \hline
-java.lang.RuntimeException - java.lang.OutOfMemoryError & 30\\
-java.lang.RuntimeException - java.lang.NoClassDefFoundError & 6\\
-java.lang.RuntimeException - java.lang.UnsatisfiedLinkError) & 5\\
-java.lang.RuntimeException -  java.lang.StackOverflowError)  & 4\\
+ \bfseries{Runtime-Error Wrapping Examples} &   \\  %\bfseries{\#}
+    \hline
+java.lang.RuntimeException - java.lang.OutOfMemoryError & \\ %30
+java.lang.RuntimeException - java.lang.NoClassDefFoundError &\\ %6
+java.lang.RuntimeException - java.lang.UnsatisfiedLinkError) & \\ %5
+java.lang.RuntimeException -  java.lang.StackOverflowError)  & \\ %4
 \hline
+\bfseries{Checked-Runtime Wrapping Examples} &  \\
+ \hline
+...android.robospice.CacheSavingException - java.lang.ClassCastException &  \\ %6
+java.lang.reflect.InvocationTargetException - java.lang.NullPointerException &   \\ %3
+java.lang.reflect.InvocationTargetException - ...ResourcesdNotFoundException &  \\ %2
+java.sql.SQLException - android.database.sqlite.SQLiteDiskIOException &  \\ %2
+ \hline
+\bfseries{Checked-Error Wrapping Examples} & \\
+ \hline
+java.lang.reflect.InvocationTargetException - java.lang.OutOfMemoryError &  \\ %5
+java.lang.Exception - java.lang.OutOfMemoryError &  \\ %1
+java.lang.reflect.InvocationTargetException - java.lang.NoSuchMethodError &	 \\ %1
+java.lang.reflect.InvocationTargetException - java.lang.UnsatisfiedLinkError&	 \\ %1
+\hline
+\bfseries{Error-Checked Wrapping Examples} & \\
+ \hline
+java.lang.NoClassDefFoundError - java.lang.ClassNotFoundException &  \\ %4
+java.lang.AssertionError - javax.crypto.ShortBufferException) &  \\ %3
+\hline
+\bfseries{Error-Runtime Wrapping Examples} &   \\
+ \hline
+java.lang.ExceptionInInitializerError - java.lang.NullPointerException &  \\ %9
+java.lang.ExceptionInInitializerError - java.lang.IllegalArgumentException &	 \\ %2
+ \hline
   \end{tabular}
-\caption{Elements responsible for the wrapping.}
+\caption{Wrapping examples}
 \label{tab:wrapping01}
 \end{table}
+
+
 
 
 \subsubsection{Checked wrapping Runtime Exception}
@@ -1276,20 +1327,19 @@ the reflection library convert every exception that happens
 when invoking a reflected method into an InvoncationTargetException (this conversion is 
 performed inside native code).
 
-\begin{table}
-\centering
-\begin{tabular}{lll}
- \bfseries{Wrapper} & \bfseries{Root} & \bfseries{Ocurrences}\\
- \hline
-...android.robospice.CacheSavingException - java.lang.ClassCastException & 6 \\
-java.lang.reflect.InvocationTargetException - java.lang.NullPointerException &  3 \\
-java.lang.reflect.InvocationTargetException - android...ResourcesdNotFoundException & 2 \\
-java.sql.SQLException,android.database.sqlite.SQLiteDiskIOException & 2 \\
-java.lang.Exception,at.andiwand.odf2html.odf.IllegalMimeTypeException & 	2 \\
-  \end{tabular}
-\caption{Elements tresponsible for the wrapping.}
-\label{tab:wrapping01}
-\end{table}
+%\begin{table}
+%\centering
+%\begin{tabular}{ll}
+% \bfseries{Wrapper type - Root cause type} & \bfseries{\#}\\
+% \hline
+%...android.robospice.CacheSavingException - java.lang.ClassCastException & 6 \\
+%java.lang.reflect.InvocationTargetException - java.lang.NullPointerException &  3 \\
+%java.lang.reflect.InvocationTargetException - ...ResourcesdNotFoundException & 2 \\
+%java.sql.SQLException - android.database.sqlite.SQLiteDiskIOException & 2 \\
+%  \end{tabular}
+%\caption{Elements tresponsible for the wrapping.}
+%\label{tab:wrapping01}
+%\end{table}
 
 
 \subsubsection{Checked Exception wrapping Error}
@@ -1300,19 +1350,19 @@ were native methods written in C. Table  ~\ref{tab:wrapcheckerr} illustrates
 some oth these wrappings some of them are masking an OutOfMemoryError
 into a checked exception.
 
-\begin{table}
-\centering
-\begin{tabular}{lll}
- \bfseries{Wrapper} & \bfseries{Root} & \bfseries{Ocurrences}\\
- \hline
-java.lang.reflect.InvocationTargetException,java.lang.OutOfMemoryError & 5 \\
-java.lang.Exception,java.lang.OutOfMemoryError & 1 \\
-java.lang.reflect.InvocationTargetException,java.lang.NoSuchMethodError &	1 \\
-java.lang.reflect.InvocationTargetException,java.lang.UnsatisfiedLinkError&	1 \\
-  \end{tabular}
-\caption{Elements tresponsible for the wrapping.}
-\label{tab:wrapcheckerr}
-\end{table}
+%\begin{table}
+%\centering
+%\begin{tabular}{lll}
+% \bfseries{Wrapper type - Root cause type} & \bfseries{\#}\\
+% \hline
+%java.lang.reflect.InvocationTargetException - java.lang.OutOfMemoryError & 5 \\
+%java.lang.Exception - java.lang.OutOfMemoryError & 1 \\
+%java.lang.reflect.InvocationTargetException - java.lang.NoSuchMethodError &	1 \\
+%java.lang.reflect.InvocationTargetException - java.lang.UnsatisfiedLinkError&	1 \\
+%  \end{tabular}
+%\caption{Elements tresponsible for the wrapping.}
+%\label{tab:wrapcheckerr}
+%\end{table}
 
 \subsubsection{Error wrapping Checked Exception}
 
@@ -1322,17 +1372,17 @@ at java.lang.Class.getDeclaredConstructors(Native Method),
 while others were performed by javax.crypto package. Table X illustrates
 the exception types involved in such wrappings.
 
-\begin{table}
-\centering
-\begin{tabular}{lll}
- \bfseries{Wrapper} & \bfseries{Root} & \bfseries{Ocurrences}\\
- \hline
-java.lang.NoClassDefFoundError & java.lang.ClassNotFoundException & 4 \\
-java.lang.AssertionError & javax.crypto.ShortBufferException) & 3 \\
- \end{tabular}
-\caption{Elements tresponsible for the wrapping.}
-\label{tab:wrapping01}
-\end{table}
+%\begin{table}
+%\centering
+%\begin{tabular}{lll}
+% \bfseries{Wrapper} & \bfseries{Root} & \bfseries{\#}\\
+% \hline
+%java.lang.NoClassDefFoundError & java.lang.ClassNotFoundException & 4 \\
+%java.lang.AssertionError & javax.crypto.ShortBufferException) & 3 \\
+% \end{tabular}
+%\caption{Elements tresponsible for the wrapping.}
+%\label{tab:wrapping01}
+%\end{table}
 
 \subsubsection{Error wrapping Runtime}
 
@@ -1341,19 +1391,17 @@ caused by static initializers. If any exception is thrown in the context of a st
 it is converted into an ExceptionInitializerError on the point where the class is first used. Table X illustrates
 the exception types involved in such wrappings.
 
-\begin{table}
-\centering
-\begin{tabular}{lll}
- \bfseries{Wrapper} & \bfseries{Root} & \bfseries{Ocurrences}\\
- \hline
-java.lang.ExceptionInInitializerError,java.lang.NullPointerException & 9 \\
-java.lang.ExceptionInInitializerError,java.lang.IllegalArgumentException &	2 \\
-java.lang.ExceptionInInitializerError,java.util.MissingResourceException) &	1 \\
-java.lang.ExceptionInInitializerError,org.andengine.util.exception.AndEngineRuntimeException &	1 \\
- \end{tabular}
-\caption{Elements tresponsible for the wrapping.}
-\label{tab:wrapping01}
-\end{table}
+%\begin{table}
+%\centering
+%\begin{tabular}{ll}
+% \bfseries{Wrapper type - Root cause type} & \bfseries{\#} \\
+% \hline
+%java.lang.ExceptionInInitializerError - java.lang.NullPointerException & 9 \\
+%java.lang.ExceptionInInitializerError - java.lang.IllegalArgumentException &	2 \\
+% \end{tabular}
+%\caption{Elements tresponsible for the wrapping.}
+%\label{tab:wrapping01}
+%\end{table}
 
 
 \subsubsection{Multiple Wrappings}
@@ -1363,24 +1411,26 @@ more then once. Figure ~\ref{fig:sizewrapbhists}  illustrates the number of wrap
  in Java and Android studied repositories. One interesting multiple-wrapping found in Android repo was the 
 following: Runtime-Checked-Runtime-Checked-Runtime-Checked-Runtime.
 
-\section{Discussions and Actionable Advices}
+\section{Futher Discussions}
 
-The results of this study sheds light on 
-problems that may be reducing the robustness of current Java programs in the face of
-exceptional conditions. 
+\begin{figure} \centering \includegraphics[scale=0.4]{codeexample2.pdf}
+\caption{Code snippets illustrating fragilities on the exception handling code} \label{fig:exchier} \end{figure}
 
-\subsection{Cross-Type Wrappings and Threats to Dependability}
+
+
+\emph{"Everybody hates thinking about exceptions,                   							because they’re not supposed to happen."}
+\textbf{Brian Foote} 
+
+\subsection{On the cross-type wrappings as a threat to dependability}
 The cross-type wrappings detected in this study points to the fact that: (1) exception 
 wrappings may prevent exception types from being used according to its initial purpose
  (e.g, Errors should represent situations that should not be handled); and (2) may  be used
  to bypass the language restrictions imposed by checked exceptions  (e.g,
  checked exceptions may be wrapped in runtime exceptions).
 
-\begin{figure} \centering \includegraphics[scale=0.4]{codeexample2.pdf}
-\caption{Code snipets illustrating fragilities on the exception handling code} \label{fig:exchier} \end{figure}
-
 Hence, when (mis)applied, the exception wrapping can make the exception handling code
- more complex and lead to what we call an \emph{exception handling confusion problem} which can lead the program to
+ more complex and lead to what we call an \emph{exception handling confusion problem}.
+Such problem can lead the program to
 an unpredictable state in the presence of exceptions. To illustrate this problem, we can use
  one of the examples found in this study: when the developer is 
 confronted with a checked exception, the designer of the API is telling him 
@@ -1393,21 +1443,33 @@ Hence, further investigation is needed on finding ways to help developers in dea
  problem, either preventing odd wrappings or enabling the developer to better deal with them or even
 researches on the real usefulness of Java hybrid exception model. 
 
-
-\subsection{The Almost Infeasible Task of Preventing Uncaught Exceptions}
-
+\subsection{On the need of a rescue to the almost Infeasible task of preventing uncaught exceptions}
 In this study we could observe undocumented runtime exceptions thrown by third party code,
 and even undocumented checked exception thrown by Java supporting library.
 Such undocumented exceptions make difficult, and most of the times infeasible
 for the client code to protect against "unforeseen" situations that may happen 
 while calling a library code.
 
+One may think that the solution for the uncaught exceptions 
+may be to define a general handler, 
+which is responsible for handling any exception that is not
+adequately handled inside the applications. Although this 
+solution may prevent  the system of abruptly crashing,
+ such general handler will not have enough
+contextual information to adequately handle the exception, 
+and only tasks possible are: to present a message to the user
+ and restart the application.
+
+Such handler does not replace a carefully designed exception 
+handling policy, which can hardly be designed in the absence of 
+third-party documentation on the exceptions that
+may the thrown by it.
+
 On the other hand documenting runtime exceptions is a tedious and error prone task, to help developers
 mitigate this problem tools should be developed to automate the documentation of runtime exceptions
 scraping from library code, few solutions in this directions have been proposed so far ~\cite{van2005combining}. 
 
-
-\subsection{The high number of NullPointerExceptions}
+\subsection{On the Null Pointer Problem}
 
 Besides the explicitly thrown runtime exceptions, in this work we also observe a high number of 
 stack traces reporting coding errors (out-of-bounds array index, division-by-zero, access to a null).
@@ -1421,7 +1483,7 @@ in a null reference, simply because it was so easy to implement. This has led to
 crashes, which have probably caused a billion dollars of pain and damage in the last forty year."
 
 The high number of null pointer exceptions found in this mining study shed light into a problem
-that although known was not supported by large scale mining studies.  
+that although known was not supported by large scale studies. 
 
 This observation emphasizes the importance of solutions to avoid NullPointerExceptions, such as:
 (i) lightweight intra-method null pointer analysis supported by Java8 @Nullable annotations;
@@ -1441,21 +1503,12 @@ pointer dereferences. Android Studio 0.5.5 Released support these annotations.
 %(4) Local onde tratar excecao - handler padrao - politica da aplicacao. tratamento difucultado multiplas threads e assyncronos.
 
 
-\subsection{General Solution: a General Handler?}
-One may think that the solution for the uncaught exceptions that lead to the system crash,
-is to define a general handler, which is responsible for handling any exception that is not
-adequately handled inside the applications. Although this solution may prevent 
-the system of abruptly crashing, such general handler will not have enough
-contextual information to adequately handle the exception, 
-and the main recovery task will be to present a message to the user
- and restart the application.
-
 %\noindent\emph{Unwritten Rules of Android Exception Handling Developement}
 %\noindent\emph{Dependency injection - Inversion of Control -  callback and Exceptions }  
 %\subsection{Dependency injection - Inversion of Control -  callback and Exceptions}  
 %\noindent\emph{How can we benefit from such cross-project crash analysis?}  
 
-\subsection{The benefits of a cross-project crash analysis}  
+\subsection{On the benefits of a cross-project exception stack trace analysis}  
 
 When family of systems make use of a common core, or framework such systems can
 benefit from a cross project crash analysis. The bug issues reported for a group of systems
@@ -1470,10 +1523,10 @@ identify vulnerabilities in pieces of code that are shared.
 Using exception miner tool we could identify the methods responsible for most of the crashes - 
 such methods can be a target for manual inspections improvements, or better documentation
 (because sometimes an exception can be thrown because the user is not invoking the method
-in the proper way 
+in the proper way ....
 
 During such analysis we could also find the undocumented runtime exceptions 
-signaled by libraries. 
+signaled by reused therd part code libraries. 
 
 It allows the developers to benefit from the faults happening on different systems.
 
