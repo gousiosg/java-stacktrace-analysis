@@ -998,6 +998,9 @@ interface may be related to the library's maturity.
 % repo !='android'  AND MAIN_EXTENDS LIKE 'RUNTIME%' 
 
 
+%SELECT COUNT(*) FROM STACKTRACESUMMARY WHERE
+%repo !='android'  AND MAIN_EXTENDS LIKE 'RUNT%' AND MAINSIGNALER_FROM like 'APP%';
+
 \begin{table}
 \centering
 \begin{tabular}{lccccc}
@@ -1005,11 +1008,11 @@ interface may be related to the library's maturity.
     \bfseries{Root Cause Type} & \bfseries{Android} & \bfseries{Libcore} & \bfseries{App} & \bfseries{Lib}  & \bfseries{All}\\
     \hline
 
-Runtime	&	1075 	&	56	&	1446	&	374	&	2951 / 956\\
-Error	&	144	&	34	&	168	&	105	&		451 /  250	\\
-Checked	&	110	&	230	&	139	&	145	&	624  /  734	\\
-Throwable	&	0	&	0	&	1	&	0	&	1 / 1	\\
-Undefined	&	1	&	0	&	6	&	8	&	15 / 46	\\ %22 DISTINCT EXCEPTIONS AND 9 IN GIT
+Runtime	&	1075 / 160	&	56 	&	1446 / 397	&	374	/  386  &	2951 / 943\\
+Error	       &	 144	 / 32              &	34	&	168	 / 134               &	105	 / 74           &	451 /  240	\\
+Checked	&	110	   / 39           &	230	&	139	  / 174            &	145	 / 466           &	624  /  679	\\
+Throwable	&	0 /0	       &	0	&	1 / 1	             &	0	     / 0               &	1 / 1	\\
+Undefined	&	1 / 1 	&	0	&	6 / 	12		&	8	/ 32	   &	15 / 45	\\ %22 DISTINCT EXCEPTIONS AND 9 IN GIT
     \hline
 All		& 1330	&	320	&	1760	&	632	&	4042	\\
     \hline
@@ -1107,19 +1110,47 @@ exceptions were indeed wrapped in runtime exceptions or even errors.
 
 %, while most of them were not wrapped along the stack trace.
 
+%SELECT COUNT(*) FROM STACKTRACESUMMARY WHERE
+%repo !='android'  AND ROOT_EXTENDS LIKE 'CHECKED%' AND EXCEPTION_EXTENDS LIKE 'RUNTIME' 
+
+%SELECT COUNT(*) FROM STACKTRACESUMMARY WHERE
+%repo !='android'  AND ROOT_EXTENDS LIKE 'CHEC%' AND EXCEPTION_EXTENDS LIKE 'RUN%'; 
+
+%SELECT COUNT(*) FROM STACKTRACESUMMARY WHERE
+%repo !='android'  AND ROOT_EXTENDS LIKE 'CHEC%' AND EXCEPTION_EXTENDS LIKE 'RUN%'
+%and SIGNALER_FROM LIKE 'LIB%'; 
+
 \begin{table*}
   \centering
   \begin{tabular}{llcccccc}
     \hline
     \bfseries{Wrapper Type}  &  \bfseries{Root Cause Type} &  \bfseries{Projects}  &  \bfseries{Occurrences} & \textsf{Android} & \textsf{Java/Libcore} & \textsf{Lib} & \textsf{App}  \\
     \hline
-      Runtime &  Checked   & 70 & 114 & 66 &  0  & 19 &  29 \\
-      Runtime   &  Error   & 38  & 57 & 50 &  0  & 6 &  1 \\
-      Checked &  Runtime   & 12 & 22 & 4 &  0  & 9 &  9 \\
-      Checked & Error      & 7 &  8 & 5 &  0  & 0 &  3 \\
-      Error & Checked      & 4  &  7 & 0 &  7  & 0 &  0     \\
-      Error & Runtime     & 6  &  13   & 1 &  1  & 0 &  11    \\
-    \hline
+      %Runtime &  Checked   & 70  / 18 & 114 /  34 &  66 /  9  &  0 /  & 19 / 19 &  29 / 6 \\
+      
+      Runtime &  Checked   & 88 & 148 &  75  &  0   & 38 &  35 \\
+
+
+      %Runtime   &  Error   & 38  \ 8  & 57    &  50 \ 8  &  0   & 6 \ 2  &  1   /  0\\
+      Runtime   &  Error   & 46  &  67    &  58  &  0   & 8  &  1   \\      
+
+%      Checked &  Runtime   & 12 \ 5  & 22 \ 9 & 4 &  0  & 9 \7 &  9 \ 2 \\
+      Checked &  Runtime   & 17  & 31 & 4 &  0  & 16 &  11 \\
+
+
+%      Checked & Error      & 7 \ 1 &  8 & 5  &  0  & 0 \ 1 &  3 \0 \\
+
+      Checked & Error      & 8 &  9  & 5  &  0  &  1 &  3  \\
+
+ %     Error & Checked      & 4 \ 10  &  7 & 0  \ 6  &  7  & 0 \6 &  0   \ 8    \\
+     Error & Checked      & 14 &  27 &  6  &  7  &  6 &   8    \\
+
+
+%      Error & Runtime     & 6 \ 2  &  13   & 1 &  1  & 0 \ 1 &  11 \ 3    \\
+
+      Error & Runtime     & 8  &  17   & 1 &  1  & 1 &  14    \\
+
+  \hline
       %none   & Runtime   &  2360 & 359 \\
       %none  &   Checked  & 422  & 117 \\
       %none  &   Error   & 381  & 141 \\
