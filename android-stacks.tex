@@ -25,9 +25,9 @@
 
 
 \author{\IEEEauthorblockN{Roberta Coelho\IEEEauthorrefmark{1},
+Lucas Almeida\IEEEauthorrefmark{1},
 Georgios Gousios\IEEEauthorrefmark{2}, 
-Arie van Deursen\IEEEauthorrefmark{2},
-Lucas Almeida\IEEEauthorrefmark{1}
+Arie van Deursen\IEEEauthorrefmark{2}
 }
 \IEEEauthorblockA{\IEEEauthorrefmark{1}Federal University of Rio Grande do Norte\\
 Natal, Brazil\\
@@ -44,11 +44,10 @@ Email: \texttt{\{g.gousios,arie.vandeursen\}@tudelft.nl}}
 
 \begin{abstract}
 
-
 This paper reports a repository mining study which analyzed all the issues created on
 Android projects available in GitHub (482 applications) and Google code (157 applications)
-Overall, our research set includes 32,582 issues in GitHub and 41,674 issues in Googlecode from which (4,208)  (1,986) in GC stack traces 
-were extracted. Such stack traces were distilled and analyzed in 
+Overall, our research set includes 32,582 issues in GitHub and 41,674 issues in Googlecode 
+from which 6,005 exception stack traces were extracted. Such stack traces were distilled and analyzed in 
 combination with source code and bytecode analysis. This study 
 consistently identifies common characteristics of reported 
 exception stacks traces - e.g., the NullPointerException was the reported cause 
@@ -185,11 +184,14 @@ This paper reports an exploratory study which targets a family of applications
 the common characteristics of exception stack traces reported to such systems to provide
 insights on similar fragilities on the exception related code of the applications and underlaying framework.
 
+%482 applications) and Google code (157 applications)
+
 To do so we perform a post mortem analysis of the exception stack traces embedded on all issues
 created on Android projects available in GitHub and Googlecode. Using a custom tool called ExceptionMiner,
  which we develop specifically for this study, we mine stack traces from issues across all Android projects on
-GitHub and Googlecode. Overall, we analyzed the XXXX issues extracted from on XXX Android projects defined in
-GitHub and XXX projects defined in Googlecode. From these issues,  XXX stack traces were extracted and used as
+GitHub and Googlecode. Overall, we analyzed all issues extracted from on 482 Android projects defined in
+GitHub and 157 projects defined in Googlecode. Overall it corresponds to 74,256 issues (32,582 issues from GitHub projects 
+and 41,674 issues from Googlecode projects) from which  6,005 stack traces were extracted and used as
  a source of information for our analysis. The stack trace analysis was augmented by additional information
 extracted from JDK, Android SO and Android SDK and the applications using byte code and source code analysis.
  Manual inspection was used to leverage the understanding of exception stack traces and support further discussions and insights.
@@ -548,7 +550,9 @@ example projects (i.e., toy projects) or tools to support Android development
 (e.g. \textsf{selendroid}, \textsf{roboeletric} --- tools to support the testing of Android apps).
 The filtered set consisted of 482 apps. 
 
-This set of 482 projects contained overall 32,582 issues from which 4,208 exception stack traces 
+%4,208
+
+This set of 482 projects contained overall 32,582 issues from which 4,042 exception stack traces 
 were extracted. Issues on Github are different from issues on dedicated bug tracking tools such as 
 Bugzilla and Jira. The most important difference is that there are no predefined fields
   (e.g. severity and priority). Instead, Github uses a more open ended tagging system, on which
@@ -594,7 +598,8 @@ To identify Android projects in Googlecode, we performed a similar heuristic, we
  find 788  projects, from which 724 defined at least 1 issue and, 183 projects 
 had at least one issue including a stack trace. Then we performed further cleanup, inspecting the site of every Android
 reporting at least one stack trace, and as a result we could identify 157. 
-Android projects.  From this set all issues (41,674) were analyzed and 1,986 stack traces were extracted.
+Android projects.  All issues created on such projects (i.e., 41,674 issues) were analyzed and 1,963 stack traces 
+were extracted.
 
 \subsection{The ExceptionMiner Tool}
 \label{sec:exceptionminer}
@@ -617,9 +622,9 @@ and packages related to each one of these fields.
 The tool is based on a combination between a regular expression based parser 
 with heuristics able to identify and filter exception names and stack traces inline with text. In
 contrast to existing issue parsing solutions such as Infozilla, the parser
-created in this work can extract all causes related to an exception on a stack,
-and stack traces embedded in logs files.
-AS PRESENTED IN FIGURE X
+created in this work can discover stack traces embedded in logs files \footnote{In several 
+exception stack traces, the exception frames were preceeded by logging information e.g., "03-01 15:55:01.609 (7924): at android.app.ActivityThread.access\$600(ActivityThread.java:127)" which could not be detected by existing tools.)}  
+and identify the root causes and signalers associated to each exception stack trace.
 
 %\begin{tiny}
 %\begin{verbatim}
@@ -701,7 +706,8 @@ the applications and libraries we manually inspect the sourcecode or javadoc
  documentation of each of them. When the exception was removed from the 
 last app version, the previous versions were analyzed. When the exception was
  not found on the previous versions, the exception was discarded.  Only 31 exceptions 
-remained undefined which were reported on 61 exception stack traces (as presented in Table ~\ref{tab:typeroottab}).
+remained undefined - such exceptions were reported on 61 exception stack traces as 
+presented in Table ~\ref{tab:typeroottab}.
 
 %{MOSTRAR UMA FIGURA COM TODOS OS PASSOS E RESSALTAR OS PASSOS MANUAIS}
 %COMPLETE HERE.....
@@ -759,8 +765,8 @@ the root cause of a stack trace, the number of distinct projects reporting such 
 and the percentages of such in relation to all reported exceptions and analyzed projects respectively.
 It also presents the whether the method responsible for signaling the exceptions were
 part of Android, the application itself, libcore, or a third-party library as presented in Table  \ref{tab:signalers} 
- \footnote{Nine exception stack traces contained only elements of JVM and were discarded from the analysis}.
 
+% \footnote{Nine exception stack traces contained only elements of JVM and were discarded from the analysis}.
 
 %For each exception we could discover the number of times it was reported as the root caused on exception stack traces,
 %the number of distinct projects on which such stacks were defined (and consequently its
@@ -780,27 +786,64 @@ part of Android, the application itself, libcore, or a third-party library as pr
 %and repo !='android' AND MAINSIGNALER_FROM LIKE '%ANDROID%';
 
 
+
+%java.lang.NullPointerException            & 254 /  78  & 52,70\%  & 1225 / 439  & 30,08\% & 473 /  26  & 18 /  & 595 / 241 & 137 / 169 \\  %LIBORAPP=408
+%java.lang.IllegalStateException          & 99 / 21  & 20,54\%  & 234 / 44  & 5,75\%  & 165 / 15 & 12  / 0 & 36  / 5 & 20 / 24  \\
+%java.lang.IllegalArgumentException          & 94 / 48  & 19,50\% & 255 / 98  & 6,26\% & 146 / 41 & 6 / 0 & 64 / 31  & 39  / 26  \\
+%java.lang.RuntimeException                & 91 / 31 & 18,88\% & 232 / 87  & 5,70\%  & 167 / 33 & 1 / 0 & 47 / 17 & 17 / 37   \\
+%java.lang.OutOfMemoryError                 & 56  / 22  & 11,62\% & 180 / 57 & 4,42\% & 121 / 18 & 15 / 0 & 17 / 18  & 23 / 13  \\
+%java.lang.NoClassDefFoundError           & 52  / 15 & 10,79\%  & 73 / 21   & 1,79\%  & 9 / 1   & 0 / 0  & 37 / 9  & 26 / 11   \\
+%java.lang.ClassCastException             & 49  / 15 & 10,17\%  & 94 / 36   & 2,31\%  & 43 / 3  & 0  / 0 & 40 / 15  & 11 / 18  \\
+%java.lang.IndexOutOfBoundsException       & 47  / 15 & 9,75\%   & 127 / 39  & 3,12\% & 47 / 2  & 0/0  & 71/22  & 8 / 14    \\
+%java.lang.NoSuchMethodError               & 40 / 14  & 8,30\%  & 57 / 23  & 1,40\%  & 9  /  0  & 0  / 0 & 39 /  17    & 9 / 6  \\
+%java.util.ConcurrentModificationException & 38 / 5 & 7,88\% & 54 / 11  & 1,33\%   & 5  / 0  & 0  / 0 & 43 / 3 & 6 / 7  \\
+
+%java.lang.IllegalStateException          & 99 / 21  & 20,54\%  & 234 / 44  & 5,75\%  & 165 / 15 & 12  / 0 & 36  / 5 & 20 / 24  \\
+%java.lang.IllegalArgumentException          & 94 / 48  & 19,50\% & 255 / 98  & 6,26\% & 146 / 41 & 6 / 0 & 64 / 31  & 39  / 26  \\
+%java.lang.RuntimeException                & 91 / 31 & 18,88\% & 232 / 87  & 5,70\%  & 167 / 33 & 1 / 0 & 47 / 17 & 17 / 37   \\
+%java.lang.OutOfMemoryError                 & 56  / 22  & 11,62\% & 180 / 57 & 4,42\% & 121 / 18 & 15 / 0 & 17 / 18  & 23 / 13  \\
+%java.lang.NoClassDefFoundError           & 52  / 15 & 10,79\%  & 73 / 21   & 1,79\%  & 9 / 1   & 0 / 0  & 37 / 9  & 26 / 11   \\
+%java.lang.ClassCastException             & 49  / 15 & 10,17\%  & 94 / 36   & 2,31\%  & 43 / 3  & 0  / 0 & 40 / 15  & 11 / 18  \\
+%java.lang.IndexOutOfBoundsException       & 47  / 15 & 9,75\%   & 127 / 39  & 3,12\% & 47 / 2  & 0/0  & 71/22  & 8 / 14    \\
+%java.lang.NoSuchMethodError               & 40 / 14  & 8,30\%  & 57 / 23  & 1,40\%  & 9  /  0  & 0  / 0 & 39 /  17    & 9 / 6  \\
+%java.util.ConcurrentModificationException & 38 / 5 & 7,88\% & 54 / 11  & 1,33\%   & 5  / 0  & 0  / 0 & 43 / 3 & 6 / 7  \\
+%
+%java.lang.NullPointerException	&	254	/	78	&	52,70\%	&	1225	/	439	&	30,08\%	&	473	/	52	&	18	/	2	&	595	/	241	&	137	/	143	\\	%LIBORAPP=408
+%java.lang.IllegalStateException	&	99	/	21	&	20,54\%	&	234	/	44	&	5,75\%	&	165	/	20	&	12	/	19	&	36	/	5	&	20	/	19		\\
+%java.lang.IllegalArgumentException	&	94	/	48	&	19,50\%	&	255	/	98	&	6,26\%	&	146	/	49	&	6	/	6	&	64	/	31	&	18	/	26		\\
+%java.lang.RuntimeException	&	91	/	31	&	18,88\%	&	232	/	87	&	5,70\%	&	167	/	36	&	1	/	1	&	47	/	17	&	17	/	34		\\
+%java.lang.OutOfMemoryError	&	56	/	22	&	11,62\%	&	180	/	57	&	4,42\%	&	121	/	20	&	15	/	1	&	17	/	18	&	23	/	11		\\
+%java.lang.NoClassDefFoundError	&	52	/	15	&	10,79\%	&	73	/	21	&	1,79\%	&	9	/	1	&	0	/	0	&	37	/	9	&	26	/	11		\\
+%java.lang.ClassCastException	&	49	/	15	&	10,17\%	&	94	/	36	&	2,31\%	&	43	/	12	&	0	/	0	&	40	/	15	&	11	/	9		\\
+%java.lang.IndexOutOfBoundsException	&	47	/	15	&	9,75\%	&	127	/	39	&	3,12\%	&	47	/	6	&	0		0	&	71	/	22	&	8	/	10		\\
+%java.lang.NoSuchMethodError	&	40	/	14	&	8,30\%	&	57	/	23	&	1,40\%	&	9	/	1	&	0	/	0	&	39	/	17	&	9	/	5		\\
+%java.util.ConcurrentModificationException	&	38	/	5	&	7,88\%	&	54	/	11	&	1,33\%	&	5	/	0	&	0	/	0	&	43	/	3	&	6	/	7		
+
+
+
 \begin{table*}
   \centering
   \begin{tabular}{rcccccccc}
     \hline
-    \bfseries{Root Exception} &  \multicolumn{2}{c}{\bfseries{Projects (GH/CG)}} &  \multicolumn{2}{c}{\bfseries{Occurrences (GH/CG)}} & \textsf{Android} & \textsf{Libcore} & \textsf{App} & \textsf{Lib} \\
+    \bfseries{Root Exception} &  \multicolumn{2}{c}{\bfseries{Projects (GH\&CG)}} &  \multicolumn{2}{c}{\bfseries{Occurrences (GH\&CG)}} & \textsf{Android} & \textsf{Libcore} & \textsf{App} & \textsf{Lib} \\
     & \bfseries{\#} &  \bfseries{\%} & \bfseries{\# } & \bfseries{\% } &&&&\\
     \hline
-java.lang.NullPointerException            & 254 /  78  & 52,70\%  & 1225 / 439  & 30,08\% & 473 /  26  & 18 /  & 595 / 241 & 137 / 169 \\  %LIBORAPP=408
-java.lang.IllegalStateException          & 99 / 21  & 20,54\%  & 234 / 44  & 5,75\%  & 165 / 15 & 12  / 0 & 36  / 5 & 20 / 24  \\
-java.lang.IllegalArgumentException          & 94 / 48  & 19,50\% & 255 / 98  & 6,26\% & 146 / 41 & 6 / 0 & 64 / 31  & 39  / 26  \\
-java.lang.RuntimeException                & 91 / 31 & 18,88\% & 232 / 87  & 5,70\%  & 167 / 33 & 1 / 0 & 47 / 17 & 17 / 37   \\
-java.lang.OutOfMemoryError                 & 56  / 22  & 11,62\% & 180 / 57 & 4,42\% & 121 / 18 & 15 / 0 & 17 / 18  & 23 / 13  \\
-java.lang.NoClassDefFoundError           & 52  / 15 & 10,79\%  & 73 / 21   & 1,79\%  & 9 / 1   & 0 / 0  & 37 / 9  & 26 / 11   \\
-java.lang.ClassCastException             & 49  / 15 & 10,17\%  & 94 / 36   & 2,31\%  & 43 / 3  & 0  / 0 & 40 / 15  & 11 / 18  \\
-java.lang.IndexOutOfBoundsException       & 47  / 15 & 9,75\%   & 127 / 39  & 3,12\% & 47 / 2  & 0/0  & 71/22  & 8 / 14    \\
-java.lang.NoSuchMethodError               & 40 / 14  & 8,30\%  & 57 / 23  & 1,40\%  & 9  /  0  & 0  / 0 & 39 /  17    & 9 / 6  \\
-java.util.ConcurrentModificationException & 38 / 5 & 7,88\% & 54 / 11  & 1,33\%   & 5  / 0  & 0  / 0 & 43 / 3 & 6 / 7  \\
+
+java.lang.NullPointerException	&	332	&	51,96\%	&	1664	&	27,71\%	&	525	&	20	&	836	&	280	\\
+java.lang.IllegalStateException	&	120	&	18,78\%	&	278	&	4,63\%	&	185	&	31	&	41	&	39	\\
+java.lang.IllegalArgumentException	&	142	&	22,22\%	&	353	&	5,88\%	&	195	&	12	&	95	&	44	\\
+java.lang.RuntimeException	&	122	&	19,09\%	&	319	&	5,31\%	&	203	&	2	&	64	&	51	\\
+java.lang.OutOfMemoryError	&	78	&	12,21\%	&	237	&	3,95\%	&	141	&	16	&	35	&	34	\\
+java.lang.NoClassDefFoundError	&	67	&	10,49\%	&	94	&	1,57\%	&	10	&	0	&	46	&	37	\\
+java.lang.ClassCastException	&	64	&	10,02\%	&	130	&	2,16\%	&	55	&	0	&	55	&	20	\\
+java.lang.IndexOutOfBoundsException	&	62	&	9,70\%	&	166	&	2,76\%	&	53	&	0	&	93	&	18	\\
+java.lang.NoSuchMethodError	&	54	&	8,45\%	&	80	&	1,33\%	&	10	&	0	&	56	&	14	\\
+java.util.ConcurrentModificationException	&	43	&	6,73\%	&	65	&	1,08\%	&	5	&	0	&	46	&	13	\\
+\\
 
     \hline
   \end{tabular}
-\caption{Root Exceptions occurrences and popularity.}
+\caption{Root Exceptions occurrences and popularity in repositories hosted in Googlecode (GC) and GitHub(GH).}
 \label{tab:toptenandroid}
 \end{table*}
 
@@ -902,7 +945,7 @@ on which the exceptions of each category was found as the root cause.
   \centering
   \begin{tabular}{lrr}
     \hline
-    \bfseries{Category} &  \bfseries{\% reported on stacks} \\
+    \bfseries{Category} &  \bfseries{\% Occurrences on stacks} \\
     \hline
       Programming logic (java.lang and util) &  52,0\%\\ 
       Resources (IO, Memory, Batery)       &   23,9\% \\ 
@@ -1001,6 +1044,34 @@ interface may be related to the library's maturity.
 %SELECT COUNT(*) FROM STACKTRACESUMMARY WHERE
 %repo !='android'  AND MAIN_EXTENDS LIKE 'RUNT%' AND MAINSIGNALER_FROM like 'APP%';
 
+% \bfseries{Root Cause Type} & \bfseries{Android} & \bfseries{Libcore} & \bfseries{App} & \bfseries{Lib}  & \bfseries{All}\\
+% Runtime	&	1075 / 260	&	56  / 17	&	1446 / 397	&	374	/  316  &	2951 / 943\\
+%Error	       &	 144	 / 44              &	34 / 12	&	168	 / 134              &	105	 / 62           &	451 /  240	\\
+%Checked	&	193	/ 83            &	230 / 84	&	139	  / 174          &	145 / 422	           &	624  / 734	\\
+%Throwable	&	0 /0	       &	0	&	1 / 1	             &	0	     / 0               &	1 / 1	\\
+%Undefined	&	1 / 3 	&	0	&	6 / 	12		&	8 / 30	   &	15 / 45	\\ %22 DISTINCT EXCEPTIONS AND 9 IN GIT
+
+%Runtime	&	1075 / 160	&	56 	&	1446 / 397	&	374	/  386  &	2951 / 943\\
+%Error	       &	 144	 / 32              &	34	&	168	 / 134               &	105	 / 74           &	451 /  240	\\
+%Checked	&	110	   / 39           &	230	&	139	  / 174            &	145	 / 466           &	624  /  679	\\
+%Throwable	&	0 /0	       &	0	&	1 / 1	             &	0	     / 0               &	1 / 1	\\
+%Undefined	&	1 / 1 	&	0	&	6 / 	12		&	8	/ 32	   &	15 / 45	\\ %22 DISTINCT EXCEPTIONS AND 9 IN GIT
+%All		& 1330	&	320	&	1760	&	632	&	4042	\\
+
+
+%Runtime	&	1235	&	56 	&	1843	&	760  &	3894\\
+%Error	       &	 176              &	34	&	302               &	179          &	691	\\
+%Checked	&	149           &	230	&	313            &	611           &	1303	\\
+%Throwable	&	0        &	0	&	2             &	0	                    &	2	\\
+%Undefined	&	2 	&	0	&	18		& 40	   &	60	\\ %22 DISTINCT EXCEPTIONS AND 9 IN GIT
+%  \hline
+%All		& 1562	& 320	& 	2478	& 1590	& 5950 \\
+
+%FILTRAR LIBCODE:
+%FILTRO ANDROID: 74 (com.android) 122(com.google)
+%SELECT REPO, main_signaler, *
+%  FROM stacktracesummary where mainsignaler_from='LIB_or_APP' AND main_signaler like 'com.google%' ;
+
 \begin{table}
 \centering
 \begin{tabular}{lccccc}
@@ -1008,13 +1079,13 @@ interface may be related to the library's maturity.
     \bfseries{Root Cause Type} & \bfseries{Android} & \bfseries{Libcore} & \bfseries{App} & \bfseries{Lib}  & \bfseries{All}\\
     \hline
 
-Runtime	&	1075 / 160	&	56 	&	1446 / 397	&	374	/  386  &	2951 / 943\\
-Error	       &	 144	 / 32              &	34	&	168	 / 134               &	105	 / 74           &	451 /  240	\\
-Checked	&	110	   / 39           &	230	&	139	  / 174            &	145	 / 466           &	624  /  679	\\
-Throwable	&	0 /0	       &	0	&	1 / 1	             &	0	     / 0               &	1 / 1	\\
-Undefined	&	1 / 1 	&	0	&	6 / 	12		&	8	/ 32	   &	15 / 45	\\ %22 DISTINCT EXCEPTIONS AND 9 IN GIT
-    \hline
-All		& 1330	&	320	&	1760	&	632	&	4042	\\
+Runtime	&	1335	&	73	&	1843	&	690  &	3894\\
+Error	       &	 188              &	 46	&	302             &	167	           &	691	\\
+Checked	&	276           &	314	&	313          &	567	           &	1358	\\
+Throwable	&	0	       &	0	&	2            &	0	     / 0               &	2	\\
+Undefined	&	4	&	0	&	18		&	38	   &	60	\\
+ \hline
+All		& 1803	&	433	&	2478	&	1462	&	6005	\\
     \hline
   \end{tabular}
 \caption{Types of root exceptions.}
@@ -1093,7 +1164,15 @@ Consequently, since it is not expected by the programmer, when such method throw
 this exception, such undocumented exception may remain
 uncaught and cause the app to crash, or may be mistakenly handled by subsumption - 
 The exception stack traces reporting this scenario is actually a real bug of Android 
-Gingerbread version (which still accounts for 13.6% of devices running Android).
+Gingerbread version (which still accounts for 13.6\% of devices running Android).
+
+Among the Android projects on which this exception stack trace was reported we can cite:
+PageTurner (206 stars, 130 forks, 1184 commits), ActionBarSherlock (6,041 stars, 
+3,436 forks, and 1479 commints), otto (1,618 stars,	342 forks, 	177 commints).
+
+%SELECT repo, *
+% FROM stacktracesummary where stack like '%getDeclaredMethods%';
+
 
 \noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
  Only 0,8\% of the methods documented the explicitly signaled runtime exceptions.
@@ -1165,6 +1244,9 @@ exceptions were indeed wrapped in runtime exceptions or even errors.
 \caption{Wrappings comprising different exception types.}
 \label{tab:wrappingandroid}
 \end{table*}
+
+
+TODO: ATUALIZAR DISCUSSAO COM BASE NOS NOVOS DADOS.
 
 This analysis revealed unexpected wrappings such as: Error wrapping a Checked 
 exception; a Runtime wrapping and Error; and an Error wrapping a Runtime.
