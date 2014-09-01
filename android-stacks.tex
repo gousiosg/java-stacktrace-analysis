@@ -700,8 +700,8 @@ Manual inspections were used discover the type of exceptions thrown by
 the applications and libraries we manually inspect the sourcecode or javadoc
  documentation of each of them. When the exception was removed from the 
 last app version, the previous versions were analyzed. When the exception was
- not found on the previous versions, the exception was discarded.  Only 3 exceptions 
-remained undefined and were removed from this study.
+ not found on the previous versions, the exception was discarded.  Only 31 exceptions 
+remained undefined which were reported on 61 exception stack traces (as presented in Table ~\ref{tab:typeroottab}).
 
 %{MOSTRAR UMA FIGURA COM TODOS OS PASSOS E RESSALTAR OS PASSOS MANUAIS}
 %COMPLETE HERE.....
@@ -770,6 +770,16 @@ part of Android, the application itself, libcore, or a third-party library as pr
 %least one stack trace (482). Table~\ref{tab:toptenandroid} 
 %and Figure~\ref{fig:androidsignaler} presents the mined data.
 
+
+%SELECTS:
+%SELECT COUNT(distinct(repo)) FROM STACKTRACESUMMARY WHERE MAIN_CAUSE LIKE '%java.lang.NullPointerException%'
+%and repo !='android';
+
+
+%SELECT COUNT(*) FROM STACKTRACESUMMARY WHERE MAIN_CAUSE LIKE '%java.lang.IllegalStateException%'
+%and repo !='android' AND MAINSIGNALER_FROM LIKE '%ANDROID%';
+
+
 \begin{table*}
   \centering
   \begin{tabular}{rcccccccc}
@@ -777,16 +787,16 @@ part of Android, the application itself, libcore, or a third-party library as pr
     \bfseries{Root Exception} &  \multicolumn{2}{c}{\bfseries{Projects (GH/CG)}} &  \multicolumn{2}{c}{\bfseries{Occurrences (GH/CG)}} & \textsf{Android} & \textsf{Libcore} & \textsf{App} & \textsf{Lib} \\
     & \bfseries{\#} &  \bfseries{\%} & \bfseries{\# } & \bfseries{\% } &&&&\\
     \hline
-java.lang.NullPointerException            & 254 /  78  & 52,70\%  & 1225 / 439  & 30,08\% & 473 /  26  & 18 & 595 & 137 \\  %LIBORAPP=408
-java.lang.IllegalStateException          & 99 / 21  & 20,54\%  & 234 / 44  & 5,75\%  & 165 & 12 & 36  & 20  \\
-java.lang.IllegalArgumentException          & 94 / 48  & 19,50\% & 255 / 98  & 6,26\% & 146 & 6  & 64  & 39   \\
-java.lang.RuntimeException                & 91 / 31 & 18,88\% & 232 / 87  & 5,70\%  & 167 & 1  & 47  & 17   \\
-java.lang.OutOfMemoryError                 & 56  / 22  & 11,62\% & 180 / 57 & 4,42\% & 121 & 15 & 17  & 23   \\
-java.lang.NoClassDefFoundError           & 52  / 15 & 10,79\%  & 73 / 21   & 1,79\%  & 9   & 0  & 37  & 26   \\
-java.lang.ClassCastException             & 49  / 15 & 10,17\%  & 94 / 36   & 2,31\%  & 43  & 0  & 40  & 11   \\
-java.lang.IndexOutOfBoundsException       & 47  / 15 & 9,75\%   & 127 / 39  & 3,12\% & 47  & 0  & 71  & 8    \\
-java.lang.NoSuchMethodError               & 40 / 14  & 8,30\%  & 57 / 23  & 1,40\%  & 9   & 0  & 39  & 9   \\
-java.util.ConcurrentModificationException & 38 / 5 & 7,88\% & 54 / 11  & 1,33\%   & 5   & 0  & 43  & 6   \\
+java.lang.NullPointerException            & 254 /  78  & 52,70\%  & 1225 / 439  & 30,08\% & 473 /  26  & 18 /  & 595 / 241 & 137 / 169 \\  %LIBORAPP=408
+java.lang.IllegalStateException          & 99 / 21  & 20,54\%  & 234 / 44  & 5,75\%  & 165 / 15 & 12  / 0 & 36  / 5 & 20 / 24  \\
+java.lang.IllegalArgumentException          & 94 / 48  & 19,50\% & 255 / 98  & 6,26\% & 146 / 41 & 6 / 0 & 64 / 31  & 39  / 26  \\
+java.lang.RuntimeException                & 91 / 31 & 18,88\% & 232 / 87  & 5,70\%  & 167 / 33 & 1 / 0 & 47 / 17 & 17 / 37   \\
+java.lang.OutOfMemoryError                 & 56  / 22  & 11,62\% & 180 / 57 & 4,42\% & 121 / 18 & 15 / 0 & 17 / 18  & 23 / 13  \\
+java.lang.NoClassDefFoundError           & 52  / 15 & 10,79\%  & 73 / 21   & 1,79\%  & 9 / 1   & 0 / 0  & 37 / 9  & 26 / 11   \\
+java.lang.ClassCastException             & 49  / 15 & 10,17\%  & 94 / 36   & 2,31\%  & 43 / 3  & 0  / 0 & 40 / 15  & 11 / 18  \\
+java.lang.IndexOutOfBoundsException       & 47  / 15 & 9,75\%   & 127 / 39  & 3,12\% & 47 / 2  & 0/0  & 71/22  & 8 / 14    \\
+java.lang.NoSuchMethodError               & 40 / 14  & 8,30\%  & 57 / 23  & 1,40\%  & 9  /  0  & 0  / 0 & 39 /  17    & 9 / 6  \\
+java.util.ConcurrentModificationException & 38 / 5 & 7,88\% & 54 / 11  & 1,33\%   & 5  / 0  & 0  / 0 & 43 / 3 & 6 / 7  \\
 
     \hline
   \end{tabular}
@@ -984,6 +994,10 @@ libraries can define a precise exception interface to its clients. Such
 libraries are heavily used in several projects, and such precise exception
 interface may be related to the library's maturity.
 
+%SELECT COUNT(*) FROM STACKTRACESUMMARY WHERE
+% repo !='android'  AND MAIN_EXTENDS LIKE 'RUNTIME%' 
+
+
 \begin{table}
 \centering
 \begin{tabular}{lccccc}
@@ -991,11 +1005,11 @@ interface may be related to the library's maturity.
     \bfseries{Root Cause Type} & \bfseries{Android} & \bfseries{Libcore} & \bfseries{App} & \bfseries{Lib}  & \bfseries{All}\\
     \hline
 
-Runtime	&	1075	&	56	&	1446	&	374	&	2951\\
-Error	&	144	&	34	&	168	&	105	&		451	\\
-Checked	&	110	&	230	&	139	&	145	&	624	\\
-Throwable	&	0	&	0	&	1	&	0	&	1	\\
-Undefined	&	1	&	0	&	6	&	8	&	15	\\
+Runtime	&	1075 	&	56	&	1446	&	374	&	2951 / 956\\
+Error	&	144	&	34	&	168	&	105	&		451 /  250	\\
+Checked	&	110	&	230	&	139	&	145	&	624  /  734	\\
+Throwable	&	0	&	0	&	1	&	0	&	1 / 1	\\
+Undefined	&	1	&	0	&	6	&	8	&	15 / 46	\\ %22 DISTINCT EXCEPTIONS AND 9 IN GIT
     \hline
 All		& 1330	&	320	&	1760	&	632	&	4042	\\
     \hline
