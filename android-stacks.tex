@@ -105,7 +105,7 @@ In the same rate the number of a users increase, also increases
 the number of users affected by application faults and crashes.
 If on the one hand such applications extend phones capabilities 
 far beyond of the basic calls and textual messages, on the other hand
-they have to face threats to application robustness.
+they have to face threats to application robustness ~\cite{was2010}.
 Such applications have to cope with an increasing number of abnormal
 computation states, arising from:
  noisy user inputs; faults in underlying middleware or hardware; 
@@ -225,7 +225,7 @@ interface (i.e., using throws clause).
 on the way exceptions flow from JNI interface functions, which can lead to uncaught exceptions that are difficult do 
 debug.  
 
-  \item  A multitude of programming mistakes were reported as the main causes of stack traces:
+  \item  A multitude of programming mistakes were reported as the main causes of exception stack traces:
  27,71\% of the analyzed exception stack traces reported a java.lang.NullPointerException the root cause;
 and  51,96\% of all projects reported at least one exception stack trace on which the NullPoiterException
 was the root cause.
@@ -920,7 +920,7 @@ whose goal was to categorized the top 100 root exceptions. The top 100 root caus
 to approximately 95\% of all exception types reported on the exception stack-issues. 
 
 Such categorization was based known sources of faults mobile development: concurrency ~\cite{ama2012}
-, backward compatibility  ~\cite{McDon13}, security   ~\cite{enck2011study} and resource management (IO, Memory, Batery) ~\cite{Zhang12}.
+, backward compatibility  ~\cite{McDon13}, security   ~\cite{enck2011study,was2010} and resource management (IO, Memory, Batery) ~\cite{Zhang12}.
 We added to this set of categories other three categories: one to represent the exceptions caused by programming mistakes;
   another to represent general Java exceptions (e.g., java.lang.Exception) - whose types do not convey any specific cause of failure; and a category to
 represent specific  exceptional situations of apps, frameworks and libraries.
@@ -984,7 +984,7 @@ lead to a NullPointerException. This classification however,
 was only based on the semantic embedded  on the exception types.
 
 \noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
-A multitude of programming mistakes were reported as the main causes of stack traces.
+A multitude of programming mistakes were reported as the main causes of exception stack traces.
 51,96\% of all projects reported at least one exception stack trace on which the NullPoiterException
 was the root cause.
 }
@@ -1388,7 +1388,7 @@ by android.os.AsyncTask. This class is responsible for dealing with asynchronous
 The code snippet is illustrated in Figure ~ref{wrappings} (c) shows that any throwable signaled in the context of an asynchronous 
 task is converted in to a runtime and re-thrown. Some of the Erros wrapped on instances of runtime exceptions were 
 java.lang.OutOfMemoryError (30), java.lang.NoClassDefFoundError (6), 
-java.lang.UnsatisfiedLinkError (5), java.lang.StackOverflowErro (4), as illustrated in Table ~\ref{tab:exampeswrap}
+java.lang.UnsatisfiedLinkError (5), java.lang.StackOverflowErro (4), as illustrated in Table ~\ref{tab:exampeswrap}.
 
 %ASSNCTASKS NON ANNOTATED METHODS…….
 %SOME HAVE EXCEPTION INTERFACE 
@@ -1417,8 +1417,6 @@ java.lang.UnsatisfiedLinkError (5), java.lang.StackOverflowErro (4), as illustra
 %}
 %\end{verbatim}
 %}
-
-.
 
 \begin{table}
 \centering
@@ -1550,8 +1548,7 @@ multiple-wrapping found in Android repo was the
 following: Runtime-Checked-Runtime-Checked-Runtime-Checked-Runtime.
 
 \noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
-Odd wrappings were detected (e.g., a checked exception wrapping an OutOfMemoryError)
-reveal fragilities on Java Exception Model.
+Odd wrappings were detected (e.g., a checked exception wrapping an OutOfMemoryError).
 The study also detected an undocumented checked exception signaled by
   a native method defined in Android.
 }
@@ -1569,6 +1566,10 @@ The study also detected an undocumented checked exception signaled by
 \textbf{Brian Foote} 
 
 \subsection{Inversion of Control and Exception Handling}
+
+footnote{to do: INPORTANTE Falar que os metodos do ciclo de vida da app nao tem interface excepcional.
+desta forma ela não define: O que fazer se o metodo der errado? Nao deixa claro.}
+
 Reasoning about the design strategy adopted by the ActivityThread,
 we can observe that the inversion of control (on which this class and 
 most of the Android framework is based) can make it difficult for the application developer to 
