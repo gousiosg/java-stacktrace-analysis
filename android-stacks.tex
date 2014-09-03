@@ -1012,20 +1012,15 @@ to ways of how to mitigate it.
 %information to identify the cause of the exceptional behavior, and as a consequence developers need to relying on
 %the exception message which can be neither complete nor precise~\cite{gosling2000java}.
 
-\emph{\textbf{Classifying the Most Reported Root Exceptions.}} To get a broader view of the root causes of stack traces,
+\emph{\textbf{Identifying the Concerns Related to Root Exceptions.}} To get a broader view of the root exceptions of stack traces,
  we performed an empirical evaluation whose goal was to identify the concerns related to the most reported root exceptions. 
-
 Since it is infeasible to inspect the code responsible for throwning every exception reported in this study.
 This identification performed in this study was based on meaning that the name of the exception holds, 
 its description (i.e., Javadoc documentaion), and the Java specification. To exemplify, an instance of ArrayOutOfBoundException
- usually refers to a programming mistake. Moreover, the Java specification list all exceptions related to backwardcompatibility 
-issues ~\cite{javaback} (e.g., InstantiationError, VerifyError, IllegalAccessError).
-
-Some concerns are known as sources of faults in mobile development are: concurrency ~\cite{ama2012} backward compatibility  
+ usually refers to a programming mistake. Moreover, the Java specification list all exceptions related to backward compatibility 
+issues ~\cite{javaback} (e.g., InstantiationError, VerifyError, IllegalAccessError). Some concerns are known as sources 
+of faults in mobile development are: concurrency ~\cite{ama2012} backward compatibility  
 ~\cite{McDon13}, security  ~\cite{enck2011study,was2010} and resource management (IO, Memory, Batery) ~\cite{Zhang12}.
-
-%Moreover, the programming errors are also as a source of faults, as illustrated on the previous section.
-
 However, there are exceptions that cannot be directly mapped to one of such concerns. Either because they are
 related to programming mistakes - as illustrated on the previously. Or because they are too general (i.e.,  java.lang.Exception,
 java.lang.RuntimeException, java.lang.Error). Or also because they are related to other concerns (e.g., specific to a given library).
@@ -1033,14 +1028,14 @@ java.lang.RuntimeException, java.lang.Error). Or also because they are related t
 %The list of categories is illustrated in Table~\ref{tab:categories}. 
 
 To perform such mapping, we selected a subset of all reported root exceptions. This subset was composed by 100 root exceptions 
-which were reported on 95\% of all stack traces analyzed in this study.
-
-Hence, based on the inspection of the source code and Javadoc related to each exception,  and Java specification, we identified the concern
+which were reported on 95\% of all stack traces analyzed in this study. Hence, based on the inspection of the source code and
+ Javadoc related to each exception,  and Java specification, we identified the concern
 releated to each root exception. Than we could calculate the prevalence of a concern on the reported stack traces using the following metric.
 Given that: Stacks is the complete set of stacks found in this study, Lc is the list of root causes related to a given concern (as identified on the study),
- and Stacks[Lc] the list of issues that mentions the concern. The prevalence of a concern could be given by the formula: Stacks[Lc]/Stacks.
+ and Stacks[Lc] the list of issues that mentions the concern. The prevalence of a concern could be given by the formula: Stacks[Lc]/Stacks. 
+Table~\ref{tab:tophundrend} illustrates the result of this empirical evaluation.
 
-Table~\ref{tab:tophundrend} illustrates the result of such mapping.
+
 
  
 % When the root exceptions that were too general, or related to other concerns 
