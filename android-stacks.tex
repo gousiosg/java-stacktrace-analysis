@@ -871,11 +871,8 @@ After distilling the information available on the exception stack traces we coul
 the the exceptions commonly reported as the root causes of stack traces.
 Table \ref{tab:topten} illustrates the top 10 root causes found in the study,
  ranked by the number of distinct project repositories on which they were reported. 
-The table shows: the number of times each exception was reported as 
-the root cause of a stack trace, the number of distinct projects reporting such causes on stack traces, 
-and the percentages of such in relation to all reported exceptions and analyzed projects respectively.
-It also presents the whether the method responsible for signaling the exceptions were
-part of Android, the application itself, libcore, or a third-party library as presented in Table  \ref{tab:signalers} 
+The table shows how many times method responsible for signaling the exceptions were
+part of Android Platform, the application itself, libcore, or a third-party library as presented in Table  \ref{tab:signalers} 
 
 % \footnote{Nine exception stack traces contained only elements of JVM and were discarded from the analysis}.
 
@@ -968,19 +965,15 @@ java.util.ConcurrentModificationException	&	43	&	6,73\%	&	65	&	1,08\%	&	5	&	0	&	
  
 
 We can observe that most of this set is composed by exceptions defined by java.lang,
-which are mostly not explicitly thrown by the developer but include
-the exceptions implicitly thrown by the JVM due to programming errors 
+which are mostly implicitly thrown by the JVM due to programming mistakes 
 (e.g., out-of-bounds array index, division-by-zero, access to a null reference)
  or resource limitation (e.g., OutOfMemoryError).
-For such exceptions, which represent programming bugs or resource limitations, 
-there is usually no proper handling besides presenting an error message to
+For such exceptions there is usually no proper handling besides presenting an error message to
  the user and restarting the application. Only high fault tolerant systems need to 
-provide solutions to handle them. Hence, the best strategy to deal with them
-is try to prevent them.
+provide solutions to handle them. 
 
 \emph{\textbf{The high number of NullPointerExceptions.}}
-From this set the java.lang.NullPointerException was the most reported root cause; 27,71\% 
-of the analyzed exception stack traces reported a java.lang.NullPointerException the root cause. 
+From this set the java.lang.NullPointerException was the most reported root cause (27,71\% )
 Considering the frequencly of NullPointerException across projects, we could observe that
  51,96\% of all projects reported at least one exception stack trace on which the NullPoiterException
 was the root cause.
