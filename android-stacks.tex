@@ -18,7 +18,7 @@
 
 %\title{Results of a Mining Study on Exception Stack Traces embedded on issues of over 600 Android Projects}
 
-\title{Discovering Robustness Threats by Mining the Exception Stack Traces of over 600 Android Projects}
+\title{Discovering/Unveiling Robustness Threats by Mining the Exception Stack Traces of over 600 Android Projects}
 
 %\title{Discovering Threats to Robustness through Exception Stack Trace Analysis: Results of a Mining Study of Android Projects}
 
@@ -427,8 +427,9 @@ since the invoker of an operation can handle it in a wider context ~/cite{miller
  A common way of  propagating exceptions in Java programs is through exception wrapping
  (also known as exception chaining). Exception wrapping allows one exception 
 to be wrapped in another one and re-thrown. Figure~\ref{fig:wrapping} presents 
-a stack trace  illustrates an exception wrapping. The bottom 
-part of the stack trace is the \emph{root cause}, which indicates the
+an exception stack trace which illustrates an exception wrapping. 
+For simplicity we will refer to exception stack trace as stack trace along the text.
+The bottom part of the stack trace is the \emph{root cause}, which indicates the
 first reason for the error to be thrown (in this case, the computer run out of
 memory). The top part of the stack trace indicates the location of the exception
 manifestation (which will call \emph{top level wrapper} along this paper). The
@@ -1025,44 +1026,59 @@ to ways of how to mitigate it.
 %information to identify the cause of the exceptional behavior, and as a consequence developers need to relying on
 %the exception message which can be neither complete nor precise~\cite{gosling2000java}.
 
-\emph{\textbf{Classifying Top 100 Exceptions.}} To get a broader view of the root causes of stack traces,
- we performed an empirical evaluation
-whose goal was to categorized the top 100 root exceptions. The top 100 root causes correspond 
-to approximately 95\% of all exception types reported on the exception stack-issues. 
+\emph{\textbf{Classifying the Most Reported Root Exceptions.}} To get a broader view of the root causes of stack traces,
+ we performed an empirical evaluation whose goal was to identify the concerns related to the most reported root exceptions. 
 
-Such categorization was based known sources of faults mobile development: concurrency ~\cite{ama2012}
-, backward compatibility  ~\cite{McDon13}, security   ~\cite{enck2011study,was2010} and resource management (IO, Memory, Batery) ~\cite{Zhang12}.
-We added to this set of categories other three categories: one to represent the exceptions caused by programming mistakes;
-  another to represent general Java exceptions (e.g., java.lang.Exception) - whose types do not convey any specific cause of failure; and a category to
-represent specific  exceptional situations of apps, frameworks and libraries.
-The list of categories is illustrated in Table~\ref{tab:categories}. 
+Since it is infeasible to inspect the code responsible for throwning every exception reported in this study.
+This identification performed in this study was based on meaning that the name of the exception holds, 
+its description (i.e., Javadoc documentaion), and the Java specification. To exemplify, an instance of ArrayOutOfBoundException
+ usually refers to a programming mistake. Moreover, the Java specification list all exceptions related to backwardcompatibility 
+issues ~\cite{javaback} (e.g., InstantiationError, VerifyError, IllegalAccessError).
 
-\begin{table}
-  \centering
-  \begin{tabular}{|p{2cm}| p{5cm}|}
-    \hline
-    \bfseries{Category} & \bfseries{Description} \\
-    \hline
-      Programming logic &  Exceptions thrown by the JVM when the 
-evaluation of an expression violates the normal semantics of language (e.g., 
-out-of-bounds array index, division-by-zero, access to a null reference). \\ \hline
-      Resources (IO, Memory, Batery)  & Exception releated to the manipulation or restriction of resources (e.g., file, network, memory) \\ \hline
-      Security                               & Exception releated to security issues (e.g. password validation, criptography) \\ \hline
-      Concurrency                            & Exceptions related to multi-threaded programming \\ \hline
-      Backward compatibility                 &  A list of exceptions related to backward compatibility - a complete list can be found here [ref]  \\ \hline
-      Specific Exceptions              & Exceptions created for specific applications, frameworks or libraries \\ \hline
-      General (Exception, Error, Runtime)    & The top level exceptions in Java    \\ \hline
-    \hline
-  \end{tabular}
-  \caption{Description of categories.}
-  \label{tab:categories}
-\end{table}
+Some concerns are known as sources of faults in mobile development are: concurrency ~\cite{ama2012} backward compatibility  
+~\cite{McDon13}, security  ~\cite{enck2011study,was2010} and resource management (IO, Memory, Batery) ~\cite{Zhang12}.
+Moreover, the programming errors are also as a source of faults, as illustrated on the previous section.
+However, there are exceptions that cannot be directly mapped to one of such concerns: either because they are too general 
+(e.g., java.lang.Exception) and its name does not hold a reason for the exception to be thrown; or because they are related to other concerns 
+ (e.g., specific to a given library).
 
-Each top 100 root exceptions was mapped to one of these categories - 
-this analysis was based on the inspection of source code, Javadoc, or additional 
-documentation related to each exception.  Table~\ref{tab:tophundrend} 
-illustrates the result of such classification, the number of exception stack traces
-on which the exceptions of each category was found as the root cause.
+%The list of categories is illustrated in Table~\ref{tab:categories}. 
+
+To perform such mapping, we selected a subset of all reported root exceptions. This subset was composed by 100 root exceptions 
+which were reported on 95\% of all stack traces analyzed in this study.
+
+Hence, based on the inspection of the source code and Javadoc related to each exception,  and Java specification, we identified the concern
+releated to each root exception. Than we could calculate the prevalence of a concern on the reported stack traces using the following metric.
+Given that: Stacks is the complete set of stacks found in this study, Lc is the list of root causes related to a given concern (as identified on the study),
+ and Stacks[Lc] the list of issues that mentions the concern. The occurence of a concern could be given by the formula: Stacks[Lc]/Stacks.
+
+Table~\ref{tab:tophundrend} illustrates the result of such mapping.
+
+ 
+% When the root exceptions that were too general, or related to other concerns 
+% were also maped to these additional categories. Table~\ref{tab:tophundrend} illustrates the result of such mapping.%
+%\begin{table}
+%  \centering
+%  \begin{tabular}{|p{2cm}| p{5cm}|}
+%    \hline
+%    \bfseries{Category} & \bfseries{Description} \\
+%    \hline
+%      Programming logic &  Exceptions thrown by the JVM when the 
+% evaluation of an expression violates the normal semantics of language (e.g., 
+% out-of-bounds array index, division-by-zero, access to a null reference). \\ \hline
+%      Resources (IO, Memory, Batery)  & Exception releated to the manipulation or restriction of resources (e.g., file, network, memory) \\ \hline
+%      Security                               & Exception releated to security issues (e.g. password validation, criptography) \\ \hline
+%      Concurrency                            & Exceptions related to multi-threaded programming \\ \hline
+%      Backward compatibility                 &  A list of exceptions related to backward compatibility - a complete list can be found here [ref]  \\ \hline
+%      Specific Exceptions              & Exceptions created for specific applications, frameworks or libraries \\ \hline
+%      General (Exception, Error, Runtime)    & The top level exceptions in Java    \\ \hline
+%    \hline
+%  \end{tabular}
+%  \caption{Description of categories.}
+%  \label{tab:categories}
+% \end{table}
+
+
 
 \begin{table}
   \centering
@@ -1078,21 +1094,19 @@ on which the exceptions of each category was found as the root cause.
       Specific Exceptions               &  4,9\%\\ 
       General (Error, Exception, Runtime)    &  6,7\%\\
   \end{tabular}
-  \caption{Characterization of the 100 root causes.}
+  \caption{Identifying the concerns related to root exceptions}
   \label{tab:tophundrend}
 \end{table}
 
-To ensure the quality of the classification, three independent coders classified a randomly selected
-sample of 25 exception types (from the total 100) using the same categories;
+To ensure the quality of the process, three independent coders classified a randomly selected
+sample of 25 exception types (from the total 100) using the same list of concerns;
 the interater agreement was high (96\%). We could also observe that
 We can therefore assume that the categories are descriptive 
 enough for covering the range of exception types analyzed.
 
-Analizing the Top 100 exceptions the programming mistakes
-were also the most reported. However, they may be interactly related 
-to one of the other concerns. For  instance, a concurrency problem may 
-lead to a NullPointerException. This classification however, 
-was only based on the semantic embedded  on the exception types.
+These study showed that the programming mistakes associated to the most reported root causes. 
+However, they may be interactly related to one of the other concerns. For  instance, a concurrency problem may 
+lead to a NullPointerException. 
 
 \noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
 A multitude of programming mistakes were reported as the main causes of exception stack traces.
@@ -1673,34 +1687,6 @@ The study also detected an undocumented checked exception signaled by
 \caption{Code snippets illustrating fragilities on the exception-related code} \label{fig:snippets} \end{figure*}
 
 
-\emph{``Everybody hates thinking about exceptions, because they are not supposed to happen."}
-\textbf{Brian Foote} 
-
-\subsection{Inversion of Control and Exception Handling}
-
-footnote{to do: INPORTANTE Falar que os metodos do ciclo de vida da app nao tem interface excepcional.
-desta forma ela não define: O que fazer se o metodo der errado? Nao deixa claro.}
-
-Reasoning about the design strategy adopted by the ActivityThread,
-we can observe that the inversion of control (on which this class and 
-most of the Android framework is based) can make it difficult for the application developer to 
-associate a specific handler to the exceptions thrown during the execution of the onCreate method (or any other life cycle method).
-According to Java handling model, the handler should be added on a method on the invocation chain. 
-However,  in the inversion of control development model the developer does not have fully access to 
-the invocation chain of a method. Therefore, the developer may be tempted to convert the checked
- exception into a RuntimeException and resignal.
-
-Difficulty of associating a specific handler to exceptions signaled by application methods called by the framework,
-may also be the reason behind the design decision of encapsulating any exception in a RuntimeException.
-As framework does not have enough contextual information the exception regardless its types,
-it encapsulates in a general type and re-throws. The only possible answer to such exceptions would be 
-to finish the application.
-
-Such design decision may lead the developers into believing that by just re-throwing 
-the exceptions they can forget about the exceptional situations during the development of the "happy path". 
-This "ignore-for-now" approach may turn the exception handling into a generalized "goto" mechanism~\cite{mandrioli1992advances}
- making the program more complex and even less reliable. This behavior may lead to the well known uncaught exceptions 
-problem~\cite{jo2004uncaught}, one of the main causes of application crashes.  
 
 \subsection{On the need of a rescue to the almost infeasible task of preventing uncaught exceptions}
 In this study we could observe undocumented runtime exceptions thrown by third party code,
@@ -1789,6 +1775,40 @@ pointer dereferences. Android Studio 0.5.5 Released support these annotations.
 %\noindent\emph{Dependency injection - Inversion of Control -  callback and Exceptions }  
 %\subsection{Dependency injection - Inversion of Control -  callback and Exceptions}  
 %\noindent\emph{How can we benefit from such cross-project crash analysis?}  
+
+
+%\subsection{Inversion of Control and Exception Handling}
+\subsection{On the absence of exception interface on hook methods of the Android Aplication Framework}
+
+In this study, the analyzed stack traces involved, in one way or another, methods from the 
+Android Application Framework: either framework utility methods inkoked 
+by the application, or framework hook methods  (e.g., OnCreate(), onPause())  
+ extended by the application and invoked by the framework (by inversion of control).
+ As discussed before, some of the utility 
+methods signaled ``undocumented" runtime exceptions. Additionaly, another characteristic of 
+Android Platform may also be imposing obstacles to application robustness: the absence 
+of exception interface (i.e., a list of exceptions that a method 
+might raise during its execution) of Android rook methods.
+
+For instance, none of the hook methods povided by the Activity class (and 
+extended by every Android app) specify an exception interface. Therefore, such methods
+do not stimulate the developer to think that ``something" may go wrong 
+during the execution of such methods, and prepare the code to deal with them.
+
+To make matters worse, according to Java handling model, the exception handler
+ should be added on the invocation chain of the signaler.  However,  on method invocations based 
+on inversion of control, the developer does not have fully access to the invocation 
+chain of a method. 
+
+Such difficulties may lead the developers into believing that by just re-throwing the exceptions they can 
+forget about the exceptional situations, while focusing on the developement of the `happy path". 
+This `ignore-for-now" approach may lead to the known uncaught exceptions problem~\cite{jo2004uncaught},
+and unintened handler actions,  contributing to degrate apps robustness.
+
+Rephasing Brian Foote "Everybody hates thinking about exceptions, because they’re not supposed to happen"
+however one day they happen, and you need to prepare your code for it. However, further investigation
+ is needed to evaluate the impact of  the absence of exception interface of Android rook methods on
+app robustness.
 
 \subsection{On the benefits of a cross-project exception stack trace analysis}  
 
