@@ -9,22 +9,28 @@
 \usepackage{balance}
 
 \begin{document}
-%\title{ What GitHub and Googlecode can tell us about the Causes of Crashes of Android Apps? }
-%\title{ A Mining Study the Googlecode can tell us about the Causes of Crashes of Android Apps? }
+%\title{ What GitHub and Google Code can tell us about the Causes of Crashes of Android Apps? }
+%\title{ A Mining Study the Google Code can tell us about the Causes of Crashes of Android Apps? }
 
-\title{What can the Issues of GitHub and Googlecode tell us about Exception Fragilities in Android? }
+%\title{What can the Issues of GitHub and Google Code tell us about Exception Fragilities in Android? }
 
-%\title{On the Common Characteristics Android-Apps Crashes: Results of a GitHub and Googlecode Mining Study}
+%\title{What can the Issues of GitHub and Google Code tell us about Exception Fragilities in Android? }
 
-%\title{On the Common Characteristics of Android-Apps Crashes: Results of a GitHub and Googlecode Mining Study}
+\title{Discovering Robustness Threats by Mining the Exception Stack Traces of over 600 Android Projects}
 
-%\title{On the Common Characteristics of Android Crashes: Results of a GitHub and Googlecode Mining Study}
+%\title{Discovering Fragilities on the Exception-Related Code through  Exception Stack Trace Mining}
+
+%\title{On the Common Characteristics Android-Apps Crashes: Results of a GitHub and Google Code Mining Study}
+
+%\title{On the Common Characteristics of Android-Apps Crashes: Results of a GitHub and Google Code Mining Study}
+
+%\title{On the Common Characteristics of Android Crashes: Results of a GitHub and Google Code Mining Study}
 
 
-%\title{A first Glance on Characteristics of Android Crashes: Results of a GitHub and Googlecode Mining Study}
+%\title{A first Glance on Characteristics of Android Crashes: Results of a GitHub and Google Code Mining Study}
 
 
-%\title{A first Glance on Characteristics of Android Crashes: Results of a GitHub and Googlecode Mining Study}
+%\title{A first Glance on Characteristics of Android Crashes: Results of a GitHub and Google Code Mining Study}
 
 
 \author{\IEEEauthorblockN{Roberta Coelho\IEEEauthorrefmark{1},
@@ -46,8 +52,21 @@ Email: \texttt{\{g.gousios,arie.vandeursen\}@tudelft.nl}}
 \maketitle
 
 %GitHub 315,92
-% Googlecode: 127,456
+% Google Code: 127,456
 %All: 159,048
+
+
+%The goal of this study was to: identify common characteristics 
+%of such traces and investigate the fragilities on the exception-related code that can be revealed
+%from them. 
+%The goal of this study was to: identify common characteristics 
+%of such traces and investigate the whether they can reveal
+%the characteristics on the source code that may be favoring the introduction of faults 
+%(i.e. Uncaught Exceptions, and Unintened handler Actions), and consequently
+%decreasing the program robustness.
+%(of apps or the underlaying framework) 
+
+
 
 \begin{abstract}
 The number of mobile apps is increasing in a daily rate. If on the one hand they
@@ -57,12 +76,16 @@ cope with an increasing number of exceptinal conditions
 Therefore, mechanisms for exception detection and handling are not an optional add-on but a 
 fundamental part of such apps. However, studies have shown that such mechanisms are the less 
 understood and tested parts of the system. As a consequence they may affect the system the 
-other way around, making the system even less robust.
+other way around, making the system even less robust, leading to failures such as uncaught exceptions 
+and unintended handler actions (i.e., exceptions being mistakenly caught by existing handlers).
 This paper reports a study which mined the stack traces embedded on 
 159,048 issues reported on Android projects hosted in GitHub (482 projs.) 
-and Googlecode (157 projs.). The goal of this study was to: identify common characteristics 
-of such traces and investigate the fragilities on the exception-related code that can be revealed
-from them. Overall 6,005 exception stack traces were extracted, and analyzed in 
+and Google Code (157 projs.). 
+The goal of this study was to: investigate the whether the exception stack traces
+ can reveal common characteristics on the exception-related code that
+may be favoring the introduction of the aforementioned failures, which would be responsible for 
+decreasing the application robustness. We call such characteristics ``fragilities" of the exception-related code.
+Overall 6,005 exception stack traces were extracted, and analyzed in 
 combination with source code and bytecode analysis. 
 Some fragilities consistently detected in this study include: 
 (1) undocumented runtime exceptions thrown by third party code;
@@ -78,7 +101,7 @@ systems based on Java exception model.
 \end{abstract}
 
 %GitHub 31,592
-% Googlecode: 127,456
+% Google Code: 127,456
 %All: 159,048
 
 
@@ -174,7 +197,7 @@ available data comprised only few large scale projects (e.g. the Mozilla
 crash report dataset\footnote{https://code.google.com/p/promisedata/issues/detail?id=88}).
 Recently we have observed a rapid increase in the number of open
 source projects that make their control version as well as the issue tracking systems
-publicly available in repository hosting sites such as GitHub and Googlecode.
+publicly available in repository hosting sites such as GitHub and Google Code.
 
 % The
 %concentration of open source projects and the existence of initiatives that mine
@@ -201,22 +224,16 @@ the common characteristics of exception stack traces reported to such systems to
 insights on similar fragilities on the exception related code of the applications and underlaying framework.
 
 %482 applications) and Google code (157 applications)
-
-To do so we perform a post mortem analysis of the exception stack traces embedded on all issues
-created on Android projects available in GitHub and Googlecode. Using a custom tool called ExceptionMiner,
- which we develop specifically for this study, we mine stack traces from issues across all Android projects on
-GitHub and Googlecode. Overall, we analyzed all issues extracted from on 482 Android projects defined in
-
 %GitHub 31,592
-% Googlecode: 127,456
+% Google Code: 127,456
 %All: 159,048
 
-
-
-
-
-GitHub and 157 projects defined in Googlecode. Overall it corresponds to 159,048 issues (31,592 issues from GitHub projects 
-and 127,456 issues from Googlecode projects) from which  6,005 stack traces were extracted and used as
+To do so we perform a post mortem analysis of the exception stack traces embedded on all issues
+created on Android projects available in GitHub and Google Code. Using a custom tool called ExceptionMiner,
+ which we develop specifically for this study, we mine stack traces from issues across all Android projects on
+GitHub and Google Code. Overall, we analyzed all issues extracted from on 482 Android projects defined in
+GitHub and 157 projects defined in Google Code. Overall it corresponds to 159,048 issues (31,592 issues from GitHub projects 
+and 127,456 issues from Google Code projects) from which  6,005 stack traces were extracted and used as
  a source of information for our analysis. The stack trace analysis was augmented by additional information
 extracted from JDK, Android Plaform and the applications using byte code and source code analysis.
  Manual inspection was used to leverage the understanding of exception stack traces and support further discussions and insights.
@@ -270,7 +287,7 @@ such fragilities in Android and Java environments.
 Hence, the main contributions of this study are as follows:
 \begin{itemize}
 
-  \item  It performs a large scale post morten analysis of exception stack traces reported on Android projects hosted in GitHub and Googlecode.
+  \item  It performs a large scale post morten analysis of exception stack traces reported on Android projects hosted in GitHub and Google Code.
 
   \item  It introduces ExceptionMiner, a tool developed to support cross-repository stack trace
     analysis.
@@ -495,7 +512,7 @@ can reveal whether these practices have been obeyed.
 %Exception Stach trace is usually (procurar por artigo).
 
 The goal of this mining study was to extract exception stack traces embedded on issues of Android projects 
-(hosted in GitHub and GoogleCode), looking for its 
+(hosted in GitHub and Google Code), looking for its 
 common characteristics and investigating whether
  they could reveal common fragilities on the exception code of both the 
 applications and the underlaying  framework. 
@@ -546,10 +563,10 @@ of stack traces and support further discussions and insights.
 \label{sec:miningproc}
 
 To answer the research questions the following information is needed: (i) the issues of reported on every Android project hosted on 
-GitHub and Googlecode; (ii) the stack traces embedded on those issues; (iii) the type of the exceptions
+GitHub and Google Code; (ii) the stack traces embedded on those issues; (iii) the type of the exceptions
  reported on the stack traces (e.g., error, runtime, checked); (iv) the origin of such exceptions 
 (e.g., the application, a library, the Android platform). Next sections describes how such information 
-was retrieved from GitHub and Googlecode, how the exceptions stack traces were extracted and distilled,
+was retrieved from GitHub and Google Code, how the exceptions stack traces were extracted and distilled,
  and how the type associated to each exception and its origins was identified.
 
 %mentioned 
@@ -580,13 +597,45 @@ The filtered set consisted of 482 apps.
 
 %4,208
 
-This set of 482 projects contained overall 32,582 issues from which 4,042 exception stack traces 
+
+%GitHub 31,592
+% Google Code: 127,456
+%All: 159,048
+
+This set of 482 projects contained overall 31,592 issues from which 4,042 exception stack traces 
 were extracted. Issues on Github are different from issues on dedicated bug tracking tools such as 
 Bugzilla and Jira. The most important difference is that there are no predefined fields
   (e.g. severity and priority). Instead, Github uses a more open ended tagging system, on which
 repositories are offered a pre-defined set of labels, but repository owners can modify 
 them at will. Therefore, an issue may have none ore an arbitrary set of labels depending 
-on which repository it was created. 
+on which repository it was created. Table ~\ref{tab:lables} illustrates the ocurrences of different lables 
+on the issues including exception stack traces.
+
+
+% \centering
+%  \begin{tabular}{|p{2cm}| p{5cm}|}
+%    \hline
+
+
+
+\begin{table}
+  \centering
+  \begin{tabular}{lr|lr}
+    \hline
+     \multicolumn{2}{c}{\bfseries{GitHub}} &  \multicolumn{2}{c}{\bfseries{Google Code}} \\
+      \bfseries{Lable} &  \bfseries{\% Occurrences} &  \bfseries{Lable} &  \bfseries{\% Occurrences} \\
+    \hline
+empty &	54,24\% & Defect &	91,96\% \\
+Defect &	39,56\%  & Enhancement  &	3,16\% \\
+Enhancement &	0,57\% & Task	& 1,37\% \\
+Support &	0,52\% & empty &	1,12\% \\
+Problem &	0,36\% & StackTrace &	0,70\% \\
+Others &	4,74\% &  Others &	1,68\% \\   
+  \hline
+  \end{tabular}
+  \caption{Lables on issues including exception stack traces.}
+  \label{tab:lables}
+\end{table}
 
 Based on the assumption that regardless the issue type, every exception stack
 trace contains relevant information concerning the exception structure of the
@@ -606,29 +655,37 @@ to report crashes. In some cases, this led to high number of issues that
 included stack traces. We identified and filtered those cases out (e.g.,
 the~\textsf{pullwifi} project was responsible for almost 50\% of all Android issues in our dataset).
 
-\subsubsection{Android Apps in GoogleCode}
+\subsubsection{Android Apps in Google Code}
 
-Differently from GitHub, Googlecode does not provide an API to access the information related
+Differently from GitHub, Google Code does not provide an API to access the information related
  to hosted projects \footnote{Google code used to provided a Web service to such repository, but it was deactivated in June 2013 what Google called a "clean-up action".}.
 
-However, Googlecode still contain largely used open-source Android apps (e.g. K9Mail \footnote{K9Mail moved to Github but as a way of not loosing the project history 
-it advices their users to report bugs on Googlecode issue tracker.})  and the history of such apps are also valuable. 
+However, Google Code still contain largely used open-source Android apps (e.g. K9Mail \footnote{K9Mail moved to Github but as a way of not loosing the project history 
+it advices their users to report bugs on Google Code issue tracker.})  and the history of such apps are also valuable. 
 To overcome this limitation we needed to implement a Web Crawler (incorporated in Exception Miner tool described next) that navigated 
-through the web interface of Googlecode projects extracting all issues and issue comments and storing in a relational database for later analysis.
+through the web interface of Google Code projects extracting all issues and issue comments and storing in a relational database for later analysis.
 
-To identify Android projects in Googlecode, we performed a similar heuristic, we performed a case insensitive search 
-(on Googlecode search interface) for the term \textsf{android}.  On January 2014, when we queried Googlecode, such heuristic could
+To identify Android projects in Google Code, we performed a similar heuristic, we performed a case insensitive search 
+(on Google Code search interface) for the term \textsf{android}.  On January 2014, when we queried Google Code, such heuristic could
  find 788  projects, from which 724 defined at least 1 issue and, 183 projects 
 had at least one issue including a stack trace. Then we performed further cleanup, inspecting the site of every Android
 reporting at least one stack trace, and as a result we could identify 157. 
-Android projects.  All issues created on such projects (i.e., 41,674 issues) were analyzed and 1,963 stack traces 
-were extracted.
+Android projects.  
 
-%For instance: K9mail  was hosted in Googlecode 
+This set of 157 projects contained overall 127,456 issues from which 1,963 exception stack traces 
+were extracted. Based on the same assumption used for Github dataset selection, we did not retrict 
+the analysis for issues labled as Defect. 
+
+
+%SELECT distinct(type), count(*) as n
+%  FROM exceptionalissue where repo !='android' group by type order by n desc;
+
+
+%For instance: K9mail  was hosted in Google Code 
 %before moving to GitHub and in order not to loose the project history it advices their 
-%users to create issues on Googlecode as a way to preserve project history.
+%users to create issues on Google Code as a way to preserve project history.
 
-%To overcome this limitation and mine the information available on such Googlecode 
+%To overcome this limitation and mine the information available on such Google Code 
 %projects we implemented a Web crawler which navigated (incorporated in Exception Miner tool described next) 
 % on each project and issue page, extracting the content of each issue to store on relational database.
 
@@ -642,8 +699,8 @@ ExceptionMiner are as follows:
 
 \noindent\emph{Repository Connectors.}  This component is responsible to connect to
  the host repositories in order to collect project issues. The GitHub Connector connected
- to GiHub through GHTorrent. The GoogleCode connector comprised of a Web Crawler,
- that traversed Googlecode Web interface in order to extract the project issues.
+ to GiHub through GHTorrent. The Google Code connector comprised of a Web Crawler,
+ that traversed Google Code Web interface in order to extract the project issues.
 
 \noindent\emph{Exception Stack Trace Distiller.} 
 Distills the information that composes a stack trace and storing the results in a
@@ -767,7 +824,7 @@ presented in Table ~\ref{tab:typeroottab}.
 \subsection{Replication Package}
 All the data used in this study will be publicly available at http://.....
 Specifically we provide: (i) all issues related to Android projects found
-in GITHub and GoogleCode used in this study; (iii) all stack traces extracted
+in GITHub and Google Code used in this study; (iii) all stack traces extracted
 from issues (ii) the results of manual inspection steps; (iv) the tool developed 
 in this work to support stack trace extraction and distilling.
 
@@ -881,7 +938,7 @@ java.util.ConcurrentModificationException	&	43	&	6,73\%	&	65	&	1,08\%	&	5	&	0	&	
 
     \hline
   \end{tabular}
-\caption{Root Exceptions occurrences and popularity in repositories hosted in Googlecode (GC) and GitHub(GH).}
+\caption{Root Exceptions occurrences and popularity in repositories hosted in Google Code (GC) and GitHub(GH).}
 \label{tab:topten}
 \end{table*}
 
@@ -1886,7 +1943,7 @@ REPRESENTAM FLUXOS REAIS.... POST MOSTERN ANALISYS OF REAL EXECUTIONS....}
 
 In this paper we present an exploratory study in which we mined the stack 
 traces embedded in all issues defined in 482 Android projects hosted in Github and 
-157 projects hosted in Googlecode.
+157 projects hosted in Google Code.
 
 In this study, the information extracted from stack traces was used in combination 
 with source code and bytecode analysis to pin-point fragilities on the exception-related
