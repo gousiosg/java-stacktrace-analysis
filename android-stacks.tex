@@ -16,7 +16,17 @@
 
 %\title{What can the Issues of GitHub and Google Code tell us about Exception Fragilities in Android? }
 
+%\title{Results of a Mining Study on Exception Stack Traces embedded on issues of over 600 Android Projects}
+
 \title{Discovering Robustness Threats by Mining the Exception Stack Traces of over 600 Android Projects}
+
+%\title{Discovering Threats to Robustness through Exception Stack Trace Analysis: Results of a Mining Study of Android Projects}
+
+%\title{Discovering Threats to Robustness through Exception Stack Trace Mining}
+
+%\title{Discovering Threats to Robustness through Exception Stack Trace Mining of over 600 Android Projects}
+
+%\title{Discovering Threats to Robustness through a Mining Study of Exception Stack Traces}
 
 %\title{Discovering Fragilities on the Exception-Related Code through  Exception Stack Trace Mining}
 
@@ -200,7 +210,7 @@ In Java, when an application fails due to an uncaught exception,
 it automatically terminates, while the system prints a stack trace to the console, 
 or log file ~\cite{gosling2000java}.  A typical Java stack trace consists of  the fully qualified name 
 the thrown exception and the ordered list of methods that were active on the call stack before 
-such exception has occurred.
+such exception has occurred ~\cite{gosling2000java,bloch2008effective}.
 
 % The
 %concentration of open source projects and the existence of initiatives that mine
@@ -227,31 +237,40 @@ When available, the exception stack traces provide a useful source of informatio
  bug classification and clustering ~\cite{wang2013improving, kim2011crash, dhaliwal2011classifying},  
 automated bug fixing ~\cite{sinha2009fault} and fault-proneness prediction models ~\cite{kim2013predicting}. 
 
-Most of such studies, however, focused the analysis on one or two system at a time.
-This paper reports an exploratory study which targets a family of applications 
-(sharing the common Android framework) aiming at extracting 
-the common characteristics of exception stack traces reported to such systems to provide
-insights on similar fragilities on the exception related code of the applications and underlaying framework.
+%Most of such studies, however, focused the analysis on one or two system at a time.
+%This paper reports an exploratory study which targets a family of applications 
+%(sharing the common Android framework) aiming at extracting 
+%the common characteristics of exception stack traces reported to such systems to provide
+%insights on similar fragilities on the exception related code of the applications and underlaying framework.
 
 %482 applications) and Google code (157 applications)
 %GitHub 31,592
 % Google Code: 127,456
 %All: 159,048
 
-To do so we perform a post mortem analysis of the exception stack traces embedded on all issues
-created on Android projects available in GitHub and Google Code. Using a custom tool called ExceptionMiner,
- which we develop specifically for this study, we mine stack traces from issues across all Android projects on
-GitHub and Google Code. Overall, we analyzed all issues extracted from on 482 Android projects defined in
-GitHub and 157 projects defined in Google Code. Overall it corresponds to 159,048 issues (31,592 issues from GitHub projects 
-and 127,456 issues from Google Code projects) from which  6,005 stack traces were extracted and used as
- a source of information for our analysis. The stack trace analysis was augmented by additional information
-extracted from JDK, Android Plaform and the applications using byte code and source code analysis.
- Manual inspection was used to leverage the understanding of exception stack traces and support further discussions and insights.
+This paper reports a study which perform a post mortem analysis of the exception stack traces embedded on issues
+reported on Android projects hosted in GitHub and Google Code. 
+The goal of this study was to: investigate the whether the reported exception stack traces
+ can reveal common fragilities on the exception-related code which may be favoring 
+the introduction of failures such as uncaught exceptions - and as a consequence
+ contributing to deacrease the robustness of apps.
+To guide this investigation we compiled general guidelines on how to use
+exceptions proposed by Gosling~\cite{gosling2000java},
+Wirfs-Brock~\cite{wirfs2006toward} and Bloch~\cite{bloch2008effective}.
+Then, using a custom tool called ExceptionMiner,
+ which we develop specifically for this study, we mine stack traces from the issues reported 
+on 482 Android projects hosted in GitHub and 157 projects hosted in Google Code.
+Overall 159,048 issues were analyzed and 6,005 stack traces were extracted from them.
+The exception stack trace analysis was augmented with additional information
+extracted from JDK, Android Plaform and the applications using byte code 
+and source code analysis. Manual inspection was used to leverage the understanding 
+of exception stack traces and support further discussions and insights.
 
 %projects: 788	 - projects with issues - 724 - 
 %projects with issues (with exceptions): 243 
 %projects with stacks: 158  -  stacks: 3559 (defect)
 %Github: issues: 50342 - stacks: 3865 - projects: 2542 - projects with stacks: 293
+
 
 %To guide our analysis, we compiled a set of best practices on how to use
 %exceptions by composing relevant suggestions by Gosling~\cite{gosling2000java},
@@ -284,7 +303,7 @@ was the root cause.
 
 \end{itemize}
 
-Such fragilities represent obstacles to the development of dependable java-based applications as they make difficult and 
+Such fragilities represent obstacles to the development of robust java-based applications as they make difficult and 
 sometimes almost impossible to protect the code against the Uncaught Exceptions that lead to system crashes.
 Although the study focused on Android open-source applications, these findings are not restricted to this context, since 
 the above mentioned fragilities may happen in any Java-based system. 
