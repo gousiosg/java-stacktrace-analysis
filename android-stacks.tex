@@ -12,13 +12,16 @@
 %\title{ What GitHub and Googlecode can tell us about the Causes of Crashes of Android Apps? }
 %\title{ A Mining Study the Googlecode can tell us about the Causes of Crashes of Android Apps? }
 
-\title{ What can GitHub and Googlecode Issues tell us about Exceptions in Android and Java? }
+\title{What can the Issues of GitHub and Googlecode tell us about Exception Fragilities in Android? }
 
 %\title{On the Common Characteristics Android-Apps Crashes: Results of a GitHub and Googlecode Mining Study}
 
 %\title{On the Common Characteristics of Android-Apps Crashes: Results of a GitHub and Googlecode Mining Study}
 
 %\title{On the Common Characteristics of Android Crashes: Results of a GitHub and Googlecode Mining Study}
+
+
+%\title{A first Glance on Characteristics of Android Crashes: Results of a GitHub and Googlecode Mining Study}
 
 
 %\title{A first Glance on Characteristics of Android Crashes: Results of a GitHub and Googlecode Mining Study}
@@ -42,35 +45,50 @@ Email: \texttt{\{g.gousios,arie.vandeursen\}@tudelft.nl}}
 % make the title area
 \maketitle
 
-\begin{abstract}
+%GitHub 315,92
+% Googlecode: 127,456
+%All: 159,048
 
-This paper reports a repository mining study which analyzed all the issues created on
-Android projects available in GitHub (482 applications) and Google code (157 applications)
-Overall, our research set includes 32,582 issues in GitHub and 41,674 issues in Googlecode 
-from which 6,005 exception stack traces were extracted. Such stack traces were distilled and analyzed in 
-combination with source code and bytecode analysis. This study 
-consistently identifies common characteristics of reported 
-exception stacks traces - e.g., the NullPointerException was the reported cause 
-on 30,08\% of all analyzed exception stack traces, and was mentioned in approximately 
-50\% of all projects analyzed. Moreover,  the cross-project analysis 
-of exception stack traces enabled to consistently reveal   
-fragilities of the exception-related code: 
-(1) undocumented runtime exceptions signaled by third party code,
-(2) undocumented checked exceptions thrown by Android native code
-(3) unexpected exception wrappings (e.g., Errors being wrapped in checked exceptions) 
+\begin{abstract}
+The number of mobile apps is increasing in a daily rate. If on the one hand they
+extend phones capabilities far beyond of the basic calls, on the other hand they have to 
+cope with an increasing number of exceptinal conditions 
+(e.g., faults in underlying middleware or hardware; memory and battery restrictions). 
+Therefore, mechanisms for exception detection and handling are not an optional add-on but a 
+fundamental part of such apps. However, studies have shown that such mechanisms are the less 
+understood and tested parts of the system. As a consequence they may affect the system the 
+other way around, making the system even less robust.
+This paper reports a study which mined the stack traces embedded on 
+159,048 issues reported on Android projects hosted in GitHub (482 projs.) 
+and Googlecode (157 projs.). The goal of this study was to: identify common characteristics 
+of such traces and investigate the fragilities on the exception-related code that can be revealed
+from them. Overall 6,005 exception stack traces were extracted, and analyzed in 
+combination with source code and bytecode analysis. 
+Some fragilities consistently detected in this study include: 
+(1) undocumented runtime exceptions thrown by third party code;
+(2) undocumented checked exceptions thrown by Android native code;
+(3) unexpected exception wrappings (e.g., Errors being wrapped in checked exceptions),
 revealing that Java hybrid exception model is not fully used according to its purpose.
-Such fragilities impose challenges to application robustness not only 
-in Android environment but also to other systems based on Java exception model.
+Moreover, about 50\% of all analyzed projects reported at least one NullPointerExeption
+as the root cause of an exception stack trace.
+This study provide important insights on how such fragilities impose challenges 
+to application robustness not only in Android environment but also to other 
+systems based on Java exception model.
 
 \end{abstract}
+
+%GitHub 31,592
+% Googlecode: 127,456
+%All: 159,048
+
+
 
 %\IEEEpeerreviewmaketitle
 
 \section{Introduction}
 
 Along the recent years, we have witnessed an astonishing increase in the number 
-mobile applications being developed and some of them becoming largely used. 
-Such increase is motivated by pervasiveness of the World Wide Web 
+mobile applications. Such increase is motivated by pervasiveness of the World Wide Web 
 and the unprecedented increase of global smartphone shipments -
 the mobile industry shipped over 315 million smartphones in the last quarter of 2013 ~\cite{googleio}.
 
@@ -84,7 +102,7 @@ the mobile industry shipped over 315 million smartphones in the last quarter of 
 %have stimulated the creation of applications which extend the phones caVALIAR MOVER ESTE STACK TRACES PARA UMA FIGURA QUE MOSTR COMO ELE QUEBRADO... PELO EXCEPTION Mpabilities 
 %far beyond of the basic calls and textual messages. 
 
-In this context, Android has become a leading platform for such applications - thanks to its open-source 
+In this context, Android has become a leading platform - thanks to its open-source 
 model and hardware partners like Samsung, HTC, Motorola, Asus (besides Nexus Google's
  own device) ~\cite{gartner}.  Google estimates that there is over 1 billion Android active users per month ~\cite{googleio},
 and the number of apps built on top of Android increases in a daily rate.
@@ -101,21 +119,19 @@ and the number of apps built on top of Android increases in a daily rate.
 % slightly (or sometimes drastically) different from those adopted on Web development [arie-icse],  
 %abnormal computation states
 
-In the same rate the number of a users increase, also increases 
-the number of users affected by application faults and crashes.
+%In the same rate the number of a users increase, also increases 
+%the number of users affected by application faults and crashes.
+
 If on the one hand such applications extend phones capabilities 
 far beyond of the basic calls and textual messages, on the other hand
-they have to face threats to application robustness ~\cite{was2010}.
-Such applications have to cope with an increasing number of abnormal
-computation states, arising from:
- noisy user inputs; faults in underlying middleware or hardware; 
-faults on third party services and libraries; compatibility issues [ref]; 
-connection with devices e.g., as GPS, camera; memory and battery restrictions; 
- programming errors, among others.
+they have to face an increasing number of threats to application robustness
+ arising from: faults in underlying middleware and hardware, 
+faults on third party services and libraries; compatibility issues; 
+faults on connected devices (e.g. camera, GPS); memory and 
+battery restrictions; among others.
 
 %Hence, in the same rate the number of mobile users increase, also increases 
 %the number of users affected by such threats.
-
 %faulty apps and app crashes.
 
 Therefore, techniques for error detection and handling are not  an optional add-on but a 
@@ -190,8 +206,17 @@ To do so we perform a post mortem analysis of the exception stack traces embedde
 created on Android projects available in GitHub and Googlecode. Using a custom tool called ExceptionMiner,
  which we develop specifically for this study, we mine stack traces from issues across all Android projects on
 GitHub and Googlecode. Overall, we analyzed all issues extracted from on 482 Android projects defined in
-GitHub and 157 projects defined in Googlecode. Overall it corresponds to 74,256 issues (32,582 issues from GitHub projects 
-and 41,674 issues from Googlecode projects) from which  6,005 stack traces were extracted and used as
+
+%GitHub 31,592
+% Googlecode: 127,456
+%All: 159,048
+
+
+
+
+
+GitHub and 157 projects defined in Googlecode. Overall it corresponds to 159,048 issues (31,592 issues from GitHub projects 
+and 127,456 issues from Googlecode projects) from which  6,005 stack traces were extracted and used as
  a source of information for our analysis. The stack trace analysis was augmented by additional information
 extracted from JDK, Android Plaform and the applications using byte code and source code analysis.
  Manual inspection was used to leverage the understanding of exception stack traces and support further discussions and insights.
@@ -366,8 +391,8 @@ include other intermediate exception wrappings. In all levels, the exception
 \emph{signaler}, is the method that threw the exception, represented on the
 stack trace as the first method call below the exception declaration.
 
-\begin{figure} \centering \includegraphics[scale=0.8]{stacktrace.png}
-\caption{Example of an Exception stack trace in Java.}
+\begin{figure} \centering \includegraphics[scale=0.6]{stacktrace_bw.png}
+\caption{Example of an exception stack trace in Java.}
 \label{fig:wrapping}
 \end{figure}
 
