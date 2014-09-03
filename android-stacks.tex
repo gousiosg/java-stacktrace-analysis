@@ -165,8 +165,10 @@ The Android platform uses the exception handling mechanism embedded
 ~\cite{goodenough1975exception} is one of the most used schemes for
 detecting and recovering from such exceptional conditions, studies (e.g.~\cite{miller1997issues,Robil00,shah2010understanding, garcia2007extracting,garcia2001comparative,cabral2007exception,coelho2011unveiling}),
 have shown that it is generally poorly understood and the less tested parts of the system ~\cite{coelho2011unveiling}.
-As a consequence that the exception-related code may become itself a source of faults, 
-and may affect the system the other way around, making the system even less robust ~\cite{robillard2003static,coelho2011unveiling}.
+As a consequence they may affect the system the other way around.
+The exception-related code may favor the introduction of failures such as uncaught exceptions ~\cite{jo2004uncaught, zhang2012amplifying}
+and unintended handler actions ~/cite{miller1997issues} (i.e., exceptions being mistakenly caught by existing handlers) 
+which make the system even less robust.
 
 % Google estimates that Android has over 1 billion active users per month, 
 % who pull out theirs phones and check it over 100 billion times. 
@@ -177,27 +179,28 @@ and may affect the system the other way around, making the system even less robu
 %[ref-https://www.gartner.com/doc/2665315/top--mobile-technologies-capabilities], 
 %which emphasized the importance of monitoring application crashes.
 
-Our conjecture is that several Android applications may be suffering from similar 
+Our conjecture is that several Android applications may be suffering from common 
 fragilities on the exception-related code (of the applications themselves or 
-the underlaying platform), and that such fragilities may be leading to
-decrease the application robustness, leading for instance to the Uncaught Exception problem -
- which is one of the main causes of application crashes ~\cite{jo2004uncaught, zhang2012amplifying}.
+the underlaying platform) which may be degratind the robustness of such applications.
+We call ``fragilities" characteristics on the exception-related code that favor the introduction
+of aforementioned failures.
+
+%, and that such fragilities may be leading to
+%decrease the application robustness, leading for instance to the Uncaught Exception problem -
+% which is one of the main causes of application crashes ~\cite{jo2004uncaught, zhang2012amplifying}.
+%investigate the whether the exception stack traces
+% can reveal common characteristics on the exception-related code that
+%may be favoring the introduction of the aforementioned failures, which would be responsible for 
+%decreasing the application robustness. We call such characteristics ``fragilities" of the exception-related code.
+
 
 %[ref AST].
 
 In Java, when an application fails due to an uncaught exception, 
 it automatically terminates, while the system prints a stack trace to the console, 
-or log file ~\cite{gosling2000java}.  A typical Java stack trace consists of an ordered list of 
-methods that were active on the call stack before the exception has occurred,  
- and the fully qualified name of such exception.
-
-Until recent years, the availability of issues reporting abnormal
-computation states (e.g., exception stack traces) was scarce. The
-available data comprised only few large scale projects (e.g. the Mozilla
-crash report dataset\footnote{https://code.google.com/p/promisedata/issues/detail?id=88}).
-Recently we have observed a rapid increase in the number of open
-source projects that make their control version as well as the issue tracking systems
-publicly available in repository hosting sites such as GitHub and Google Code.
+or log file ~\cite{gosling2000java}.  A typical Java stack trace consists of  the fully qualified name 
+the thrown exception and the ordered list of methods that were active on the call stack before 
+such exception has occurred.
 
 % The
 %concentration of open source projects and the existence of initiatives that mine
@@ -210,10 +213,17 @@ publicly available in repository hosting sites such as GitHub and Google Code.
 %<SUCH ISSUES INCLUDE STACK TRACES. WHAT IS THE RELATION BETWEEN STACK TRACE AND CRASH>
 %<stack traces are part of good issues....>
 
-%Stack traces are a useful source of information about system crashes, and is often used to support developers in debugging~\cite{schroter2010stack}. Moreover, information %from stack traces combined with crash and bug reports can be used to support bug classification and clustering~\cite{wang2013improving, kim2011crash, %dhaliwal2011classifying}, fault-proneness prediction models~\cite{kim2013predicting} and even automated bug fixing~\cite{sinha2009fault} tools. 
+%Stack traces are a useful source of information about system crashes, and is often used to support developers in debugging~\cite{schroter2010stack}. Moreover, information %from stack traces 
+%combined with crash and bug reports can be used to support bug classification and clustering~\cite{wang2013improving, kim2011crash, %dhaliwal2011classifying}, fault-proneness prediction %models~\cite{kim2013predicting} and even automated bug fixing~\cite{sinha2009fault} tools. 
 
-When available, exception stack traces provides a useful source of information about system crashes ~\cite{bettenburg2008makes} which 
- can enable different kinds of post-mortem analysis to support:  debugging~\cite{schroter2010stack}, 
+Until recent years, the availability of data reporting such failures was scarce. It comprised only few large scale projects (e.g. the Mozilla
+crash report dataset\footnote{https://code.google.com/p/promisedata/issues/detail?id=88}).
+Recently we have observed a rapid increase in the number of open
+source projects that make their version control systems as well as the issue tracking systems
+publicly available in repository hosting sites such as GitHub and Google Code.
+
+When available, the exception stack traces provide a useful source of information about system crashes ~\cite{bettenburg2008makes} which 
+ can enable different kinds of post-mortem analysis and support:  debugging~\cite{schroter2010stack}, 
  bug classification and clustering ~\cite{wang2013improving, kim2011crash, dhaliwal2011classifying},  
 automated bug fixing ~\cite{sinha2009fault} and fault-proneness prediction models ~\cite{kim2013predicting}. 
 
@@ -1818,10 +1828,11 @@ PODEMOS CONCLUIR ALGUMAS COISAS QUE SE APLICAM A TODOS JAVA}
 Github. In using this dataset, we make an underlying assumption: the
 stack traces reported on issues are representative of real crashes in
 the applications. The assumption is impossible to mitigate without access to
-the full set of crash data per application. Services exist to collect all
-crash data from applications, so access to such a dataset will allow for
-a thorough replication of our analysis, perhaps at the individual application
-level.
+the full set of crash data per application. Some services exist to collect 
+crash data from mobile applications ~\cite{BugSe14,BugSn14,Googl14,Acra14}.
+However, such services do not provide open access to the crash reports
+of their client applications. Having access to such a dataset would allow 
+a replication of our analysis on an even wider setting.
 
 \section{Related Work}
 \label{sec:rele}
