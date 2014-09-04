@@ -399,12 +399,12 @@ about the pros and cons of both approaches ~\cite{javatut,stackoverlow,debate},
   \caption{Exception Hierarchy in Java} \label{fig:exchier} \end{figure}
 
 
-Besides, the runtime exceptions are also implicitly thrown by the JVM when a program violates 
+Besides, the runtime exceptions are also implicitly thrown by the runtime environment when a program violates 
 the semantic constraints of the Java programming language (e.g., out-of-bounds array index, divide-by-zero 
 error, null pointer references).\footnote{Some programming languages react to such errors by peremptorily terminating the program; 
 other programming languages allow similar approaches e.g.C\#; and others let the program to continue
  its execution in some situations such as the out-of-bounds array index e.g., C++. }  
-The programs are not expected to handle such JVM runtime exceptions ~\cite{gosling2000java} s. 
+The programs are not expected to handle such runtime exceptions signaled by the runtime environment ~\cite{gosling2000java}. 
 
 %In Java an exception can be thrown in one of the following
 %circumstances~\cite{gosling2000java}: 
@@ -421,7 +421,7 @@ The programs are not expected to handle such JVM runtime exceptions ~\cite{gosli
 %where the exception occurred to a point that can be specified by the programmer
 %(exception handler) - in Java it is represented by the try-catch block .
 
-In Java, once an exception is thrown, the JVM looks for the nearest enclosing exception handler
+In Java, once an exception is thrown, the runtime environment looks for the nearest enclosing exception handler
 (in Java it is represented by the try-catch block), and unwinds the execution stack if necessary.
  Looking for the handler on the invocation stack is claimed to increase software reusability, 
 since the invoker of an operation can handle it in a wider context ~/cite{miller1997issues}.
@@ -477,7 +477,7 @@ the API designer is forcing the client to handle the exceptional condition. The
 client can explicitly ignore the exception (swallowing, or converting it to
 other type) at the expense of the program's robustness~\cite{gosling2000java}.
 
-\emph{II-Error represents an unrecoverable condition detected by the JVM which
+\emph{II-Error represents an unrecoverable condition detected by the runtime enviroment which
 should not he handled} (\cite{gosling2000java}). It results from failures detected
 by the Java Virtual Machine which indicate resource deficiencies, invariant
 failures or other conditions that make impossible the program to recover.
@@ -487,7 +487,7 @@ failures or other conditions that make impossible the program to recover.
 \emph{III-A method should throw exceptions that precisely define the
 exceptional condition} (\cite{gosling2000java,bloch2008effective}). To do so,
 developers should either try to reuse the exception types already defined in the
-JVM or they should create a specific exception. Throwing general types such as a
+Java API or they should create a specific exception. Throwing general types such as a
 pure java.lang.Exception or a java.lang.RuntimeException is considered a bad practice.
 
 %\textbf{IV-Do not repeatedly re-throw exceptions, handle exceptions as close as
@@ -510,7 +510,7 @@ and is required to use the method properly. The checked exceptions are already
 part of the  methods signature, and the method caller is aware of the checked
 exceptions being thrown by it. According to~\cite{bloch2008effective}, it is
 also wise to document the explicitly thrown runtime exceptions\footnote{This
-excludes the implicitly signaled JVM runtime exceptions related to programming
+excludes the implicitly signaled runtime exceptions related to programming
 mistakes} as carefully as checked exceptions. Doing so, the clients of a method
 will be aware of all the exceptions the method can throw and can protect design the code
 to deal with them ~\cite{Robil00}. 
@@ -700,20 +700,6 @@ the issues were labled as ``Defect". However, based on the same assumption descr
 %projects we implemented a Web crawler which navigated (incorporated in Exception Miner tool described next) 
 % on each project and issue page, extracting the content of each issue to store on relational database.
 
-\subsection{Manual Inspections}
-As mentioned before, this mixed-methods study was also supported by manual inspections. 
-Manual inspections were used, in the context of this study to support: (i) the identification of Android projects (described previously);
-(ii) and to identify the type of some exceptions reported on issues, that could not be automatically identified by the ExceptionMiner tool.
-Some exceptions could not be automaticaly identified because they were 
-not defined on the last version of the application (the one analyzed by ExceptionMiner),
-or were defined on libraries not found among application resources.
-In such cases we manually inspect the sourcecode or javadoc
- documentation available online of each of them. 
-When the exception was not found on the previous versions, the exception where classified 
-in our study as "Undefined".  Only 31 exceptions 
-remained undefined - such exceptions were reported on 61 exception stack traces as 
-presented in Table ~\ref{tab:typeroottab}.
-
 %{MOSTRAR UMA FIGURA COM TODOS OS PASSOS E RESSALTAR OS PASSOS MANUAIS}
 %COMPLETE HERE.....
 %\subsubsection{Database of Exception Stack Trace Information}
@@ -722,7 +708,6 @@ presented in Table ~\ref{tab:typeroottab}.
 %ESPALHAR ESTA SECAO NAS OUTRAS.
 %Figure~\ref{fig:overviewfig} presents an overview of the mixed-methods approach
 %conducted to answer these questions. The mixed-methods approach is composed by the following steps:
-
 
 \section{The ExceptionMiner Tool}
 \label{sec:exceptionminer}
@@ -823,6 +808,22 @@ Table ~\ref{signalers} summarizes the signaler classification.
   \label{tab:signalers}
 \end{table}
 
+\subsection{Manual Inspections}
+In the context of the ExceptionMiner tool, manual inspections were used:
+to help on the identification of packages composing the Android platform, 
+libs and apps analyzed in this study (as described previously); and to 
+identify the type of some exceptions reported on issues, 
+that could not be automatically identified by the ExceptionMiner tool.
+Some exceptions could not be automaticaly identified because they were 
+not defined on the last version of the application (the one analyzed by ExceptionMiner),
+or were defined on libraries not found among application resources.
+In such cases we manually inspect the sourcecode or javadoc
+ documentation available online of each of them. 
+When the exception was not found on the previous versions, the exception where classified 
+in our study as "Undefined".  Only 31 exceptions 
+remained undefined - such exceptions were reported on 61 exception stack traces as 
+presented in Table ~\ref{tab:typeroottab}.
+
 \subsection{Replication Package}
 All the data used in this study will be publicly available at http://.....
 Specifically we provide: (i) all issues related to Android projects found
@@ -835,72 +836,18 @@ in this work to support stack trace extraction and distilling.
 
 This section presents the results of the study, providing both a
 quantitative and qualitative analysis of the outcomes. The structure of this section
- is centered on questions that guied the search for 
-source-code fragilities based on exception stack trace information.
+ is centered on questions that guied the search for fragilities (on the exception-related code)
+based on exception stack trace information.
 
 \subsection{What can the Common Root Exceptions tell us? }
 
 After distilling the information available on the exception stack traces we could find 
 the the exceptions commonly reported as the root causes of stack traces.
-Table \ref{tab:topten} illustrates the top 10 root causes found in the study,
- ranked by the number of distinct project repositories on which they were reported. 
-The table shows how many times method responsible for signaling the exceptions were
-part of Android Platform, the application itself, libcore, or a third-party library as presented in Table  \ref{tab:signalers} 
-
-% \footnote{Nine exception stack traces contained only elements of JVM and were discarded from the analysis}.
-
-%For each exception we could discover the number of times it was reported as the root caused on exception stack traces,
-%the number of distinct projects on which such stacks were defined (and consequently its
-%popularity) and the of times it was signaled by different signaler types. We
-%could calculate the popularity of each root cause, considering the number of
-%distinct projects they were found and the whole set of projects analyzed with at
-%least one stack trace (482). Table~\ref{tab:topten} 
-%and Figure~\ref{fig:androidsignaler} presents the mined data.
-
-
-%SELECTS:
-%SELECT COUNT(distinct(repo)) FROM STACKTRACESUMMARY WHERE MAIN_CAUSE LIKE '%java.lang.NullPointerException%'
-%and repo !='android';
-
-
-%SELECT COUNT(*) FROM STACKTRACESUMMARY WHERE MAIN_CAUSE LIKE '%java.lang.IllegalStateException%'
-%and repo !='android' AND MAINSIGNALER_FROM LIKE '%ANDROID%';
-
-
-
-%java.lang.NullPointerException            & 254 /  78  & 52,70\%  & 1225 / 439  & 30,08\% & 473 /  26  & 18 /  & 595 / 241 & 137 / 169 \\  %LIBORAPP=408
-%java.lang.IllegalStateException          & 99 / 21  & 20,54\%  & 234 / 44  & 5,75\%  & 165 / 15 & 12  / 0 & 36  / 5 & 20 / 24  \\
-%java.lang.IllegalArgumentException          & 94 / 48  & 19,50\% & 255 / 98  & 6,26\% & 146 / 41 & 6 / 0 & 64 / 31  & 39  / 26  \\
-%java.lang.RuntimeException                & 91 / 31 & 18,88\% & 232 / 87  & 5,70\%  & 167 / 33 & 1 / 0 & 47 / 17 & 17 / 37   \\
-%java.lang.OutOfMemoryError                 & 56  / 22  & 11,62\% & 180 / 57 & 4,42\% & 121 / 18 & 15 / 0 & 17 / 18  & 23 / 13  \\
-%java.lang.NoClassDefFoundError           & 52  / 15 & 10,79\%  & 73 / 21   & 1,79\%  & 9 / 1   & 0 / 0  & 37 / 9  & 26 / 11   \\
-%java.lang.ClassCastException             & 49  / 15 & 10,17\%  & 94 / 36   & 2,31\%  & 43 / 3  & 0  / 0 & 40 / 15  & 11 / 18  \\
-%java.lang.IndexOutOfBoundsException       & 47  / 15 & 9,75\%   & 127 / 39  & 3,12\% & 47 / 2  & 0/0  & 71/22  & 8 / 14    \\
-%java.lang.NoSuchMethodError               & 40 / 14  & 8,30\%  & 57 / 23  & 1,40\%  & 9  /  0  & 0  / 0 & 39 /  17    & 9 / 6  \\
-%java.util.ConcurrentModificationException & 38 / 5 & 7,88\% & 54 / 11  & 1,33\%   & 5  / 0  & 0  / 0 & 43 / 3 & 6 / 7  \\
-
-%java.lang.IllegalStateException          & 99 / 21  & 20,54\%  & 234 / 44  & 5,75\%  & 165 / 15 & 12  / 0 & 36  / 5 & 20 / 24  \\
-%java.lang.IllegalArgumentException          & 94 / 48  & 19,50\% & 255 / 98  & 6,26\% & 146 / 41 & 6 / 0 & 64 / 31  & 39  / 26  \\
-%java.lang.RuntimeException                & 91 / 31 & 18,88\% & 232 / 87  & 5,70\%  & 167 / 33 & 1 / 0 & 47 / 17 & 17 / 37   \\
-%java.lang.OutOfMemoryError                 & 56  / 22  & 11,62\% & 180 / 57 & 4,42\% & 121 / 18 & 15 / 0 & 17 / 18  & 23 / 13  \\
-%java.lang.NoClassDefFoundError           & 52  / 15 & 10,79\%  & 73 / 21   & 1,79\%  & 9 / 1   & 0 / 0  & 37 / 9  & 26 / 11   \\
-%java.lang.ClassCastException             & 49  / 15 & 10,17\%  & 94 / 36   & 2,31\%  & 43 / 3  & 0  / 0 & 40 / 15  & 11 / 18  \\
-%java.lang.IndexOutOfBoundsException       & 47  / 15 & 9,75\%   & 127 / 39  & 3,12\% & 47 / 2  & 0/0  & 71/22  & 8 / 14    \\
-%java.lang.NoSuchMethodError               & 40 / 14  & 8,30\%  & 57 / 23  & 1,40\%  & 9  /  0  & 0  / 0 & 39 /  17    & 9 / 6  \\
-%java.util.ConcurrentModificationException & 38 / 5 & 7,88\% & 54 / 11  & 1,33\%   & 5  / 0  & 0  / 0 & 43 / 3 & 6 / 7  \\
-%
-%java.lang.NullPointerException	&	254	/	78	&	52,70\%	&	1225	/	439	&	30,08\%	&	473	/	52	&	18	/	2	&	595	/	241	&	137	/	143	\\	%LIBORAPP=408
-%java.lang.IllegalStateException	&	99	/	21	&	20,54\%	&	234	/	44	&	5,75\%	&	165	/	20	&	12	/	19	&	36	/	5	&	20	/	19		\\
-%java.lang.IllegalArgumentException	&	94	/	48	&	19,50\%	&	255	/	98	&	6,26\%	&	146	/	49	&	6	/	6	&	64	/	31	&	18	/	26		\\
-%java.lang.RuntimeException	&	91	/	31	&	18,88\%	&	232	/	87	&	5,70\%	&	167	/	36	&	1	/	1	&	47	/	17	&	17	/	34		\\
-%java.lang.OutOfMemoryError	&	56	/	22	&	11,62\%	&	180	/	57	&	4,42\%	&	121	/	20	&	15	/	1	&	17	/	18	&	23	/	11		\\
-%java.lang.NoClassDefFoundError	&	52	/	15	&	10,79\%	&	73	/	21	&	1,79\%	&	9	/	1	&	0	/	0	&	37	/	9	&	26	/	11		\\
-%java.lang.ClassCastException	&	49	/	15	&	10,17\%	&	94	/	36	&	2,31\%	&	43	/	12	&	0	/	0	&	40	/	15	&	11	/	9		\\
-%java.lang.IndexOutOfBoundsException	&	47	/	15	&	9,75\%	&	127	/	39	&	3,12\%	&	47	/	6	&	0		0	&	71	/	22	&	8	/	10		\\
-%java.lang.NoSuchMethodError	&	40	/	14	&	8,30\%	&	57	/	23	&	1,40\%	&	9	/	1	&	0	/	0	&	39	/	17	&	9	/	5		\\
-%java.util.ConcurrentModificationException	&	38	/	5	&	7,88\%	&	54	/	11	&	1,33\%	&	5	/	0	&	0	/	0	&	43	/	3	&	6	/	7		
-
-
+Table \ref{tab:topten} presents a list the top 10 root exceptions found in the study - 
+ ranked by the number of distinct projects on which they were reported. 
+The table shows how many times the signaler of such exception was a method defined on
+the Android Platform, the Android libcore, the application itself or a third-party library -
+ following the classification as presented in Table  \ref{tab:signalers}. 
 
 \begin{table*}
   \centering
@@ -936,20 +883,13 @@ java.util.ConcurrentModificationException	&	43	&	6,73\%	&	65	&	1,08\%	&	5	&	0	&	
 %\label{fig:androidsignaler}
 %\end{figure}
  
-
-We can observe that most of this set is composed by exceptions defined by java.lang,
-which are mostly implicitly thrown by the JVM due to programming mistakes 
-(e.g., out-of-bounds array index, division-by-zero, access to a null reference)
- or resource limitation (e.g., OutOfMemoryError).
-For such exceptions there is usually no proper handling besides presenting an error message to
- the user and restarting the application. Only high fault tolerant systems need to 
-provide solutions to handle them. 
-
-\emph{\textbf{The high number of NullPointerExceptions.}}
-From this set the java.lang.NullPointerException was the most reported root cause (27,71\% )
-Considering the frequencly of NullPointerException across projects, we could observe that
- 51,96\% of all projects reported at least one exception stack trace on which the NullPoiterException
-was the root cause.
+We can observe that most of the exceptions on this list are implicitly thrown by the
+ runtime environment due to programming mistakes  (e.g., out-of-bounds array index, division-by-zero, access to a null reference)
+ or resource limitation (e.g., OutOfMemoryError). 
+From this set the java.lang.NullPointerException was the most reported root cause (27,71\% ). 
+If we consider the frequencly of NullPointerException 
+across projects, we can observe that 51,96\% of all projects reported at least one exception stack 
+trace on which the NullPoiterException was the root cause.
  The NullPointerExceptions are mainly signaled inside the applicaiton code and the Android platform,
  although we also find NullPointerExceptions being signaled from third-party libraries. Regarding
 reusable code, there is no consensus whether it is a good or bad practice to 
@@ -963,103 +903,39 @@ works~\cite{kim2013predicting,fraser20131600,csallner2004jcrasher}. For instance
 al.~\cite{kim2013predicting} showed that in Eclipse bug report system 38\% the bugs 
 related to exception handling were caused by NullPointerException; other works on robustness 
 testing~\cite{maji2012empirical,csallner2004jcrasher} showed that most of the automatically 
-detected bugs were due to NullPointerExceptions 
-and exceptions implicitly-signaled by Java environment due to programming mistakes or resource limitations
- (as the ones found in this study).In Section ~\ref{sec:disc}  we provide further 
-discussion on the NullPointerException problem, pointing 
-to ways of how to mitigate it.
-
-%\emph{\textbf{Direct instances of RuntimeExceptions being thrown.}}
-%From Table ~\ref{tab:topten} we can observe that direct instances
-%java.lang.RuntimeException were reported as the root cause of stacks in 19,09\% 
-%of the projects, and most of such exceptions  were  thrown by the Android platform (167 out of 232).
-%Throwing general exceptions, such as direct instances of RuntimeException, violates best
-%practice III. It is considered a bad practice because exception type does not carry enough
-%information to identify the cause of the exceptional behavior, and as a consequence developers need to relying on
-%the exception message which can be neither complete nor precise~\cite{gosling2000java}.
+detected bugs were due to NullPointerExceptions and exceptions implicitly-signaled by Java 
+environment due to programming mistakes or resource limitations
+ (as the ones found in this study).
 
 \emph{\textbf{The prevalence of programming mistakes.}} To get a broader view of the prevalence of
-programming mistakes of reported exception stack traces we performed the following analysis....
-
-
-
- we performed an empirical evaluation whose goal was to identify the concerns related to the most reported root exceptions. 
-Since it is infeasible to inspect the code responsible for throwning every exception reported in this study.
-This identification performed in this study was based on meaning that the name of the exception holds, 
-its description (i.e., Javadoc documentaion), and the Java specification. To exemplify, an instance of ArrayOutOfBoundException
- usually refers to a programming mistake. Moreover, the Java specification list all exceptions related to backward compatibility 
-issues ~\cite{javaback} (e.g., InstantiationError, VerifyError, IllegalAccessError). Some concerns are known as sources 
-of faults in mobile development are: concurrency ~\cite{ama2012} backward compatibility  
-~\cite{McDon13}, security  ~\cite{enck2011study,was2010} and resource management (IO, Memory, Batery) ~\cite{Zhang12}.
-However, there are exceptions that cannot be directly mapped to one of such concerns. Either because they are
-related to programming mistakes - as illustrated on the previously. Or because they are too general (i.e.,  java.lang.Exception,
-java.lang.RuntimeException, java.lang.Error). Or also because they are related to other concerns (e.g., specific to a given library).
-
-%The list of categories is illustrated in Table~\ref{tab:categories}. 
-
-To perform such mapping, we selected a subset of all reported root exceptions. This subset was composed by 100 root exceptions 
-which were reported on 95\% of all stack traces analyzed in this study. Hence, based on the inspection of the source code and
- Javadoc related to each exception,  and Java specification, we identified the concern
-releated to each root exception. Than we could calculate the prevalence of a concern on the reported stack traces using the following metric.
-Given that: Stacks is the complete set of stacks found in this study, Lc is the list of root causes related to a given concern (as identified on the study),
- and Stacks[Lc] the list of issues that mentions the concern. The prevalence of a concern could be given by the formula: Stacks[Lc]/Stacks. 
-Table~\ref{tab:tophundrend} illustrates the result of this empirical evaluation.
-
-
-
- 
-% When the root exceptions that were too general, or related to other concerns 
-% were also maped to these additional categories. Table~\ref{tab:tophundrend} illustrates the result of such mapping.%
-%\begin{table}
-%  \centering
-%  \begin{tabular}{|p{2cm}| p{5cm}|}
-%    \hline
-%    \bfseries{Category} & \bfseries{Description} \\
-%    \hline
-%      Programming logic &  Exceptions thrown by the JVM when the 
-% evaluation of an expression violates the normal semantics of language (e.g., 
-% out-of-bounds array index, division-by-zero, access to a null reference). \\ \hline
-%      Resources (IO, Memory, Batery)  & Exception releated to the manipulation or restriction of resources (e.g., file, network, memory) \\ \hline
-%      Security                               & Exception releated to security issues (e.g. password validation, criptography) \\ \hline
-%      Concurrency                            & Exceptions related to multi-threaded programming \\ \hline
-%      Backward compatibility                 &  A list of exceptions related to backward compatibility - a complete list can be found here [ref]  \\ \hline
-%      Specific Exceptions              & Exceptions created for specific applications, frameworks or libraries \\ \hline
-%      General (Exception, Error, Runtime)    & The top level exceptions in Java    \\ \hline
-%    \hline
-%  \end{tabular}
-%  \caption{Description of categories.}
-%  \label{tab:categories}
-% \end{table}
-
-
+programming mistakes of reported exception stack traces we: (i) identified the Java exceptions that can be
+implicitly thrown by the runtime environment due to a programing mistake or resource limitation; and (ii)
+ used ExceptionMiner to evaluate the prevalence of such exceptions on the reported stack traces.
+Table ~\ref{tab:causes} illustrates the main causes of exceptions reported on issues.
 
 \begin{table}
   \centering
   \begin{tabular}{lrr}
     \hline
-    \bfseries{Category} &  \bfseries{\% Occurrences on stacks} \\
+    \bfseries{Cause} &  \bfseries{\% Occurrences on stacks} \\
     \hline
       Programming logic (java.lang and util) &  52,0\%\\ 
-      Resources (IO, Memory, Batery)       &   23,9\% \\ 
-      Security                               &  4,1\%\\  
-      Concurrency                            &  2,9\% \\ 
-      Backward compatibility                 & 5,5\% \\ 
-      Specific Exceptions               &  4,9\%\\ 
-      General (Error, Exception, Runtime)    &  6,7\%\\
-  \end{tabular}
+      Resources Restriction   &   23,9\% \\ 
+      General Exceptions (Error, Exception, Runtime)    &  6,7\%\\
+      Specific  &  xxx\%\\ 
+ \end{tabular}
   \caption{Identifying the concerns related to root exceptions}
-  \label{tab:tophundrend}
+  \label{tab:causes}
 \end{table}
 
-To ensure the quality of the process, three independent coders classified a randomly selected
-sample of 25 exception types (from the total 100) using the same list of concerns;
-the interater agreement was high (96\%). We could also observe that
-We can therefore assume that the categories are descriptive 
-enough for covering the range of exception types analyzed.
+The analysis on the complete set os stack traces revealed that, in fact, the programming mistakes were
+the most reported root causes.  Although there is usually no proper handling for such exceptions, 
+besides presenting an error message to the user and restarting the application ~\footnote{Only 
+high fault tolerant systems need to provide solutions to handle them.}.  
 
-These study showed that the programming mistakes associated to the most reported root causes. 
-However, they may be interactly related to one of the other concerns. For  instance, a concurrency problem may 
-lead to a NullPointerException. 
+This finding calls the attention to the fact that: high number of programming errors reported 
+on issues may me an indication that developers are underestimating the impact that such 
+mistakes have on application robustness.
 
 \noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
 A multitude of programming mistakes were reported as the main causes of exception stack traces.
@@ -1067,47 +943,6 @@ A multitude of programming mistakes were reported as the main causes of exceptio
 was the root cause.
 }
 \end{minipage}}
-
-
-
-%TODO: Discuss about the interater agreement here...
-%\subsection{Sizes of Stack traces}
-%Concerning the size of the stacks (i.e. the number of frames composing them), we
-%could observe that  sometimes it exceeded 100 frames (158 stack frames).
-%Manually inspecting the corresponding execution trace was caused by one of the
-%two reasons: recursive calls or exceptions signaled by a method defined deep
-%down in a reused framework; exceptions successively wrapped. Irrespective of the
-%reason, in exception flows involving many methods, it is practically impossible
-%to handle an exception in a way other than exiting the application, as at the
-%place the exception occurs there is hardly enough contextual information to
-%perform recovery actions.
-
-%Considering only the packages of each exception we could observe that 81,28\%
-%of all analyzed set of stack traces reported exceptions defined by java.lang
-%(see Table XXX).
-
-%\begin{table}
-% \centering
-%\begin{tabular}{lrrrr}
-%    \hline
-% \bfseries{rank} & \bfseries{package} & \bfseries{occurr} &  \bfseries{\%occur} & % \bfseries{projects} \\
-%     \hline
-%1 & java.lang         & 19471 & 81,28\% & 3080 \\
-%2 & java.io           & 1222  & 5,10\%  & 509 \\
-%3 & java.net          & 740   & 3,09\%  & 311 \\
-%4 & java.util         & 689   & 2,88\%  & 287 \\
-%5 & java.lang.reflect & 115   & 0,48\%  & 78 \\
-%\hline
-%  \end{tabular}
-%\caption{Top 5 most popular packages associated to the root exceptions of stack traces}
-%\label{tab:toptenpopular2}
-%\end{table}
-
-%\noindent \fbox{
-%\begin{minipage}{0.96\columnwidth} 
-%\emph{RQ2: Most exceptions are due to programming mistakes
-%or generally irrecoverable errors.}
-%\end{minipage}}
 
 \subsection{What can the Types of Root Exceptions tell us?}
 %\subsection{Exploring the Information Embedded on Exception Types}
@@ -1118,7 +953,7 @@ we mined the exception types (i.e., RuntimeException, checked Exception or Error
 to do so we used the source code and byte code analyses implemented on Exception Miner. 
 
  Table~\ref{tab:typeroottab} presents the types of root causes of all stack traces reported on the analyzed issues. As we can see 
-from Table ~\ref{tab:typeroottab},  most of the reported exceptions signaled (explicilty or implicitly by the JVM) on methods defined
+from Table ~\ref{tab:typeroottab},  most of the reported exceptions signaled (explicilty or implicitly by the runtime enviroment) on methods defined
  on the Android Plaform on on the application itself. 
 
 On the other hand, most of the reported exceptions signaled by the set of 
@@ -1217,7 +1052,7 @@ signature of each method signaling a runtime exception.
 We inspected methods of the Android Plaftorm and 
 the libraries, because both are  third  party code reused 
 by the Android apps. In this task we filtered out all the exceptions implicitly 
-signaled by  JVM (due to programming mistakes) 
+signaled by  runtime environment (due to programming mistakes) 
 since these exceptions should not be documented on the 
 method signature. 
 
@@ -1311,7 +1146,7 @@ which offers  different types to represent different exception behaviors (i.e., 
 runtime and checked) (see Section~\ref{sec:best}). For instance,
 according to Java specification, Errors should not be handled inside the system 
 since they usually represent unrecoverable conditions
-detected by the JVM (e.g.,  OutOfMemoryError). On the other hand, checked exceptions should
+detected by the runtime environment (e.g.,  OutOfMemoryError). On the other hand, checked exceptions should
 represent recoverable conditions. Next we discuss and exemplify the cross-type wrappings
  found in this study.
 
@@ -1682,7 +1517,7 @@ an unpredictable state in the presence of exceptions. To illustrate this problem
 confronted with a checked exception, the designer of the API is telling him 
 to handle the exceptional condition, however we could observe that in some cases the 
 checked exception wrapped an OutOfMemoryError, which represent resource deficiency detected 
-by the JVM which make impossible the program to recover. 
+by the runtime environment which make impossible the program to recover. 
 
 Currently there is no way of enforcing Java exception type conventions during program development.
 Hence, further investigation is needed on finding ways to help developers in dealing with such
@@ -1694,7 +1529,7 @@ researches on the real usefulness of Java hybrid exception model.
 
 Besides the explicitly thrown runtime exceptions, in this work we also observe a high number of 
 stack traces reporting coding errors (out-of-bounds array index, division-by-zero, access to a null).
-Such exceptions are implicitly thrown by JVM, and among them the NullPointerException 
+Such exceptions are implicitly thrown by runtime environment, and among them the NullPointerException 
 were the reported root cause in most of the analyzed exception stack traces.
 
 The null references was firstly introduced by Tony Hoare in ALGOL W, which after some years he called his “one-billion-dollar mistake”:
@@ -1898,7 +1733,7 @@ included on bug issues.  In a similar study, Bettenburg et
 al.~\cite{bettenburg2008makes} identify stack traces as the second most stack
 trace feature for developers.  Sinha et al.~\cite{sinha2009fault} proposed an
 approach that uses stack traces to guide a dataflow analysis for locating and
-repairing faults that are caused by the JVM implicitly signaled exceptions. Kim
+repairing faults that are caused by the implicitly signaled exceptions. Kim
 at al.~\cite{kim2013predicting} proposed an approach to predict the
 crash-proneness of methods based information extracted from stack traces and
 methods' bytecode operations.  They observed that most of the stack traces were
