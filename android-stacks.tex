@@ -767,7 +767,8 @@ exception stack traces, the exception frames were preceeded by logging informati
 
 As mentioned before, the tool enables a set of exception stack traces analyses by combining exception stack 
 trace information with bytecode and sourcecode analysis. Each analysis is implemented as a different module 
-on Exception miner. The main analyses provided by the tool are presented next:
+on Exception miner. Next, we present core analyses which were implemente on ExceptionMiner. Such analyses 
+provide aditional information to be used on further analyses described in Section ~\ref{sec:result}:
 
 \emph{\textbf{Exception Type Analysis}} To support a deeper investigation of the 
 stack traces every exception defined on a stack trace need to be classified according to its type
@@ -792,7 +793,7 @@ we could reffer to the Android Specification.
 To discover the packages composing each application, this module 
 extracted the manifest files of each Android app
  - which defines the main packages that compose the applications.
- When this file was not available we recursevely analyzed the 
+ Whenever this file was not available, we recursevely analyzed the 
 structure of source-code directories composing the app
 - filtering out the cases on which the application 
 also included the source-code of reused libraries.
@@ -822,41 +823,6 @@ Table ~\ref{signalers} summarizes the signaler classification.
   \label{tab:signalers}
 \end{table}
 
-
-%The information extracted by each module was structured in a Database,
-%which contained the distilled information of stack traces, exception types,
-%and signalers origin (e.g., root cause, root cause type, root cause signaler and its origin,
-%exception wrappers,  types, and its signalers).
-
-
-
-%\subsubsection{The ExceptionMiner Tool}
-%Using the ExceptionMiner tool, developed in this work, we could extract the exception stack traces defined 
-%on issues and issue comments. Executing ExceptionMiner tool each issue and issue comment defined on the 
-%16,836 projects considered in this study, we could observe that 3,758 projects (22,32\%) contained at 
-%least 1 issue on which a stack trace was found. Overall the number of issues on which a stack trace was
-% found was 21,013 from which 28,800 stack traces were extracted and analyzed - some issues defined 
-% more than one stack trace.
-
-%We then analyzed the labels associated to such issues, and we discovered that only 5,196 were
-% labled as defect ~\footnote{the dedect lables considered in this work were every lable containing 
-%as substring: defect, bug, crash, failure, fail, exception} (which represent only 24,7\% of the
-% issues on which a stack trace was found), most of the issues on which stack traces were found 
-%contained no lable. Such observation supports our assumption to consider not only the issues 
-% related with defect issues on this analysis.
-
-
-%\begin{figure*}
-%\centering
-%\includegraphics[width=\hsize]{overview.pdf}
-%\caption{Overview of the study based on mixed approaches.}
-%\label{fig:overviewfig}
-%\end{figure*}
-
-
-
-
-
 \subsection{Replication Package}
 All the data used in this study will be publicly available at http://.....
 Specifically we provide: (i) all issues related to Android projects found
@@ -864,26 +830,13 @@ in GITHub and Google Code used in this study; (iii) all stack traces extracted
 from issues (ii) the results of manual inspection steps; (iv) the tool developed 
 in this work to support stack trace extraction and distilling.
 
-Next section presents the results for each of the study phases, providing both a
-quantitative and qualitative analysis of the outcomes.
-
 \section{The Study Results}
 \label{sec:result}
 
-%To answer this question, we mined from every extracted stack trace the top level
-%exception being signaled, its signaler (the first method signature frame after
-%the exception), the root exception (the exception which initiated the stack
-%trace, defined on the bottom of the stack), and the root signaler. The
-%intermediate elements that compose a stack trace as shown in
-%Figure~\ref{fig:wrapping} (i.e., the intermediate causes and its execution
-%stacks) were not be considered in the analysis.
-%~\todo{Move this to the previous section? IMO, It is better to keep all facts
-%about how we did the research in one place
-%RSC: I WAS ABOUT TO MOOVE BUT THERE WAS ALREADY A SIMILAR TEXT ON 
-%THE EXCEPTION DISTEILLER}
-
-This section presents the results aimed at answering the research 
-questions presented before.
+This section presents the results of the study, providing both a
+quantitative and qualitative analysis of the outcomes. The structure of this section
+ is centered on questions that guied the search for 
+source-code fragilities based on exception stack trace information.
 
 \subsection{What can the Common Root Exceptions tell us? }
 
@@ -1025,7 +978,11 @@ to ways of how to mitigate it.
 %information to identify the cause of the exceptional behavior, and as a consequence developers need to relying on
 %the exception message which can be neither complete nor precise~\cite{gosling2000java}.
 
-\emph{\textbf{Identifying the Concerns Related to Root Exceptions.}} To get a broader view of the root exceptions of stack traces,
+\emph{\textbf{The prevalence of programming mistakes.}} To get a broader view of the prevalence of
+programming mistakes of reported exception stack traces we performed the following analysis....
+
+
+
  we performed an empirical evaluation whose goal was to identify the concerns related to the most reported root exceptions. 
 Since it is infeasible to inspect the code responsible for throwning every exception reported in this study.
 This identification performed in this study was based on meaning that the name of the exception holds, 
