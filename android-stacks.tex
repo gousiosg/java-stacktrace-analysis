@@ -317,7 +317,7 @@ to consider ways of reducing such fragilities in Android and Java environments.
 The main contributions of this study is twofold:
 \begin{itemize}
 
-  \item  It performs a large scale post morten analysis of exception stack traces reported on Android projects hosted in GitHub and Google Code.
+  \item  It performs a large scale post mortem analysis of exception stack traces reported on Android projects hosted in GitHub and Google Code.
   \item  It introduces ExceptionMiner, a tool developed to support exception stack trace mining and analysis.
     analysis.
 
@@ -526,75 +526,71 @@ systems crashes. These best practices guided our exploratory study dscribed next
 %Next section discusses the
 %study procedure and the practices' misuses that emerged from this study.
 
-
-\section{Study Design}
-\label{sec:study}
-
 %This study focus on the analysis of crash information (related to uncaught exceptions) of a family of Android applications
 %aiming at  extracting their common characteristics and looking for similar vulnerabilities on applications and underlaying platform.
 %In Java when an application crashes due to an uncaught exception ... 
 %Exception Stach trace is usually (procurar por artigo).
 
-The goal of this mining study was to extract exception stack traces embedded on issues of Android projects 
-(hosted in GitHub and Google Code), looking for its 
-common characteristics and investigating whether
- they could reveal common fragilities on the exception code of both the 
-applications and the underlaying  framework. 
+%To answer this question we selected 
+%The goal of this exploratory mining study was to extract exception stack traces embedded on issues of Android projects 
+%(hosted in GitHub and Google Code), looking for its \emph{common characteristics} and investigating whether
+% they could reveal \emph{common fragilities} on the exception code of both the applications and the underlaying  framework. 
+%Our study focused on open-source apps, since the information needed to perform our study
+%cannot be retrieved from commercial apps, whose issue report systems and 
+%source codes are not publicly available. The Android open-source apps were also 
+%target of other research studies ~\cite{Linar13,ahimed}.   
 
+%extract exception stack traces embedded on issues of Android projects 
+%(hosted in GitHub and Google Code), looking for its \emph{common characteristics} and investigating whether
+% they could reveal \emph{common fragilities} on the exception code of both the applications and the underlaying  framework. 
+%Our study focused on open-source apps, since the information needed to perform our study
+%cannot be retrieved from commercial apps, whose issue report systems and 
+%source codes are not publicly available. The Android open-source apps were also 
+%target of other research studies ~\cite{Linar13,ahimed}.   
+
+\section{Study Design}
+\label{sec:study}
+
+%This section describes the exploratory study whose goal was to investigate:
+%\begin{description}
+ % \item[RQ] \noindent\emph{Which fragilities on the exception-related code can be revealed from a post morten exception stack trace analysis of Android projects?} 
+ %    \item
+%\end{description}
+%One major decision that had to be made for our investigation was the selection of the target 
+%projects. We have selected a set of XXX open-source Android projects hosted in GitHub and 
+%Google Code. GitHub and Google Code are among the most used hosting sites for open-source
+ %projects,
+
+The goal of this exploratory mining study was to investigate whether the exception stack traces 
+embedded on issues of Android projects (hosted in GitHub and Google Code), can reveal 
+\emph{common fragilities} on the exception code of both the applications and the underlaying  framework. 
 Our study focused on open-source apps, since the information needed to perform our study
 cannot be retrieved from commercial apps, whose issue report systems and 
 source codes are not publicly available. The Android open-source apps were also 
 target of other research studies ~\cite{Linar13,ahimed}.   
 
-% Falar da assumption que stacj trá relacionada a crash?
-%This study is built on the following assumption: the stack traces reported on issues contain 
-%relevant information related to application crashes. Several studies and techniques have also based on this assumption %(e.g.,~\cite{sinha2009fault}~\cite{dhaliwal2011classifying}~\cite{kim2013predicting}).
+This exploration is guided by the set of best practices compiled in this study; we investigate whether characteristics 
+of exception stack traces can pinpoint best practices violations. As mentioned before, 
+call ``fragilities" characteristics on the exception-related code that favor the introduction
+of failures such as uncaught exceptions and unintended handling. 
 
-%\subsection{Research Questions}
-In the context of our study we formulated the following research questions:
-
-\begin{description}
-
-  \item[RQ1] \noindent\emph{What are the common characteristics of exception stack traces reported on issues?} 
-
-%Which fragilities on the exception-related code emerge from the exception stack trace analysis? 
-%Can such characteristics reveal common fragilities on the exception code of applications or the underlying framework
-
-     \item
-
-%Which patterns of exception (mis)use emerge?
-  \item[RQ2] \noindent\emph{Which fragilities on the exception-related code emerge from them?}
-
-
-\end{description}
-
-%Based mainly on the information available on exception stack traces embedded 
-%on issues, the goal of this study was to gain a better understanding 
-%of exception-related system crashes.
-
-%Characteristics of exception stack traces and detected violations can reveal fragilities
-% on the exception-related code, which threats the application dependability. 
-
-Some of the common characteristics to be investigated are the exceptions reported as the root cause on
-the exception stack trace, the origin of such exceptions (e.g., the application, a library, the Android platform). 
-Based on a set of best practices compiled in this study, we investigated 
-whether characteristics of exception stack traces can pinpoint best practices violations. 
-Such  violations reveal fragilities
-on the exception-related code, which threats the application dependability.
-
-For RQ1 and RQ2, we explore the domain quantitatively and highlight interesting cases by 
-exploring cases qualitatively. To support this investigation, source code and bytecode 
-analysis were used in combination with manual inspection to leverage the  understanding 
-of stack traces and support further discussions and insights. 
-
+To support this investigation, we developed a tool called ExceptionMiner (see Section ~\ref{sec:exceptionminer})
+which extracts the exception stack traces embeeded on issues, 
+and combines stack trace information with source code and bytecode 
+analysis. Such combination was needed to enable the identification of 
+fragilities on the exception-related code.
+Moreover, manual inspections were also used to leverage
+ the understanding of stack traces and support further discussions and insights.
+In this study we explore the domain quantitatively and highlight interesting cases by 
+exploring cases qualitatively.  
 
 \subsection{Data Extraction Process}
 \label{sec:miningproc}
 
-To answer the research questions the following information is needed: (i) the issues reported on Android project hosted on 
+In this exploratory study the following information is needed: (i) the issues reported on Android project hosted on 
 GitHub and Google Code; (ii) the stack traces embedded on these issues; (iii) the type of the exceptions
  reported on the stack traces (e.g., error, runtime, checked); (iv) the origin of such exceptions 
-(e.g., the application, a library, the Android platform). Next sections describe: how such information 
+(e.g., the application, a library, the Android platform). Next, we describe: how such information 
 was retrieved from GitHub and Google Code; how the exceptions stack traces were extracted and distilled,
  and how the type associated to each exception and its origins was identified, and finally how manual
 inspections supported this work.
@@ -676,26 +672,25 @@ Differently from GitHub, Google Code does not provide an API to access the infor
  to hosted projects \footnote{Google code used to provided a Web service to such repository, but it was deactivated in June 2013 what Google called a "clean-up action".}.
 
 However, Google Code still contains largely used open-source Android apps (e.g. K9Mail \footnote{K9Mail moved to Github but as a way of not loosing the project history 
-it advices their users to report bugs on Google Code issue tracker.})  and the history of such apps are also valuable. 
+it advices their users to report bugs on Google Code issue tracker.})  and the issues reported of such apps are also valuable. 
 To overcome this limitation we needed to implement a Web Crawler (incorporated in Exception Miner tool described next) that navigated 
 through the web interface of Google Code projects extracting all issues and issue comments and storing in a relational database for later analysis.
 
 To identify Android projects in Google Code, we performed a similar heuristic: we performed a case insensitive search 
-(on Google Code search interface) for the term \textsf{android}.  On January 2014, when we queried Google Code, such heuristic could
- find 788  projects, from which 724 defined at least 1 issue and, 183 projects 
-had at least one issue including a stack trace. Then we performed further cleanup, inspecting the site of each project,
- and as a result we could identify 157 Android projects.  
+(on Google Code search interface) for the term ``android". On January 2014, when we queried Google Code, such heuristic could
+ returned a list of 788  projects. This list comprised the seeds sent to our Crawler.
 
-This set of 157 projects contained overall 127,456 issues, from which 1,963 exception stack traces 
-were extracted. Table ~\ref{tab:lables} illustrates the ocurrences of different lables 
-on the issues including exception stack traces. Doferently from GitHib in Google Code most of 
-the lables were labled as ``Defect" . On the study we considered all issues reporting stacks (regardless its lables)
-based on the same assumption described for the GitHub repository.
-
+From this set, 724 defined at least 1 issue. Running the ExceptionMiner tool (described next)
+ in this set we observed that 183 apps had at least one issue containing an exception stack trace.
+ Then we performed further cleanup (similar to the one described previously) inspecting the site 
+of each project. As a result we could identify 157 Android projects.  This set contained overall 127,456 issues,
+ from which 1,963 exception stack traces were extracted. Table ~\ref{tab:lables} illustrates the ocurrences of different lables 
+on the issues including exception stack traces. Differently from GitHib, in Google Code most of 
+the issues were labled as ``Defect". However, based on the same assumption described for the GitHub repository
+ we considered all issues reporting stacks (regardless its lables).
 
 %SELECT distinct(type), count(*) as n
 %  FROM exceptionalissue where repo !='android' group by type order by n desc;
-
 
 %For instance: K9mail  was hosted in Google Code 
 %before moving to GitHub and in order not to loose the project history it advices their 
@@ -705,113 +700,13 @@ based on the same assumption described for the GitHub repository.
 %projects we implemented a Web crawler which navigated (incorporated in Exception Miner tool described next) 
 % on each project and issue page, extracting the content of each issue to store on relational database.
 
-\subsection{The ExceptionMiner Tool}
-\label{sec:exceptionminer}
-
-To support this study we developed ExceptionMiner, a modular mining tool able 
-to connect to repositories, extract issues, mine stack traces from
-them and distill exception stack trace information. The main components of
-ExceptionMiner are as follows:
-
-\noindent\emph{Repository Connectors.}  This component is responsible to connect to
- the host repositories in order to collect project issues. The GitHub Connector connected
- to GiHub through GHTorrent. The Google Code connector comprised of a Web Crawler,
- that traversed Google Code Web interface in order to extract the project issues.
-
-\noindent\emph{Exception Stack Trace Distiller.} 
-Distills the information that composes a stack trace and storing the results in a
-relational database. Some of the information extracted from the stack traces were:
- the exception being thrown, its signaler, the exception root cause, its corresponding signaler,
-and packages related to each one of these fields.
-The tool is based on a combination between a regular expression based parser 
-with heuristics able to identify and filter exception names and stack traces inline with text. In
-contrast to existing issue parsing solutions such as Infozilla, the parser
-created in this work can discover stack traces embedded in logs files \footnote{In several 
-exception stack traces, the exception frames were preceeded by logging information e.g., "03-01 15:55:01.609 (7924): at android.app.ActivityThread.access\$600(ActivityThread.java:127)" which could not be detected by existing tools.)}  
-and identify the root causes and signalers associated to each exception stack trace.
-
-%\begin{tiny}
-%\begin{verbatim}
-
-%03-01 W/dalvikvm(7924): threadid=1: thread exiting with uncaught exception (group=0x40adf210)
-%03-01 15:55:01.609 (7924): FATAL EXCEPTION: main
-%03-01  (7924): java.lang.RuntimeException: ...
-%E/AndroidRuntime( 7924):  at android....performLaunchActivity(ActivityThread.java:1967)
-%03-01 15:55:01.609 (7924):  at android....handleLaunchActivity(ActivityThread.java:1992)
-%03-01 15:55:01.609:  at android.app.ActivityThread.access\$600(ActivityThread.java:127)
-%E/AndroidRuntime( 7924):  at android....handleMessage(ActivityThread.java:1158)
-%\end{verbatim}
-%\end{tiny}
-
-\noindent\emph{Exception Classifier} To support a deeper investigation of the stack traces 
-every exception defined on a stack trace need to be classified according to its type
-(e.g. Error, Exception or RuntimeException). The exception classifier is based on 
-bytecode analysis (based on Design Wizard~\cite{Brunet09}) that walks up the 
-type hierarchy of a Java exception until it reaches a base exception type.
-This module analyzed the exception hierarchy of all exceptions thrown on:
-  Android Platform (API level 19), and JDK (version 6).
-
-
-\noindent\emph{Exception Signaler Classifier.} 
-This module is responsible for classifying each signaler according 
-to its origin (i.e. Android Plaform, Android Libcore, Aplication, Library). 
-We downloaded the source code of Android Platform (API level 19)
-and this module extracts the recursive list of 
-of Java packages that composes it. To discover the packages that compose 
-the previous released of the API we performed a manual inspection on the Javadoc
-documentation available online for each API level ~\cite{apidocs}.
-To discover the packages composing the each application, this module 
-extracted the manifest files of each Android app
- - which defines the main packages that compose the applications.
-Then based on pattern matching between the signaler name and the packages 
- this module identifies the origin of the exception signalers.
-The exceptions were considered from libraries if their packages were not defined 
-on Android Platform, core libraries nor on applications.
-Table ~\ref{signalers} summarizes the signaler classification.
-
-\begin{table}
-  \centering
-  \begin{tabular}{rp{29em}}
-    \hline
-    \bfseries{Signaler} & \bfseries{Description} \\
-    \hline
-    \bfseries{android} & If the exception is thrown by a method defined in Android Platform, or in a JDK library used by i.\\
-    \bfseries{app}     & If the exception is thrown by an application method or in a JDK library used by it.\\
-    \bfseries{libcore} & If the exception is thrown by one of the core libraries reused by Android (i.e., org.apache.harmony, org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml). \\
-    \bfseries{lib}     & If the exception is thrown by a method that was not defined by any of the elements above.\\
-    \hline
-  \end{tabular}
-  \caption{Sources of exceptions in Android}
-  \label{tab:signalers}
-\end{table}
-
-The information extracted by each module was structured in a Database,
-which contained the distilled information of stack traces, exception types,
-and signalers origin (e.g., root cause, root cause type, root cause signaler and its origin,
-exception wrappers,  types, and its signalers).
-
-%\subsubsection{The ExceptionMiner Tool}
-%Using the ExceptionMiner tool, developed in this work, we could extract the exception stack traces defined 
-%on issues and issue comments. Executing ExceptionMiner tool each issue and issue comment defined on the 
-%16,836 projects considered in this study, we could observe that 3,758 projects (22,32\%) contained at 
-%least 1 issue on which a stack trace was found. Overall the number of issues on which a stack trace was
-% found was 21,013 from which 28,800 stack traces were extracted and analyzed - some issues defined 
-% more than one stack trace.
-
-%We then analyzed the labels associated to such issues, and we discovered that only 5,196 were
-% labled as defect ~\footnote{the dedect lables considered in this work were every lable containing 
-%as substring: defect, bug, crash, failure, fail, exception} (which represent only 24,7\% of the
-% issues on which a stack trace was found), most of the issues on which stack traces were found 
-%contained no lable. Such observation supports our assumption to consider not only the issues 
-% related with defect issues on this analysis.
-
 \subsection{Manual Inspections}
-As mentioned before, this study was also based in a set of manual inspection tasks. Besides the 
- (i) identifying of Android projects, and (ii) the finding packages that compose the 
-previous Android APIs leveles, manual inspections were also used discover the type of associated to some 
-reported on stack traces. Such exceptions could not be automaticaly identified 
-because they were not defined on the last version of the application,
-or were defined on libraries not fount among projects resources.
+As mentioned before, this mixed-methods study was also supported by manual inspections. 
+Manual inspections were used, in the context of this study to support: (i) the identification of Android projects (described previously);
+(ii) and to identify the type of some exceptions reported on issues, that could not be automatically identified by the ExceptionMiner tool.
+Some exceptions could not be automaticaly identified because they were 
+not defined on the last version of the application (the one analyzed by ExceptionMiner),
+or were defined on libraries not found among application resources.
 In such cases we manually inspect the sourcecode or javadoc
  documentation available online of each of them. 
 When the exception was not found on the previous versions, the exception where classified 
@@ -828,12 +723,137 @@ presented in Table ~\ref{tab:typeroottab}.
 %Figure~\ref{fig:overviewfig} presents an overview of the mixed-methods approach
 %conducted to answer these questions. The mixed-methods approach is composed by the following steps:
 
+
+\section{The ExceptionMiner Tool}
+\label{sec:exceptionminer}
+
+The ExceptionMiner is modular mining tool which is able to connect to issue repositories, 
+extract issues, mine stack traces from them, distill exception stack trace information,
+and enable the execution of different analyses by combining exception stack 
+trace information with bytecode and sourcecode analysis. The main components of ExceptionMiner are as follows:
+
+\emph{\textbf{Repository Connectors.}} This component enables the connection 
+with issue repositories. In this study two main connectors were created: one which connects to 
+GHTorrent database, and Google Code connector which is comprised of a Web Crawler,
+ that can traverse Google Code Web interface and extract the project issues. 
+Projects matadata and the issues associated to them are stored on a relational 
+database by this components.
+
+\emph{\textbf{Exception Stack Trace Distiller.}}
+This component distills the information that composes a stack trace.
+ Some of the attributes extracted from the stack trace are:
+ the root exception and its signaler, the exception wrappers and their corresponding signalers. 
+This component also distills fine grained information of each attribute such as: the classes and packages associated to them.
+This component is based on a combination between a regular expression based parser 
+with heuristics able to identify and filter exception names and stack traces inline with text. 
+In contrast to existing issue parsing solutions such as Infozilla, the parser
+created in this work: (i) can discover stack traces inlined with logs files \footnote{In several 
+exception stack traces, the exception frames were preceeded by logging information e.g., 
+"03-01 15:55:01.609 (7924): at android.app.ActivityThread.access\$600(ActivityThread.java:127) 
+"which could not be detected by existing tools.)}.
+
+%\begin{tiny}
+%\begin{verbatim}
+
+%03-01 W/dalvikvm(7924): threadid=1: thread exiting with uncaught exception (group=0x40adf210)
+%03-01 15:55:01.609 (7924): FATAL EXCEPTION: main
+%03-01  (7924): java.lang.RuntimeException: ...
+%E/AndroidRuntime( 7924):  at android....performLaunchActivity(ActivityThread.java:1967)
+%03-01 15:55:01.609 (7924):  at android....handleLaunchActivity(ActivityThread.java:1992)
+%03-01 15:55:01.609:  at android.app.ActivityThread.access\$600(ActivityThread.java:127)
+%E/AndroidRuntime( 7924):  at android....handleMessage(ActivityThread.java:1158)
+%\end{verbatim}
+%\end{tiny}
+
+As mentioned before, the tool enables a set of exception stack traces analyses by combining exception stack 
+trace information with bytecode and sourcecode analysis. Each analysis is implemented as a different module 
+on Exception miner. The main analyses provided by the tool are presented next:
+
+\emph{\textbf{Exception Type Analysis}} To support a deeper investigation of the 
+stack traces every exception defined on a stack trace need to be classified according to its type
+(e.g. Error, Exception or RuntimeException). The module responsible for this analysis 
+uses Design Wizard~\cite{Brunet09} framework to inspect the bytecode of all exceptions reported on issues.
+The nidyke walks up the type hierarchy of a Java exception until it reaches a base exception type.
+This module analyzed the exception hierarchy of all exceptions defined on:
+Android Platform (API level 19) - which includes all basic Java exceptions that 
+can be thrown during the app execution. The exceptions thrown inside the apps
+were classified using manual inspections as well as the exceptions thrown only
+on previous versions of the Android platform.
+
+\emph{\textbf{Exception Signaler Analysis.}}
+This module is responsible for classifying each signaler according 
+to its origin (i.e. Android Application Framework, Android Libcore, Application, Library). 
+Table~\ref{tab:signalers} presents the heuristic adopted in this classification.
+To enable such classification, we needed to feed this module the information
+comprising all Java packages that compose: the Android Plaform;
+ the Android Libcore; and each analyzed Application. 
+To discover the packages composing the first two origins
+we could reffer to the Android Specification.
+To discover the packages composing each application, this module 
+extracted the manifest files of each Android app
+ - which defines the main packages that compose the applications.
+ When this file was not available we recursevely analyzed the 
+structure of source-code directories composing the app
+- filtering out the cases on which the application 
+also included the source-code of reused libraries.
+Then based on this information and using pattern matching 
+between the signaler name and the packages this module identifies 
+the origin of the exception signalers. The exceptions were considered
+ from libraries if their packages were not defined 
+on Android Platform, core libraries nor on applications.
+Table ~\ref{signalers} summarizes the signaler classification.
+
+%\noindent\emph{Exception Wrapping Analysis.} 
+%\noindent\emph{Concern Mapping.} 
+
+\begin{table}
+  \centering
+  \begin{tabular}{rp{29em}}
+    \hline
+    \bfseries{Signaler} & \bfseries{Description} \\
+    \hline
+    \bfseries{android} & If the exception is thrown on a method defined in Android Platform.\\
+    \bfseries{app}     & If the exception is thrown on an application method.\\
+    \bfseries{libcore} & If the exception is thrown on one of the core libraries reused by Android (i.e., org.apache.harmony, org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml). \\
+    \bfseries{lib}     & If the exception is thrown on a method that was not defined by any of the elements above.\\
+    \hline
+  \end{tabular}
+  \caption{Sources of exceptions in Android}
+  \label{tab:signalers}
+\end{table}
+
+
+%The information extracted by each module was structured in a Database,
+%which contained the distilled information of stack traces, exception types,
+%and signalers origin (e.g., root cause, root cause type, root cause signaler and its origin,
+%exception wrappers,  types, and its signalers).
+
+
+
+%\subsubsection{The ExceptionMiner Tool}
+%Using the ExceptionMiner tool, developed in this work, we could extract the exception stack traces defined 
+%on issues and issue comments. Executing ExceptionMiner tool each issue and issue comment defined on the 
+%16,836 projects considered in this study, we could observe that 3,758 projects (22,32\%) contained at 
+%least 1 issue on which a stack trace was found. Overall the number of issues on which a stack trace was
+% found was 21,013 from which 28,800 stack traces were extracted and analyzed - some issues defined 
+% more than one stack trace.
+
+%We then analyzed the labels associated to such issues, and we discovered that only 5,196 were
+% labled as defect ~\footnote{the dedect lables considered in this work were every lable containing 
+%as substring: defect, bug, crash, failure, fail, exception} (which represent only 24,7\% of the
+% issues on which a stack trace was found), most of the issues on which stack traces were found 
+%contained no lable. Such observation supports our assumption to consider not only the issues 
+% related with defect issues on this analysis.
+
+
 %\begin{figure*}
 %\centering
 %\includegraphics[width=\hsize]{overview.pdf}
 %\caption{Overview of the study based on mixed approaches.}
 %\label{fig:overviewfig}
 %\end{figure*}
+
+
 
 
 
