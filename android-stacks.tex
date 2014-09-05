@@ -821,7 +821,7 @@ detected bugs were due to NullPointerExceptions and exceptions implicitly-signal
 environment due to programming mistakes or resource limitations
  (as the ones found in this study).
 
-\emph{\textbf{The prevalence of programming mistakes on stack traces.}} One way of getting a broader view of the prevalence~\footnote{The prevalence evaluates the proportion of a given characteristic over a group of subjects.}  of programming mistakes on reported stack traces would be to manually inspect the code responsible for throwning every exception reported  on issues. However, inspecting the code related to 6005 stack traces can easily become infeasible.
+\emph{\textbf{The prevalence of programming mistakes on stack traces.}} One way of getting a broader view of the prevalence~\footnote{The prevalence evaluates the proportion of a given characteristic over a group of subjects.}  of programming mistakes on reported stack traces would be to manually inspect the code responsible for throwning every exception reported  on issues. However, inspecting the source code related to 6005 stack traces can easily become infeasible.
 Hence, we conducted an empirical investigation based on the following assumption: the name of the exception and its associated Javadoc 
 documentaion hold enought information to pinpont a ``programming mistake".To exemplify, an instance of ArrayOutOfBoundException
  pinpoints to programming mistake which indicates that an array has been accessed with an illegal index.
@@ -1138,23 +1138,29 @@ either by native methods defined by java.lang.Class (e.g., getDeclaredFields, ge
 or methods from javax.crypto package. Table~\ref{tab:exampleswrap} illustrates
 the exception types involved in such wrappings.
 
-\emph{\textbf{Error wrapping Runtime.}} After manually inspecting the code associated to such wrappings 
+\emph{\textbf{Error wrapping Runtime.}} After manually inspecting the source code associated to such wrappings 
 we discovered that all of them were caused by static initializers. If any exception is thrown in the context of a static initializer (i.e., static block) 
 it is converted into an ExceptionInitializerError on the point where the class is first used. Table ~\ref{exampleswrap} illustrates
 the exception types involved in such wrappings.
 
 We could also observe that some stack traces included several intermediate cross-type wrappings.
 One interesting example was the following: Runtime-Checked-Runtime-Checked-Runtime-Checked-Runtime.
-Although some of these wrappings may be a result of design decision
+
+Although some of these wrappings may be a result of design decisions,
 the mis-use of exception wrapppings may make the exception handling 
 code more complex (e.g., the multiple wrappings) and error-prone,
  and lead to what we call ``exception confusion problem"
+
 To illustrate this problem we can use one of the wrappings discussed above.
 When the developer is confronted with a checked exception, the designer of the API is telling him 
-to handle the exceptional condition. However we could observe that in some cases the 
-checked exception wrapped an OutOfMemoryError, which represent resource deficiency detected 
-by the runtime environment which make impossible the program to recover. 
-Hence, trying to handle this exception may lead the program to an unpredictable state.
+to handle the exceptional condition (according to Java Specification and 
+best practices). However, if the developer tries to handle such exception,
+which is wrapping (or ``hiding") an OutOfMemoryError, such handling 
+may lead the program to an unpredictable state.
+
+The cross-type wrappings show us that even if the developer sticks to Java
+specification and best practices, it will be dificult for her/him to prevent the code from 
+incurring into a situation as the one described above. 
 
 \noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
 Some of the detected cross-type exception wrappings points to a potential ``exception confusion problem".
@@ -1266,15 +1272,17 @@ and cross-type wrappings").
 
 \noindent\emph{External Validity.} Our work use GHTorrent dataset. Although 
 comprehensive and extensive is not an exact replica of Github. 
-However, the results of this study does not depent on the analysis of
-a complete Github dataset. Instead, we limited out analysis to a subset of
-existing open-source Android projects availabe on GitHub and Googlecode.
-Moreover, we are aware that the reported exceptions 
+However, the result of this study does not depent on the analysis of
+a complete Github dataset. Instead, the goal of our study was to 
+pin-point fragilities on the exception-related code based on 
+exception stack trace mining of a subset of projects.
+We limited out analysis to a subset of existing open-source Android projects.
+We are aware that the exception stack traces reported 
 for commercial apps can be different from the ones found in this study, and that
 this subset is a small percentage of existing apps.
-Such threats to validity are similar to the ones imposed on the other empirical studies 
+Such threats are similar to the ones imposed to other empirical studies 
 which also used free or open-source Android apps ~\cite{Linar13,McDon13,ahimed}.
-Moreover,  several exception stack traces that support the findings of this study
+Moreover, several exception stack traces that support the findings of this study
 refered to exceptions comming from methods defined on Android Application Framework
 and third-party libraries.  Additionaly,  the ``fragilities" observed in this study are due to
 characteristics of Java exception model, which can impose challenges 
