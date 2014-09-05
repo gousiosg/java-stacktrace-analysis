@@ -361,7 +361,7 @@ include other intermediate exception wrappers. In all levels, the exception
 \emph{signaler}, is the method that threw the exception, represented on the
 stack trace as the first method call below the exception declaration.
 
-\begin{figure} \centering \includegraphics[scale=0.6]{stacktrace_bw.png}
+\begin{figure} \centering \includegraphics[scale=0.5]{stacktrace_bw.png}
 \caption{Example of an exception stack trace in Java.}
 \label{fig:wrapping}
 \end{figure}
@@ -472,6 +472,10 @@ systems crashes. These best practices guided our exploratory study dscribed next
 
 \section{Study Design}
 \label{sec:study}
+
+
+\begin{figure*} \centering \includegraphics[scale=0.3]{studyprocess2.png}
+\caption{Code snippets illustrating fragilities on the exception-related code} \label{fig:snippets} \end{figure*}
 
 %This section describes the exploratory study whose goal was to investigate:
 %\begin{description}
@@ -1347,7 +1351,7 @@ Platform. Taking a closer look on the methods responsible for such wrappings,
  named ActivityThreat. This class is responsible for managing the life cycle of  Android Activities - 
 invoking the life cycle methods (i.e. onCreate(), onPause()) for every Activity 
 (window) of an Android app.
-Figure ~\ref{fig:snippets} (a) presents a code snippet of one the methods of 
+The code snippet illustrates one the methods of 
 ActivityThreat,  the one responsible for invoking the Activitiy's onCreate method. 
 As we can see from lines 4-8, in case any exception is thrown in the context of such try-catch block, 
 it is wrapped in a general Runtime exception and re-thrown.
