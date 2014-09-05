@@ -1250,7 +1250,6 @@ related to programming mistakes. To ensure the quality of the analysis,
 we calculated the interrater agreement after three independent 
 coders classified a randomly selected sample (of 25 exception 
 types from the total 100); the interater agreement was high (96\%). 
-
 Another threat relates to the fact that parts of our analysis 
 are based on the availability of stack traces on issues on Github and Googlecode. 
 In using these datasets, we make an underlying assumption: the stack traces reported on issues are 
@@ -1265,8 +1264,12 @@ Such subset comprise the stack traces related to the main findings
 of the study (e.g., `ùndocumented runtime and checked exceptions",
 and cross-type wrappings").
 
-\noindent\emph{External Validity.} We limited out analysis to a subset of
-existing open-source Android apps. We are aware that the reported exceptions 
+\noindent\emph{External Validity.} Our work use GHTorrent dataset. Although 
+comprehensive and extensive is not an exact replica of Github. 
+However, the results of this study does not depent on the analysis of
+a complete Github dataset. Instead, we limited out analysis to a subset of
+existing open-source Android projects availabe on GitHub and Googlecode.
+Moreover, we are aware that the reported exceptions 
 for commercial apps can be different from the ones found in this study, and that
 this subset is a small percentage of existing apps.
 Such threats to validity are similar to the ones imposed on the other empirical studies 
@@ -1277,6 +1280,7 @@ and third-party libraries.  Additionaly,  the ``fragilities" observed in this st
 characteristics of Java exception model, which can impose challenges 
 the robustness of not ony to Android apps but also to other systems
  based on the same exception model. 
+
 
 \section{Related Work}
 \label{sec:rele}
@@ -1360,10 +1364,10 @@ the higher prevalence on the analyzed set of stacks.
 \textit{Detecting Faults on Java Exception-Related Code.} 
 Cabral and Marques~\cite{cabral2007exception} analyzed the
 source-code of 32 open-source systems, both for Java and .NET. They
-observed that the action handlers were very simple (e.g., logging and present a
+observed that the actions inside handlers were very simple (e.g., logging and present a
 message to the user). Reimer and Srinivasan~\cite{reimer2003analyzing} listed a
 set of bad practices on exception handling that hinder software maintainability
-and robustness, based on their own experience with Java enterprise applications.
+and robustness, based on their experience with Java enterprise applications.
 Our work differs from those
 
 
