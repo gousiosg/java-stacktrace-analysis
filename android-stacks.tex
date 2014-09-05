@@ -941,8 +941,10 @@ methods.
 
 To investigate the obedience to such practice, we firstly filtered out all the exceptions implicitly
  signaled by  runtime environment (due to programming mistakes) since these exceptions 
-should not be documented on the method signature. Then we inspected the code each method 
-(defined either on Android or on libraries) signaling  runtime exceptions not-related to programming mistakes.
+should not be documented on the method signature. 
+
+Then we inspected the code each method (defined either on Android  Aplication Framework or on libraries) 
+explicitly signaling a runtime exception not-related to programming mistakes.
 As a result of this inspection, we could observe that only 1 method out of 118 inspected methods
  (i.e., 0,8\%) documented the explicitly thrown runtime exception in a Javadoc comment; and none of these methods
 included the runtime exception  (reported on the stack) as part of the exception interface of the method (i.e., using 
@@ -953,17 +955,28 @@ runtime exceptions in .Net programs are most often not documented.
 Such undocumented runtime exceptions represent a threat to system robustness, specially
 when such exceptions are thrown then the third party code is invoked inside the application 
 (e.g. libraries, or framework utility code). In such cases the client usually do not have access to 
-the source code, and in the absence of
-the exception documentation it is very difficult or even impossible for the client of such third party code to 
+the source code, and in the absence of the exception documentation it is very difficult or even impossible for the client of such third party code to 
 protect the application against undocumented runtime exceptions. As a consequence, the
  undocumented runtime exception may remain uncaught and lead to system crashes.
 
-%SELECT repo, *
-% FROM stacktracesummary where stack like '%getDeclaredMethods%';
-
-
 \noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
  Only 0,8\% of the methods documented the explicitly signaled runtime exceptions. 
+}
+\end{minipage}}
+
+During the manual inspection, besides inspecting the code of exception signalers we also
+inspected the intermediate methods reported on the stacks.  The inspected stack traces envolved, 
+in one way or another, methods from the  Android Application Framework: either framework 
+utility methods, or framework hook methods  (e.g., OnCreate(), onPause()).
+During this inspection we could observe that none of the hook methods provided by the Activity class 
+specify an exception interface.  The``exception interface" can stimulate
+can stimulate the developer (in this case, extending Activity class) to: think that 
+``something" may go wrong during the execution of such methods; and design the 
+exception handling code accordingly (the absence of such interface
+ violates to best practice IV).
+
+\noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
+ None of the Activity hook methods define an ``exception interface".
 }
 \end{minipage}}
 
