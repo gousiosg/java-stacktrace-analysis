@@ -1357,36 +1357,24 @@ methods' bytecode operations.  They observed that most of the stack traces were
 related to NullPointerException and other implicitly thrown exceptions had
 the higher prevalence on the analyzed set of stacks.
 
-
-\textit{Detecting Faults on Java Exception-Related Code.}  Some tools have been 
-proposed to detect faults  
-on the exception handling code either statically (cabral, roberta,nelio,chang) 
-or dynamicaly through testing (roberta). Both approaches, however, have inherent
- limitations. On the one hand, the static analysis tools needs to deal with the false 
-positives and cannot adequately deal with dynamically loaded code (e.g. reflection  
-[ref]). On the other hand the testing tools are llimited to the fact that the developer
- needs to create a test to exercise every exception, which is also costly.... (olhar tese). 
-Moreover, both methods fail to account for exceptions implicitly signaled by the runtime 
-environment (e.g. due to resource depletion which can be signaled in every statement invocation). 
-
-Robillard and Murphy~\cite{Robil00} employed dataflow analysis to find the propagation paths of checked and
-unchecked exception types. Modeled after Robillard and Murphy's work, other
-tools have been proposed to support the static analysis of exception
-flows~\cite{coelho2008assessing}. The main limitation of all
-static analysis tools is the number of false positives inherent to static analysis
-solutions, which can lead to a high number of exception flows, specially if
-considering Java Environment exceptions and exceptions signaled from libraries.
- 
-Additionally, Cabral and Marques~\cite{cabral2007exception} analyzed the
-exception handling code of 32 open-source systems, both for Java and .NET. They
+\textit{Detecting Faults on Java Exception-Related Code.} 
+Cabral and Marques~\cite{cabral2007exception} analyzed the
+source-code of 32 open-source systems, both for Java and .NET. They
 observed that the action handlers were very simple (e.g., logging and present a
 message to the user). Reimer and Srinivasan~\cite{reimer2003analyzing} listed a
 set of bad practices on exception handling that hinder software maintainability
 and robustness, based on their own experience with Java enterprise applications.
-Our work differs from those two works as we tried to identify bad practices from
-the analysis of stack traces extracted from issues in combination with and bytecode and source
-code analysis. \footnote{ to do: TODORESSALTAR LIMITACAO DE QUANTIDADE DE FALSOS POSITIVOS... E QUE OS STACKS SAO REAIS...
-REPRESENTAM FLUXOS REAIS.... POST MOSTERN ANALISYS OF REAL EXECUTIONS....}
+Our work differs from those
+
+
+Some tools ~\cite{Robil00}~\cite{coelho2008assessing} have ben proposed 
+to employ dataflow analysis to find the propagation paths of checked and unchecked 
+exception types. The main limitation of all static analysis tools is the number of false 
+positives inherent to static analysis solutions, which can lead to extremely high number 
+of exception flows, specially if considering Java Environment exceptions and exceptions 
+signaled from libraries. Moreover, such also have limited support some libraries (e.g., Java Reflection).
+Our owrk
+
 
 \enlargethispage{-2\baselineskip}
 
