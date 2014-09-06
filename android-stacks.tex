@@ -222,11 +222,14 @@ Overall 159,048 issues were analyzed and 6,005 stack traces were extracted from 
 The exception stack trace analysis was augmented by means of byte code 
 and source code analysis
  with additional exception-related information
-extracted from the JDK, Android Platform and the application layer.
+extracted from the Android Platform and Android applications.
+
+Outcomes of our study include:
+
 %Manual inspection was used to leverage the understanding 
 %of exception stack traces and support further discussions and insights.
 
-Outcomes of our study include:
+
 
 % Some outcomes consistently detected during this study were the following:
 
@@ -907,10 +910,11 @@ Moreover, these stack traces could also pointed out another best practice violat
 Using such general exception, is considered a bad according to Java specification and compiled guidelines.
 
 \noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
- 267 exception stack traces were caused by ``undocumented runtime exceptions" thrown by libraries or the Android Platform.
-Methods defined on 11 android packages signaling direct instances of RuntimeException.
+The study revealed: 267 exception stack traces were caused by ``undocumented runtime exceptions" thrown by libraries or the Android Platform; 
+several methods defined on 11 android packages signaling direct instances of RuntimeException.
 }
 \end{minipage}}
+
 
 \begin{table}
 \centering
