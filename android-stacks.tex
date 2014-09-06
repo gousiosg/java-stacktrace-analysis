@@ -156,28 +156,29 @@ based on Java exception model.
 
 \section{Introduction}
 
-Along the recent years, we have witnessed an astonishing increase in the number of
-mobile applications. If on the one hand such applications extend phones capabilities 
-far beyond of the basic calls and textual messages, on the other hand
-they have to face an increasing number of threats to application robustness
- arising from: faults on underlying middleware and hardware (e.g., camera, sensors);
-faults on third party services and libraries; compatibility issues ~\cite{McDon13}; 
- memory and battery restrictions; noisy external resources ~\cite{Zhang12} (e.g., wireless connections,GPS, bluetooth) among others. 
+In recent years, we have witnessed an astonishing increase in the number of
+mobile applications. These applications extend phones capabilities 
+far beyond basic calls and textual messages. Such applications, however,
+have to face an increasing number of threats to application robustness
+ arising from: failures in underlying middleware and hardware (e.g., camera, sensors);
+failures in third party services and libraries; compatibility issues~\cite{McDon13}; 
+ memory and battery restrictions; and noisy external resources ~\cite{Zhang12} (e.g., wireless connections,GPS, bluetooth). 
 
 Therefore, techniques for error detection and handling are not  an optional add-on but a 
-fundamental part of such apps. The exception handling mechanism ~\cite{goodenough1975exception},
+fundamental part of such apps. The exception handling mechanism~\cite{goodenough1975exception},
 embedded in many mainstream programming languages, such as Java, C++ and C\#,
- is one of the most used techniques for detecting and recovering from such exceptional conditions. 
-Android, the leading plaform for mobile applications~\cite{gartner} (thanks to its open-source 
-model and hardware partners like Samsung, HTC, Motorola, Asus besides Nexus Google's
- own device)  reuses the embedded Java exception model to detect and handle 
- exceptional conditions.
+ is one of the most used techniques for detecting and recovering from such exceptional conditions.
+In this paper we will be concerned with exception handling in Android apps,
+which reuse Java's exception handling model.
+ 
+%Android, the leading plaform for mobile applications~\cite{gartner} (thanks to its open-source 
+%model and hardware partners like Samsung, HTC, Motorola, Asus besides Nexus Google's
+% own device)  reuses the embedded Java exception model to detect and handle 
+% exceptional conditions.
 
-Studies have shown, however, that the exception-related code is generally poorly understood and the
- less tested parts of the system~\cite{miller1997issues,Robil00,shah2010understanding, 
+Studies have shown that exception-related code is generally poorly understood and among the least tested parts of the system~\cite{miller1997issues,Robil00,shah2010understanding, 
 garcia2007extracting,garcia2001comparative,cabral2007exception,coelho2011unveiling}.
-As a consequence they may affect the system the other way around.
-The exception-related code may favor the introduction of failures such as 
+As a consequence they may inadvertently negatively affect the system: Exception-related code may introduce failures such as 
 uncaught exceptions~\cite{jo2004uncaught, Zhang12} - 
 which can lead to system crashes, making the system even less robust~\cite{coelho2011unveiling}.
 
@@ -187,27 +188,30 @@ or log file ~\cite{gosling2000java}.  A typical Java stack trace consists of  th
 the thrown exception and the ordered list of methods that were active on the call stack before 
 such exception has occurred ~\cite{gosling2000java,bloch2008effective}.
 
-Until recent years, the availability of data, reporting such failures, was scarce. 
-It comprised only few large scale projects (e.g. the Mozilla crash report dataset\footnote{https://code.google.com/p/promisedata/issues/detail?id=88}).
-Recently we have observed a rapid increase in the number of open
-source projects that make their version control systems as well as the issue tracking systems
-publicly available in repository hosting sites such as GitHub and Google Code.
-Developers and users of open-source projects uses such provided
- infrastrucute to share information (e.g., exception stack traces~\cite{bettenburg2008makes,schroter2010stack}) across 
-the software development.
+%% I am not so sure this data was not available. Let's omit this paragraph
+%Until recently, the availability of data reporting such failures was scarce. 
+%It comprised only few large scale projects (e.g. the Mozilla crash report dataset\footnote{https://code.google.com/p/promisedata/issues/detail?id=88}).
+%Recently we have observed a rapid increase in the number of open
+%source projects that make their version control systems as well as the issue tracking systems
+%publicly available in repository hosting sites such as GitHub and Google Code.
+%Developers and users of open-source projects uses such provided
+% infrastrucute to share information (e.g., exception stack %traces~\cite{bettenburg2008makes,schroter2010stack}) across 
+%the software development.
 
 %When available, the exception stack traces provide a useful source of information about system crashes ~\cite{bettenburg2008makes} which 
 % can enable different kinds of post-mortem analysis and support:  debugging~\cite{schroter2010stack}, 
 % bug classification and clustering~\cite{wang2013improving, kim2011crash, dhaliwal2011classifying},  
 %automated bug fixing~\cite{sinha2009fault} and fault-proneness prediction models~\cite{kim2013predicting}. 
 
-This study performs a post mortem analysis of the exception stack traces embedded on issues
+This study performs a post mortem analysis of the exception stack traces 
+included in issues
 reported on Android projects hosted in GitHub and Google Code. 
-The goal of this study was to investigate whether the reported exception stack traces
- can reveal common fragilities on the exception-related code.  
-We call ``fragilities" characteristics on the exception-related code 
-that favor the introduction of failures such as uncaught 
-exceptions -  contributing to decrease the applicaiton robustness.
+The goal of this study is to investigate whether the reported exception stack traces
+ can reveal common fragilities in the exception-related code.  
+We call ``fragilities'' characteristics of the exception-related code 
+that increase the likelihood of introducing failures such as uncaught 
+exceptions -  leading to a decrease in application robustness.
+
 To guide this investigation we compiled general guidelines on how to use
 exceptions proposed by Gosling~\cite{gosling2000java},
 Wirfs-Brock~\cite{wirfs2006toward} and Bloch~\cite{bloch2008effective}.
@@ -215,57 +219,63 @@ Then, using a custom tool called ExceptionMiner,
  which we develop specifically for this study, we mine stack traces from the issues reported 
 on 482 Android projects hosted in GitHub and 157 projects hosted in Google Code.
 Overall 159,048 issues were analyzed and 6,005 stack traces were extracted from them.
-The exception stack trace analysis was augmented with additional information
-extracted from JDK, Android Plaform and the applications using byte code 
-and source code analysis. Manual inspection was used to leverage the understanding 
-of exception stack traces and support further discussions and insights.
+The exception stack trace analysis was augmented by means of byte code 
+and source code analysis
+ with additional exception-related information
+extracted from the JDK, Android Platform and the application layer.
+%Manual inspection was used to leverage the understanding 
+%of exception stack traces and support further discussions and insights.
 
-Some outcomes consistently detected during this study were the following:
+Outcomes of our study include:
+
+% Some outcomes consistently detected during this study were the following:
 
 \begin{itemize}
 
-       \item Approximately 52\% of the reported stack traces were associated to programming mistackes. 
-And 27,71\% of all stack traces of reported a java.lang.NullPointerException the root cause.
+       \item Approximately 52\% of the reported stack traces can be attributed to programming mistakes. 
+In particular, 27.71\% of all stack traces reported a \texttt{java.lang.NullPointerException} as its root cause.
 
-       \item  4,4% of the reported exception stack traces ``undocumented runtime exceptions" signaled by third-party code. 
-             (35 methods from Android platform and 44 from libraries). 
+       \item  4.4\% of the reported exception stack traces are ``undocumented runtime exceptions'' raised by third-party code. 
+             (35 methods from the Android platform and 44 from libraries). 
 
-     \item  Few cross-type exception wrappings, such as an OutOfMemoryError wrapped in a checked exception,
-were detected on stack traces. Indicating that the purpose of Java's hybrid exception model may not have been adequately used.
-
-   
+     \item  We detected several cross-type exception wrappings, such as an OutOfMemoryError wrapped in a checked exception,
+in stack traces. This suggests that the purpose of Java's hybrid exception model comprising checked and unchecked exceptions may not have been adequately used.
 
    \item Undocumented checked exception signaled by a  JNI interface function defined on Android Platform. 
-    Some flows reported a checked exception thown by a JNI interface function, and  such exception was not  
-    part of the ``exception interface" of JNI function nor the methods on its invokation chain - it can lead to 
+    Some flows reported a checked exception thrown by a JNI interface function, yet this exception was not  
+    part of the ``exception interface'' of the JNI function nor the methods on its invocation chain. This can lead to 
    uncaught exceptions that are difficult to debug. 
 
 \end{itemize}
 
 Such outcomes point to threats not only to the developement of robust Android apps, 
 but also to the developement of any robust Java-based system. For instance, in the absence of the 
-``exception specification" of  a third-party code, it is difficult or 
-even enfeasible for the developer to protect the code against ``unforeseen" exceptions. 
-Since, in such cases the client usually do not have access to the source code, such undocumented exceptions may 
+``exception specification" of third-party code, it is difficult or 
+even infeasible for the developer to protect the code against ``unforeseen'' exceptions. 
+Since in such cases the client usually does not have access to the source code, such undocumented exceptions may 
 remain uncaught and lead to system crashes. Moreover, the cross-type exception wrappings 
 (e.g., OutOfMemoryError is wrapped in a checked Exception) 
 may lead to unintended handling problems - e.g, trying to handle an instance of OutOfMemoryError ``hiden" in 
-a checked exception may lead the program to an unpredictable state.
+a checked exception may bring the program to an unpredictable state.
 
 Hence, the study results are relevant to Android and 
-Java developers who may underestimate how likely are the
- exceptions related to programming mistakes, and how 
+Java developers who may underestimate how 
+ exceptions are related to programming mistakes, and how 
  tricky it can be to prevent the uncaught exceptions from third-party code
- in the absence of ``exception interfaces". Moreover, results are relevant to 
+ in the absence of ``exception interfaces". Moreover, the results are relevant to 
 designers of languages and tools to consider ways of reducing such fragilities 
 in Android and Java environments.
 
-The remaining of this paper is organized as follows. Section 2 presents a
+The remaining of this paper is organized as follows. 
+Section~\ref{sec:back} presents a
 background on Android Platform and Java exception model. 
-Section 3 presents the study design. Section 4 reports the study findings. 
-Section 5 provides further discussions and insights.
-Section 6 presents the threats to validity associated to this study. Finally Section
-7 describes the related work, and Section 8 concludes the paper and outlines
+Section~\ref{sec:study} presents the study design. 
+Section~\ref{sec:exceptionminer} describes the ExceptionMiner tool we developed to conduct our study.
+Section~\ref{sec:result} reports the findings of our study.
+Section~\ref{sec:disc} provides a discussion of the wider implications of our results.
+Section~\ref{sec:threats} presents the threats to validity associated to this study. 
+Finally Section~\ref{sec:rele} describes related work, 
+and Section~\ref{sec:conc} concludes the paper and outlines
 directions for future work.
 
 \section{Background}
