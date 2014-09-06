@@ -81,31 +81,31 @@ Email: \texttt{\{g.gousios,arie.vandeursen\}@tudelft.nl}}
 
 
 \begin{abstract}
-The number of mobile apps is increasing in a daily rate. If on the one hand they
-extend phones capabilities far beyond of the basic calls, on the other hand they have to 
-cope with an increasing number of exceptional conditions 
-(e.g., faults in underlying middleware or hardware; memory and battery restrictions). 
-Therefore, mechanisms for exception detection and handling are not an optional add-on but a 
-fundamental part of such apps. However, studies have shown that such mechanisms are the less 
-understood and tested parts of the system. As a consequence they may affect the system the 
-other way around, making the system even less robust, leading to failures such as uncaught exceptions 
-and unintended handling (i.e., exceptions being mistakenly caught by existing handlers).
-This paper reports a study which mined the stack traces embedded on 
-159,048 issues reported on Android projects hosted in GitHub (482 projs.) 
-and Google Code (157 projs.). 
-The goal of this study was to: investigate the whether the exception stack traces
+%The number of mobile apps is increasing in a daily rate. If on the one hand they
+%extend phones capabilities far beyond of the basic calls, on the other hand they have to 
+%cope with an increasing number of exceptional conditions 
+%(e.g., faults in underlying middleware or hardware; memory and battery restrictions). 
+%Therefore, mechanisms for exception detection and handling are not an optional add-on but a 
+%fundamental part of such apps. However, studies have shown that such mechanisms are the less 
+%understood and tested parts of the system. As a consequence they may affect the system the 
+%other way around, making the system even less robust, leading to failures such as uncaught exceptions 
+%and unintended handling (i.e., exceptions being mistakenly caught by existing handlers).
+
+This paper reports a study which mined the Java stack traces included in
+159,048 issues reported on Android projects hosted in GitHub (482 projects) 
+and Google Code (157 projsects). 
+The goal of this study is to investigate  whether the exception handling logic on these stack traces
  can reveal common characteristics on the exception-related code that
-may be favoring the introduction of the aforementioned failures, which would be responsible for 
-decreasing the application robustness. We call such characteristics ``fragilities" of the exception-related code.
+are particularly fault prone and may lead to a decrease in application robustness.
 Overall 6,005 exception stack traces were extracted, and analyzed in 
 combination with source code and bytecode analysis. 
-Some fragilities consistently detected in this study include: 
+Key problems identified in this study include: 
 (1) undocumented runtime exceptions thrown by third party code;
 (2) undocumented checked exceptions thrown by a JNI interface function;
-(3) unexpected exception wrappings (e.g., Errors being wrapped in checked exceptions),
-revealing that Java hybrid exception model is not fully used according to its purpose.
+(3) unexpected exception wrappings (such as Errors being wrapped in checked exceptions),
+indicating that Java's hybrid exception model is not fully used in accordance with its purpose.
 Moreover, about 50\% of all analyzed projects reported at least one NullPointerException
-as the root cause of an exception stack trace.
+as the root cause of an exception stack trace, suggesting the presence of programming mistakes.
 This study provides insights on such fragilities and the robustness threats  
 they impose not only to Android apps but also to other systems 
 based on Java exception model.
