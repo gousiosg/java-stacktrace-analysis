@@ -414,7 +414,7 @@ systems crashes. These best practices guided our exploratory study described nex
 \label{sec:study}
 
 
-\begin{figure*} \centering \includegraphics[scale=0.3]{studyprocess2.png}
+\begin{figure*} \centering \includegraphics[scale=0.3]{studyoverview3.png}
 \caption{Study overview.} \label{fig:overview} \end{figure*}
 
 %This section describes the exploratory study whose goal was to investigate:
@@ -533,7 +533,8 @@ issues from our analysis.
 
 \subsubsection{Android Apps in Google Code}
 Google Code contains largely used open-source Android apps (e.g. K9Mail \footnote{K9Mail moved to Github but as a way of not loosing the project history 
-it advises their users to report bugs on Google Code issue tracker.}), however, differently from GitHub, Google Code does not provide an API to access the information related
+it advises their users to report bugs on Google Code issue tracker: https://github.com/k9mail/k-9/wiki/LoggingErrors.}),
+ however, differently from GitHub, Google Code does not provide an API to access the information related
  to hosted projects \footnote{Google code used to provided a Web service to such repository, but it was deactivated in June 2013 what Google called a "clean-up action".}.
 To overcome this limitation we needed to implement a Web Crawler (incorporated in ExceptionMiner tool described next) that navigated 
 through the web interface of Google Code projects extracting all issues and issue comments and storing in a relational database for later analysis.
@@ -1312,7 +1313,7 @@ Some fragilities consistently detected in this study were:
 (iii) undocumented checked exceptions thrown by JNI interface,
 (iv) unexpected exception wrappings (e.g., Errors being wrapped in checked exceptions) 
 revealing that Java hybrid exception model is not fully used according to its purpose.
-As we can see, such fragilities can negatively affect not only the robustness of Android application 
+Such fragilities can negatively affect not only the robustness of Android application 
 but also the robustness of any Java-based application. 
 Our results calls the attention for the need of tool and language support to help 
 developers when dealing with such fragilities.
