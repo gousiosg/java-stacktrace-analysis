@@ -12,9 +12,9 @@
 %\title{ What GitHub and Google Code can tell us about the Causes of Crashes of Android Apps? }
 %\title{ A Mining Study the Google Code can tell us about the Causes of Crashes of Android Apps? }
 
-%\title{What can the Issues of GitHub and Google Code tell us about Exception Fragilities in Android? }
+%\title{What can the Issues of GitHub and Google Code tell us about Exception Fragilities? }
 
-\title{What can Issues on GitHub and Google Code tell us about Exception Fragilities in Android? }
+\title{What can Issues on GitHub and Google Code tell us about Exception Fragilities in Android and Java? }
 
 %\title{Results of a Mining Study on Exception Stack Traces embedded on issues of over 600 Android Projects}
 
@@ -1275,7 +1275,20 @@ at al.~\cite{kim2013predicting} proposed an approach to predict the
 crash-proneness of methods based information extracted from stack traces and
 methods' bytecode operations.  They observed that most of the stack traces were
 related to NullPointerException and other implicitly thrown exceptions had
-the higher prevalence on the analyzed set of stacks.
+the higher prevalence on the analyzed set of stacks. Kechagia and Spinellis ~\cite{kechagia2014}
+examined the stack traces embedded on crash reports sent by 1,800 Android apps 
+to a crash report management service (i.e., BugSense). They found that 19% of such stack traces
+were caused by unchecked and undocumented exceptions thrown by methods defined on 
+Android API (level 15). Our work differs from Kechagia and Spinellis since it is not based on
+stack traces mined from issues reported by open source developers on GitHub and Googlecode.  
+Moreover, our work identified the type of each exception mined from issues
+(classifying them as Error, Runtime or Checked) based on the source code
+analysis of the exception hierarchy; we mapped the exception signalers (i.e., were the
+exceptions signaled from libraries, the platform or the application itself); we investigated
+the adoption of best practices based on the analysis of stack trace information.
+Such analysis revealed intrigging cross-type exception wrappings which may bring the program 
+to an unpredictable state (i.e.,  trying to handle an instance of OutOfMemoryError “hidden” in a checked exception).
+
 
 \textit{Empirical Studies on Exception Handling Defects.} 
 Cabral and Marques~\cite{cabral2007exception} analyzed the
@@ -1331,8 +1344,7 @@ approximately 7K free Android apps and observed that the last successful apps
 used Android APIs that were on average 300\% more change-prone than the APIs
 used by the most successful apps. Pingyu and Elbaum~\cite{Zhang12} analyzed bug
 reports of 5 Android applications an observed that 29\% had to do with poor
-exceptional handling code. 
-Our work differs from the others as it aims at
+exceptional handling code. Our work differs from the others as it aims at
 distilling the information of bug reports distilling the uncaught exceptions 
 occurring at mobile applications in Github and Google Code. Such analysis discusses about
 the causes of bugs related to exceptions across applications available and what the
