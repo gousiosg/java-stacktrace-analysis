@@ -1246,6 +1246,12 @@ the robustness of not only to Android apps but also to other systems
 \section{Related Work}
 \label{sec:rele}
 
+In this section, we present work that is related to the present paper, divided into
+four categories: i) papers that use the information available on stack traces;
+ii) empirical studies on the usage of Java Exceptions and its fault proneness;
+and iii) tools to extract stack trace information from natural language artifacts
+(e.g., issues and emails) and iv) empirical studies involving Android apps.
+
 \textit{Analysis and Use of Stack Trace Information.} Several research works have
 investigated the use of stack trace information to support bug classification
 and clustering~\cite{wang2013improving, kim2011crash, dhaliwal2011classifying},
@@ -1308,6 +1314,31 @@ from development emails and relate it to code artifacts (i.e. classes) mentioned
 on the stack trace. In addition to those tools, ExceptionMiner is able to 
 both extract stack traces from natural language artifacts and to 
 classify them in a set of predefined categories.
+
+\textit{Empirical studies using Android apps.} Ruiz et al.~\cite{Ruiz12}
+investigated the degree of reuse across applications in Android Market, the
+study showed that almost 23\% of the classes inherited from a base class in the
+Android API, and that 217 mobile apps were reused completely by another mobile
+app. Pathak et al.~\cite{Patha11} analyzed bug reports and developers
+discussions of Android platform and found out that approximately 20\% of
+energy-related bugs in Android occurred after an OS update. McDonnell et
+al.~\cite{McDon13} conducted a case study of the co-evolution behavior of
+Android API and 10 dependent applications using the version history data found
+in github. The study found that approximately 25\% of all methods in the client
+code used the Android API, and that the methods reusing fast-evolving APIs were
+more defect prone then others. Vásquez et al.~\cite{Linar13} analyzed
+approximately 7K free Android apps and observed that the last successful apps
+used Android APIs that were on average 300\% more change-prone than the APIs
+used by the most successful apps. Pingyu and Elbaum~\cite{Zhang12} analyzed bug
+reports of 5 Android applications an observed that 29\% had to do with poor
+exceptional handling code. 
+Our work differs from the others as it aims at
+distilling the information of bug reports distilling the uncaught exceptions 
+occurring at mobile applications in Github and Google Code. Such analysis discusses about
+the causes of bugs related to exceptions across applications available and what the
+characteristics of the stack traces can tell us about the exception structure of
+those applications.
+
 
 \enlargethispage{-2\baselineskip}
 
