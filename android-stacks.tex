@@ -444,8 +444,8 @@ systems crashes. These best practices guided our exploratory study described nex
 The goal of this exploratory mining study was to investigate whether the exception stack traces 
 embedded on issues of Android projects (hosted in GitHub and Google Code), can reveal 
 \emph{bug hazards} on the exception-related code of both the applications and the underlying framework. 
-This exploration is guided by the set of best practices compiled in this study; we investigate whether characteristics 
-of exception stack traces and the related source code it can pinpoint best practices violations and therefore to bug hazards.
+This exploration is guided by the set of best practices compiled in this study. We investigate whether characteristics 
+of exception stack traces can pinpoint best practices violations and therefore reveal bug hazards.
 As mentioned before, in this context ``bug hazards" are the characteristics on the exception-related code 
 that favor the introduction of failures such as uncaught exceptions. 
 
@@ -455,32 +455,37 @@ and combines stack trace information with source code and bytecode
 analysis. Moreover, manual inspections were also used to leverage
  the understanding of stack traces and support further discussions and insights.
 
+Figure~\ref{fig:overview} gives an overview of the study.
+Firstly  the issues reported on Android projects hosted on GitHub and Google Code were recovered (Figure~\ref{fig:overview} - (1) and (2)).
+Then the stack traces embedded each issue were extracted and distilled (Figure~\ref{fig:overview} - (3)).
+The stack trace information were then combined with source code and bytecode analysis in order to discover 
+the type of the exceptions reported on the stack traces (e.g., error, runtime, checked)  (Figure~\ref{fig:overview} - (5))  and the origin of such exceptions 
+(e.g., the application, a library, the Android platform)  (Figure~\ref{fig:overview} - (6)). 
+Manual inspections were also used to support this mining process (Figure~\ref{fig:overview} - (4), (7) and (9)) and support
+the search for bug hazards performed in this study  (Figure~\ref{fig:overview} - (8)). Next sections detail each step of this mining process.
+
 Our study focused on open-source apps, since the information needed to perform our study
 cannot be retrieved from commercial apps, whose issue report systems and 
 source codes are not publicly available. The Android open-source apps were also 
 target of other research studies ~\cite{Linar13,ahimed}.   
-
 In this study we explore the domain quantitatively and highlight interesting cases by 
-exploring cases qualitatively.  Figure~\ref{fig:overview} gives an overview of the study, whose tasks are detailed next.
+exploring cases qualitatively. 
 
+%\subsection{Data Extraction Process}
+%\label{sec:miningproc}
 
-\subsection{Data Extraction Process}
-\label{sec:miningproc}
-
-In this exploratory study the following information is needed: (i) the issues reported on Android project hosted on 
-GitHub and Google Code; (ii) the stack traces embedded on these issues; (iii) the type of the exceptions
- reported on the stack traces (e.g., error, runtime, checked); (iv) the origin of such exceptions 
-(e.g., the application, a library, the Android platform). Next, we describe: how such information 
-was retrieved from GitHub and Google Code; how the exceptions stack traces were extracted and distilled,
- and how the type associated to each exception and its origins was identified, and finally how manual
-inspections supported this work.
+%In this exploratory study the following information is needed: (i) the issues reported on Android projects hosted on 
+%GitHub and Google Code; (ii) the stack traces embedded on these issues; (iii) the type of the exceptions
+ %reported on the stack traces (e.g., error, runtime, checked); (iv) the origin of such exceptions 
+%(e.g., the application, a library, the Android platform). Next, we describe: how such information 
+%was retrieved from GitHub and Google Code.
 
 %mentioned 
 %The data used in our study to answer our research questions are: the issues related to each 
 %Android project available in each repository; the source code and manifest file of each application;
 %the bytecode of all exceptions defined and reused by Android platform.
 
-\subsubsection{Android Apps in GitHub}
+\subsection{Android Apps in GitHub}
 \label{sec:git}
 
 
@@ -514,7 +519,7 @@ Up to 23 Feb 2014,  when we queried GHTorrent, such heuristic could
  find 2.542 repositories. Running the ExceptionMiner tool 
  in this set we observed that 589 projects had at least one issue containing a stack trace.
 	
-Then we performed further cleanup, inspecting the site of every Android
+Then we performed further cleanup, inspecting the site of every Android project
 reporting at least one stack trace, to make sure that they represented real
 mobile apps. During this clean up 106 apps were removed because they were either
 example projects (i.e., toy projects) or tools to support Android development
@@ -528,20 +533,15 @@ them at will. Therefore, an issue may have none or an arbitrary set of labels de
 on which repository it was created. Table~\ref{tab:lables} illustrates the ocurrences of different labels 
 on the issues including exception stack traces.
 
-Based on the assumption that regardless the issue type, every exception stack
+Based on the assumption that regardless the issue lables, every exception stack
 trace contains relevant information concerning the exception structure of the
 projects analyzed - and therefore can review bug hazards on the exception-related code -  
-we opted for not restricting the analysis only on defect
-issues\footnote{We conducted the same analysis on the defect issues and the top
-exceptions are similar to the ones mentioned on defect issues. Due to space
-limitation we limit to present the general analysis here. More detailed analysis
-on the defect issues can be found at:
-\url{https://github.com/souzacoelho/exceptionminer}}.
- Moreover, issues and pull requests are dual on Github; all pull requests have a corresponding 
-``backing'' issue (i.e., an issue that is automatically generated per pull request). Therefore, we excluded such automatically generated
-issues from our analysis. 
+we opted for not restricting the analysis only on defect issues\footnote{We conducted the same analysis 
+on the defect issues only and the top exceptions were quite similar.
+ Due to space limitation we limit to present the general analysis here. More detailed analysis
+on the defect issues can be found at:\url{https://github.com/souzacoelho/exceptionminer}}. 
 
-\subsubsection{Android Apps in Google Code}
+\subsection{Android Apps in Google Code}
 Google Code contains largely used open-source Android apps (e.g. K9Mail \footnote{K9Mail moved to Github but as a way of not loosing the project history 
 it advises their users to report bugs on Google Code issue tracker: https://github.com/k9mail/k-9/wiki/LoggingErrors.}),
  however, differently from GitHub, Google Code does not provide an API to access the information related
@@ -583,7 +583,7 @@ the issues were labled as ``Defect". However, based on the same assumption descr
 %Figure~\ref{fig:overviewfig} presents an overview of the mixed-methods approach
 %conducted to answer these questions. The mixed-methods approach is composed by the following steps:
 
-\section{The ExceptionMiner Tool}
+\subsection{The ExceptionMiner Tool}
 \label{sec:exceptionminer}
 
 The ExceptionMiner is a mining tool which can connect to different issue repositories, 
@@ -603,10 +603,10 @@ This component distills the information that composes a stack trace.
  Some of the attributes extracted from the stack trace are:
  the root exception and its signaler, the exception wrappers and their corresponding signalers. 
 This component also distills fine grained information of each attribute such as: the classes and packages associated to them.
-This component is based on a combination between a regular expression based parser 
-with heuristics able to identify and filter exception names and stack traces inline with text. 
+This component is based on a combination between a parser (based on regular expressions) 
+and heuristics able to identify and filter exception names and stack traces inline with text. 
 In contrast to existing issue parsing solutions such as Infozilla, the parser
-created in this work can discover stack traces inlined with logs files \footnote{In several 
+created in this work can discover stack traces mixed with log information\footnote{In several 
 exception stack traces, the exception frames were preceeded by logging information e.g., 
 "03-01 15:55:01.609 (7924): at android.app.ActivityThread.access\$600(ActivityThread.java:127) 
 "which could not be detected by existing tools.)}.
