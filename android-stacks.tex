@@ -162,7 +162,8 @@ far beyond basic calls and textual messages. Such applications, however,
 have to face an increasing number of threats to application robustness
  arising from: failures in underlying middleware and hardware (e.g., camera, sensors);
 failures in third party services and libraries; compatibility issues~\cite{McDon13}; 
- memory and battery restrictions; and noisy external resources ~\cite{Zhang12} (e.g., wireless connections,GPS, bluetooth). 
+ memory and battery restrictions; and noisy external resources ~\cite{Zhang12} 
+(e.g., wireless connections,GPS, bluetooth). 
 
 Therefore, techniques for error detection and handling are not  an optional add-on but a 
 fundamental part of such apps. The exception handling mechanism~\cite{goodenough1975exception},
@@ -178,7 +179,7 @@ which reuse Java's exception handling model.
 
 Studies have shown that exception-related code is generally poorly understood and among the least tested parts of the system~\cite{miller1997issues,Robil00,shah2010understanding, 
 garcia2007extracting,garcia2001comparative,cabral2007exception,coelho2011unveiling}.
-As a consequence they may inadvertently negatively affect the system: Exception-related code may introduce failures such as 
+As a consequence they may inadvertently negatively affect the system: exception-related code may introduce failures such as 
 uncaught exceptions~\cite{jo2004uncaught, Zhang12} - 
 which can lead to system crashes, making the system even less robust~\cite{coelho2011unveiling}.
 
@@ -211,7 +212,7 @@ The goal of this study is to investigate whether the reported exception stack tr
 A bug hazard  ~\cite{binder2000testing}  is a circumstance that increases the 
 chance of a bug to be present in the software. An example of a bug hazard can 
 be a characteristic of  the exception-related code which can increase the likelihood 
-of introducing uncaught exceptions (one of the main causes of application crashes).
+of introducing the aforementioned uncaught exceptions.
 
 To guide this investigation we compiled general guidelines on how to use
 exceptions proposed by Gosling~\cite{gosling2000java},
@@ -220,55 +221,49 @@ Then, using a custom tool called ExceptionMiner,
  which we develop specifically for this study, we mine stack traces from the issues reported 
 on 482 Android projects hosted in GitHub and 157 projects hosted in Google Code.
 Overall 159,048 issues were analyzed and 6,005 stack traces were extracted from them.
-The exception stack trace analysis was augmented by means of byte code 
-and source code analysis
- with additional exception-related information
-extracted from the Android platform and Android applications.
-
-Outcomes of our study include:
-
-%Manual inspection was used to leverage the understanding 
-%of exception stack traces and support further discussions and insights.
-
-
-
-% Some outcomes consistently detected during this study were the following:
+The exception stack trace analysis was augmented by means of bytecode 
+and source code analysis on the exception-related code of the Android 
+platform and Android applications. Some bug hazards consistently detected 
+during this mining study include:
 
 \begin{itemize}
 
-       \item Approximately 52\% of the reported stack traces can be attributed to programming mistakes. 
-In particular, 27.71\% of all stack traces reported a java.lang.NullPointerException as its root cause.
+   \item  Cross-type exception wrappings, such as an OutOfMemoryError wrapped in a checked exception.
+Trying to handle an instance of OutOfMemoryError ``hidden" in  a checked exception may bring the program
+ to an unpredictable state. Such wrappings suggest that, when not adequately used, the Java's hybrid exception
+ model may become fault-prone.
 
-       \item  4.4\% of the reported exception stack traces are ``undocumented runtime exceptions'' raised by third-party code. 
-             (35 methods from the Android platform and 44 from libraries). 
+  \item  Undocumented runtime exceptions raised by the Android platform (35 methods) and  third-party libraries (44 methods) -
+ which correspond to 4.4\% of the reported exception stack traces.
+In the absence of the ``exception specification" of third-party code, it is difficult or 
+even infeasible for the developer to protect the code against ``unforeseen'' exceptions. 
+Since in such cases the client usually does not have access to the source code, such undocumented 
+exceptions may remain uncaught and lead to system crashes. 
 
-     \item  We detected several cross-type exception wrappings, such as an OutOfMemoryError wrapped in a checked exception,
-in stack traces. This suggests that the purpose of Java's hybrid exception model comprising checked and unchecked exceptions may not have been adequately used.
+   \item Undocumented checked exceptions signaled by native C code.  Some flows reported a checked 
+exception signaled by native C code invoked by the Android Platform, yet this exception was not declared
+ of the Java Native Interface. This can lead to uncaught exceptions that are 
+difficult to debug. 
 
-   \item Undocumented checked exception signaled by a  JNI interface function defined on Android platform. 
-    Some flows reported a checked exception thrown by a JNI interface function, yet this exception was not  
-    part of the ``exception interface'' of the JNI function nor the methods on its invocation chain. This can lead to 
-   uncaught exceptions that are difficult to debug. 
+ \item A multitude of programming mistakes - approximately 52\% of the reported stack traces can 
+be attributed to programming mistakes. In particular, 27.71\% of all stack traces reported a java.lang.NullPointerException 
+as its root cause.
 
 \end{itemize}
 
-Such outcomes point to threats not only to the development of robust Android apps, 
-but also to the development of any robust Java-based system. For instance, in the absence of the 
-``exception specification" of third-party code, it is difficult or 
-even infeasible for the developer to protect the code against ``unforeseen'' exceptions. 
-Since in such cases the client usually does not have access to the source code, such undocumented exceptions may 
-remain uncaught and lead to system crashes. Moreover, the cross-type exception wrappings 
-(e.g., OutOfMemoryError is wrapped in a checked Exception) 
-may lead to unintended handling problems - e.g, trying to handle an instance of OutOfMemoryError ``hidden" in 
-a checked exception may bring the program to an unpredictable state.
+ The high prevalence of NullPointerExceptions and the undocumented runtime exceptions signaled by the Android Platform
+ is aligned with the findings of other research works ~\cite{kim2013predicting,fraser20131600,csallner2004jcrasher} and 
+~\cite{kechagia2014} respectively - which detected such bug hazards while testing or mining crash reports of Java and Android projects. 
+On the one hand, the findings our study emphasize the impact of these bug harzards on the application robustness 
+by mining a different source of information: the issues created by developers on GitHub and Google Code. On the other hand, 
+our work points to bug hazards that were not detected by previous works (i.e., cross-type wrappings, undocumented checked exceptions and 
+undocumented runtime exceptions thrown by third-party libraries) which can also negatively affect the application robustness.
 
-Hence, the study results are relevant to Android and 
-Java developers who may underestimate how 
- exceptions are related to programming mistakes, and how 
- tricky it can be to prevent the uncaught exceptions from third-party code
- in the absence of ``exception interfaces". Moreover, the results are relevant to 
-designers of languages and tools to consider ways of dealing with such bug hazards 
-in Android and Java environments.
+Such outcomes point to threats not only to the development of robust Android apps, 
+but also to the development of any robust Java-based system. 
+Hence, the study results are relevant to Android and Java developers who may underestimate the effect of such
+ bug hazards the application robustness, and how tricky it can be to prevent them. Moreover, such bug hazards 
+calls for improvements on languages and tools to deal with such bug hazards in Android and Java environments.
 
 The remaining of this paper is organized as follows. 
 Section~\ref{sec:back} presents a
@@ -290,18 +285,19 @@ Android is an open source platform for mobile devices based on Linux kernel,
 which also comprises a subset of the core Java library, a set of third-party libraries (e.g.  SQLite),
 the Dalvik runtime environment, and the Application Framework (which provides 
 higher-level services to the applications running on the platform) ~\cite{andguide}.
-
-The Android Application Framework supports an event-driven development model. 
-Among the basic elements that comprise an Android application, we can cite the
- Activity class. The Activity is the main class of an Android app (there is usually one
-Activity per application window). Each Activity defines a set of hook methods  
-(e.g., OnCreate(), onPause()) that are dispatched automatically by the Android 
-framework (by inversion of control), in response to infrastructure and application events.
 The Android Application Framework also provides several supporting APIs, such as 
 the APIs to support concurrent development (e.g. AsyncTask) - 
 which are usually needed due to the high demand for responsiveness 
 in mobile environment (mobile apps can easily become 
 unresponsive due to resource limitation and excessive network access).
+
+% The Android Application Framework supports an event-driven development model. 
+% event driven and inversion of control.
+Among the basic elements that comprise an Android application, the Activity 
+is the main class of an app (there is usually one
+Activity per application window). Each Activity defines a set of hook methods  
+(e.g., OnCreate(), onPause()) that are dispatched automatically by the Android 
+framework, in response to infrastructure and application events.
 
 
 %\begin{figure} \centering \includegraphics[scale=0.8]{arch3.png}
