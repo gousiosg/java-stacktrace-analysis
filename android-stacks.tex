@@ -207,10 +207,11 @@ This study performs a post mortem analysis of the exception stack traces
 included in issues
 reported on Android projects hosted in GitHub and Google Code. 
 The goal of this study is to investigate whether the reported exception stack traces
- can reveal common fragilities in the exception-related code.  
-We call ``fragilities'' characteristics of the exception-related code 
-that increase the likelihood of introducing failures such as uncaught 
-exceptions -  leading to a decrease in application robustness.
+ can reveal common bug hazards in the exception-related code.  
+A bug hazard  ~\cite{binder2000testing}  is a circumstance that increases the 
+chance of a bug to be present in the software. An example of a bug hazard can 
+be a characteristic of  the exception-related code which can increase the likelihood 
+of introducing uncaught exceptions (one of the main causes of application crashes).
 
 To guide this investigation we compiled general guidelines on how to use
 exceptions proposed by Gosling~\cite{gosling2000java},
@@ -266,7 +267,7 @@ Java developers who may underestimate how
  exceptions are related to programming mistakes, and how 
  tricky it can be to prevent the uncaught exceptions from third-party code
  in the absence of ``exception interfaces". Moreover, the results are relevant to 
-designers of languages and tools to consider ways of reducing such fragilities 
+designers of languages and tools to consider ways of dealing with such bug hazards 
 in Android and Java environments.
 
 The remaining of this paper is organized as follows. 
@@ -443,23 +444,23 @@ systems crashes. These best practices guided our exploratory study described nex
 
 The goal of this exploratory mining study was to investigate whether the exception stack traces 
 embedded on issues of Android projects (hosted in GitHub and Google Code), can reveal 
-\emph{common fragilities} on the exception code of both the applications and the underlying  framework. 
+\emph{bug hazards} on the exception-related code of both the applications and the underlying framework. 
+This exploration is guided by the set of best practices compiled in this study; we investigate whether characteristics 
+of exception stack traces and the related source code it can pinpoint best practices violations and therefore to bug hazards.
+As mentioned before, in this context ``bug hazards" are the characteristics on the exception-related code 
+that favor the introduction of failures such as uncaught exceptions. 
+
+To support this investigation, we developed a tool called ExceptionMiner (Section~\ref{sec:exceptionminer})
+which extracts the exception stack traces embedded on issues, 
+and combines stack trace information with source code and bytecode 
+analysis. Moreover, manual inspections were also used to leverage
+ the understanding of stack traces and support further discussions and insights.
+
 Our study focused on open-source apps, since the information needed to perform our study
 cannot be retrieved from commercial apps, whose issue report systems and 
 source codes are not publicly available. The Android open-source apps were also 
 target of other research studies ~\cite{Linar13,ahimed}.   
 
-This exploration is guided by the set of best practices compiled in this study; we investigate whether characteristics 
-of exception stack traces and the related source code it can pinpoint best practices violations. As mentioned before, 
-we call  ``fragilities" characteristics on the exception-related code that favor the introduction
-of failures such as uncaught exceptions and unintended handling. 
-
-To support this investigation, we developed a tool called ExceptionMiner (Section~\ref{sec:exceptionminer})
-which extracts the exception stack traces embedded on issues, 
-and combines stack trace information with source code and bytecode 
-analysis. Such combination was needed to enable the identification of 
-fragilities on the exception-related code. Moreover, manual inspections were also used to leverage
- the understanding of stack traces and support further discussions and insights.
 In this study we explore the domain quantitatively and highlight interesting cases by 
 exploring cases qualitatively.  Figure~ref{fig:overview} gives an overview of the study, whose tasks are detailed next.
 
@@ -530,7 +531,7 @@ on the issues including exception stack traces.
 
 Based on the assumption that regardless the issue type, every exception stack
 trace contains relevant information concerning the exception structure of the
-projects analyzed - and therefore can review fragilities on the exception-related code -  
+projects analyzed - and therefore can review bug hazards on the exception-related code -  
 we opted for not restricting the analysis only on defect
 issues\footnote{We conducted the same analysis on the defect issues and the top
 exceptions are similar to the ones mentioned on defect issues. Due to space
@@ -709,7 +710,7 @@ in this work to support stack trace extraction and distilling.
 
 This section presents the results of the study, providing both a
 quantitative and qualitative analysis of the outcomes. The structure of this section
- is centered on questions that guided the search for fragilities on the exception-related code
+ is centered on questions that guided the search for bug hazards on the exception-related code
 based on exception stack trace information.
 
 \subsection{What can the Common Root Exceptions tell us? }
@@ -1009,7 +1010,7 @@ android.providers	& 	1	& 	2	\\
 
 
 \emph{\textbf{On the Presence of Checked Exceptions on Exception Interfaces.}} 
-In this study, the exception stack trace analysis revealed an unexpected fragility: a 
+In this study, the exception stack trace analysis revealed an unexpected bug hazard: a 
 checked exception thrown by a native method and not declared on the exception 
 interface of these methods signaling them. Such native method was defined on
  the Android platform -  which uses Java Native Invocation (JNI) to access 
@@ -1284,7 +1285,7 @@ and cross-type wrappings").
 comprehensive and extensive is not an exact replica of Github. 
 However, the result of this study does not depent on the analysis of
 a complete Github dataset. Instead, the goal of our study was to 
-pinpoint fragilities on the exception-related code based on 
+pinpoint bug hazards on the exception-related code based on 
 exception stack trace mining of a subset of projects.
 We limited our analysis to a subset of existing open-source Android projects.
 We are aware that the exception stack traces reported 
@@ -1294,7 +1295,7 @@ Such threats are similar to the ones imposed to other empirical studies
 which also used free or open-source Android apps ~\cite{Linar13,McDon13,ahimed}.
 Moreover, several exception stack traces that support the findings of this study
 refered to exceptions coming from methods defined on Android Application Framework
-and third-party libraries.  Additionaly,  the ``fragilities" observed in this study are due to
+and third-party libraries.  Additionaly,  the ``bug hazards" observed in this study are due to
 characteristics of Java exception model, which can impose challenges 
 the robustness of not only to Android apps but also to other systems
  based on the same exception model. 
@@ -1368,7 +1369,7 @@ aiming at amplifying existing tests to validate exception
 handling code associated with external resources. This work inspired ours,
  which automaticaly mined the exception stack traces embedded on issues 
 reported on 639 open source Android projects. The goal of our study was
-to identify common fragilities on the exception related code that can lead to 
+to identify common bug hazards on the exception related code that can lead to 
 failures such as uncaught exceptions. 
 
 \textit{Extracting Stack Traces from natural language artifacts.} 
@@ -1419,23 +1420,23 @@ traces embedded in all issues defined in 482 Android projects hosted in Github a
 157 projects hosted in Google Code. Overall it included 6,005 exception stack traces.
 In this study, the information extracted from stack traces was used in combination 
 with source code and bytecode analysis to identify common characteristics of exception 
-stack traces to pinpoint fragilities on the exception-related code. 
-We call ``fragilities" characteristics on the exception-related code that favor the introduction
+stack traces to pinpoint bug hazards on the exception-related code. 
+In this study, bug hazards are characteristics on the exception-related code that favor the introduction
 of  uncaught exceptions and unintended handling - which can contribute to 
 degrade the robustness of applications.
-Some fragilities consistently detected in this study were: 
-(i) Approximately 52\% of the reported stack traces can be attributed to programming mistakes. 
-In particular, 27.71\% of all stack traces reported a java.lang.NullPointerException as its root cause;
-(ii) 267 stack traces were caused by undocumented runtime exceptions thrown by third party code caused;
-(iii) undocumented checked exceptions thrown by JNI interface,
-(iv) unexpected exception wrappings (e.g., Errors being wrapped in checked exceptions) 
-revealing that Java hybrid exception model is not fully used according to its purpose.
-Such fragilities can negatively affect not only the robustness of Android application 
+Some bug hazards consistently detected in this study were: 
+(i) unexpected exception wrappings (e.g., Errors being wrapped in checked exceptions)  - 
+revealing that Java hybrid exception model is not fully used according to its purpose;
+(ii) 267 stack traces were caused by undocumented runtime exceptions thrown by third party libraries or the Android Platform;
+and (iii) undocumented checked exceptions thrown by the Android Platform. 
+Moreover, we could also observe that approximately 52\% of the reported stack traces 
+can be attributed to programming mistakes; in particular, 27.71\% of all stack traces 
+reported a java.lang.NullPointerException as its root cause;
+The bug hazards discussed in this work can negatively affect not only the robustness of Android application 
 but also the robustness of any Java-based application. 
 Our results calls the attention for the need of tools and language support to help 
-developers when dealing with such fragilities.
+developers when dealing with them.
 
- 
 
 %Nowadays many software vendors embed automatic crash reporting tools in their
 %software systems. Hence, whenever a software crashes this tool sends a detailed
