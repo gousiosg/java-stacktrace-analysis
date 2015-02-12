@@ -96,12 +96,12 @@ Email: \texttt{arie.vandeursen@tudelft.nl}}
 
 This paper reports a study which mined the Java stack traces included in
 159,048 issues reported on Android projects hosted in GitHub (482 projects) 
-and Google Code (157 projsects). The goal of this study is to investigate whether the analysis of stack traces information 
-could reveal bug hazards related to the exception handling code that may lead to a 
-decrease in application robustness. A bug hazard is a circumstance that increases the 
-chance of a bug to be present in the software. Overall 6,005 exception stack traces were extracted, and analyzed in 
+and Google Code (157 projsects). The goal of this study is to investigate 
+whether the analysis of stack trace information could reveal bug hazards related to the exception handling code,
+ that may lead to a decrease in application robustness. 
+ Overall 6,005 exception stack traces were extracted, and analyzed in 
 combination with source code and bytecode analysis. 
-Some of the outcomes of this study includes the identification of the following 
+Some of the outcomes of this study include the identification of the following 
 bug hazards: (i) unexpected exception wrappings (such as Errors being wrapped in checked exceptions) -
 indicating that Java's hybrid exception model become fault-prone when it is not fully used in 
 accordance with its purpose; (ii) undocumented runtime exceptions thrown by both the Android 
@@ -109,6 +109,7 @@ platform and third party libraries; and (iii) undocumented checked exceptions th
 This study provides insights on such bug hazards and the robustness threats  
 they impose not only to Android apps but also to other systems based on Java exception model.
 
+%A bug hazard is a circumstance that increases the chance of a bug to be present in the software.
 \end{abstract}
 
 %GitHub 31,592
