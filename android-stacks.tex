@@ -305,7 +305,7 @@ framework, in response to infrastructure and application events.
 
 \subsection{Exception Model in Java} \label{sec:extypes}
 
-In Java, exceptions are represented according to a class hierarchy, on which
+\emph{\textbf{Exception Types.}} In Java, exceptions are represented according to a class hierarchy, on which
  every exception is an instance of the Throwable class, and can be of three kinds: the checked exceptions
 (extends Exception), the runtime exceptions (extends RuntimeException) and errors
 (extends Error)~\cite{gosling2000java}. The checked exception received such name
@@ -316,28 +316,29 @@ Both runtime exceptions and errors are also known as unchecked exceptions, becau
 they do not need to be specified on method exception interface and do not trigger any 
 compile time checking.
 
-By convention an Error represents an unrecoverable condition which usually results
-from failures detected by the Java Virtual Machine, such as OutOfMemoryError and
-normally should not be handled inside the application. The user-defined exceptions 
-can be either checked or runtime. The Java specification~\cite{gosling2000java} 
-suggests that user-defined exceptions should be checked, because doing so 
-the callers of a method will know about the exceptions that a method can throw, and then 
-they can decide what to do about them. However, runtime exceptions can also be 
-used to represent user-defined exceptional conditions.There is a long-lasting debate 
-about the pros and cons of both approaches~\cite{javatut,stackoverlow,debate}
-%\footnote{152 questions in Stackoverlow are related to this debate}.
+By convention, instances of Error represent  unrecoverable conditions which usually results
+from failures detected by the Java Virtual Machine due to resource limitations such as OutOfMemoryError;
+normally they cannot be handled inside the application.  
 
-The runtime exceptions are also implicitly thrown by the runtime environment when a program violates 
+Instances of RuntimException are implicitly thrown by Java runtime environment when a program violates 
 the semantic constraints of the Java programming language (e.g., out-of-bounds array index, divide-by-zero 
-error, null pointer references).\footnote{Some programming languages react to such errors by peremptorily terminating the program; 
+error, null pointer references). Some programming languages react to such errors by peremptorily terminating the program; 
 other programming languages allow similar approaches e.g.C\#; and others let the program to continue
- its execution in some situations such as the out-of-bounds array index e.g., C++. }  
-The programs are not expected to handle such runtime exceptions signaled by the runtime environment ~\cite{gosling2000java}. 
+ its execution in some situations such as the out-of-bounds array index e.g., C++. 
+The programs are not expected to handle such runtime exceptions signaled by the runtime environment according 
+to the Java Specification ~\cite{gosling2000java}. 
+
+The user-defined exceptions can be either checked or runtime. There is a long-lasting debate 
+about the pros and cons of both approaches~\cite{javatut,stackoverlow,debate}
+%\footnote{152 questions in Stackoverflow are related to this debate}. 
+Section ~\ref{sec:best} presents
+a set of best practices related to each exception type.
 
 %\begin{figure} \centering \includegraphics[width=\hsize]{new2_hierarchy.png}
 % \caption{Exception Hierarchy in Java} \label{fig:exchier} \end{figure}
 
-In Java, once an exception is thrown, the runtime environment looks for the nearest enclosing exception handler
+\emph{\textbf{Exception Propagation.}} In Java, once an exception is thrown, 
+the runtime environment looks for the nearest enclosing exception handler
 (in Java it is represented by the try-catch block), and unwinds the execution stack if necessary.
  Looking for the handler on the invocation stack is claimed to increase software reusability, 
 since the invoker of an operation can handle it in a wider context ~\cite{miller1997issues}.
@@ -399,17 +400,19 @@ pure java.lang.Exception or a java.lang.RuntimeException is considered a bad pra
 %\noindent\emph{Exception Documentation}
 %\textbf{IV- It is wise to document all exceptions thrown by a method} 
 
-\emph{IV- All exceptions explicitly thrown by a library/framework reusable code should be documented.}
+\emph{IV- All exceptions explicitly thrown by reusable code should be documented.}
 (\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective}).
 The exceptions thrown by a method are an important part of methods interface,
 and is required to use the method properly. The checked exceptions are already
 part of the  methods signature, and the method caller is aware of the checked
 exceptions being thrown by it. According to~\cite{bloch2008effective}, it is
-also wise to document  (either or on the exception interface or using @throws tag on Javadoc) 
-the explicitly thrown runtime exceptions\footnote{This
-excludes the implicitly signaled runtime exceptions related to programming
-mistakes} as carefully as checked exceptions, e when developing
- library/framework reusable code. Doing so, the clients of such library/framework
+also wise to document (either or on the exception interface or using @throws tag on Javadoc) 
+the explicitly thrown runtime exceptions as carefully as checked exceptions. 
+When mentioning reffering to `` explicit" thrown exceptions
+we  exclude the implicitly signaled runtime exceptions related to programming
+mistakes. Such practice is mostly needed when developing library/framework 
+code reusable code - as the developers do not have access to the source code. 
+Doing so, the clients of such library/framework
 will be aware of all the exceptions a method can throw and can design the code
 to deal with them ~\cite{Robil00}. 
 
@@ -458,7 +461,7 @@ source codes are not publicly available. The Android open-source apps were also
 target of other research studies ~\cite{Linar13,ahimed}.   
 
 In this study we explore the domain quantitatively and highlight interesting cases by 
-exploring cases qualitatively.  Figure~ref{fig:overview} gives an overview of the study, whose tasks are detailed next.
+exploring cases qualitatively.  Figure~\ref{fig:overview} gives an overview of the study, whose tasks are detailed next.
 
 
 \subsection{Data Extraction Process}
