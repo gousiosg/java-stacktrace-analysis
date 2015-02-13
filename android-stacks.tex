@@ -231,7 +231,7 @@ during this mining study include:
    \item  Cross-type exception wrappings, such as an OutOfMemoryError wrapped in a checked exception.
 Trying to handle an instance of OutOfMemoryError ``hidden" in  a checked exception may bring the program
  to an unpredictable state. Such wrappings suggest that, when not adequately used, the Java's hybrid exception
- model may become fault-prone.
+ model may negatively impact the application robustness.
 
   \item  Undocumented runtime exceptions raised by the Android platform (35 methods) and  third-party libraries (44 methods) -
  which correspond to 4.4\% of the reported exception stack traces.
