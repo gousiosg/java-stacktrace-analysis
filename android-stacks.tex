@@ -888,7 +888,7 @@ identified based on the package names of the signalers related to it on the stac
 Table~\ref{tab:typeroottab} presents the types and origins of root exceptions of all analyzed stack traces. 
 
 We can observe that most of the reported exceptions were runtime 
-(64.85\%); and most of them were signaled on methods defined either on the Application (47.3\%)
+(64.85\%); and most of them were signaled by methods defined either on the Application (47.3\%)
 or on the Android platform (34.3\%). We could also find runtime exceptions thrown by library code (17.7\%).
  
 We can also see, from Table ~\ref{tab:typeroottab}, that contrasting with the other origins, most of the 
@@ -927,13 +927,15 @@ All		& 1  803	&	433	&	2478	&	1462	&	6005 	\\
 
 
 
-\emph{\textbf{Inspecting Exception Interfaces.}}  According to the best practices mentioned before, runtime exceptions 
+\emph{\textbf{Inspecting Exception Interfaces.}}  According to the best practices mentioned before, 
+ \emph{explicitly thrown} runtime exceptions 
 should be documented as part of the \emph{exception interface} of libraries/framework reusable
 methods. To investigate the obedience to such practice, we firstly filtered out all the exceptions implicitly
  signaled by  runtime environment (due to programming mistakes) - since these exceptions 
 should not be documented on the method signature.  Then we inspected the code each method 
 (defined either on Android  Aplication Framework or on third-party libraries) 
-explicitly signaling a runtime exception not-related to programming mistakes.
+explicitly signaling a runtime exception.
+
 Table~\ref{tab:runtimeinterface} presents the results of this inspection. 
 We could find 79 methods (both from libraries and Android platform) that  explicitly threw a runtime exception 
 without listing such exception on the \emph{exception interface} (i.e., using 
@@ -942,25 +944,26 @@ included an @throws tag on Javadoc - reporting that the given runtime exception
 could be thrown in some contidions. These methods were responsible for 
 267 exception stack traces mined in this study.
 
-This result is aligned with the results of other study conducted by  
-Sacramento et al ~\cite{sacramento2006unchecked} - which observed that the
-runtime exceptions in .Net programs are most often not documented; and 
+This result is aligned with the results of other two studies ~\cite{sacramento2006unchecked,kechagia2014}. 
+One conducted by  Sacramento et al ~\cite{sacramento2006unchecked} - which observed that the
+runtime exceptions in .Net programs are most often not documented. And other conducted by 
 Kechagia and Spinellis ~\cite{kechagia2014} which discovered a set of methods 
 on the Android API which do not documented runtime exceptions. One limitation 
-of the work of Kechagia and Spinellis is that it did filter out exceptions that should 
-although unchecked not be documented -  because they are implicitly signaled by the 
+of the work of Kechagia and Spinellis is that it did not filter out exceptions that,  
+although runtime, should not be documented because they were implicitly signaled by the 
 JVM due to resource restrictions or violations on Java semantic constraints.
 
-The ``undocumented runtime exceptions" that are explicitly siglened represent a threat to system robustness, specially
-when such exceptions are thrown by a third party code invoked inside the application 
-(e.g. libraries, or framework utility code). In such cases the developer usually does not have access to 
+When explicitly signaling a runtime exception and not documenting it, 
+the developer imposes a threat to system robustness, specially
+when such exceptions are thrown by a third party code (e.g. libraries, or framework utility code)
+ invoked inside the application. In such cases the developer usually does not have access to 
 the source code. Hence in the absence of the exception documentation it is very difficult or even impossible
  for the client to design the application to deal with ``unforeseen" runtime exceptions. As a consequence, the
  undocumented runtime exception may remain uncaught and lead to system crashes.
 
 \noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
-The study revealed: 267 exception stack traces were caused by ``undocumented runtime exceptions" thrown by libraries or the Android platform; 
-several methods defined on 11 android packages signaling direct instances of RuntimeException.
+The study revealed: 267 exception stack traces were caused by ``undocumented runtime exceptions" 
+thrown by libraries or the Android platform.
 }
 \end{minipage}}
 
@@ -969,28 +972,14 @@ several methods defined on 11 android packages signaling direct instances of Run
 \centering
 
  %\begin{tabular}{|p{7.9cm} p{0.1cm}|}
-\begin{tabular}{lrr}
+\begin{tabular}{lrrrr}
     \hline
- \bfseries{Origin}   & \bfseries{methods} &  \bfseries{stacks}  \\ 
+ \bfseries{Origin}   &  \bfseries{stacks}  & \bfseries{signaler methods} &  \bfseries{throws clause}  &  \bfseries{\@throws}  \\ 
 \hline					
-Libraries	& 	44	& 	205	\\
-Android  	&	35	&	62	\\					
-%\emph{android packages}   &  &   \\ 
-%android.app	& 	5	& 	16	\\
-%android.content	& 	2	& 	2	\\
-%android.database	& 	1	& 	1	\\
-%android.graphics	& 	5	& 	11	\\
-%android.hardware	& 	4	& 	5	\\
-%android.media	& 	3	& 	3	\\
-%android.opengl	& 	1	& 	8	\\
-%android.os	& 	11	& 	12	\\
-%android.text	& 	1	& 	1	\\
-%android.video	& 	1	& 	1	\\
-%android.providers	& 	1	& 	2	\\
-%\hline					
-%\bfseries{All android} 	&	35	&	62	\\
+Libraries	& 	205	 & 	44	& 0	& 1	\\
+Android  	&	62 &	35	&0 &  0	\\					
 \hline					
-\bfseries{All}	&	79	&	267	\\
+\bfseries{All}	&	267 &	79 &  0  & 1\\
 \hline					
   \end{tabular}
 \caption{Absence of exception interfaces on methods.}
