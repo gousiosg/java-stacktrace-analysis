@@ -282,7 +282,7 @@ directions for future work.
 \section{Background}
 \label{sec:back}
 
-\subsection{The Android Platform} \label{sec:extypes}
+\subsection{The Android Platform}
 Android is an open source platform for mobile devices based on the Linux kernel.
 Android also comprises (i) a set of native libraries written in C/C++ 
 (e.g., WebKit, OpenGL, FreeType, SQLite, Media, C runtime library) to
@@ -415,8 +415,10 @@ enabling them to design the code to deal with them and use the API effectively~\
 \label{sec:study}
 
 
-\begin{figure*} \centering \includegraphics[scale=0.3]{studyoverview3.png}
-\caption{Study overview.} \label{fig:overview} \end{figure*}
+\begin{figure*} 
+\centering \includegraphics[width=\hsize]{studyoverview3.png}
+\caption{Study overview.}\label{fig:overview} 
+\end{figure*}
 
 %This section describes the exploratory study whose goal was to investigate:
 %\begin{description}
@@ -430,34 +432,36 @@ enabling them to design the code to deal with them and use the API effectively~\
 % We investigate whether characteristics 
 %of exception stack traces can pinpoint best practices violations and therefore reveal \emph{bug hazards}.
 
-The goal of this exploratory mining study was to investigate whether the exception stack traces 
-embedded on issues of Android projects (hosted in GitHub and Google Code), can reveal 
-\emph{bug hazards} on the exception-related code of both the applications and the underlying framework. 
-As mentioned before, in this context \emph{bug hazards} are the characteristics on the exception-related code 
+The goal of our mining study is to explore to what extent exception stack traces 
+contained in issues of Android projects (hosted in GitHub and Google Code), can reveal 
+\emph{bug hazards} in the exception-related code of both the applications and the underlying framework. 
+As mentioned before, in this context \emph{bug hazards} are the characteristics of exception-related code 
 that favor the introduction of failures such as uncaught exceptions. 
 
-This exploration is guided by the set of best practices compiled in this study.
-To support this investigation, we developed a tool called ExceptionMiner (Section~\ref{sec:exceptionminer})
+This exploration is guided by the set of best practices covered in Section~\ref{sec:best}.
+To support our investigation, we developed a tool called ExceptionMiner (Section~\ref{sec:exceptionminer})
 which extracts the exception stack traces embedded on issues, 
 and combines stack trace information with source code and bytecode 
-analysis. Moreover, manual inspections were also used to leverage
+analysis. Moreover, we use manual inspection to augment
  the understanding of stack traces and support further discussions and insights (Section~\ref{sec:manual}).
-
-Figure~\ref{fig:overview} gives an overview of the study.
-Firstly  the issues reported on Android projects hosted on GitHub and Google Code were recovered (Figure~\ref{fig:overview} - (1) and (2)).
-Then the stack traces embedded each issue were extracted and distilled (Figure~\ref{fig:overview} - (3)).
-The stack trace information were then combined with source code and bytecode analysis in order to discover 
-the type of the exceptions reported on the stack traces (e.g., error, runtime, checked)  (Figure~\ref{fig:overview} - (5))  and the origin of such exceptions 
-(e.g., the application, a library, the Android platform)  (Figure~\ref{fig:overview} - (6)). 
-Manual inspection steps were used to support the mining process (Figure~\ref{fig:overview} - (4), (7) and (9)) and 
-the search for \emph{bug hazards}  (Figure~\ref{fig:overview} - (8)). Next sections detail each step of this mining process.
-
-Our study focused on open-source apps, since the information needed to perform our study
-cannot be retrieved from commercial apps, whose issue report systems and 
-source codes are not publicly available. The Android open-source apps were also 
-target of other research studies ~\cite{Linar13,ahimed}.   
 In this study we explore the domain quantitatively and highlight interesting cases by 
 exploring cases qualitatively. 
+
+Figure~\ref{fig:overview} gives an overview of our study.
+First,  the issues reported on Android projects hosted on GitHub (1) and Google Code (2) are recovered.
+Then the stack traces embedded each issue are extracted and distilled (3).
+The stack trace information is then combined with source code and bytecode analysis in order to discover 
+the type of the exceptions (5) reported on the stack traces (e.g., error, runtime, checked),
+and the origin (6) of such exceptions 
+(e.g., the application, a library, the Android platform). 
+Manual inspection steps (4, 7, 9) are used to support the mining process  and 
+the search for \emph{bug hazards}  (8). The next sections detail each step of this mining process.
+
+Our study focuses on open-source apps, since the information needed to perform our study
+cannot be retrieved from commercial apps, whose issue report systems and 
+source codes are generally not publicly available. 
+Open source Android open-source apps have also been the 
+target of other research~\cite{Linar13,Ruiz12} addressing the \emph{reuse} and API stability. 
 
 %\subsection{Data Extraction Process}
 %\label{sec:miningproc}
@@ -1243,7 +1247,7 @@ We are aware that the exception stack traces reported
 for commercial apps can be different from the ones found in this study, and that
 this subset is a small percentage of existing apps.
 Such threats are similar to the ones imposed to other empirical studies 
-which also used free or open-source Android apps ~\cite{Linar13,McDon13,ahimed}.
+which also used free or open-source Android apps ~\cite{Linar13,McDon13,Ruiz12}.
 Moreover, several exception stack traces that support the findings of this study
 refered to exceptions coming from methods defined on Android Application Framework
 and third-party libraries.  Additionaly,  the \emph{bug hazards} observed in this study are due to
