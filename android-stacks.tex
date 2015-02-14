@@ -283,14 +283,13 @@ directions for future work.
 \label{sec:back}
 
 \subsection{The Android Platform} \label{sec:extypes}
-Android is an open source platform for mobile devices based on Linux kernel,
-which also comprises (i) a set of native libraries written in C/C++ 
-(e.g., WebKit, OpenGL, FreeType, SQLite, Media, C runtime library) - which 
+Android is an open source platform for mobile devices based on the Linux kernel.
+Android also comprises (i) a set of native libraries written in C/C++ 
+(e.g., WebKit, OpenGL, FreeType, SQLite, Media, C runtime library) to
 fulfill a wide range of functions including graphics drawing, SSL communication, 
 SQLite database management, audio and video playback etc; (ii) a set of Java Core Libraries 
-- which include a subset of Java standard libraries and mainly “wrappers” to access the set of C/C++ 
-native libraries using the Java Native Interface (JNI); (iii) the Dalvik runtime environment - 
-which was specifically designed to deal with the resource constraints of a mobile device; 
+including a subset of the Java standard libraries and various wrappers to access the set of C/C++ 
+native libraries using the Java Native Interface (JNI); (iii) the Dalvik runtime environment, which was specifically designed to deal with the resource constraints of a mobile device; 
  and (iv) the Application Framework which provides higher-level APIs to the applications
  running on the platform.
 
