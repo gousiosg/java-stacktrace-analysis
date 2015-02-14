@@ -160,7 +160,7 @@ In recent years, we have witnessed an astonishing increase in the number of
 mobile applications. These applications extend phones capabilities 
 far beyond basic calls and textual messages. Such applications, however,
 have to face an increasing number of threats to application robustness
- arising from: failures in underlying middleware and hardware (e.g., camera, sensors);
+ arising from failures in the underlying middleware and hardware (e.g., camera, sensors);
 failures in third party services and libraries; compatibility issues~\cite{McDon13}; 
  memory and battery restrictions; and noisy external resources ~\cite{Zhang12} 
 (e.g., wireless connections,GPS, bluetooth). 
@@ -187,7 +187,7 @@ In Java, when an application fails due to an uncaught exception,
 it automatically terminates, while the system prints a stack trace to the console, 
 or on a log file ~\cite{gosling2000java}.  A typical Java stack trace consists of  the fully qualified name 
 of the thrown exception and the ordered list of methods that were active on the call stack before 
-such exception has occurred ~\cite{gosling2000java,bloch2008effective}.
+the exception occurred ~\cite{gosling2000java,bloch2008effective}.
 
 %% I am not so sure this data was not available. Let's omit this paragraph
 %Until recently, the availability of data reporting such failures was scarce. 
@@ -218,7 +218,7 @@ To guide this investigation we compiled general guidelines on how to use Java
 exceptions proposed by Gosling~\cite{gosling2000java},
 Wirfs-Brock~\cite{wirfs2006toward} and Bloch~\cite{bloch2008effective}.
 Then, using a custom tool called ExceptionMiner,
- which we develop specifically for this study, we mine stack traces from the issues reported 
+ which we developed specifically for this study, we mine stack traces from the issues reported 
 on 482 Android projects hosted in GitHub and 157 projects hosted in Google Code.
 Overall 159,048 issues were analyzed and 6,005 stack traces were extracted from them.
 The exception stack trace analysis was augmented by means of bytecode 
@@ -240,33 +240,36 @@ even infeasible for the developer to protect the code against ``unforeseen'' exc
 Since in such cases the client usually does not have access to the source code, such undocumented 
 exceptions may remain uncaught and lead to system crashes. 
 
-   \item Undocumented checked exceptions signaled by native C code.  Some flows reported a checked 
+   \item Undocumented checked exceptions signaled by native C code.  Some flows contained a checked 
 exception signaled by native C code invoked by the Android Platform, yet this exception was not declared
- of the Java Native Interface invoking it. This can lead to uncaught exceptions that are 
+ in the Java Native Interface invoking it. This can lead to uncaught exceptions that are 
 difficult to debug. 
 
  \item A multitude of programming mistakes - approximately 52\% of the reported stack traces can 
-be attributed to programming mistakes. In particular, 27.71\% of all stack traces reported a java.lang.NullPointerException 
-as its root cause.
+be attributed to programming mistakes. In particular, 27.71\% of all stack traces contained a java.lang.NullPointerException 
+as their root cause.
 
 \end{itemize}
 
- The high prevalence of NullPointerExceptions is aligned with the findings of other research works ~\cite{kim2013predicting,fraser20131600,csallner2004jcrasher} as well as the undocumented runtime 
-exceptions signaled by the Android Platform ~\cite{kechagia2014}. On the one hand, some of the findings of our
- study emphasize the impact of these bug harzards on the application robustness 
+ The high prevalence of NullPointerExceptions is in line with findings of earlier research~\cite{kim2013predicting,fraser20131600,csallner2004jcrasher}, as are the undocumented runtime 
+exceptions signaled by the Android Platform ~\cite{kechagia2014}. 
+Some of the findings of our
+ study emphasize the impact of these bug hazards on the application robustness 
 by mining a different source of information as the ones used in previous works. The present work 
-mined issues created by developers on GitHub and Google Code, while the previous works analyzed crash reports and automated test reports.
- On the other hand, our work points to bug hazards that were not detected by previous works (i.e., cross-type wrappings, undocumented checked exceptions and undocumented runtime exceptions thrown by third-party libraries) which represent new threats to the application robustness.
+mined issues created by developers on GitHub and Google Code, while  previous research analyzed crash reports and automated test reports.
+ Furthermore, our work points to bug hazards that were not detected by previous research (i.e., cross-type wrappings, undocumented checked exceptions and undocumented runtime exceptions thrown by third-party libraries) which represent new threats to application robustness.
 
-Such outcomes point to threats not only to the development of robust Android apps, 
+Our findings point to threats not only to the development of robust Android apps, 
 but also to the development of any robust Java-based system. 
 Hence, the study results are relevant to Android and Java developers who may underestimate the effect of such
- \emph{bug hazards} the application robustness, and how tricky it can be to prevent them. Moreover, such \emph{bug hazards} 
-calls for improvements on languages and tools to better deal with them in Android and Java environments.
+ \emph{bug hazards} on the application robustness,
+and who have to face the difficulty of preventing them.
+Moreover, such \emph{bug hazards} 
+call for improvements on languages and tools to better support exception handling in Android and Java environments.
 
-The remaining of this paper is organized as follows. 
-Section~\ref{sec:back} presents a
-background on Android platform and Java exception model. 
+The remainder of this paper is organized as follows. 
+Section~\ref{sec:back} provides the necessary
+background on the Android platform and Java exception model. 
 Section~\ref{sec:study} presents the study design. 
 Section~\ref{sec:exceptionminer} describes the ExceptionMiner tool we developed to conduct our study.
 Section~\ref{sec:result} reports the findings of our study.
