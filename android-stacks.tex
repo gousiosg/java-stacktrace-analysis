@@ -94,22 +94,20 @@ Email: \texttt{arie.vandeursen@tudelft.nl}}
 %other way around, making the system even less robust, leading to failures such as uncaught exceptions 
 %and unintended handling (i.e., exceptions being mistakenly caught by existing handlers).
 
-This paper reports a study which mined the exception stack traces included in
+This paper reports on a study mining the exception stack traces included in
 159,048 issues reported on Android projects hosted in GitHub (482 projects) 
-and Google Code (157 projsects). The goal of this study is to investigate 
-whether the analysis of stack trace information could reveal \emph{bug hazards} related to the exception handling code,
- that may lead to a decrease in application robustness. 
- Overall 6,005 exception stack traces were extracted, and analyzed in 
-combination with source code and bytecode analysis. 
-Some of the outcomes of this study include the identification of the following 
+and Google Code (157 projects). The goal of this study is to investigate 
+whether stack trace information can reveal \emph{bug hazards} related to exception handling code that may lead to a decrease in application robustness. 
+ Overall 6,005 exception stack traces were extracted, and subjected to source code and bytecode analysis. 
+The outcomes of this study include the identification of the following 
 \emph{bug hazards}: (i) unexpected cross-type exception wrappings (for instance, trying to handle an instance 
-of OutOfMemoryError ``hidden" in  a checked exception)  which can make the exception-related code 
+of OutOfMemoryError ``hidden'' in  a checked exception)  which can make the exception-related code 
 more complex and negatively impact the application robustness; (ii) undocumented runtime exceptions 
 thrown by both the Android platform and third party libraries; and (iii) undocumented checked exceptions
  thrown by the Android Platform. Such undocumented exceptions make difficult, and most of the times infeasible
-for the client code to protect against `unforeseen" situations that may happen while calling a third-party code.
+for the client code to protect against ``unforeseen'' situations that may happen while calling third-party code.
 This study provides further insights on such \emph{bug hazards} and the robustness threats  
-they impose not only to Android apps but also to other systems based on Java exception model.
+they impose to Android apps as well as to other systems based on the Java exception model.
 
 %A bug hazard is a circumstance that increases the chance of a bug to be present in the software.
 \end{abstract}
