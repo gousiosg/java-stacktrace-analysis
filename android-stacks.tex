@@ -310,26 +310,27 @@ native libraries using the Java Native Interface (JNI); (iii) the Dalvik runtime
 \emph{\textbf{Exception Types.}} In Java, exceptions are represented according to a class hierarchy, on which
  every exception is an instance of the Throwable class, and can be of three kinds: the checked exceptions
 (extends Exception), the runtime exceptions (extends RuntimeException) and errors
-(extends Error)~\cite{gosling2000java}. The checked exception received such name
- because they must be declared on the method's \emph{exception interface} (i.e., a list of exceptions that a method 
+(extends Error)~\cite{gosling2000java}. Checked exception received their name
+ because they must be declared on the method's \emph{exception interface} (i.e., the list of exceptions that a method 
 might raise during its execution) and the compiler statically checks if
  appropriate handlers are provided within the system.
-Both runtime exceptions and errors are also known as unchecked exceptions, because 
-they do not need to be specified on method \emph{exception interface} and do not trigger any 
+Both runtime exceptions and errors are also known as ``unchecked exceptions'', as 
+they do not need to be specified on the method \emph{exception interface} and do not trigger any 
 compile time checking.
 
 By convention, instances of Error represent  unrecoverable conditions which usually result
-from failures detected by the Java Virtual Machine due to resource limitations such as OutOfMemoryError;
-normally they cannot be handled inside the application.  Instances of RuntimException are implicitly 
+from failures detected by the Java Virtual Machine due to resource limitations, such as OutOfMemoryError.
+Normally these cannot be handled inside the application.  Instances of RuntimeException are implicitly 
 thrown by Java runtime environment when a program violates 
 the semantic constraints of the Java programming language (e.g., out-of-bounds array index, divide-by-zero 
-error, null pointer references). Some programming languages react to such errors by peremptorily terminating the program; 
-other programming languages allow similar approaches e.g., C\#; and others let the program to continue
- its execution in some situations such as the out-of-bounds array index e.g., C++. 
-According to the Java Specification~\cite{gosling2000java} the programs are not 
+error, null pointer references). Some programming languages react to such errors by immediately terminating the program, while
+other languages, such as C++, let the program  continue
+ its execution in some situations such as the out-of-bounds array index.
+According to the Java Specification~\cite{gosling2000java} programs are not 
 expected to handle such runtime exceptions signaled by the runtime environment. 
-The user-defined exceptions can be either checked
- or runtime. There is a long-lasting debate 
+
+User-defined exceptions can be either checked
+ or unchecked, by extending either Exception or RuntimeException. There is a long-lasting debate 
 about the pros and cons of both approaches~\cite{javatut,stackoverlow,debate}
 %\footnote{152 questions in Stackoverflow are related to this debate}. 
 Section ~\ref{sec:best} presents
@@ -340,19 +341,19 @@ a set of best practices related to each of them.
 
 \emph{\textbf{Exception Propagation.}} In Java, once an exception is thrown, 
 the runtime environment looks for the nearest enclosing exception handler
-(in Java it is represented by the try-catch block), and unwinds the execution stack if necessary.
- Looking for the handler on the invocation stack is claimed to increase software reusability, 
-since the invoker of an operation can handle it in a wider context ~\cite{miller1997issues}.
+(Java's try-catch block), and unwinds the execution stack if necessary.
+This search for the handler on the invocation stack aims at increasing software reusability, 
+since the invoker of an operation can handle the exception in a wider context ~\cite{miller1997issues}.
 
  A common way of  propagating exceptions in Java programs is through exception wrapping
- (also known as exception chaining). Exception wrapping allows one exception 
-to be wrapped in another one and re-thrown. Figure~\ref{fig:wrapping} shows 
-an exception stack trace which illustrates an exception wrapping. 
-For simplicity along the text we will refer to exception stack trace as stack trace.
+ (also known as exception chaining): One exception 
+is caught and wrapped in another which is then thrown instead. Figure~\ref{fig:wrapping} shows 
+an exception stack trace which illustrates such exception wrapping. 
+For simplicity, in this paper we will refer to ``exception stack trace'' as as just stack trace.
 The bottom part of the stack trace is the \emph{root exception}, which indicates
-the first reason (root cause) for the exception be thrown (in this case, the computer run out of
+the first reason (root cause) for the exception thrown (in this case, the computer run out of
 memory). The top part of the stack trace indicates the location of the exception
-manifestation (which will call \emph{exception wrapper} along this paper). The
+manifestation (which we will refer to as the \emph{exception wrapper} in this paper). The
 execution flow  between the root exception and the wrapper may
 include other intermediate exception wrappers. In all levels, the exception
 \emph{signaler}, is the method that threw the exception, represented on the
