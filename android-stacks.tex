@@ -401,29 +401,15 @@ pure java.lang.Exception or a java.lang.RuntimeException is considered bad pract
 
 \emph{IV- All exceptions explicitly thrown by reusable code should be documented.}
 (\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective}).
-The exceptions thrown by a method are an important part of its interface,
-since knowledge of them is required to use a method properly. 
-Checked exceptions are already
-part of the  method signature, making the method caller aware of the checked
-exceptions it may have to handle. 
+For checked exceptions, this is automatically the case.
+Bloch~\cite{bloch2008effective} furthermore recommends to document explicitly thrown
+run time exceptions, either using a throws declaration in the signature, or using
+the @throws tag in the Javadoc.
+Doing so, in particular for public APIs of libraries or frameworks,
+makes clients aware of all exceptions possibly thrown,
+enabling them to design the code to deal with them and use the API effectively~\cite{Robil00,wirfs2006toward}.
 
-According to~\cite{bloch2008effective}, it is
-also wise to document (either on the \emph{exception interface} or using the @throws tag in Javadoc) 
-the \emph{explicitly thrown} runtime exceptions as carefully as checked exceptions. 
-These \emph{explicitly thrown} exceptions exclude the ones implicitly 
-thrown by the runtime environment due to programming
-mistakes. 
 
-This practice is mostly needed when developing  working with library/framework 
-code -- as the developers do not have access to the source code. 
-Doing so, the clients of such a library/framework
-will be aware of all the exceptions a method can throw and can design the code
-to deal with them ~\cite{Robil00}. If the developer fails to follow this practice 
- it will be difficult or even impossible for the caller to 
-make effective use of such a method~\cite{wirfs2006toward, bloch2008effective},
-and protect the system against unforeseen exceptions thrown by the utility code. 
-This can lead to uncaught exceptions - one of the main causes of 
-systems crashes. 
 
 \section{Study Design}
 \label{sec:study}
