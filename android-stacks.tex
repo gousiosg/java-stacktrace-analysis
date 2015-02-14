@@ -369,58 +369,60 @@ stack trace as the first method call below the exception declaration.
 
 Several general guidelines have been proposed on how to use Java
 exceptions~\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,
-bloch2008effective}. Such guidelines do not focus on 
-advocating any specific exception type, but rather propose ways to effectively use each of them.
- We compiled a list of the guidelines related to exception types in Java, 
-summarized below\footnote{We also compiled aditional guidelines related
-to ways of handling exceptions but they are out of the scope of this paper.}:
+bloch2008effective}. Such guidelines do not
+advocate any specific exception type, but rather propose ways to effectively use each of them.
+Based on these, for the purpose of our analysis we compiled the following list of Java exception handling best practices.
 
 %\noindent\emph{Meaning of Exception Types}
 
-%\textbf{I
 \emph{I-Checked exceptions should be used to represent recoverable
 conditions} (\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective}).
 The developer should use checked exceptions for conditions from which the caller
 is expected to recover. By confronting the API user with a checked exception,
 the API designer is forcing the client to handle the exceptional condition. The
 client can explicitly ignore the exception (swallowing, or converting it to
-other type) at the expense of the program's robustness~\cite{gosling2000java}.
+another type) at the expense of the program's robustness~\cite{gosling2000java}.
 
-\emph{II-Error represents an unrecoverable conditions which should not be handled} 
+\emph{II-Error represents an unrecoverable condition which should not be handled} 
 (\cite{gosling2000java}).  Errors should result from failures detected
 by the runtime environment which indicate resource deficiencies, invariant
-failures or other conditions, that make impossible for the program to recover.
+failures or other conditions, from which the program cannot possibly recover.
 
 %\noindent\emph{Exception Throwing}
 
 \emph{III-A method should throw exceptions that precisely define the
 exceptional condition} (\cite{gosling2000java,bloch2008effective}). To do so,
 developers should either try to reuse the exception types already defined in the
-Java API or they should create a specific exception. Throwing general types such as a
-pure java.lang.Exception or a java.lang.RuntimeException is considered a bad practice.
+Java API or they should create a specific exception. Thus, throwing general types such as a
+pure java.lang.Exception or a java.lang.RuntimeException is considered bad practice.
 
 %\noindent\emph{Exception Documentation}
 %\textbf{IV- It is wise to document all exceptions thrown by a method} 
 
 \emph{IV- All exceptions explicitly thrown by reusable code should be documented.}
 (\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective}).
-The exceptions thrown by a method are an important part of methods interface,
-and is required to use the method properly. The checked exceptions are already
-part of the  methods signature, and the method caller is aware of the checked
-exceptions being thrown by it. According to~\cite{bloch2008effective}, it is
-also wise to document (either on the \emph{exception interface} or using @throws tag on Javadoc) 
+The exceptions thrown by a method are an important part of its interface,
+since knowledge of them is required to use a method properly. 
+Checked exceptions are already
+part of the  method signature, making the method caller aware of the checked
+exceptions it may have to handle. 
+
+According to~\cite{bloch2008effective}, it is
+also wise to document (either on the \emph{exception interface} or using the @throws tag in Javadoc) 
 the \emph{explicitly thrown} runtime exceptions as carefully as checked exceptions. 
-The \emph{explicitly thrown} exceptions exclude the ones implicitly 
+These \emph{explicitly thrown} exceptions exclude the ones implicitly 
 thrown by the runtime environment due to programming
-mistakes. Such practice is mostly needed when developing library/framework 
-code reusable code - as the developers do not have access to the source code. 
-Doing so, the clients of such library/framework
+mistakes. 
+
+This practice is mostly needed when developing  working with library/framework 
+code -- as the developers do not have access to the source code. 
+Doing so, the clients of such a library/framework
 will be aware of all the exceptions a method can throw and can design the code
 to deal with them ~\cite{Robil00}. If the developer fails to follow this practice 
  it will be difficult or even impossible for the caller to 
-make effective use of such method~\cite{wirfs2006toward, bloch2008effective},
+make effective use of such a method~\cite{wirfs2006toward, bloch2008effective},
 and protect the system against unforeseen exceptions thrown by the utility code. 
-Such exceptions can lead to the uncaught exceptions - one of the main causes of 
+This can lead to uncaught exceptions - one of the main causes of 
 systems crashes. 
 
 \section{Study Design}
