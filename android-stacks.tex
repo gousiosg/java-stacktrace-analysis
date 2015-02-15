@@ -416,7 +416,7 @@ enabling them to design the code to deal with them and use the API effectively~\
 
 
 \begin{figure*} 
-\centering \includegraphics[width=\hsize]{studyoverview3.png}
+\centering \includegraphics[width=.9\hsize]{studyoverview3.png}
 \caption{Study overview.}\label{fig:overview} 
 \end{figure*}
 
@@ -661,25 +661,26 @@ Table~\ref{tab:signalers} summarizes this signaler classification.
 
 \subsection{Manual Inspections}
 \label{sec:manual}
-In the context of the ExceptionMiner tool, manual inspections were used to:
-(i) support on the identification of packages composing the Android platform, 
+In our experiments, the output of the ExceptionMiner tool was manually extended
+in order to 
+(i) support the identification of packages composing the Android platform, 
 libs and apps analyzed in this study (as described previously); and (ii)  
-identify the type of some exceptions reported on issues, 
+identify the type of some exceptions reported in issues 
 that were not be automatically identified by the ExceptionMiner tool
 (because they were defined on previous versions of libraries,
 apps and Android Plaform). When the exception could not be  
-found neither automatically, nor manually (because they were defined on a previous version
-of the app or lib) the exception were classified 
-in our study as ``Undefined".  Only 31 exceptions 
-remained undefined - such exceptions were reported on 61 exception stack traces as 
-presented in Table ~\ref{tab:typeroottab}.
+found automatically or manually (because they were defined on a previous version
+of the app or lib), we classified the exception as ``Undefined''.  Only 31 exceptions 
+remained undefined, which occurred in 60 different exception stack traces (see Table~\ref{tab:typeroottab}).
 
 \subsection{Replication Package}
-All the data used in this study is publicly available at https://github.com/souzacoelho/exceptionminer.
+All the data used in this study is publicly available at \url{https://github.com/souzacoelho/exceptionminer}.
 Specifically we provide: (i) all issues related to Android projects found
-in GITHub and Google Code used in this study; (iii) all stack traces extracted
-from issues (ii) the results of manual inspection steps; (iv) the tool developed 
-in this work to support stack trace extraction and distilling.
+in GiTHub and Google Code used in this study; (ii) all stack traces extracted
+from issues; (iii) the results of manual inspection steps; (iv) the
+ExceptionMiner tool we developed to support stack trace extraction and distilling.
+
+
 
 \section{The Study Results}
 \label{sec:result}
