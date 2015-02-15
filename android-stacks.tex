@@ -8,6 +8,14 @@
 \usepackage{url}
 \usepackage{balance}
 
+
+\newcommand{\finding}[1]{
+\noindent\fbox{%
+\begin{minipage}{.97\columnwidth}%
+\emph{#1}%
+\end{minipage}}
+}
+
 \begin{document}
 %\title{ What GitHub and Google Code can tell us about the Causes of Crashes of Android Apps? }
 %\title{ A Mining Study the Google Code can tell us about the Causes of Crashes of Android Apps? }
@@ -822,21 +830,28 @@ environment due to programming mistakes or resource limitations
 %\end{minipage}}
 
 \emph{\textbf{Identifying the Concerns Related to Root Exceptions.}} To get a broader view of the root exceptions of stack traces,
-we performed an empirical evaluation whose goal was to identify the concerns related to the most reported root exceptions.
-Besides the exceptions related to programming mistakes mentined before, we also looked for exceptions related to some concerns that are known as sources of faults in mobile development: concurrency ~\cite{ama2012} backward compatibility ~\cite{McDon13}, security ~\cite{enck2011study,was2010} and resource management (IO, Memory, Batery) ~\cite{Zhang12}.
+we performed a manual inspection in order to identify the underlying
+concerns related to the most frequently reported root exceptions.
+Besides the exceptions related to programming mistakes mentioned before, we also looked for exceptions related to some concerns that are known as sources of faults in mobile development: concurrency ~\cite{ama2012} backward compatibility ~\cite{McDon13}, security ~\cite{enck2011study,was2010} and resource management (IO, Memory, Batery) ~\cite{Zhang12}.
 
 Since it is infeasible to inspect the code responsible for throwning every exception reported in this study,
-the concern identification of each exception was based on meaning of the exception type - defined on 
-its Javadoc documentaion and on the Java specification. To exemplify: (i) an instance of ArrayOutOfBoundException  
+the concern identification of each exception was based on intended
+meaning of the particular exception type, as defined in 
+its Javadoc documentaion and in the Java specification. 
+For example: (i) an instance of ArrayOutOfBoundException  
 refers to a programming mistake according to its Javadoc; and (ii) the Java specification lists all 
-exceptions related to backward compatibility issues~\cite{javaback} (e.g., InstantiationError, VerifyError, IllegalAccessError).
+exceptions related to backward compatibility~\cite{javaback}, such as
+InstantiationError, VerifyError, and IllegalAccessError.
 
-To perform such mapping, we selected a subset of all reported root exceptions. This subset was composed by 100 root exceptions
-which were reported on 95\% of all stack traces analyzed in this study. Hence, based on the inspection of the 
-Javadoc related to each exception and Java specification, we identified the concern releated to each root exception. 
-Table~\ref{tab:tophundrend} illustrates the result of this empirical evaluation. This table also illustrates the exceptions 
+To perform this concern analysis, we selected a subset of all reported
+root exception, consisting of 100 exceptions
+reported on 95\% of all stack traces analyzed in this study. Hence, based on the inspection of the 
+Javadoc related to each exception and the Java specification, we
+identified the underlying concern releated to each root exception. 
+Table~\ref{tab:tophundrend} contains the results of this analysis. This table also illustrates the exceptions 
 that could not be directly mapped to one of the aforementioned concerns, either because they were too general (i.e., java.lang.Exception,
-java.lang.RuntimeException, java.lang.Error) or because they were related to other concerns (e.g., specific to an application or given library).
+java.lang.RuntimeException, java.lang.Error) or because they were
+related to other concerns (e.g., specific to an application or a given library).
 
 \begin{table}
 \centering
@@ -859,9 +874,7 @@ General (Error, Exception, Runtime) & 6,7\%\\
 
 To ensure the quality of the process, three independent coders classified a randomly selected
 sample of 25 exception types (from the total 100) using the same list of concerns;
-the interater agreement was high (96\%).
-We can therefore assume that the categories are descriptive
-enough for covering the range of exception types analyzed.
+the inter-rater agreement was 96\%.
 
 %These study showed that the programming mistakes associated to the most reported root causes.
 %However, they may be interactly related to one of the other concerns. For instance, a concurrency problem may
@@ -872,12 +885,12 @@ enough for covering the range of exception types analyzed.
 %issues ~\cite{javaback} (e.g., InstantiationError, VerifyError, IllegalAccessError). 
 %were also investigated in this study
 
-\noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
-A multitude of programming mistakes were reported as the main causes of exception stack traces.
-52\% of all projects reported at least one exception stack trace on which the NullPoiterException
-was the root cause.
+\finding{%
+More than 50\% of the uncaught exceptions are due to errors in
+programming logic, with the NullPointerException as most prevalent
+exception.
+For another 25\% the root cause relates to resource constraints.
 }
-\end{minipage}}
 
 \subsection{Exception Types}
 %\subsection{Exploring the Information Embedded on Exception Types}
