@@ -503,32 +503,33 @@ Others &	4.74\% &  Others &	1.68\% \\
 %As mentioned before, this study mined information available on GitHub issues,
 %more specifically, extracting and distilling the stack traces embedded on GItHub issues. 
 
-This study used the dataset provided by the GHTorrent project~\cite{Gousi13}, 
+This study uses the dataset provided by the GHTorrent project~\cite{Gousi13}, 
 an off-line mirror of the data  offered through the Github API.  
 To identify Android projects, we performed a case insensitive search for the
 term ``android" in the repository's names and short descriptions.  
-Up to 23 Feb 2014,  when we queried GHTorrent, such heuristic could
- find 2.542 repositories. Running the ExceptionMiner tool 
+Up to 23 February 2014,  when we queried GHTorrent, this resulted in 2,542 repositories. Running the ExceptionMiner tool 
  in this set we observed that 589 projects had at least one issue containing a stack trace.
 	
-Then we performed further cleanup, inspecting the site of every Android project
+Then we performed a further clean up, inspecting the site of every Android project
 reporting at least one stack trace, to make sure that they represented real
 mobile apps. During this clean up 106 apps were removed because they were either
 example projects (i.e., toy projects) or tools to support Android development
 (e.g. Selendroid, Roboeletric - tools to support the testing of Android apps).
 The filtered set consisted of 482 apps. This set of 482 projects contained overall 31,592 issues from which 4,042 exception stack traces 
-were extracted. Issues on Github are different from issues on dedicated bug tracking tools such as 
+were extracted. 
+
+Issues on Github are different from issues on dedicated bug tracking tools such as 
 Bugzilla and Jira. The most important difference is that there are no predefined fields
   (e.g. severity and priority). Instead, Github uses a more open ended tagging system, on which
 repositories are offered a pre-defined set of labels, but repository owners can modify 
 them at will. Therefore, an issue may have none or an arbitrary set of labels depending 
-on which repository it was created. Table~\ref{tab:lables} illustrates the ocurrences of different labels 
+on its repository. Table~\ref{tab:lables} illustrates the ocurrences of different labels 
 on the issues including exception stack traces.
 
-Based on the assumption that regardless the issue lables, every exception stack
-trace contains relevant information concerning the exception structure of the
-projects analyzed - and therefore can review \emph{bug hazards} on the exception-related code -  
-we opted for not restricting the analysis only on defect issues.
+Regardless of the issue labels, every exception stack
+trace may contain relevant information concerning the exception structure of the
+projects analyzed, and therefore can reveal \emph{bug hazards} on the exception-related code.
+Because of this, we opted for not restricting the analysis to just defect issues.
 
 %\footnote{We conducted the same analysis 
 %on the defect issues only and the top exceptions were quite similar.
