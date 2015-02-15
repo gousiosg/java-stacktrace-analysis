@@ -168,8 +168,8 @@ they impose to Android apps as well as to other systems based on the Java except
 
 In recent years, we have witnessed an astonishing increase in the number of
 mobile applications. These applications extend phones capabilities 
-far beyond basic calls and textual messages. Such applications, however,
-have to face an increasing number of threats to application robustness
+far beyond basic calls and textual messages. They must, however,
+face an increasing number of threats to application robustness
  arising from failures in the underlying middleware and hardware (e.g., camera, sensors);
 failures in third party services and libraries; compatibility issues~\cite{McDon13}; 
  memory and battery restrictions; and noisy external resources~\cite{Zhang12} 
@@ -355,8 +355,9 @@ the runtime environment looks for the nearest enclosing exception handler
 This search for the handler on the invocation stack aims at increasing software reusability, 
 since the invoker of an operation can handle the exception in a wider context~\cite{miller1997issues}.
 
- A common way of  propagating exceptions in Java programs is through exception wrapping
- (also known as exception chaining): One exception 
+ A common way of  propagating exceptions in Java programs is through
+ exception wrapping (also called chaining):
+One exception 
 is caught and wrapped in another which is then thrown instead. Figure~\ref{fig:wrapping} shows 
 an exception stack trace which illustrates such exception wrapping. 
 For simplicity, in this paper we will refer to ``exception stack trace'' as as just stack trace.
@@ -946,7 +947,8 @@ All		& 1  803	&	433	&	2478	&	1462	&	6005 	\\
   \label{tab:typeroottab}
 \end{table}
 
-
+\finding{Almost two thirds of all crashes come from run time
+  exceptions. Most of these originate from the application layer.}
 
 \emph{\textbf{Inspecting Exception Interfaces.}}  According to the best practices mentioned before, 
  \emph{explicitly thrown} runtime exceptions 
@@ -955,36 +957,36 @@ methods. To investigate the conformance to this practice, we firstly filtered ou
  signaled by  the runtime environment (due to programming mistakes) - since these exceptions 
 should not be documented on the method signature.  Then we inspected
 the code for each method 
-(defined either on Android  Aplication Framework or on third-party libraries) 
-explicitly signaling a runtime exception. Table~\ref{tab:runtimeinterface} presents the results of this inspection. 
-We could find 79 methods (both from libraries and Android platform) that  explicitly threw a runtime exception 
-without listing such exception on the \emph{exception interface} (i.e., using 
-throws clause on method signature). From this set only one method (defined on a library)
-included an @throws tag on Javadoc - reporting that the given runtime exception
-could be thrown in some contidions. These methods were responsible for 
+(defined either in the Android  Aplication Framework or in third-party libraries) 
+explicitly signaling a runtime exception. 
+
+Table~\ref{tab:runtimeinterface} presents the results of this inspection. 
+We found 79 methods (both from libraries and the Android platform) that  explicitly threw a runtime exception 
+without listing it on the \emph{exception interface} (i.e., using 
+throws clause in the method signature). From this set only one method (defined on a library)
+included an @throws tag in its Javadoc - reporting that the given runtime exception
+could be thrown in some conditions. These methods were responsible for 
 267 exception stack traces mined in this study.
 
-This result is aligned with the results of other two studies~\cite{sacramento2006unchecked,kechagia2014}. 
-One conducted by  Sacramento et al~\cite{sacramento2006unchecked} - which observed that the
-runtime exceptions in .Net programs are most often not documented. And other conducted by 
-Kechagia and Spinellis~\cite{kechagia2014} which discovered a set of methods 
-on the Android API which do not documented runtime exceptions. One limitation 
-of the work of Kechagia and Spinellis is that it did not filter out exceptions that,  
+This result is in line with the results of two other studies~\cite{sacramento2006unchecked,kechagia2014}. 
+Sacramento et al~\cite{sacramento2006unchecked} observed that the
+runtime exceptions in .NET programs are most often not documented. 
+Kechagia and Spinellis~\cite{kechagia2014} identified a set of methods 
+on the Android API which do not document its runtime exceptions. One limitation 
+of the latter work is that it did not filter out exceptions that,  
 although runtime, should not be documented because they were implicitly signaled by the 
 JVM due to resource restrictions or violations on Java semantic constraints.
 When explicitly signaling a runtime exception and not documenting it, 
-the developer imposes a threat to system robustness, specially
-when such exceptions are thrown by a third party code (e.g. libraries, or framework utility code)
+the developer imposes a threat to system robustness, especially
+when such exceptions are thrown by third party code (e.g., libraries or framework utility code)
  invoked inside the application. In such cases the developer usually does not have access to 
 the source code. Hence in the absence of the exception documentation it is very difficult or even impossible
- for the client to design the application to deal with ``unforeseen" runtime exceptions. As a consequence, the
+ for the client to design the application to deal with ``unforeseen'' runtime exceptions. As a consequence, the
  undocumented runtime exception may remain uncaught and lead to system crashes.
 
-\noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
-The study revealed: 267 exception stack traces were caused by ``undocumented runtime exceptions" 
-thrown by libraries or the Android platform.
-}
-\end{minipage}}
+\finding{%
+Only a small fraction (4\%, 267 stack traces) of run time exceptions are programmatically
+thrown. Almost none (0.4\%, just one) of these were documented.}
 
 
 \begin{table}
@@ -993,7 +995,7 @@ thrown by libraries or the Android platform.
  %\begin{tabular}{|p{7.9cm} p{0.1cm}|}
 \begin{tabular}{lrrrr}
     \hline
- \bfseries{Origin}   &  \bfseries{stacks}  & \bfseries{signaler methods} &  \bfseries{throws clause}  &  \bfseries{\@throws}  \\ 
+ \bfseries{Origin}   &  \bfseries{stacks}  & \bfseries{signaler methods} &  \bfseries{throws clause}  &  \bfseries{@throws}  \\ 
 \hline					
 Libraries	& 	205	 & 	44	& 0	& 1	\\
 Android  	&	62 &	35	&0 &  0	\\					
