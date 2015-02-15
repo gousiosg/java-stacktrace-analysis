@@ -686,17 +686,18 @@ ExceptionMiner tool we developed to support stack trace extraction and distillin
 \label{sec:result}
 
 This section presents the results of the study, providing both a
-quantitative and qualitative analysis of the outcomes. The structure of this section
- is centered on questions that guided the search for \emph{bug hazards} on the exception-related code
-based on exception stack trace information.
+quantitative and qualitative analysis of the outcomes. 
+We center our presentation of the results around \emph{bug hazards} we
+distilled from (1) common root exceptions; (2) exception types; and
+(3) exception wrappings.
 
-\subsection{What can the Common Root Exceptions tell us? }
+\subsection{Common Root Exceptions}
 
 After distilling the information available on the exception stack traces, we could find 
 the exceptions commonly reported as the root causes of stack traces.
 Table \ref{tab:topten} presents a list of the top 10 root exceptions found in the study - 
  ranked by the number of distinct projects on which they were reported. 
-This table also shows how many times the signaler of such exception was a method defined on
+This table also shows how many times the signaler of such an exception was a method defined on
 the Android platform, the Android libcore, the application itself or a third-party library -
  following the classification presented in Table  \ref{tab:signalers}. 
 
@@ -732,9 +733,9 @@ java.util.ConcurrentModificationException	&	43	&	6.73\%	&	65	&	1.08\%	&	5	&	0	&	
 %\label{fig:androidsignaler}
 %\end{figure}
  
-We can observe that most of the exceptions on this list are implicitly thrown by the
+We can observe that most of the exceptions in this list are implicitly thrown by the
  runtime environment due to programming mistakes  (e.g., out-of-bounds array index, division-by-zero, access to a null reference)
- or resource limitation (e.g., OutOfMemoryError). 
+ or resource limitations (e.g., OutOfMemoryError). 
 From this set the java.lang.NullPointerException was the most reported root cause (27.71\%). 
 If we consider the frequency of NullPointerException 
 across projects, we can observe that 51.96\% of all projects reported at least one exception stack 
@@ -743,19 +744,24 @@ trace on which the NullPoiterException was the root cause.
  The NullPointerException was mainly signaled inside the application code (50\%) and the Android platform (31.5\%),
  although we could also find the NullPointerException being signaled by third-party libraries (16.3\%). 
 Regarding reusable code (e.g., libraries and frameworks), there is no consensus whether it is a good or a bad practice to 
-re-throw a NullPointerException. Some prefer to encapsulate such an exception on
+explicitly throw a NullPointerException. Some prefer to encapsulate such an exception on
 an instance of IllegalArgumentException, while others~\cite{bloch2008effective} argue that the
 NullPointerException makes the cause of the problem explicit and hence 
-should not be wrapped.
+can be signalled by an API expecting a non-null argument.
 
-The high prevalence of NullPointerException is aligned with the findings of other research
-works~\cite{kim2013predicting,fraser20131600,csallner2004jcrasher,kechagia2014}. For instance, Sunghun et
-al.~\cite{kim2013predicting} showed that 38\% the bugs related to exception handling in Eclipse project
- were caused by NullPointerException; Kechagia and Diomidis showed that NullPointerException was the  
+The high prevalence of NullPointerException is aligned with the
+findings of other 
+research~\cite{kim2013predicting,fraser20131600,csallner2004jcrasher,kechagia2014}. 
+For instance, Sunghun et
+al.~\cite{kim2013predicting} show that 38\% the bugs related to
+exception handling in the Eclipse project
+ are caused by NullPointerException.
+Furhtermore, Kechagia and Spinellis showed that the NullPointerException was the  
 most reported exception on the crash reports sent to BugSense (a bug report 
-management service for Android applications); 
-other works on robustness testing~\cite{maji2012empirical,csallner2004jcrasher} showed that most of the automatically 
-detected bugs were due to NullPointerException and exceptions implicitly-signaled by Java 
+management service for Android applications)  \cite{kechagia2014}.
+Other research on robustness testing~\cite{maji2012empirical,csallner2004jcrasher} shows that most of the automatically 
+detected bugs were due to NullPointerException and exceptions
+implicitly-signaled by the Java 
 environment due to programming mistakes or resource limitations
  (as the ones found in our study).
 
@@ -873,7 +879,7 @@ was the root cause.
 }
 \end{minipage}}
 
-\subsection{What can the Exception Types tell us?}
+\subsection{Exception Types}
 %\subsection{Exploring the Information Embedded on Exception Types}
 %\subsection{The Exception Types and What They can Tell us? }
 
@@ -1009,7 +1015,7 @@ on the \emph{exception interface} of such method and all methods on the invocati
 \end{minipage}}
 
 
-\subsection{What can the Exception Wrappings tell us?}
+\subsection{Exception Wrappings}
 
 
 \begin{table}
