@@ -579,65 +579,66 @@ the issues were labeled as ``Defect''. However, based on the same assumption des
 \subsection{The ExceptionMiner Tool}
 \label{sec:exceptionminer}
 
-The ExceptionMiner is a mining tool which can connect to different issue repositories, 
+The ExceptionMiner is a tool which can connect to different issue repositories, 
 extract issues, mine exception stack traces from them, distill exception stack trace information,
 and enable the execution of different analyses by combining exception stack 
-trace information with bytecode and sourcecode analysis. The main components of ExceptionMiner are as follows:
+trace information with byte code and source code analysis. The main components of ExceptionMiner are the following:
 
 \emph{\textbf{Repository Connectors.}} This component enables the connection 
 with issue repositories. In this study two main connectors were created: one which connects to 
-GHTorrent database, and Google Code connector which is comprised of a Web Crawler,
- that can traverse the Google Code web interface and extract the project issues. 
-Projects meta-data and the issues associated to each project are stored on a relational 
+GHTorrent database, and a Google Code connector which is comprised of a Web Crawler
+ that can traverse the Google Code web interface and extract the project's issues. 
+Project meta-data and the issues associated with each project are stored in a relational 
 database.
 
 \emph{\textbf{Exception Stack Trace Distiller.}}
 This component is based on a combination between a parser (based on regular expressions) 
 and heuristics able to identify and filter exception names and stack traces inline with text. 
 This component distills the information that composes a stack trace.
- Some of the attributes extracted from the stack trace are:
- the root exception and its signaler, the exception wrappers and their corresponding signalers. 
-This component also distills fine grained information of each attribute such as: the classes and packages associated to them.
-In contrast to existing issue parsing solutions such as Infozilla, the parser
-created in this work can discover stack traces mixed with log information\footnote{In several 
+ Some of the attributes extracted from the stack trace are
+ the root exception and its signaler, as well as the exception wrappers and their corresponding signalers. 
+This component also distills fine grained information of each attribute such as the classes and packages associated to them.
+In contrast to existing issue parsing solutions such as Infozilla, our parser
+ can discover stack traces mixed with log file information\footnote{In several 
 exception stack traces, the exception frames were preceeded by logging information e.g., 
-"03-01 15:55:01.609 (7924): at android.app.ActivityThread.access\$600(ActivityThread.java:127) 
-"which could not be detected by existing tools.}.
+\texttt{03-01 15:55:01.609 (7924): at android.app.ActivityThread.access\$600(ActivityThread\-.java:127)} which could not be detected by existing tools.}.
 
 \emph{\textbf{Exception Type Analysis.}} To support a deeper investigation of the 
-stack traces every exception defined on a stack trace need to be classified according to its type
+stack traces every exception defined on a stack trace needs to be classified according to its type
 (e.g. Error, checked Exception or RuntimeException). The module responsible for this analysis 
-uses Design Wizard~\cite{Brunet09} framework to inspect the bytecode of all exceptions reported on issues,
+uses the Design Wizard framework \cite{Brunet09} to inspect the bytecode of all exceptions reported on issues,
 and a specific implementation to analyze the source code of Java Exception classes (when the
 bytecode was not available). It walks up the type hierarchy of a Java exception until it reaches a base exception type.
-This module analyzed all exceptions defined on Android platform (API level 19) - 
+
+With this module we analyzed all exceptions defined in the Android platform (Version 4.4, API level 19),
 which includes all basic Java exceptions that can be thrown during the app execution,
-and exceptions thrown by Android core libraries. Moreover, it also analyzed the 
+and exceptions thrown by Android core libraries. Moreover, we also analyzed the 
 exceptions reported on stack traces that were defined on applications and third-party libraries 
 (the tool only analyzed the last version available).
 
 \emph{\textbf{Exception Signaler Analysis.}}
 This module is responsible for classifying each signaler according 
-to its origin (i.e. Android Application Framework, Android Libcore, Application, Library). 
-Table~\ref{tab:signalers} presents the heuristic adopted in this classification.
-To enable such classification, we needed to feed this module with the information
+to its origin (i.e., Android Application Framework, Android Libcore, Application, Library). 
+Table~\ref{tab:signalers} presents the heuristics adopted in this classification.
+
+To conduct this classification, we provide this module with the information
 comprising all Java packages that compose: the Android Plaform;
  the Android Libcore; and each analyzed Application. 
-To discover the packages composing the first two origins
-we could refer to the Android Specification.
-To discover the packages composing each application, this module 
-extracted the manifest files of each Android app
- - which defines the main packages that compose the applications.
- Whenever this file was not available, the tool recursively analyzed the 
-structure of source-code directories composing the app
-- filtering out the cases on which the application 
-also included the source code of reused libraries.
+
+To discover the packages for the first two origins
+we can use to the Android specification.
+To discover the packages for the third origin, the application itself, this module
+extracts the manifest files of each Android app, which defines the main packages that the applications consist of.
+ If this file is not available, the tool recursively analyzes the 
+structure of source-code directories composing the appm filtering out the cases in which the application also includes the source code of reused libraries.
 Then, based on this information and using pattern matching 
 between the signaler name and the packages, this module identifies 
-the origin of the exception signalers. The exceptions were considered
- from libraries if their packages were neither defined 
-on Android platform, nor on core libraries, nor on applications.
-Table~\ref{tab:signalers} summarizes the signaler classification.
+the origin of the exception signalers. 
+
+The exceptions are considered to come
+ from libraries if their packages are neither defined 
+within the Android platform, nor on core libraries, nor on applications.
+Table~\ref{tab:signalers} summarizes this signaler classification.
 
 %\noindent\emph{Exception Wrapping Analysis.} 
 %\noindent\emph{Concern Mapping.} 
@@ -648,9 +649,9 @@ Table~\ref{tab:signalers} summarizes the signaler classification.
     \hline
     \bfseries{Signaler} & \bfseries{Description} \\
     \hline
-    \bfseries{android} & If the exception is thrown on a method defined in Android platform.\\
-    \bfseries{app}     & If the exception is thrown on an method defined on an Android app.\\
-    \bfseries{libcore} & If the exception is thrown on one of the core libraries reused by Android (i.e., org.apache.harmony, org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml). \\
+    \bfseries{android} & If the exception is thrown in a method defined in Android platform.\\
+    \bfseries{app}     & If the exception is thrown in an method defined on an Android app.\\
+    \bfseries{libcore} & If the exception is thrown in one of the core libraries reused by Android (e.g., org.apache.harmony, org.w3c.dom, sun.misc, org.apache.http, org.json, org.xml). \\
     \bfseries{lib}     & If the exception is thrown on a method that was not defined by any of the elements above.\\
     \hline
   \end{tabular}
