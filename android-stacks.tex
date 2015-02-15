@@ -537,25 +537,24 @@ Because of this, we opted for not restricting the analysis to just defect issues
 %on the defect issues can be found at:\url{https://github.com/souzacoelho/exceptionminer}}. 
 
 \subsection{Android Apps in Google Code}
-Google Code contains largely used open-source Android apps (e.g. K9Mail\footnote{K9Mail moved to Github but as a way of not loosing the project history it advises their users to report bugs on Google Code issue tracker: https://github.com/k9mail/k-9/wiki/LoggingErrors.}),
- however, differently from GitHub, Google Code does not provide an API to access the information related
- to hosted projects\footnote{Google code used to provided a Web service to such repository, but it was deactivated in June 2013 what Google called a `clean-up action".}.
-To overcome this limitation we needed to implement a Web Crawler (incorporated in ExceptionMiner tool described next) that navigated 
-through the web interface of Google Code projects extracting all issues and issue comments and storing in a relational database for later analysis.
+Google Code contains widely used open-source Android apps (e.g. K9Mail\footnote{K9Mail moved to Github but as a way of not loosing the project history it advises their users to report bugs on the Google Code issue tracker: \url{https://github.com/k9mail/k-9/wiki/LoggingErrors}.}).
+However, differently from GitHub, Google Code does not provide an API to access the information related
+ to hosted projects.\footnote{Google code used to provide a Web service to its repositories, but this was deactivated in June 2013 in what Google called a ``clean-up action''.}
+To overcome this limitation we needed to implement a Web Crawler (incorporated in ExceptionMiner tool described next) that navigates 
+through the web interface of Google Code projects extracting all issues and issue comments and storing them in a relational database for later analysis.
 
 To identify Android projects in Google Code, we performed a similar heuristic: we performed a case insensitive search 
-(on Google Code search interface) for the term ``android". On January 2014, when we queried Google Code, such heuristic could
- returned a list of 788  projects. This list comprised the seeds sent to our Crawler .
+(on the Google Code search interface) for the term ``android''. On January 2014, when we queried Google Code, this resulted in a list of 788  projects. This list comprised the seeds sent to our Crawler.
 
 The Crawler retrieved all issues and comments for these projects.
 From this set, 724 projects defined at least 1 issue. Running the ExceptionMiner tool 
  in this set we observed that 183 projects had at least one issue containing an exception stack trace.
- Then we performed further cleanup (similar to the one described previously) inspecting the site 
-of each project. As a result we could identify 157 Android projects.  This set contained overall 127,456 issues,
- from which 1,963 exception stack traces were extracted. Table~\ref{tab:lables} illustrates the ocurrences of different labels 
+ Then we performed further clean up (similar to the one described previously) inspecting the site 
+of each project. As a result we could identify 157 Android projects.  This set contained  127,456 issues in total,
+ from which 1,963 exception stack traces were extracted. Table~\ref{tab:lables} illustrates the occurrences of different labels 
 on the issues including exception stack traces. Differently from GitHub, in Google Code most of 
-the issues were labled as ``Defect". However, based on the same assumption described for the GitHub repository
- we considered all issues reporting stacks (regardless its labels).
+the issues were labeled as ``Defect''. However, based on the same assumption described for the GitHub repository
+ we considered all issues reporting stack traces (regardless its labels).
 
 %SELECT distinct(type), count(*) as n
 %  FROM exceptionalissue where repo !='android' group by type order by n desc;
