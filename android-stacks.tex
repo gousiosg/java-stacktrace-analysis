@@ -22,7 +22,9 @@
 
 %\title{What can the Issues of GitHub and Google Code tell us about Exception Fragilities? }
 
-\title{What can Issues on GitHub and Google Code tell us about Bug Hazards in Android and Java? }
+%\title{What can Issues on GitHub and Google Code tell us about Bug Hazards in Android and Java? }
+
+\title{Unveiling Exception Handling Bug Hazards in Android based on GitHub and Google Code Issues }
 
 %\title{Results of a Mining Study on Exception Stack Traces embedded on issues of over 600 Android Projects}
 
@@ -614,9 +616,12 @@ exception stack traces, the exception frames were preceeded by logging informati
 \emph{\textbf{Exception Type Analysis.}} To support a deeper investigation of the 
 stack traces every exception defined on a stack trace needs to be classified according to its type
 (e.g. Error, checked Exception or RuntimeException). The module responsible for this analysis 
-uses the Design Wizard framework \cite{Brunet09} to inspect the bytecode of all exceptions reported on issues,
-and a specific implementation to analyze the source code of Java Exception classes (when the
-bytecode was not available). It walks up the type hierarchy of a Java exception until it reaches a base exception type.
+uses the Design Wizard framework \cite{Brunet09} to inspect the bytecode of the exceptions reported 
+on stack traces.  It walks up the type hierarchy of a Java exception until it reaches 
+a base exception type. Hence in this study the bytecode analysis was only used to discover the type 
+of each mined exception when the jar file of such exception was available on the project or 
+on the reused core Java libraries. An specific implementation (based on source code analysis)
+ was needed to to discover the exception type when the bytecode was not available.
 
 With this module we analyzed all exceptions defined in the Android platform (Version 4.4, API level 19),
 which includes all basic Java exceptions that can be thrown during the app execution,
@@ -951,9 +956,7 @@ methods. To investigate the conformance to this practice, we firstly filtered ou
 should not be documented on the method signature.  Then we inspected
 the code for each method 
 (defined either on Android  Aplication Framework or on third-party libraries) 
-explicitly signaling a runtime exception.
-
-Table~\ref{tab:runtimeinterface} presents the results of this inspection. 
+explicitly signaling a runtime exception. Table~\ref{tab:runtimeinterface} presents the results of this inspection. 
 We could find 79 methods (both from libraries and Android platform) that  explicitly threw a runtime exception 
 without listing such exception on the \emph{exception interface} (i.e., using 
 throws clause on method signature). From this set only one method (defined on a library)
@@ -969,7 +972,6 @@ on the Android API which do not documented runtime exceptions. One limitation
 of the work of Kechagia and Spinellis is that it did not filter out exceptions that,  
 although runtime, should not be documented because they were implicitly signaled by the 
 JVM due to resource restrictions or violations on Java semantic constraints.
-
 When explicitly signaling a runtime exception and not documenting it, 
 the developer imposes a threat to system robustness, specially
 when such exceptions are thrown by a third party code (e.g. libraries, or framework utility code)
