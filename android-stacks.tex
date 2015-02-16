@@ -1049,22 +1049,22 @@ thrown without being documented on the exception interface.
  %\begin{tabular}{|p{7.9cm} p{0.1cm}|}
 \begin{tabular}{ll}
     \hline
- id & \bfseries{Runtime wrapping Error}    \\  %\bfseries{\#}
+ id & \bfseries{Runtime Exception wrapping an Error}    \\  %\bfseries{\#}
     \hline
 1 & java.lang.RuntimeException - java.lang.OutOfMemoryError  \\ %30
 2& java.lang.RuntimeException -  java.lang.StackOverflowError)   \\ %4
 \hline
-& \bfseries{Checked wrapping Error}  \\
+& \bfseries{Checked Exception wrapping an Error}  \\
  \hline
 3&java.lang.reflect.InvocationTargetException - java.lang.OutOfMemoryError  \\ %5
 4&java.lang.Exception - java.lang.OutOfMemoryError   \\ %1
 \hline
-& \bfseries{Error wrapping Checked}  \\
+& \bfseries{Error wrapping a Checked Exception}  \\
  \hline
 5&java.lang.NoClassDefFoundError - java.lang.ClassNotFoundException   \\ %4
 6&java.lang.AssertionError - javax.crypto.ShortBufferException)   \\ %3
 \hline
-& \bfseries{Error wrapping Runtime}    \\
+& \bfseries{Error wrapping a Runtime Exceptino}    \\
  \hline
 7&java.lang.ExceptionInInitializerError - java.lang.NullPointerException   \\ %9
 8&java.lang.ExceptionInInitializerError - java.lang.IllegalArgumentException 	 \\ %2
@@ -1107,18 +1107,19 @@ thrown without being documented on the exception interface.
 
 Java is the only language that provides a hybrid exception model 
 which offers three kinds of exceptions each one holding an intended exception behavior (i.e., error, 
-runtime and checked). Table~\ref{tab:wrappingandroid} presents the wrappings found in this study that
-include different exception types (i.e., Error, checked Exception and Runtime). We call 
-such a wrapping a ``cross-type wrapping". Next we exemplify some of such
- wrappings and discuss whether some of them may impact the system robustness.
+runtime and checked). Table~\ref{tab:wrappingandroid} presents some wrappings found in this study that
+include different exception types (i.e., Error, checked Exception and Runtime).
+Below, we discuss the most
+important of such ``cross-type wrappings in more detail.
 
-\emph{\textbf{Runtime Exception wrapping Error.}} From Table~\ref{tab:wrappingandroid}, we could observe that most of such wrappings
-were performed by Android platform (50.7\%).
+\emph{\textbf{Runtime Exception wrapping an Error.}} 
+From Table~\ref{tab:wrappingandroid}, we see that most of these wrappings
+are performed by the Android platform (50.7\%).
 The code snippet below was extracted from Android and shows a general catch clause 
 that converts any instance of Throwable (signaled during the execution
 of an asynchronous task) into an instance of RuntimeException and re-throws it.  
-Table~\ref{tab:exampeswrap} presents exceptions wrapped in this code snipet.  
-Such wrappings mask an unrecoverable Error on a general runtime exception.
+Table~\ref{tab:exampeswrap} presents examples of exceptions that were actually wrapped in this code snipet.  
+Such wrappings mask an unrecoverable Error into a general runtime exception.
 
 {\footnotesize
 \begin{verbatim}
@@ -1136,50 +1137,61 @@ Such wrappings mask an unrecoverable Error on a general runtime exception.
 \end{verbatim}
 }
 
-\emph{\textbf{Runtime wrapping Checked Exception.}} This wrapping was responsible for 49.5\% of
+\emph{\textbf{Runtime Exception wrapping a Checked Exception.}} 
+This wrapping was responsible for 49.5\% of
 the cross-type wrappings.  From this set 50\%  were performed on methods defined on Android platform. 
-We observed that it was a common implementation practice in the methods of Android platform.
-However, using such general exception, is considered a bad practice according to Java specification 
-and compiled guidelines, because it loses contextual information about the exception.
+We observe that it is a common implementation practice in the methods of Android platform.
+However, using such a general exception, is considered a bad practice
+according to the Java specification 
+and common guidelines, as it loses contextual information about the exception.
 
-\emph{\textbf{Checked Exception wrapping Error.}} Most of these wrappings
+\emph{\textbf{Checked Exception wrapping an Error.}} Most of these wrappings
  were also caused by the reflection library used by applications' methods. The methods responsible for the wrappings
 were also native methods written in C. Table~\ref{tab:exampeswrap} illustrates
 some of these wrappings some of them are masking an OutOfMemoryError
 into a checked exception. Such wrappings may also mask an unrecoverable error
-and may lead to the ``exception confusion problem" described next.
+and may lead to ``exception confusion'' described next.
 
 \emph{\textbf{Error wrapping Runtime and Checked Exceptions}} Table~\ref{tab:exampeswrap}  illustrates
-examples of instances of Error wrapping instances of RuntimeException. A
-lthough such wapping mixes different exception types,
-since there is no obligation associated to handling runtime exceptions, such wrapping 
-does not violated the aforementioned best practices. On the other hand, the inspection 
+examples of instances of Error wrapping instances of
+RuntimeException. 
+Although such a wapping mixes different exception types,
+since there is no obligation associated to handling runtime exceptions, it
+does not violate the aforementioned best practices. 
+
+On the other hand, the inspection 
 also revealed instances of Error wrapping checked exceptions. Such wrappings were 
 mostly performed by Java static initializers. If any exception is thrown in the context of a static initializer 
 (i.e., static block)  it is converted into an ExceptionInitializerError 
 on the point where the class is first used.  Table~\ref{tab:exampeswrap} also illustrates
-examples of such wrappings. Although such wapping may represent a design decision,
-it violates the best practice related to checked exceptions and errors as it mix the intended handling 
+examples of such wrappings. Although such a wrapping may represent a design decision,
+it violates the best practice related to checked exceptions and errors as it mixes the intended handling 
 behaviour associated to both types.
 
-We could also observe that some stack traces included successive cross-type wrappings, 
-such as: Runtime - Checked - Runtime - Checked - Runtime - Checked - Runtime. Hence, although some of these wrappings may be a result of design decisions, the mis-use of exception wrapppings may make the exception handling 
+We can also observe that some stack traces include successive cross-type wrappings, 
+such as: Runtime - Checked - Runtime - Checked - Runtime - Checked -
+Runtime. 
+Hence, although some of these wrappings may be a result from design decisions, the mis-use of exception wrapppings may make the exception handling 
 code more complex (e.g., the multiple wrappings) and error-prone,
- and lead to what we call ``exception confusion problem". To illustrate this problem we can use one of the wrappings discussed above.
+ and lead to ``exception confusion''. 
+
+To illustrate this problem we can use one of the wrappings discussed above.
 When the developer is confronted with a checked exception, the designer of the API is telling him/her 
 to handle the exceptional condition (according to Java Specification and 
-best practices). However, such exception may be wrapping an Error such as OutOfMemoryError (which indicate resource deficiency 
-that makes impossible for the program to recover). Hence, trying to handle such exception  
+best practices). However, such exception may be wrapping an Error such
+as an OutOfMemoryError, which indicates a resource deficiency 
+that the program cannot possibly recover from). Hence, trying to
+handle such an exception  
 may lead the program to an unpredictable state.
 
-\noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
-The cross-type wrappings is an indication that even if the developer sticks to Java
-specification and best practices, it may be dificult for her/him to prevent the code from 
-incurring into situations that lead the program to an unpredictable state - 
-e.g., when handling checked Exceptions that are `hiding" Errors.
-}
-\end{minipage}}
 
+\finding{%
+Cross-type exception wrappings are common.
+They violate the semantics of Java's original exception
+design (e.g., when mapping unrecoverable Errors to other types of
+exceptions),
+and may lead to lengthy exception chains.
+}
 
 \section{Further Discussions}
 \label{sec:disc}
