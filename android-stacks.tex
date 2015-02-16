@@ -1428,27 +1428,32 @@ to identify \emph{bug hazards} on the exception handling code of Android apps.
 \section{Conclusion}
 \label{sec:conc}
 
-In this paper we present an exploratory study in which we mined the stack 
+The goal of this paper is to investigate 
+to what extent stack trace information can reveal \emph{bug hazards} 
+related to exception handling code that may lead to a decrease in
+application robustness. 
+To that end, we mined the stack 
 traces embedded in all issues defined in 482 Android projects hosted in Github and 
-157 projects hosted in Google Code. Overall it included 6,005 exception stack traces.
-In this study, the information extracted from stack traces was used in combination 
-with source code and bytecode analysis to identify common characteristics of exception 
-stack traces to pinpoint \emph{bug hazards} on the exception-related code. 
-In this study, \emph{bug hazards} are characteristics on the exception-related code that favor the introduction
-of  uncaught exceptions and unintended handling - which can contribute to 
-degrade the robustness of applications.
-Some \emph{bug hazards} consistently detected in this study were: 
-(i) unexpected exception wrappings (e.g., Errors being wrapped in checked exceptions)  - 
-revealing that Java hybrid exception model is not fully used according to its purpose;
-(ii) 267 stack traces were caused by undocumented runtime exceptions thrown by third party libraries or the Android Platform;
-and (iii) undocumented checked exceptions thrown by the Android Platform. 
-Moreover, we could also observe that approximately 52\% of the reported stack traces 
-can be attributed to programming mistakes; in particular, 27.71\% of all stack traces 
-reported a java.lang.NullPointerException as its root cause;
-The \emph{bug hazards} discussed in this work can negatively affect not only the robustness of Android application 
-but also the robustness of any Java-based application. 
-Our results calls the attention for the need of tools and language support to help 
-developers when dealing with them.
+157 projects hosted in Google Code. Overall it included 6,005
+exception stack traces.
+
+Our first key contribution is
+a novel approach and toolset (ExceptionMiner) for analyzing Java
+  exception stack traces as occurring on GitHub and Google Code
+  issues.
+Our second contribution is
+an empirical study of over 6000 actual stack traces,
+  demonstrating that (1) half of the system crashes are due to errors
+  in programming logic, with null pointer exceptions being most
+  prominent;
+  (2) Documentation for explicitly thrown RuntimeExceptions is almost
+  never provided; 
+  (3) Extensive use of wrapping leads to hard to understand chains
+  violating Java's exception handling principles.
+
+Our results shed light on common problems and bug hazards in Java
+exception handling code, and call for tool support to help developers
+understand their own and third party exception handling and wrapping logic.
 
 
 %Nowadays many software vendors embed automatic crash reporting tools in their
