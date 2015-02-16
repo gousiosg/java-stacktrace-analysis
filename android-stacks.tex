@@ -783,7 +783,7 @@ environment due to programming mistakes or resource limitations
 
 %Commented 2015
 %\emph{\textbf{The prevalence of programming mistakes on stack traces.}} 
-%One way of getting a broader view of the prevalence~\footnote{The prevalence
+%One way of getting a broader view of the prevalence~\footnote The prevalence
  %evaluates the proportion of a given characteristic over a group 
 %of subjects.}  of programming mistakes on reported stack traces would be to manually 
 %inspect the code responsible for throwning every exception reported  on issues. 
@@ -1193,25 +1193,28 @@ exceptions),
 and may lead to lengthy exception chains.
 }
 
-\section{Further Discussions}
+\section{Discussion}
 \label{sec:disc}
 
 %\begin{figure*} \centering \includegraphics[scale=0.55]{examples_new2.png}
 %\caption{Code snippets illustrating fragilities on the exception-related code} \label{fig:snippets} \end{figure*}
 
- ``Everybody hates thinking about exceptions, because they are not supposed to happen"
-  (Brian Foote)~\footnote{Brian Foote shared his opinion in a conversation with James Noble - quoted on the paper: hillside.net/plop/2008/papers/ACMVersions/coelho.pdf}
-
+\begin{quotation}
+\noindent
+ \emph{``Everybody hates thinking about exceptions, because they are not supposed to happen''\\
+  (Brian Foote)}\footnote{Brian Foote shared his opinion in a conversation with James Noble - quoted on the paper: hillside.net/plop/2008/papers/ACMVersions/coelho.pdf}
+\end{quotation}
 
 \emph{\textbf{The exception handling confusion problem.}}
-When (mis)applied, the exception wrapping can make the exception-related code
- more complex and lead to what we call an \emph{exception handling confusion problem}.
-Such problem can lead the program to an unpredictable state in the presence of exceptions,
-as illustrated by the scenario on which a checked exception wrapped an OutOfMemoryError. 
+When (mis)applied, exception wrapping can make the exception-related code
+ more complex and lead to what we call the \emph{exception handling confusion problem}.
+This problem can lead the program to an unpredictable state in the presence of exceptions,
+as illustrated by the scenario in which a checked exception wraps an OutOfMemoryError. 
 Currently there is no way of enforcing Java exception type conventions during program development.
-Hence, further investigation is needed on finding ways to help developers in dealing with such
- problem, either preventing odd wrappings or enabling the developer to better deal with them or even
-empirical studies on the real usefulness of Java hybrid exception model. 
+Hence, further investigation is needed on finding ways to help developers in dealing with this
+ problem, either preventing odd wrappings or enabling the developer to
+ better deal with them.
+Furthermore, this calls for empirical studies on the actual usefulness of Java's hybrid exception model. 
 
 %The cross-type wrappings detected in this study points to the fact that: (1) exception 
 %wrappings may prevent exception types from being used according to its initial purpose
@@ -1220,34 +1223,41 @@ empirical studies on the real usefulness of Java hybrid exception model.
 % checked exceptions may be wrapped in runtime exceptions).
 
 \emph{\textbf{On the null pointer problem.}}
-The null references was firstly introduced by Tony Hoare in ALGOL W, which after some years he called his ``one-billion-dollar mistake"~\cite{hoare2}.
-In this sudy, the null references were, infact, responsible for several reported issues - providing more evidences to Hoare's speech.
-This observation emphasizes the importance of solutions to avoid NullPointerExceptions, such as:
-(i) lightweight intra-method null pointer analysis supported by Java8 @Nullable annotations~\footnote{They are used by tools e.g., Eclipse, IntelliJ, Android Studio 0.5.5 (release Apr. 2014) to detect potential 
+The null reference was firstly introduced by Tony Hoare in ALGOL W, which after some years he called his ``one-billion-dollar mistake''~\cite{hoare2}.
+In this sudy, the null references were, infact, responsible for several reported issues - providing further evidence to Hoare's statement.
+This observation emphasizes the need for solutions to avoid NullPointerExceptions, such as:
+(i) lightweight intra-method null pointer analysis as supported by
+Java 8 @Nullable annotations\footnote{Already supported by tools such as Eclipse, IntelliJ, Android Studio 0.5.5 (release Apr. 2014) to detect potential 
 null pointer dereferences at compile time.};
 (ii) inter-method null pointer analysis tools such as the one proposed by Nanda and Sinha~\cite{nanda2009accurate};
 or (iii) language designs which avoid null pointers, such 
-as Monads~\cite{Walde95} (i.e., used in functional languages for values that may not be available 
+as Monads~\cite{Walde95} (as used in functional languages for values that may not be available 
 or computations that may fail) could improve the robustness of Java programs. 
 
-\emph{\textbf{On the need of rescues to the almost infeasible task of preventing uncaught exceptions}}
+\emph{\textbf{Preventing uncaught exceptions}}
 In this study we could observe undocumented runtime exceptions thrown by third party code,
 and even undocumented checked exception thrown by a JNI interface.
-Such undocumented exceptions make difficult, and most of the times infeasible
-for the client code to protect against `unforeseen" situations that may happen 
-while calling a library code. One may think that the solution for the uncaught exceptions may be to define a general handler, 
+Such undocumented exceptions make it difficult, and most of the times infeasible
+for the client code to protect against `unforeseen'' situations that may happen 
+while calling a library code. 
+
+One may think that the solution for the uncaught exceptions may be to define a general handler, 
 which is responsible for handling any exception that is not
 adequately handled inside the applications. Although this 
-solution may prevent  the system of abruptly crashing,
- such general handler will not have enough
+solution may prevent  the system from abruptly crashing,
+ such a general handler will not have enough
 contextual information to adequately handle the exception, 
-a possible handler task is: to present a message to the user
- and restart the application. However, such handler cannot replace a carefully designed exception 
-handling policy~\cite{Robil00}, which can hardly be designed in the absence of 
+beyond storing a message in a log file and restarting the application.
+However, such a handler cannot replace a carefully designed exception 
+handling policy~\cite{Robil00}, which requires
 third-party documentation on the exceptions that
-may the thrown by it. On the other hand, documenting runtime exceptions is a tedious and error prone task, to help developers
-mitigate this problem tools should be developed to automate the documentation of runtime exceptions
-scraping from library code, few solutions in this directions have been proposed so far~\cite{van2005combining}. 
+may the thrown by APIs used. 
+Since  documenting runtime exceptions is a tedious and error prone
+task, 
+this calls for tool support to automate the extraction of runtime exceptions
+from library code. Initial steps in thid direction have been proposed
+by van Doorn and Steegmans \cite{van2005combining}.
+
 
 
 \section{Threats to Validity}
