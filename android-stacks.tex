@@ -619,10 +619,10 @@ stack traces every exception defined on a stack trace needs to be classified acc
 (e.g. Error, checked Exception or RuntimeException). The module responsible for this analysis 
 uses the Design Wizard framework \cite{Brunet09} to inspect the bytecode of the exceptions reported 
 on stack traces.  It walks up the type hierarchy of a Java exception until it reaches 
-a base exception type. Hence in this study the bytecode analysis was only used to discover the type 
+a base exception type. Hence in this study the bytecode analysis was used to discover the type 
 of each mined exception when the jar file of such exception was available on the project or 
-on the reused core Java libraries. An specific implementation (based on source code analysis)
- was needed to to discover the exception type when the bytecode was not available.
+on a reused  Java library. An specific implementation (based on source code analysis)
+ was needed to discover the exception type when the bytecode was not available.
 
 With this module we analyzed all exceptions defined in the Android platform (Version 4.4, API level 19),
 which includes all basic Java exceptions that can be thrown during the app execution,
