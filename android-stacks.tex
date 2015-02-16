@@ -1255,7 +1255,7 @@ may the thrown by APIs used.
 Since  documenting runtime exceptions is a tedious and error prone
 task, 
 this calls for tool support to automate the extraction of runtime exceptions
-from library code. Initial steps in thid direction have been proposed
+from library code. Initial steps in this direction have been proposed
 by van Doorn and Steegmans \cite{van2005combining}.
 
 
@@ -1272,43 +1272,49 @@ exception name in issue description. Conservative parsing may minimize false
 positives, which was our initial target, but also tends to increase false
 negatives, which means that some cases may have not been identified as
 exceptions or stack traces. Our limited manual inspection did not reveal such
-cases. Moreover, in this study we manually mapped the concerns related to exceptions.
+cases. Moreover, in this study we manually mapped the concerns related
+to exceptions.
+
  To ensure the quality of the analysis, we calculated the interrater agreement after three independent 
 developers classified a randomly selected sample (of 25 exception 
 types from the total of 100); the interater agreement was high (96\%). 
-Another threat relates to the fact that parts of our analysis 
-are based on the availability of stack traces on issues reported on Github and Googlecode projects. 
-In using these datasets, we make an underlying assumption: the stack traces reported on issues are 
-representative of valid crash information of the applications. 
-One way to mitigate such threat would be to access to the full 
-set of crash data per application. Although some services exist 
-to collect crash data from mobile applications~\cite{BugSe14,BugSn14,Googl14,Acra14},
-they do not provide open access to the crash reports of their client applications.
-In our study, we mitigated this threat by manually inspecting
-the source code associated to a subset of the reported exception stack traces.
-Such subset comprises the stack traces related to the main findings 
-of the study (e.g., ``undocumented runtime and checked exceptions",
-and cross-type wrappings").
-%\noindent
 
-\emph{External Validity.} Our work uses GHTorrent dataset; although 
+
+
+\emph{External Validity.} Our work uses the GHTorrent dataset, which although 
 comprehensive and extensive is not an exact replica of Github. 
-However, the result of this study does not depent on the analysis of
+However, the result of this study does not depend on the analysis of
 a complete Github dataset. Instead, the goal of our study was to 
 pinpoint \emph{bug hazards} on the exception-related code based on 
 exception stack trace mining of a subset of projects.
+
 We limited our analysis to a subset of existing open-source Android projects.
 We are aware that the exception stack traces reported 
 for commercial apps can be different from the ones found in this study, and that
 this subset is a small percentage of existing apps.
 Such threats are similar to the ones imposed to other empirical studies 
-which also used free or open-source Android apps~\cite{Linar13,McDon13,Ruiz12}.
+which also use free or open-source Android apps~\cite{Linar13,McDon13,Ruiz12}.
 Moreover, several exception stack traces that support the findings of this study
 refered to exceptions coming from methods defined on Android Application Framework
 and third-party libraries.  Additionaly,  the \emph{bug hazards} observed in this study are due to
 characteristics of Java exception model, which can impose challenges 
 the robustness of not only to Android apps but also to other systems
  based on the same exception model. 
+
+Another threat relates to the fact that parts of our analysis 
+are based on the availability of stack traces on issues reported on Github and Googlecode projects. 
+In using these datasets, we make an underlying assumption: the stack traces reported on issues are 
+representative of valid crash information of the applications. 
+One way to mitigate this threat would be to access to the full 
+set of crash data per application. Although some services exist 
+to collect crash data from mobile applications~\cite{BugSe14,BugSn14,Googl14,Acra14},
+they do not provide open access to the crash reports of their client applications.
+In our study, we mitigated this threat by manually inspecting
+the source code associated to a subset of the reported exception stack traces.
+This subset comprises the stack traces related to the main findings 
+of the study (e.g., ``undocumented runtime and checked exceptions'',
+and ``cross-type wrappings'').
+%\noindent
 
 
 \section{Related Work}
@@ -1320,7 +1326,7 @@ ii) empirical studies on the usage of Java Exceptions and its fault proneness;
 and iii) tools to extract stack trace information from natural language artifacts
 (e.g., issues and emails) and iv) empirical studies involving Android apps.
 
-\textit{Analysis and Use of Stack Trace Information.} Several research works have
+\textit{Analysis and Use of Stack Trace Information.} Several papers have
 investigated the use of stack trace information to support: bug classification
 and clustering~\cite{wang2013improving, kim2011crash, dhaliwal2011classifying},
 fault prediction models~\cite{kim2013predicting}, automated
@@ -1346,7 +1352,7 @@ methods' bytecode operations.  They observed that most of the stack traces were
 related to NullPointerException and other implicitly thrown exceptions had
 the higher prevalence on the analyzed set of stacks. Kechagia and Spinellis~\cite{kechagia2014}
 examined the stack traces embedded on crash reports sent by 1,800 Android apps 
-to a crash report management service (i.e., BugSense). They found that 19% of such stack traces
+to a crash report management service (i.e., BugSense). They found that 19\% of such stack traces
 were caused by unchecked and undocumented exceptions thrown by methods defined on 
 Android API (level 15). Our work differs from Kechagia and Spinellis since it is not based on
 stack traces mined from issues reported by open source developers on GitHub and Googlecode.  
@@ -1417,7 +1423,7 @@ with bytecode analysis, source code analysis and manual inspections
 to identify \emph{bug hazards} on the exception handling code of Android apps.
 
 
-\enlargethispage{-2\baselineskip}
+%\enlargethispage{-2\baselineskip}
 
 \section{Conclusion}
 \label{sec:conc}
