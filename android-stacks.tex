@@ -97,7 +97,7 @@ Email: \texttt{arie.vandeursen@tudelft.nl}}
 %The number of mobile apps is increasing in a daily rate. If on the one hand they
 %extend phones capabilities far beyond of the basic calls, on the other hand they have to 
 %cope with an increasing number of exceptional conditions 
-%(e.g., faults in underlying middleware or hardware; memory and battery restrictions). 
+%(e.g., faults in underlying middleware or hardware; memory and batery restrictions). 
 %Therefore, mechanisms for exception detection and handling are not an optional add-on but a 
 %fundamental part of such apps. However, studies have shown that such mechanisms are the less 
 %understood and tested parts of the system. As a consequence they may affect the system the 
@@ -172,7 +172,7 @@ far beyond basic calls and textual messages. They must, however,
 face an increasing number of threats to application robustness
  arising from failures in the underlying middleware and hardware (e.g., camera, sensors);
 failures in third party services and libraries; compatibility issues~\cite{McDon13}; 
- memory and battery restrictions; and noisy external resources~\cite{Zhang12} 
+ memory and batery restrictions; and noisy external resources~\cite{Zhang12} 
 (e.g., wireless connections,GPS, bluetooth). 
 
 Therefore, techniques for error detection and handling are not  an optional add-on but a 
@@ -275,7 +275,7 @@ Hence, the study results are relevant to Android and Java developers who may und
  \emph{bug hazards} on the application robustness,
 and who have to face the difficulty of preventing them.
 Moreover, such \emph{bug hazards} 
-call for improvements on languages and tools to better support exception handling in Android and Java environments.
+call for improvements on languages (e.g. to prevent null pointer dereferences) and tools to better support exception handling in Android and Java environments.
 
 The remainder of this paper is organized as follows. 
 Section~\ref{sec:back} provides the necessary
@@ -361,16 +361,16 @@ One exception
 is caught and wrapped in another which is then thrown instead. Figure~\ref{fig:wrapping} shows 
 an exception stack trace which illustrates such exception wrapping. 
 For simplicity, in this paper we will refer to ``exception stack trace'' as as just stack trace.
-The bottom part of the stack trace is the \emph{root exception}, which indicates
+The bottom part of the stack trace is the \emph{root exception} (Figure~\ref{fig:wrapping}-A), which indicates
 the first reason (root cause) for the exception thrown (in this case, the computer run out of
 memory). The top part of the stack trace indicates the location of the exception
-manifestation (which we will refer to as the \emph{exception wrapper} in this paper). The
+manifestation, which we will refer to as the \emph{exception wrapper} in this paper (Figure~\ref{fig:wrapping}-C). The
 execution flow  between the root exception and the wrapper may
-include other intermediate exception wrappers. In all levels, the exception
+include other intermediate exception wrappers (Figure~\ref{fig:wrapping}-D). In all levels, the exception
 \emph{signaler}, is the method that threw the exception, represented on the
-stack trace as the first method call below the exception declaration.
+stack trace as the first method call below the exception declaration (Figure~\ref{fig:wrapping}-B).
 
-\begin{figure} \centering \includegraphics[scale=0.5]{stacktrace_bw.png}
+\begin{figure} \centering \includegraphics[scale=0.55]{stack_review6.png}
 \caption{Example of an exception stack trace in Java.}
 \label{fig:wrapping}
 \end{figure}
@@ -427,7 +427,7 @@ enabling them to design the code to deal with them and use the API effectively~\
 
 
 \begin{figure*} 
-\centering \includegraphics[width=.9\hsize]{studyoverview3.png}
+\centering \includegraphics[width=.9\hsize]{overview_review.png}
 \caption{Study overview.}\label{fig:overview} 
 \end{figure*}
 
@@ -460,7 +460,7 @@ exploring cases qualitatively.
 
 Figure~\ref{fig:overview} gives an overview of our study.
 First,  the issues reported on Android projects hosted on GitHub (1) and Google Code (2) are recovered.
-Then the stack traces embedded each issue are extracted and distilled (3).
+Then the stack traces embedded in each issue are extracted and distilled (3).
 The stack trace information is then combined with source code and bytecode analysis in order to discover 
 the type of the exceptions (5) reported on the stack traces (e.g., error, runtime, checked),
 and the origin (6) of such exceptions 
@@ -523,7 +523,7 @@ Up to 23 February 2014,  when we queried GHTorrent, this resulted in 2,542 repos
 	
 Then we performed a further clean up, inspecting the site of every Android project
 reporting at least one stack trace, to make sure that they represented real
-mobile apps. During this clean up 106 apps were removed because they were either
+mobile apps. During this clean up 107 apps were removed because they were either
 example projects (i.e., toy projects) or tools to support Android development
 (e.g. Selendroid, Roboeletric - tools to support the testing of Android apps).
 The filtered set consisted of 482 apps. This set of 482 projects contained overall 31,592 issues from which 4,042 exception stack traces 
@@ -680,7 +680,7 @@ in order to
 (i) support the identification of packages composing the Android platform, 
 libs and apps analyzed in this study (as described previously); and (ii)  
 identify the type of some exceptions reported in issues 
-that were not be automatically identified by the ExceptionMiner tool
+that were not automatically identified by the ExceptionMiner tool
 (because they were defined on previous versions of libraries,
 apps and Android Plaform). When the exception could not be  
 found automatically or manually (because they were defined on a previous version
@@ -893,7 +893,7 @@ the inter-rater agreement was 96\%.
 %were also investigated in this study
 
 \finding{%
-More than 50\% of the uncaught exceptions are due to errors in
+More than 50\% of the uncaught exceptions analyzed in this study are due to errors in
 programming logic, with the NullPointerException as most prevalent
 exception.
 For another 25\% the root cause relates to resource constraints.
