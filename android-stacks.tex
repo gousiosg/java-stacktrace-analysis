@@ -699,13 +699,20 @@ ExceptionMiner tool we developed to support stack trace extraction and distillin
 \section{The Study Results}
 \label{sec:result}
 
-This section presents the results of the study, providing both a
-quantitative and qualitative analysis of the outcomes. 
-We center our presentation of the results around \emph{bug hazards} we
-distilled from (1) common root exceptions; (2) exception types; and
-(3) exception wrappings.
+%This section presents the results of the study, providing both a
+%quantitative and qualitative analysis of the outcomes. 
+%We center our presentation of the results around \emph{bug hazards} we
+%distilled from (1) common root exceptions; (2) exception types; and
+%(3) exception wrappings.
 
-\subsection{Common Root Exceptions}
+This section presents the results of the study, this presentation is centered around parts 
+of exception stack traces (i.e., the root exceptions, the exception types, 
+and the exception wrappings).  Each part is then analyzed in detail to 
+check whether they can reveal bug harzards on the exception handling code
+related or not to violations of the best practices presented
+ in Section~\ref{sec:best}.
+
+\subsection{Can the root exceptions reveal bug harzards?}
 
 After distilling the information available on the exception stack traces, we could find 
 the exceptions commonly reported as the root causes of stack traces.
@@ -781,61 +788,6 @@ environment due to programming mistakes or resource limitations
  (as the ones found in our study).
 
 
-%Commented 2015
-%\emph{\textbf{The prevalence of programming mistakes on stack traces.}} 
-%One way of getting a broader view of the prevalence~\footnote The prevalence
- %evaluates the proportion of a given characteristic over a group 
-%of subjects.}  of programming mistakes on reported stack traces would be to manually 
-%inspect the code responsible for throwning every exception reported  on issues. 
-%However, inspecting the source code related to %6005 stack traces can %easily become infeasible.
-%Hence, we conducted an empirical investigation based on the following assumption: the name of the exception and its associated Javadoc 
-%documentation hold enough information to pinpoint a ``programming mistake".To exemplify, an instance of ArrayOutOfBoundException
-%pinpoints to programming mistake which indicates that an array has been accessed with an illegal index.
-
-%To perform this empirical investigation, we selected a subset of all reported root exceptions. 
-%This subset was composed by the top 100 root exceptions (from a list ranked by the number of ocurrences on stacks).
-%This subset was representative since it contained root exceptions that were reported as the root causes of 95\% of 
-%all stack traces. Therefore, based on the inspection of the full names exceptions and the associated 
-%Javadocs we could identify from this subset, which exceptions were related to programming mistakes.
-% It is worth mentioning that  all exceptions identified as programming mistakes were exceptions defined on java.lang and java.util packages. 
-%After doing such analysis, we could calculate the prevalence of such exceptions on issues. In other words, we could calculate the proportion of issues %mentioning the exceptions identified in this analysis as related to %``programming mistakes".
-
-%Table ~\ref{tab:causes} summarizes the results. It also illustrates the number of general Java exceptions - 
-%whose full name does not carry the reason for the exception to be thrown.
-%To ensure the quality of the analysis, three independent developers classified a randomly selected
-%sample of 25 exception types (from the total 100) using the same list of concerns;
-%the resulting interrater agreement was high (96\%). 
-
-%The results show that the programming mistakes are associated to the most reported root causes. 
-%Although there is usually no proper handling for such exceptions~\cite{wirfs2006toward}, 
-%besides presenting an error message to the user and restarting the application~\footnote{Only 
-%high fault tolerant systems need to provide solutions to handle them.}.  
-%This finding calls the attention to the following: the high number of programming mistakes reported 
-%on issues are an indication that developers may be underestimating the impact that such 
-%mistakes have on application robustness.
-
-%\begin{table}
- % \centering
- % \begin{tabular}{lr}
- %   \hline
- %   \bfseries{Cause} &  \bfseries{\% Occurrences} \\
- %   \hline
- %     Programming Mistakes &  51.96\%\\ 
- %     %Memory Restriction   &   4.10\% \\ 
- %     General Exceptions   &  6.70\%\\
- %   \hline
-% \end{tabular}
-%  \caption{Identifying the concerns related to root exceptions}
-%  \label{tab:causes}
-% \end{table}
-
-
-%\noindent \fbox{ \begin{minipage}{0.96\columnwidth} \emph{
-%The study revealed: approximately 52\% of the reported stack traces were associated to programming mistakes;
-%and 27.71\% of all stack traces reported a java.lang.NullPointerException as the root cause.
-%}
-%\end{minipage}}
-
 \emph{\textbf{Identifying the Concerns Related to Root Exceptions.}} To get a broader view of the root exceptions of stack traces,
 we performed a manual inspection in order to identify the underlying
 concerns related to the most frequently reported root exceptions.
@@ -858,7 +810,10 @@ identified the underlying concern releated to each root exception.
 Table~\ref{tab:tophundrend} contains the results of this analysis. This table also illustrates the exceptions 
 that could not be directly mapped to one of the aforementioned concerns, either because they were too general (i.e., java.lang.Exception,
 java.lang.RuntimeException, java.lang.Error) or because they were
-related to other concerns (e.g., specific to an application or a given library).
+related to other concerns (e.g., specific to an application or a given library). 
+To ensure the quality of the process, three independent coders classified a randomly selected
+sample of 25 exception types (from the total 100) using the same list of concerns;
+the inter-rater agreement was 96\%.
 
 \begin{table}
 \centering
@@ -879,18 +834,16 @@ General (Error, Exception, Runtime) & 6,7\%\\
 \label{tab:tophundrend}
 \end{table}
 
-To ensure the quality of the process, three independent coders classified a randomly selected
-sample of 25 exception types (from the total 100) using the same list of concerns;
-the inter-rater agreement was 96\%.
+This analysis revealed that the exceptions implicitly thrown by runtime environment 
+due to mistakes on programming logic (e.g., out-of-bounds array index, null pointer 
+references) and resource limitations represent a major bug hazard to the exception 
+handling code of Android applications - security ..... os outros nao estao causando 
+muitos problemas.
 
-%These study showed that the programming mistakes associated to the most reported root causes.
-%However, they may be interactly related to one of the other concerns. For instance, a concurrency problem may
-%lead to a NullPointerException.
+Although such exceptions do not violate the best practices described before (which are related to the 
+explicitly thrown exceptions), they represent a major threat to apps robustness.
 
 
-%For instance, the Java specification list all exceptions related to backward compatibility
-%issues ~\cite{javaback} (e.g., InstantiationError, VerifyError, IllegalAccessError). 
-%were also investigated in this study
 
 \finding{%
 More than 50\% of the uncaught exceptions analyzed in this study are due to errors in
