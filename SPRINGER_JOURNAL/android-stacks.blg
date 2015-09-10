@@ -1,0 +1,58 @@
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: android-stacks.aux
+The style file: plain.bst
+Database file #1: android-stacks.bib
+Warning--string name "ieee" is undefined
+--line 364 of file android-stacks.bib
+Warning--to sort, need author or key in javatut
+Warning--to sort, need author or key in stackoverlow
+Warning--to sort, need author or key in debate
+Warning--to sort, need author or key in javaback
+Warning--to sort, need author or key in hoare2
+Warning--to sort, need author or key in BugSe14
+Warning--to sort, need author or key in BugSn14
+Warning--to sort, need author or key in Googl14
+Warning--to sort, need author or key in Acra14
+You've used 52 entries,
+            2118 wiz_defined-function locations,
+            786 strings with 13352 characters,
+and the built_in function-call counts, 20239 in all, are:
+= -- 2073
+> -- 805
+< -- 31
++ -- 330
+- -- 270
+* -- 1278
+:= -- 2997
+add.period$ -- 176
+call.type$ -- 52
+change.case$ -- 286
+chr.to.int$ -- 0
+cite$ -- 61
+duplicate$ -- 873
+empty$ -- 1715
+format.name$ -- 270
+if$ -- 4559
+int.to.chr$ -- 0
+int.to.str$ -- 52
+missing$ -- 47
+newline$ -- 263
+num.names$ -- 86
+pop$ -- 412
+preamble$ -- 1
+purify$ -- 238
+quote$ -- 0
+skip$ -- 676
+stack$ -- 0
+substring$ -- 1305
+swap$ -- 318
+text.length$ -- 31
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 200
+warning$ -- 9
+while$ -- 187
+width$ -- 54
+write$ -- 584
+(There were 10 warnings)

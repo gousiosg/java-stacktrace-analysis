@@ -1,0 +1,318 @@
+\begin{thebibliography}{10}
+
+\bibitem{debate}
+Checked or unchecked exceptions?
+\newblock
+  \url{http://tutorials.jenkov.com/java-exception-handling/checked-or-unchecked-exceptions.html},
+  Oct 2013.
+\newblock Online.
+
+\bibitem{Acra14}
+Acra.
+\newblock \url{code.google.com/p/acra/}, Mar 2014.
+\newblock Online.
+
+\bibitem{BugSe14}
+Bugsense.
+\newblock \url{https://www.bugsense.com/}, Mar 2014.
+\newblock Online.
+
+\bibitem{BugSn14}
+Bugsnag.
+\newblock \url{https://bugsnag.com/}, Mar 2014.
+\newblock Online.
+
+\bibitem{Googl14}
+Google analytics.
+\newblock \url{https://www.google.com/analytics/}, Mar 2014.
+\newblock Online.
+
+\bibitem{stackoverlow}
+Java: checked vs unchecked exception explanation.
+\newblock
+  \url{http://stackoverflow.com/questions/6115896/java-checked-vs-unchecked-exception-explanation},
+  Mar 2014.
+\newblock Online.
+
+\bibitem{javaback}
+Java specification on backward compatibility.
+\newblock \url{http://docs.oracle.com/javase/specs/jls/se7/html/jls-13.html},
+  Jan 2014.
+\newblock Online.
+
+\bibitem{javatut}
+The {J}ava tutorial. {U}nchecked exceptions: The controversy.
+\newblock \url{http://docs.oracle.com/javase/ tutorial/essential
+  /exceptions/runtime.html}, Mar 2014.
+\newblock Online.
+
+\bibitem{hoare2}
+Null references: The billion dollar mistake, abstract of talk at qcon londo.
+\newblock
+  \url{qconlondon.com/london-2009/presentation/Null+References:+The+Billion+Dollar+Mistake},
+  Mar 2014.
+\newblock Online.
+
+\bibitem{ama2012}
+Domenico Amalfitano, Anna~Rita Fasolino, Porfirio Tramontana, Salvatore
+  De~Carmine, and Atif~M Memon.
+\newblock Using gui ripping for automated testing of android applications.
+\newblock In {\em Proceedings of the 27th IEEE/ACM International Conference on
+  Automated Software Engineering}, pages 258--261. ACM, 2012.
+
+\bibitem{bacchelli2012content}
+Alberto Bacchelli, Tommaso Dal~Sasso, Marco D'Ambros, and Michele Lanza.
+\newblock Content classification of development emails.
+\newblock In {\em Proceedings of ICSE 2012}, pages 375--385, 2012.
+
+\bibitem{bettenburg2008makes}
+Nicolas Bettenburg, Sascha Just, Adrian Schr{\"o}ter, Cathrin Weiss, Rahul
+  Premraj, and Thomas Zimmermann.
+\newblock What makes a good bug report?
+\newblock In {\em Proceedings of FSE 2008}, pages 308--318, 2008.
+
+\bibitem{bettenburg2008extracting}
+Nicolas Bettenburg, Rahul Premraj, Thomas Zimmermann, and Sunghun Kim.
+\newblock Extracting structural information from bug reports.
+\newblock In {\em Proceedings of MSR 2008}, pages 27--30. ACM, 2008.
+
+\bibitem{binder2000testing}
+Robert Binder.
+\newblock {\em Testing object-oriented systems: models, patterns, and tools}.
+\newblock Addison-Wesley Professional, 2000.
+
+\bibitem{bloch2008effective}
+Joshua Bloch.
+\newblock {\em Effective java}.
+\newblock Pearson Education India, 2008.
+
+\bibitem{Brunet09}
+J.~Brunet, D.~Guerrero, and J.~Figueiredo.
+\newblock Design tests: An approach to programmatically check your code against
+  design rules.
+\newblock In {\em Proceedings of New Ideas and Emerging Research (NIER) track
+  at the International Conference on Software Engineering (ICSE)}, pages
+  255--258. IEEE, 2009.
+
+\bibitem{cabral2007exception}
+Bruno Cabral and Paulo Marques.
+\newblock Exception handling: A field study in {J}ava and {.N}et.
+\newblock In {\em Proceedings of ECOOP 2007}, pages 151--175. Springer, 2007.
+
+\bibitem{coelho2008assessing}
+Roberta Coelho, Awais Rashid, Alessandro Garcia, Fabiano Ferrari, N{\'e}lio
+  Cacho, Uir{\'a} Kulesza, Arndt von Staa, and Carlos Lucena.
+\newblock Assessing the impact of aspects on exception flows: An exploratory
+  study.
+\newblock In {\em Proceedings of European Conference on Object-Oriented
+  Programming (ECOOP)}, pages 207--234. Springer-Verlag, 2008.
+
+\bibitem{coelho2011unveiling}
+Roberta Coelho, Arndt von Staa, Uir{\'a} Kulesza, Awais Rashid, and Carlos
+  Lucena.
+\newblock Unveiling and taming liabilities of aspects in the presence of
+  exceptions: a static analysis based approach.
+\newblock {\em Information Sciences}, 181(13):2700--2720, 2011.
+
+\bibitem{csallner2004jcrasher}
+Christoph Csallner and Yannis Smaragdakis.
+\newblock Jcrasher: an automatic robustness tester for {J}ava.
+\newblock {\em Software: Practice and Experience}, 34(11):1025--1050, 2004.
+
+\bibitem{dhaliwal2011classifying}
+Tejinder Dhaliwal, Foutse Khomh, and Ying Zou.
+\newblock Classifying field crash reports for fixing bugs: A case study of
+  mozilla firefox.
+\newblock In {\em Proceedings of International Conference on Software
+  Maintenance (ICSM 2011)}, pages 333--342, 2011.
+
+\bibitem{enck2011study}
+William Enck, Damien Octeau, Patrick McDaniel, and Swarat Chaudhuri.
+\newblock A study of android application security.
+\newblock In {\em USENIX security symposium}, volume~2, page~2, 2011.
+
+\bibitem{fraser20131600}
+Gordon Fraser and Andrea Arcuri.
+\newblock 1600 faults in 100 projects: automatically finding faults while
+  achieving high coverage with evosuite.
+\newblock {\em Empirical Software Engineering}, pages 1--29, 2013.
+
+\bibitem{garcia2007extracting}
+A~Garcia, CMF Rubira, et~al.
+\newblock Extracting error handling to aspects: A cookbook.
+\newblock In {\em Proceedings International Conference on Software Maintenance
+  (ICSM)}, pages 134--143. IEEE, 2007.
+
+\bibitem{garcia2001comparative}
+Alessandro~F Garcia, Cec{\i}lia~MF Rubira, Alexander Romanovsky, and Jie Xu.
+\newblock A comparative study of exception handling mechanisms for building
+  dependable object-oriented software.
+\newblock {\em Journal of systems and software}, 59(2):197--222, 2001.
+
+\bibitem{goodenough1975exception}
+John~B Goodenough.
+\newblock Exception handling: issues and a proposed notation.
+\newblock {\em CACM}, 18(12):683--696, 1975.
+
+\bibitem{gosling2000java}
+James Gosling.
+\newblock {\em The {J}ava language specification}.
+\newblock Addison-Wesley Professional, 2000.
+
+\bibitem{Gousi13}
+Georgios Gousios.
+\newblock The {GHT}orrent dataset and tool suite.
+\newblock In {\em Proceedings of the International Working Conference on Mining
+  Software Repositories (MSR)}, pages 233--236. IEEE, 2013.
+
+\bibitem{jo2004uncaught}
+Jang-Wu Jo, Byeong-Mo Chang, Kwangkeun Yi, and Kwang-Moo Choe.
+\newblock An uncaught exception analysis for java.
+\newblock {\em Journal of systems and software}, 72(1):59--69, 2004.
+
+\bibitem{kechagia2014}
+Maria Kechagia and Diomidis Spinellis.
+\newblock Undocumented and unchecked: exceptions that spell trouble.
+\newblock In {\em Proceedings of the 11th Working Conference on Mining Software
+  Repositories}, pages 312--315. ACM, 2014.
+
+\bibitem{kim2011crash}
+Sunghun Kim, Thomas Zimmermann, and Nachiappan Nagappan.
+\newblock Crash graphs: An aggregated view of multiple crashes to improve crash
+  triage.
+\newblock In {\em Proceedings of the IEEE/IFIP International Conference on
+  Dependable Systems and Networks (DSN)}, pages 486--493. IEEE, 2011.
+
+\bibitem{kim2013predicting}
+Sunghun Kim, Thomas Zimmermann, Rahul Premraj, Nicolas Bettenburg, and
+  Shivkumar Shivaji.
+\newblock Predicting method crashes with bytecode operations.
+\newblock In {\em Proceedings of the 6th India Software Engineering
+  Conference}, pages 3--12, 2013.
+
+\bibitem{Linar13}
+Mario Linares-V\'{a}squez, Gabriele Bavota, Carlos Bernal-C\'{a}rdenas,
+  Massimiliano Di~Penta, Rocco Oliveto, and Denys Poshyvanyk.
+\newblock {API} change and fault proneness: A threat to the success of
+  {Android} apps.
+\newblock In {\em Proceedings of FSE 2013}, pages 477--487. ACM, 2013.
+
+\bibitem{maji2012empirical}
+Amiya~Kumar Maji, Fahad~A Arshad, Saurabh Bagchi, and Jan~S Rellermeyer.
+\newblock An empirical study of the robustness of inter-component communication
+  in {A}ndroid.
+\newblock In {\em Proceedings of the IEEE/IFIP International Conference on
+  Dependable Systems and Networks (DSN)}, pages 1--12. IEEE, 2012.
+
+\bibitem{mandrioli1992advances}
+Dino Mandrioli and Bertrand Meyer.
+\newblock {\em Advances in object-oriented software engineering}.
+\newblock Prentice-Hall, Inc., 1992.
+
+\bibitem{McDon13}
+T.~McDonnell, B.~Ray, and Miryung Kim.
+\newblock An empirical study of api stability and adoption in the android
+  ecosystem.
+\newblock In {\em Proceedings International Conference on Software Maintenance
+  (ICSM)}, pages 70--79, 2013.
+
+\bibitem{miller1997issues}
+Robert Miller and Anand Tripathi.
+\newblock Issues with exception handling in object-oriented systems.
+\newblock In {\em Proceedings of ECOOP'97}, pages 85--103. Springer, 1997.
+
+\bibitem{nanda2009accurate}
+Mangala~Gowri Nanda and Saurabh Sinha.
+\newblock Accurate interprocedural null-dereference analysis for java.
+\newblock In {\em Software Engineering, 2009. ICSE 2009. IEEE 31st
+  International Conference on}, pages 133--143. IEEE, 2009.
+
+\bibitem{Patha11}
+Abhinav Pathak, Y.~Charlie Hu, and Ming Zhang.
+\newblock Bootstrapping energy debugging on smartphones: A first look at energy
+  bugs in mobile devices.
+\newblock In {\em Proceedings of the 10th ACM Workshop on Hot Topics in
+  Networks}, HotNets-X, pages 5:1--5:6, New York, NY, USA, 2011. ACM.
+
+\bibitem{Robil00}
+Martin~P. Robillard and Gail~C. Murphy.
+\newblock Designing robust {J}ava programs with exceptions.
+\newblock In {\em Proceedings International Conference on the Foundations of
+  Software Engineering (FSE)}, pages 2--10, 2000.
+
+\bibitem{Ruiz12}
+I.J.M. Ruiz, M.~Nagappan, B.~Adams, and A.E. Hassan.
+\newblock Understanding reuse in the {Android} market.
+\newblock In {\em Proceedings of the International Conference on Program
+  Comprehension (ICPC)}, pages 113--122, 2012.
+
+\bibitem{sacramento2006unchecked}
+Paulo Sacramento, Bruno Cabral, and Paulo Marques.
+\newblock Unchecked exceptions: can the programmer be trusted to document
+  exceptions.
+\newblock In {\em International Conference on Innovative Views of .NET
+  Technologies}, 2006.
+
+\bibitem{schroter2010stack}
+Adrian Schr{\"{o}}ter, Nicolas Bettenburg, and Rahul Premraj.
+\newblock Do stack traces help developers fix bugs?
+\newblock In {\em Proceedings Working Conference on Mining Software
+  Repositories (MSR)}, pages 118--121. IEEE, 2010.
+
+\bibitem{shah2010understanding}
+Hina~B Shah, Carsten Gorg, and Mary~Jean Harrold.
+\newblock Understanding exception handling: Viewpoints of novices and experts.
+\newblock {\em IEEE Trans. Soft. Eng.}, 36(2):150--161, 2010.
+
+\bibitem{sinha2009fault}
+Saurabh Sinha, Hina Shah, Carsten G{\"o}rg, Shujuan Jiang, Mijung Kim, and
+  Mary~Jean Harrold.
+\newblock Fault localization and repair for {J}ava runtime exceptions.
+\newblock In {\em Proceedings International Symposium on Software Testing and
+  Analysis (ISSTA)}, pages 153--164. ACM, 2009.
+
+\bibitem{van2005combining}
+Marko Van~Dooren and Eric Steegmans.
+\newblock Combining the robustness of checked exceptions with the flexibility
+  of unchecked exceptions using anchored exception declarations.
+\newblock {\em ACM SIGPLAN Notices}, 40(10):455--471, 2005.
+
+\bibitem{Walde95}
+Philip Wadler.
+\newblock Monads for functional programming.
+\newblock In {\em Advanced Functional Programming}, pages 24--52. Springer,
+  1995.
+
+\bibitem{wang2013improving}
+Shaohua Wang, Foutse Khomh, and Ying Zou.
+\newblock Improving bug localization using correlations in crash reports.
+\newblock In {\em Proceedings Working Conference on Mining Software
+  Repositories (MSR 2013)}, pages 247--256. ACM/IEEE, 2013.
+
+\bibitem{was2010}
+Anthony~I Wasserman.
+\newblock Software engineering issues for mobile application development.
+\newblock In {\em Proceedings of the FSE/SDP workshop on Future of software
+  engineering research}, pages 397--400. ACM, 2010.
+
+\bibitem{wirfs2006toward}
+Rebecca~J Wirfs-Brock.
+\newblock Toward exception-handling best practices and patterns.
+\newblock {\em Software, IEEE}, 23(5):11--13, 2006.
+
+\bibitem{yuan:2014.osdi}
+Ding Yuan, Yu~Luo, Xin Zhuang, Guilherme~Renna Rodrigues, Xu~Zhao, Yongle
+  Zhang, Pranay Jain, and Michael Stumm.
+\newblock Simple testing can prevent most critical failures: An analysis of
+  production failures in distributed data-intensive systems.
+\newblock In {\em 11th {USENIX} Symposium on Operating Systems Design and
+  Implementation, {OSDI} '14, Broomfield, CO, USA, October 6-8, 2014.}, pages
+  249--265, 2014.
+
+\bibitem{Zhang12}
+Pingyu Zhang and Sebastian Elbaum.
+\newblock Amplifying tests to validate exception handling code.
+\newblock In {\em Proceedings International Conference on Software Engineering
+  (ICSE)}, pages 595--605, Piscataway, NJ, USA, 2012. IEEE Press.
+
+\end{thebibliography}
