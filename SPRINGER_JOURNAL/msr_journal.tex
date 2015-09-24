@@ -72,16 +72,23 @@ grestore
 
 \begin{document}
 
-\title{Exception Handling Bug Hazards in Android\thanks{Grants or other notes
-about the article that should go on the front page should be
-placed here. General acknowledgments should be placed at the end of the article.}
-}
-\subtitle{Results from a Mining Study and The Developers Perspective}
+%\title{Exception Handling Bug Hazards in Android\thanks{Grants or other notes
+%about the article that should go on the front page should be
+%placed here. General acknowledgments should be placed at the end of the article.}
+%}
+%\subtitle{Results from a Mining Study and The Developers Perspective}
+
+
+\title{Exception Handling Bug Hazards in Android}
+\subtitle{Results from a Mining and Survey-based Study}
 
 %\titlerunning{Short form of title}        % if too long for running head
 
-\author{First Author         \and
-        Second Author %etc.
+\author{Roberta Coelho         \and
+       Lucas Almeida \and
+       Georgios Gousios  \and
+       Arie van Deursen  \and
+      Christoph Treude
 }
 
 %\authorrunning{Short form of author list} % if too long for running head
@@ -1089,49 +1096,65 @@ exceptions).
 
 \section{The Developers Perspective}
 \label{sec:dev}
-To better understand the developers perspective about the bug hazards detected during the mining 
-study, we set up an exploratory qualitative investigation and survey Android developers on how they use exception handling in their projects. Our field of study is GitHub; using our GHTorrent database [ref], we aimed our survey at developers from Android projects available in GitHub and mined during the first phase of this study. An explicit goal is to learn from developers perspective about the main exception handling bug hazards in Android. We therefore use a survey as our main research instrument. The survey mixed  Liket-scale with open-ended questions. The questions were motivated by the analysis of the existing bug hazards detected in the first phase of this study. Next sections detail the survey.
 
-%Our main findings reveal that developers often handle exceptions while developing Android apps and %we provide insights into the main challenges faced by them during this task. xxxxxxx
+Although the mining study revelaed a set of bug hazards in Android exception handling no work had examined yet what are the developers perceives about them. With Android development rapidly rising in popularity, it is important to better understand how developers deal with such bug hazards and what they do to overcome them. 
+
+To better understand the developers perspective about the bug hazards detected during the mining study, we set up an exploratory qualitative investigation and survey Android developers on how they face such bug hazards in their projects. Our field of study is GitHub; using our GHTorrent database~\cite{Gousi13}, we aimed our survey at developers from Android projects available in GitHub and which issues were mined during the first phase of this study. 
+
+Our main goal is to learn from developers perspective about the main exception handling bug hazards in Android. We therefore use a survey as our main research instrument. The survey mixed  Liket-scale with open-ended questions. The questions were motivated by the analysis of the existing bug hazards detected in the first phase of this study. Next sections detail the survey.
+
+%Our main findings reveal that developers often handle exceptions while developing Android apps and 
+%we provide insights into the main challenges faced by them during this task. xxxxxxx
 
 
 \subsection{Research Questions}
 
-Although the mining study revelaed a set of bug hazards in Android exception handling no work has examined yet what are the developers perceives about them. With Android development rapidly rising in popularity, it is important to better understand of how developers deal with such bug hazards and what they do to overcome them. 
+When developing Java-based applications it is inevitable to deal with exceptions. Consequently, our first question explores how often developers deal with the exception handling code in Android development:
 
-When developing Java-based applications it is inevitable to deal with exceptions. Consequently, our first question explores how often developers deal with the exception handling code in Android development.
+\emph{\textbf{RQ 1:}How often developers deal with the exception handling code in Android development?} To make the analysis easier, we further refine RQ1 in the following subquestions:
+\begin{itemize}
+\item RQ1.1:\emph{How often developers handle exceptions?}
+\item RQ1.2:\emph{How often developers throw exceptions?}
+\end{itemize}
 
+Another theme that show us how developers may deal with such bug hazards is
+ their knowledge about exception handling best practices presented in Section~\ref{sec:best}.
+ This leads us to our second research question:
 
+\bigskip
 
-\noindent\emph{\textbf{RQ1:How often developers deal with the exception handling code in Android development?}} To make the analysis easier, we further refine RQ1 in the following subquestions:
-RQ1.1:\emph{How often developers handle exceptions?}
-RQ1.2:\emph{How often developers throw exceptions?}
+\emph{\textbf{RQ 2:}Do developers know about exception handling best practices?}
 
-\noindent\emph{\textbf{RQ2:Do developers know about exception handling best practices?}}
+\bigskip
 
-\noindent\emph{\textbf{RQ3:What are the developers perspectives about the exception handling bug hazards?}}
+Then the third research question focus on how developers deal with the main bug hazards found during the mining study.  
 
-\noindent\emph{RQ3.1:Have developers ever faced a crash caused by NullPointerException?}
+\bigskip
 
-\noindent\emph{RQ3.2:Are developers aware of the robustness threats caused by cross-type wrappings?}
+\emph{\textbf{RQ 3:}What are the developers perspectives about the exception handling bug hazards?} To answer such question we further refine RQ3 in the following subquestions:
+\begin{itemize}
+\item\emph{RQ3.1:Have developers ever faced a crash caused by NullPointerException?}
+\item\emph{RQ3.2:Are developers aware of the robustness threats caused by cross-type wrappings?}
+\item\emph{RQ3.3:Are developers aware of the robustness threats caused by JNL non-documented checked exceptions?}
+\end{itemize}
 
-\noindent\emph{RQ3.3:Are developers aware of the robustness threats caused by JNL non-documented checked exceptions?}
-
+Some of such questions were indirectly answered by presenting a set of code snippets on which
+the bug hazards were present and asked developers what they would do when faced with such scenarios.
 
 \subsection{Protocol}
 
 Since our aim is to learn from a large number of developers, we use surveys which scale well.
-The survey is split into two logical sections; multiple choice or Likert-scale questions and open-ended questions. The multiple choice questions are intermixed with open-ended questions to further elicit the developer’s opinions. Moreover, the survey also contains Likert scales questions to force participants to make a choice. Overall, the survey includes XXXX open-ended questions, XXXXX Likert scale questions and XXXXX multiple choice questions. The respondents could fill in the survey in about 15 minutes.
+The survey is split into two logical sections; multiple choice or Likert-scale questions and open-ended questions. The multiple choice questions are intermixed with open-ended questions to further elicit the developer’s opinions. Moreover, the survey also contains Likert scales questions to force participants to make a choice. Overall, the survey includes 13 open-ended questions, 5 Likert scale questions and 10 multiple choice questions. The respondents could fill in the survey in about 15 minutes.
 
 \subsection{Participants}
 
- In previous work [REFMSR], investigated the issues reported on several Android projects hosted in GitHub and Googlecode. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard the toy-programs and non-Android repositories in our GHTorrent dataset [XXXXXX]. Overall we could identify XXXX Android repositories. For each repository, we extract the developers whose email are registered with GitHub. For the pilot phase, we emailed XXXXX and received XXXX answers.
+ In previous work ~\cite{coelho2015}, we mined exception stack traces available on issues reported on several Android projects hosted in GitHub and Googlecode. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard the toy-programs and non-Android repositories. For each repository, we extract the developers whose email are registered on each repository. We emailed the developers and received 74 answers.
 
 The majority of our respondents have more than XXX years of Java development experience (XXXXX%) and  considerable experience in Android development (XXXXX years)  (XXXXXX%). 
 
 \subsection{Data Analysis}
 
-complete!!!
+
 
 \subsection{Results}
 
