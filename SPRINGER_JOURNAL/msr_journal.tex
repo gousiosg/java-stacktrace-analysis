@@ -439,6 +439,7 @@ target of other research~\cite{Linar13,Ruiz12} addressing the \emph{reuse} and A
 
 
 \begin{table}
+  \scriptsize
   \centering
   \begin{tabular}{lr|lr}
     \hline
@@ -598,6 +599,7 @@ Table~\ref{tab:signalers} summarizes this signaler classification.
 
 \begin{table}
   \centering
+  \scriptsize
   \begin{tabular}{rp{29em}}
     \hline
     \bfseries{Signaler} & \bfseries{Description} \\
@@ -660,6 +662,7 @@ the Android platform, the Android libcore, the application itself or a third-par
  following the classification presented in Table  \ref{tab:signalers}. 
 
 \begin{table*}
+  \tiny
   \centering
 %  \begin{tabular}{rcccccccc}
   \begin{tabular}{lrrrrrrrr}
@@ -742,6 +745,7 @@ sample of 25 exception types (from the total 100) using the same list of concern
 the inter-rater agreement was 96\%.
 
 \begin{table}
+\scriptsize
 \centering
 \begin{tabular}{lrr}
 \hline
@@ -778,6 +782,8 @@ raised few of the reported exceptions (less then 5\% of the anlysed stack traces
 %For another 25\% the root cause relates to resource constraints.
 %}
 
+\bigskip 
+
 \finding{%
 Exceptions related to programming logic and resource limitations represent a major bug hazard to Android apps - 
 since they represent approximately 75\% of the exceptions that caused the stack traces.
@@ -812,6 +818,7 @@ checked exceptions a library can define a precise
 %repo !='android'  AND MAIN_EXTENDS LIKE 'RUNT%' AND MAINSIGNALER_FROM like 'APP%';
 
 \begin{table}
+\scriptsize
 \centering
 \begin{tabular}{lrrrrrr}
     \hline
@@ -831,8 +838,12 @@ All		& 1  803	&	433	&	2478	&	1462	&	6005 	\\
   \label{tab:typeroottab}
 \end{table}
 
+\bigskip
+
 \finding{Almost two thirds of all crashes come from runtime
   exceptions. Most of these originate from the application layer.}
+
+\bigskip
 
 \emph{\textbf{Inspecting Exception Interfaces.}}  According to the best practices mentioned before, 
  \emph{explicitly thrown} runtime exceptions 
@@ -867,13 +878,17 @@ the source code. Hence in the absence of the exception documentation it is very 
  for the client to design the application to deal with ``unforeseen'' runtime exceptions. As a consequence, the
  undocumented runtime exception may remain uncaught and lead to system crashes.
 
+\bigskip
+
 \finding{%
 Only a small fraction (4\%, 267 stack traces) of runtime exceptions are programmatically
 thrown. Almost none (0.4\%, just one) of these were documented. Such undocumented 
 runtime exceptions violate best practices III and IV reveal a bug harzard to Java/Android apps.}
 
+\bigskip
 
 \begin{table}
+\scriptsize
 \centering
 
  %\begin{tabular}{|p{7.9cm} p{0.1cm}|}
@@ -913,6 +928,8 @@ Gingerbread version (which still accounts for 13.6\% of devices running Android)
 %PageTurner (206 stars), ActionBarSherlock (6,041 stars), otto (1,618
 %stars).
 
+\bigskip
+
 \finding{%
 For native methods, even checked exceptions can be
 thrown without being documented on the exception interface.
@@ -920,11 +937,13 @@ It violates best practices III and IV and represent a bug hazard
  hard to diagnose.
 }
 
+\bigskip
 
 \subsection{Can the exception wrappings reveal bug hazards?}
 
 
 \begin{table}
+\scriptsize
 \centering
 
  %\begin{tabular}{|p{7.9cm} p{0.1cm}|}
@@ -957,10 +976,11 @@ It violates best practices III and IV and represent a bug hazard
 
 
 \begin{table*}
+\scriptsize
   \centering
   \begin{tabular}{llcccccc}
     \hline
-    \bfseries{Wrapper Type}  &  \bfseries{Root Cause Type} &  \bfseries{Projects}  &  \bfseries{Occurrences} & \textsf{Android} & \textsf{Java/Libcore} & \textsf{Lib} & \textsf{App}  \\
+    \bfseries{Wrapper}  &  \bfseries{Root Cause} &  \bfseries{Projects}  &  \bfseries{Occurrences} & \textsf{Android} & \textsf{Java/Libcore} & \textsf{Lib} & \textsf{App}  \\
     \hline
       
       Runtime &  Checked   & 88 & 148 &  75 &  0   & 38 &  35 \\  %(50.7\%) 
@@ -1042,11 +1062,15 @@ We observe that it is a common implementation practice in the methods of Android
 However, using such a general exception, is considered a bad practice
 according to the Java specification and common guidelines, as it loses contextual information about the exception.
 
+\bigskip
+
 \finding{%
 General catch clauses masking any exception into a general RuntimeException 
 is a common practice in the Android Platform; it violates best practice III 
 and is considered a bug hazard as it loses contextual information about the exception.
 }
+
+\bigskip
 
 \emph{\textbf{Checked Exception wrapping an Error.}} Most of these wrappings
  were also caused by the reflection library used by applications' methods. The methods responsible for the wrappings
@@ -1085,6 +1109,7 @@ that the program cannot possibly recover from). Hence, trying to
 handle such an exception  
 may lead the program to an unpredictable state.
 
+\bigskip
 
 \finding{%
 Cross-type exception wrappings are common.
@@ -1093,6 +1118,7 @@ design, detailed on best practices I and II  (e.g., when mapping unrecoverable E
 exceptions). 
 }
 
+\bigskip
 
 \section{The Developers Perspective}
 \label{sec:dev}
@@ -1148,26 +1174,48 @@ The survey is split into two logical sections; multiple choice or Likert-scale q
 
 \subsection{Participants}
 
- In previous work ~\cite{coelho2015}, we mined exception stack traces available on issues reported on several Android projects hosted in GitHub and Googlecode. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard the toy-programs and non-Android repositories. For each repository, we extract the developers whose email are registered on each repository. We emailed the developers and received 74 answers.
+ In previous work~\cite{co15}, we mined exception stack traces available on issues reported on several Android projects hosted in GitHub and Googlecode. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard the toy-programs and non-Android repositories. For each repository, we extract the developers whose email are registered on each repository. We emailed the developers and received 74 answers.
 
-The majority of our respondents have more than XXX years of Java development experience (XXXXX%) and  considerable experience in Android development (XXXXX years)  (XXXXXX%). 
+The majority of our respondents have more than 2 years of Java development experience (87.3\%) and  considerable experience in Android development (more than 1 year)  (85.9\%) - see Figure~\ref{fig:devexpertise}.
 
-\subsection{Data Analysis}
+\begin{figure} \centering \includegraphics[scale=0.35]{charts/Q1Q2.png}
+\caption{Developers expertise in Java and Android development.}
+\label{fig:devexpertise}
+\end{figure}
 
-
-
-\subsection{Results}
+\subsection{Findings}
 
 In this section, we present our findings per research question. 
 We also include direct quotes from developers along the text with the answer identification - which can be traced in our dtabase. 
 
-\subsubsection{Q1:How often developers deal with the exception handling code in Android development}
+\bigskip
+
+\noindent\emph{\textbf{Q1:How often developers deal with the exception handling code in Android development?}}
+
+Many of our survey respondents said they have to handle exceptions most of the time during Android app development (64.8\%). However, the frequency on which they throw exception inside apps is smaller; most of the survey respondents said they throw exceptions only some of the time or seldom (80.3\%). It shows that although we can try to avoid dealing with exceptions throwing few exceptions, it is almost always inevitable to handle the exceptions thrown by Android platform and reused libraries. 
+
+\begin{figure} \centering \includegraphics[scale=0.35]{charts/Q3Q4.png}
+\caption{How often.}
+\label{fig:oftenhandle}
+\end{figure}
+
+\bigskip
+
+\noindent\emph{\textbf{Q2: Do developers know about exception handling best practices?}}
+
+We can observe that 62\% of surveyed Android developers follow Java exception handling best practices. Among the best practices cited by developers the most popular ones were: avoid generic catches and avoid empty catch blocks. They did not mention a any guide or reference of best practices. When asked about best practices specific to Android developers, most of the developers mentioned that they did no about them. The ones who answered positively said that they adopt the same best practices as in any Java program. 
+ 
+
+\begin{figure} \centering \includegraphics[scale=0.35]{charts/Q7Q8.png}
+\caption{How often.}
+\label{fig:oftenhandle}
+\end{figure}
 
 
-\subsubsection{Q1:How often developers deal with the exception handling code in Android development}
 
+\bigskip
 
-\subsubsection{Q1:How often developers deal with the exception handling code in Android development}
+\noindent\emph{\textbf{Q3:What are the developers perspectives about the exception handling bug hazards?}}
 
 
 
