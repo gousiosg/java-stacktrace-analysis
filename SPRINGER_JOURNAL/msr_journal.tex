@@ -70,6 +70,25 @@ grestore
 }
 
 
+%%%%GREY BOX
+
+\usepackage{color}
+\definecolor{lightgray}{gray}{0.85}
+
+\newcommand\greybox[1]{%
+  \vskip\baselineskip%
+  \par\noindent\colorbox{lightgray}{%
+    \begin{minipage}{.97\columnwidth}%
+    \emph{#1}%
+    \end{minipage}%
+  }%
+  \vskip\baselineskip%
+}
+%%%% END GREY BOX
+
+
+
+
 \begin{document}
 
 %\title{Exception Handling Bug Hazards in Android\thanks{Grants or other notes
@@ -1137,19 +1156,23 @@ Our main goal is to learn from developers perspective about the main exception h
 
 When developing Java-based applications it is inevitable to deal with exceptions. Consequently, our first question explores how often developers deal with the exception handling code in Android development:
 
-\emph{\textbf{RQ 1:}How often developers deal with the exception handling code in Android development?} To make the analysis easier, we further refine RQ1 in the following subquestions:
+\emph{\textbf{RQ 1:} How often developers deal with the exception handling in Android development?} To make the analysis easier, we further refine RQ1 in the following subquestions:
 \begin{itemize}
 \item RQ1.1:\emph{How often developers handle exceptions?}
 \item RQ1.2:\emph{How often developers throw exceptions?}
 \end{itemize}
 
-Another theme that show us how developers may deal with such bug hazards is
+Another issue that show us how developers may deal with such bug hazards is
  their knowledge about exception handling best practices presented in Section~\ref{sec:best}.
  This leads us to our second research question:
 
 \bigskip
 
-\emph{\textbf{RQ 2:}Do developers know about exception handling best practices?}
+\emph{\textbf{RQ 2:} Do Android developers adopt exception handling best practices?}
+
+\bigskip
+
+\emph{\textbf{RQ 4:}  Do Android developers consider implementing the exception handling code of Android apps more difficult than general Java applications?}
 
 \bigskip
 
@@ -1178,7 +1201,7 @@ The survey is split into two logical sections; multiple choice or Likert-scale q
 
 The majority of our respondents have more than 2 years of Java development experience (87.3\%) and  considerable experience in Android development (more than 1 year)  (85.9\%) - see Figure~\ref{fig:devexpertise}.
 
-\begin{figure} \centering \includegraphics[scale=0.35]{charts/Q1Q2.png}
+\begin{figure} \centering \includegraphics[scale=0.35]{charts/Q1Q2_new.png}
 \caption{Developers expertise in Java and Android development.}
 \label{fig:devexpertise}
 \end{figure}
@@ -1186,36 +1209,87 @@ The majority of our respondents have more than 2 years of Java development exper
 \subsection{Findings}
 
 In this section, we present our findings per research question. 
-We also include direct quotes from developers along the text with the answer identification - which can be traced in our dtabase. 
+We also include a selection of quotes from the exploratory survey 
+respondents. Each respondent has an identification which can be traced in our database. 
 
 \bigskip
 
-\noindent\emph{\textbf{Q1:How often developers deal with the exception handling code in Android development?}}
+\noindent\emph{\textbf{Q1:How often developers deal with the exception handling in Android development?}}
 
 Many of our survey respondents said they have to handle exceptions most of the time during Android app development (64.8\%). However, the frequency on which they throw exception inside apps is smaller; most of the survey respondents said they throw exceptions only some of the time or seldom (80.3\%). It shows that although we can try to avoid dealing with exceptions throwing few exceptions, it is almost always inevitable to handle the exceptions thrown by Android platform and reused libraries. 
 
-\begin{figure} \centering \includegraphics[scale=0.35]{charts/Q3Q4.png}
-\caption{How often.}
+\begin{figure} \centering \includegraphics[scale=0.35]{charts/often.png}
+\caption{How often developers throw (a) and handle (b) exceptions during app development.}
 \label{fig:oftenhandle}
 \end{figure}
+
+Developers were also asked whether the exception handling code helped with the development of robust Android applications. Although most of the developers answered positively (78.9\%) when asked to provide one or more reasons for their answers, most of them said that if not carefully developed the exception handling code may lead to app crashes. Table XXX presents the top reasons why the exception handling code may or may not help de development of robust apps. 
+
+
+\begin{table}
+\scriptsize
+\centering
+\begin{tabular}{lrr}
+\hline
+\bfseries{Top 5 Resons} & \bfseries{\#} & \bfseries{\%} \\
+\hline
+\bfseries{For Positively Affecting Robustness} &   &   \\
+Programming logic (java.lang and util)  & 52,0\% & 52,0\%\\
+Resources (IO, Memory, Batery)  & 52,0\% & 23,9\% \\
+Security  & 52,0\% & 4,1\%\\
+Concurrency  & 52,0\% & 2,9\% \\
+Backward compatibility  & 52,0\% & 5,5\% \\
+\bfseries{For Negatively Affecting Robustness} &   &   \\
+Specific Exceptions  & 52,0\% & 4,9\%\\
+General (Error, Exception, Runtime)  & 52,0\% & 6,7\%\\
+Specific Exceptions  & 52,0\% & 4,9\%\\
+General (Error, Exception, Runtime)  & 52,0\% & 6,7\%\\
+\hline
+\end{tabular}
+\caption{Top 5 reasons why exception handling helps or impairs the development of robust apps}
+\label{tab:tophundrend}
+\end{table}
 
 \bigskip
 
 \noindent\emph{\textbf{Q2: Do developers know about exception handling best practices?}}
 
 We can observe that 62\% of surveyed Android developers follow Java exception handling best practices. Among the best practices cited by developers the most popular ones were: avoid generic catches and avoid empty catch blocks. They did not mention a any guide or reference of best practices. When asked about best practices specific to Android developers, most of the developers mentioned that they did no about them. The ones who answered positively said that they adopt the same best practices as in any Java program. 
- 
 
-\begin{figure} \centering \includegraphics[scale=0.35]{charts/Q7Q8.png}
-\caption{How often.}
+\begin{figure} \centering \includegraphics[scale=0.35]{charts/bestpractices.png}
+\caption{The developers awareness of exception handling best practices in Java (a) and Android (b). }
 \label{fig:oftenhandle}
 \end{figure}
-
-
 
 \bigskip
 
 \noindent\emph{\textbf{Q3:What are the developers perspectives about the exception handling bug hazards?}}
+
+\greybox{Sometimes when you develop multi-threaded applications, when the thread finishes you don't have any GUI (or Context) to show information, so you have to be aware of your application's state (foreground, background)}
+
+Handle life cycle of activities and fragments.
+
+
+
+
+Q10: What makes exception handling in Android different from exception handling in Java?
+
+
+The Android framework is what adds the complexity in figuring out what caused an exception because more often than not, the error is triggered from the framework as a result of something else you did
+
+Sometimes when you develop multi-threaded applications, when the thread finishes you don't have any GUI (or Context) to show information, so you have to be aware of your application's state (foreground, background).
+
+Application-Activity-Fragment lifecycle.
+
+You can wrap the main function in java in try/catch in android you can\'t but there are equivalents
+
+Though not particular to Android, most Android apps have several different entry points: Activities, Services, etc, can be started by different services; same thing with events. It may be hard to ensure that all this cases are properly handled. The logcat is a helpful way of tracking exceptions when developing and testing on real phones.
+
+Any uncatched exception will crash the app. There are many unknown exception thrown by the system, that are only happen once in a lifetime like IllegalStateException: eglMakeCurrent failed EGL\_BAD\_CONTEXT
+
+The lifecycle of activities\/fragements etc make it harder to work out what order things are called in and so exceptions can occur because you didn't realise that another method isn't called
+
+
 
 
 
