@@ -1146,7 +1146,7 @@ Although the mining study revelaed a set of bug hazards in Android exception han
 
 To better understand the developers perspective about the bug hazards detected during the mining study, we set up an exploratory qualitative investigation and survey Android developers on how they face such bug hazards in their projects. Our field of study is GitHub; using our GHTorrent database~\cite{Gousi13}, we aimed our survey at developers from Android projects available in GitHub and which issues were mined during the first phase of this study. 
 
-Our main goal is to learn from developers perspective about the main exception handling bug hazards in Android. We therefore use a survey as our main research instrument. The survey mixed  Liket-scale with open-ended questions. The questions were motivated by the analysis of the existing bug hazards detected in the first phase of this study. Next sections detail the survey.
+Our main goal is to learn from developers perspective about the Java exception handling usage and the main exception handling bug hazards in Android. We therefore use a survey as our main research instrument. The survey mixed  Liket-scale with open-ended questions. The questions were motivated by the analysis of the existing bug hazards detected in the first phase of this study. Next sections detail the survey.
 
 %Our main findings reveal that developers often handle exceptions while developing Android apps and 
 %we provide insights into the main challenges faced by them during this task. xxxxxxx
@@ -1195,9 +1195,12 @@ the bug hazards were present and asked developers what they would do when faced 
 Since our aim is to learn from a large number of developers, we use surveys which scale well.
 The survey is split into two logical sections; multiple choice or Likert-scale questions and open-ended questions. The multiple choice questions are intermixed with open-ended questions to further elicit the developer’s opinions. Moreover, the survey also contains Likert scales questions to force participants to make a choice. Overall, the survey includes 13 open-ended questions, 5 Likert scale questions and 10 multiple choice questions. The respondents could fill in the survey in about 15 minutes.
 
+We used grounded theory coding~\cite{charmaz2006}, iterating through our open-ended survey responses, to answer some of the research questions. The grounded theory coding used in this study consists of at two phases: (1) initial coding entails a close reading of the data and (2) later we use focused coding ~\cite{charmaz2006} to pinpoint and develop the most salient themes~\cite{charmaz2006} in the analyzed data.
+
+
 \subsection{Participants}
 
- In previous work~\cite{co15}, we mined exception stack traces available on issues reported on several Android projects hosted in GitHub and Googlecode. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard the toy-programs and non-Android repositories. For each repository, we extract the developers whose email are registered on each repository. We emailed the developers and received 74 answers.
+ In previous work~\cite{coelhoetal15}, we mined exception stack traces available on issues reported on several Android projects hosted in GitHub and Googlecode. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard the toy-programs and non-Android repositories. For each repository, we extract the developers whose email are registered on each repository. We emailed the developers and received 74 answers.
 
 The majority of our respondents have more than 2 years of Java development experience (87.3\%) and  considerable experience in Android development (more than 1 year)  (85.9\%) - see Figure~\ref{fig:devexpertise}.
 
@@ -1223,31 +1226,35 @@ Many of our survey respondents said they have to handle exceptions most of the t
 \label{fig:oftenhandle}
 \end{figure}
 
-Developers were also asked whether the exception handling code helped with the development of robust Android applications. Although most of the developers answered positively (78.9\%) when asked to provide one or more reasons for their answers, most of them said that if not carefully developed the exception handling code may lead to app crashes. Table XXX presents the top reasons why the exception handling code may or may not help de development of robust apps. 
+Developers were also asked whether the exception handling code helped with the development of robust Android applications. Although most of the developers answered positively (78.9\%) when asked to provide one or more reasons for their answers, most of the respondents also provide reasons why the exception handling code can sometimes impairs the robustness.  Since positive and negative reasons were provided intermixed we analyzed both set of answers and ranked the top reasons why exception handling that can negatively or positively affect robustness according to developers perceptions. 
 
+ Table ~\ref{tab:topreasons} presents the top reasons why the exception handling code may or may not help de development of robust apps. Although most of the respondents answered that exception handling code helped with the development of robust Android applications, almost every respondent pointed a drawback associated to he exception handling code, saying that if not used with care the exception handling code may lead to app crashes.  
 
 \begin{table}
 \scriptsize
 \centering
 \begin{tabular}{lrr}
 \hline
-\bfseries{Top 5 Resons} & \bfseries{\#} & \bfseries{\%} \\
+\bfseries{Top Resons} & \bfseries{\#} & \bfseries{\%} \\
 \hline
 \bfseries{For Positively Affecting Robustness} &   &   \\
-Programming logic (java.lang and util)  & 52,0\% & 52,0\%\\
-Resources (IO, Memory, Batery)  & 52,0\% & 23,9\% \\
-Security  & 52,0\% & 4,1\%\\
-Concurrency  & 52,0\% & 2,9\% \\
-Backward compatibility  & 52,0\% & 5,5\% \\
+Exception message improves error diagnosis &	10	& 14\% \\
+Anticipated erroneous situation help writing more robust code & 9	 & 13\% \\
+Exceptions for unrecoverable behavior	& 7 &	10\% \\
+Checked exceptions force handling  &	6	& 9\% \\
+Useful to gracefully crash 	& 4 &	6\% \\
+		
 \bfseries{For Negatively Affecting Robustness} &   &   \\
-Specific Exceptions  & 52,0\% & 4,9\%\\
-General (Error, Exception, Runtime)  & 52,0\% & 6,7\%\\
-Specific Exceptions  & 52,0\% & 4,9\%\\
-General (Error, Exception, Runtime)  & 52,0\% & 6,7\%\\
+Exceptions should be caught to improve robustness	& 7	& 10\% \\
+Creates a different control flow makes debugging harder &	2 &	3\% \\
+unchecked/runtime exceptions favor crashes	& 2	& 3\% \\
+NullPointerExceptoins are tricky to avoid	 & 2	& 3\% \\
+Many device specific exceptions prevent proper handling	& 1 & 1\% \\
+
 \hline
 \end{tabular}
 \caption{Top 5 reasons why exception handling helps or impairs the development of robust apps}
-\label{tab:tophundrend}
+\label{tab:topreasons}
 \end{table}
 
 \bigskip
