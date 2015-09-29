@@ -1200,7 +1200,7 @@ We used grounded theory coding~\cite{charmaz2006}, iterating through our open-en
 
 \subsection{Participants}
 
- In previous work~\cite{coelhoetal15}, we mined exception stack traces available on issues reported on several Android projects hosted in GitHub and Googlecode. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard the toy-programs and non-Android repositories. For each repository, we extract the developers whose email are registered on each repository. We emailed the developers and received 74 answers.
+ In previous work~\cite{coelhoetal15}, we mined exception stack traces available on issues reported on several Android projects hosted in GitHub and Googlecode. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard the toy-programs and non-Android repositories. For each repository, we extract the developers whose email are registered on each repository. We emailed the developers and received 68 valid answers.
 
 The majority of our respondents have more than 2 years of Java development experience (87.3\%) and  considerable experience in Android development (more than 1 year)  (85.9\%) - see Figure~\ref{fig:devexpertise}.
 
@@ -1238,7 +1238,7 @@ Developers were also asked whether the exception handling code helped with the d
 \bfseries{Top Resons} & \bfseries{\#} & \bfseries{\%} \\
 \hline
 \bfseries{For Positively Affecting Robustness} &   &   \\
-Exception message improves error diagnosis &	10	& 14\% \\
+Exception message improves error diagnosis &	10	& 15\% \\
 Anticipated erroneous situation help writing more robust code & 9	 & 13\% \\
 Exceptions for unrecoverable behavior	& 7 &	10\% \\
 Checked exceptions force handling  &	6	& 9\% \\
@@ -1258,6 +1258,40 @@ Many device specific exceptions prevent proper handling	& 1 & 1\% \\
 \end{table}
 
 \bigskip
+
+
+\begin{table}
+\scriptsize
+\centering
+\begin{tabular}{lrr}
+\hline
+\bfseries{Top Ways} & \bfseries{\#} & \bfseries{\%} \\
+\hline
+Handling exceptions & 18 & 25\% \\
+       - handling exceptions in all entry points/all over	  &   &   \\	
+       - using catch-all clauses 		  &   &   \\	
+       - addinf try catch bocks around risky methods		  &   &   \\	
+Crash report tools	& 6 &	8\% \\
+Null checks &	11	& 15\% \\
+ - null check annotations (@Null and @NonNull)	& 3 & 	4\% \\
+Edge cases/boundaries checks  &	4 &	6\% \\
+Testing &	15 &	21\% \\
+
+Let it crash and fix afterward	& 4 & 6\% \\
+
+Many device specific exceptions prevent proper handling	& 1 & 1\% \\
+
+\hline
+\end{tabular}
+\caption{Top ways of preventing crashes }
+\label{tab:topreasons}
+\end{table}
+
+
+
+
+
+
 
 \noindent\emph{\textbf{Q2: Do developers know about exception handling best practices?}}
 
