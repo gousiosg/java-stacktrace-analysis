@@ -1463,7 +1463,7 @@ no layers to catch runtimeexceptions	& 1 &	5\% \\
 
 
 /////// CROSS TYPE WRAPPING //////
-Developers were presented to a code snipet on which as cross-type wrapping was performed - as illustrated in Figure X. Then developers were asked whether such cross-type wrapping could affect the application robustness in some way. 18\% of the respondents mentioned that the app would crash anyway, regardless the exception was wrapped or not. Most of the respondents, however, mentioned disadvantages of such wrapping such as: (i) it impairs proper handling since when wrapping in a general exception we loose information about the exception situation to he handled (24/%); such wrapping treat all exceptions as critical in other words, every exception will remain uncaught and will lead to an app crash; it does not allow the developer to perform a proper handling (e.g. retry) for exception types that are not critical. 		//////
+Developers were presented to a code snipet on which as cross-type wrapping was performed - as illustrated in Figure X. Then developers were asked whether such cross-type wrapping could affect the application robustness in some way. 18\% of the respondents mentioned that the app would crash anyway, regardless the exception was wrapped or not. Most of the respondents, however, mentioned disadvantages of such wrapping such as: (i) it impairs proper handling since when wrapping in a general exception we loose information about the exception situation to he handled (24\%); such wrapping treat all exceptions as critical in other words, every exception will remain uncaught and will lead to an app crash; it does not allow the developer to perform a proper handling (e.g. retry) for exception types that are not critical. 		//////
 
 
 
@@ -1489,6 +1489,12 @@ activity mehtods cannot throw exceptions &	1 &	2\% \\
 \label{tab:handlingruntime}
 \end{table}
 
+
+
+//////// JNI /////
+Only 3 respondents out of 71 (4\% of respondents) were aware of the fact that there are ways a method can throw a non-declared checked exception such as JNI/native code and relfection or directly changing the bytecode/dalvik code bypassing the compile-time checking.  Most of the repondents were not aware that a method could throw a checked exception withou declaring it on its signature, regardless the circunstance. Most respondents mentioned that if a method throws a non-declared exception it must be a RuntimeException. We could observe that this exception handling bug hazard, although represent a threat to app robustness, is hardly known by the Android developers involved in this survey, and can represent.	////
+
+\greybox{I am guessing this is because the exception is thrown from native code (ie, C++ code in the JVM) where Java correct-ness semantics rules do not always apply.}
 
 
 
