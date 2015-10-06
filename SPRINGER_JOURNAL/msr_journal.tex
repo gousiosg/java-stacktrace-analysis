@@ -1427,9 +1427,39 @@ Verify the state of activity/fragment	& 1 &	2\% \\
 Write code in Scala, without nulls (joke)	& 1 &	2\% \\
 \hline
 \end{tabular}
-\caption{Top ways for preventing NullPointerException in Android apps. }
+\caption{Top ways for preventing NullPointerException in Android apps - 61 non-empty responses. }
 \label{tab:handlingruntime}
 \end{table}	
+
+
+
+//////NULLPONTER WORSE IN ANDROID /////
+Developers were also asked whether or not craches caused by NullPointerException were most common in Android development than in stantard Java development.  Almost half of them (XXX\%) mentioned that Android apps were more suceptible to NullPointerException crashes. Some of the reasons mentioned by developers were: (i) the activity and fragment lifecycle - since both are constantly distroyed its references can frequently become null leading to NullPointerExceptions; (ii) the framework complexity - several methods od Android framework return null, and there is not enought documentation to inform the developer when using such methods. Moreover, few respondents also answered that such NullPointerException crashes can be caused by backward compatibility as well as memory issues as illustrated in Table X. The other half mentoned that NullPointerExceptions are  common in Android development as it is common in Java standard development.		//////
+	
+\greybox{Honestly, there are a lot of very unskilled Java programmers out there writing Android apps. When they encounter NPE, they tend to null-check that variable, which just puts a bandage on the problem and causes other failures (usually also NPE's) later on in the application's lifecycle.}
+
+\greybox{This is nothing specific to Android, it's just how Java works.}
+
+\greybox{They can happen pretty much anywhere.		The Android Fragment system comes to mind in this case. Often, it is possible to find yourself in a state where getActivity() is null within the Fragment during certain points in the life cycle, and that is something I have to plan for. This might have been avoidable under a different structure.}
+
+
+\begin{table}
+\scriptsize
+\centering
+\begin{tabular}{lrr}
+\hline
+\bfseries{Top Ways} & \bfseries{\#} & \bfseries{\%} \\
+\hline
+activity/fragment life cycle  &	9 &	47\% \\
+framework complexity	& 6 &	32\% \\
+API / Backward compatibility	& 2 &	11\% \\
+memory issues & 	1 &	5\% \\
+no layers to catch runtimeexceptions	& 1 &	5\% \\
+\hline
+\end{tabular}
+\caption{Top reasons why NullPointerExceptions are more frequent in Android apps acording to 19 respondents . }
+\label{tab:handlingruntime}
+\end{table}
 
 
 
