@@ -1462,6 +1462,33 @@ no layers to catch runtimeexceptions	& 1 &	5\% \\
 \end{table}
 
 
+/////// CROSS TYPE WRAPPING //////
+Developers were presented to a code snipet on which as cross-type wrapping was performed - as illustrated in Figure X. Then developers were asked whether such cross-type wrapping could affect the application robustness in some way. 18\% of the respondents mentioned that the app would crash anyway, regardless the exception was wrapped or not. Most of the respondents, however, mentioned disadvantages of such wrapping such as: (i) it impairs proper handling since when wrapping in a general exception we loose information about the exception situation to he handled (24/%); such wrapping treat all exceptions as critical in other words, every exception will remain uncaught and will lead to an app crash; it does not allow the developer to perform a proper handling (e.g. retry) for exception types that are not critical. 		//////
+
+
+
+\begin{table}
+\scriptsize
+\centering
+\begin{tabular}{lrr}
+\hline
+\bfseries{Top Ways} & \bfseries{\#} & \bfseries{\%} \\
+\hline
+
+impairs proper handling (loses exception information)	& 12 &	24\% \\
+uncaught will crash the app	& 12 &	24\% \\
+app will crash anyway	& 9	& 18\% \\
+should catch / handle properly (do local recovery)	 & 5 & 	10\% \\
+treat all exceptions as critical	& 5 &	10\% \\
+useless rethrow	& 2 &	4\% \\
+activity mehtods cannot throw exceptions &	1 &	2\% \\
+
+\hline
+\end{tabular}
+\caption{Top reasons why cross-type wrapping may impact app robustness - 49 non-empty responses. }
+\label{tab:handlingruntime}
+\end{table}
+
 
 
 
