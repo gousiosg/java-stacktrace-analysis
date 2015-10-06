@@ -388,7 +388,7 @@ enabling them to design the code to deal with them and use the API effectively~\
 
 %%%%%%%%%%%%%%%%%%%
 
-\section{The Mining Study Design}
+\section{The Repository Mining Study}
 \label{sec:study}
 
 \begin{figure*} 
@@ -654,7 +654,7 @@ in GiTHub and Google Code used in this study; (ii) all stack traces extracted
 from issues; (iii) the results of manual inspection steps; (iv) the
 ExceptionMiner tool we developed to support stack trace extraction and distilling.
 
-\section{The Mining Study Results}
+\subsection{The Mining Study Results}
 \label{sec:result}
 
 %This section presents the results of the study, providing both a
@@ -671,7 +671,7 @@ check whether they can reveal bug harzards on the exception handling code -
 related to (i) specific violations of the best practices presented in Section~\ref{sec:best},
 or (ii) the general use of exception handling to suport robust development.
 
-\subsection{Can the root exceptions reveal bug harzards?}
+\subsubsection{Can the root exceptions reveal bug harzards?}
 After distilling the information available on the exception stack traces, we could find 
 the exceptions commonly reported as the root causes of stack traces.
 Table \ref{tab:topten} presents a list of the top 10 root exceptions found in the study - 
@@ -809,7 +809,7 @@ since they represent approximately 75\% of the exceptions that caused the stack 
 From this set the NullPointerException as most prevalent exception.
 }
 
-\subsection{Can the exception types reveal bug hazards?}
+\subsubsection{Can the exception types reveal bug hazards?}
 %\subsection{Exploring the Information Embedded on Exception Types}
 %\subsection{The Exception Types and What They can Tell us? }
 
@@ -958,7 +958,7 @@ It violates best practices III and IV and represent a bug hazard
 
 \bigskip
 
-\subsection{Can the exception wrappings reveal bug hazards?}
+\subsubsection{Can the exception wrappings reveal bug hazards?}
 
 
 \begin{table}
@@ -1216,15 +1216,74 @@ We also include a selection of quotes from the exploratory survey
 respondents. Each respondent has an identification which can be traced in our database. 
 
 \bigskip
+\noindent\emph{\textbf{Q1:How developers deal with the exception handling in Android development?}}
+\bigskip
 
-\noindent\emph{\textbf{Q1:How often developers deal with the exception handling in Android development?}}
+This first research question explores the ways in which developers deal with the exception handling code, either throwing or handling exceptions,  while developing an Android app.  Developers were asked about the frequency they develop exception handling code and whether or not they adopt best practices while developing.
 
-Many of our survey respondents said they have to handle exceptions most of the time during Android app development (64.8\%). However, the frequency on which they throw exception inside apps is smaller; most of the survey respondents said they throw exceptions only some of the time or seldom (80.3\%). It shows that although we can try to avoid dealing with exceptions throwing few exceptions, it is almost always inevitable to handle the exceptions thrown by Android platform and reused libraries. 
+%\noindent\emph{Frequency}
+
+Developers were firstly asked how often they dealt with the exception handling code. Many of our survey respondents recognized they have to handle exceptions most of the time during Android app development (64.8\%). However, the frequency on which they throw exception inside apps is smaller; most of the survey respondents said they throw exceptions only some of the time or seldom (80.3\%). It shows that although we can try to avoid dealing with exceptions throwing few exceptions, it is almost always inevitable to handle the exceptions thrown by Android platform and reused libraries. 
 
 \begin{figure} \centering \includegraphics[scale=0.35]{charts/often.png}
 \caption{How often developers throw (a) and handle (b) exceptions during app development.}
 \label{fig:oftenhandle}
 \end{figure}
+
+
+%\emph{EH Best Practices}
+%/////// JAVA BEST PRACTICES ////// 
+As mentioned before several general guidelines have been proposed on how to
+use Java exceptions. Section XXXXX compiled a list some exception handling (EH) best practices that guided our mining study. In this survey the developers were also asked if they knew about and used Java EH best practices. Although most of them said that knew and adopted Java EH practices 68\%, from this set the most mentioned best practices are presented on Table XXXX - considering that one developer mentioned more than one practice. Some of the practices mentioned, however, are not well known Java EH best practices but seam to be used by some Android developers to better deal with exceptions in Android app context: the crash fast approach [ref], the use of crash report tools, and to favor checked exceptions instead of runtime to represent the exceptional conditions in Android apps.				
+	
+\begin{table}
+\scriptsize
+\centering
+\begin{tabular}{lrr}
+\hline
+\bfseries{Top Java EH Best Practices} & \bfseries{\#} & \bfseries{\%} \\
+\hline
+Use specific handlers / dont catch generic exceptions	& 9 & 23\% \\
+Don't swallow Exceptions	 & 7 & 18\% \\
+Dont throw Runtime / Favor Checked exceptions & 4 &	10\% \\
+Do not use exception for normal  flow control. &	4 &	10\% \\
+Free Resources in finally-blocks	& 4	& 10\% \\
+crash fast	 & 3 &	8\% \\
+crash report tools	&  2 &	5\% \\
+Don't catch Errors 	&  2 &	5\% \\
+\hline
+\end{tabular}
+\caption{Top mentioned Java EH best practices -  40 non-empty answers. }
+\label{tab:javapractices}
+\end{table}			
+				
+%/////// ANDROID EH BEST PRACTICES /////
+The developers who informed that adopted EH best practices were also asked whether they knew about any EH best practice specific to Android context. Most of them 43\% mentioned that they applied the same best practices that they used in Java programs. Only some of them mentioned that adopted specific best practices such as: (i) the use of crash report tools (21\%)  - to notify the developer about the uncaught exceptions that hapen in the application code; and (ii) the use of a global exception handler (14\%) - the UncaughtExceptionHandler advised on Android tutorials [ref].					
+					
+					
+\begin{table}
+\scriptsize
+\centering
+\begin{tabular}{lrr}
+\hline
+\bfseries{Top Android EH Best Practices } & \bfseries{\#} & \bfseries{\%} \\
+\hline
+Same as java	& 6 &	43\% \\
+Crash report tools	 & 3 &	21\% \\
+Add a global exception handler (UncaughtExceptionHandler)	 & 2 & 14\% \\
+Use checked exceptions	& 1 &	7\% \\
+Use appropriate exception messages	& 1 &	7\% \\
+\hline
+\end{tabular}
+\caption{Top mentioned Android-specific EH best practices -  14 non-empty responses. }
+\label{tab:androidpractices}
+\end{table}			
+
+\bigskip
+
+\noindent\emph{\textbf{Q2: How the exception handling code affect the development of robust apps and how developers prevent apps from crashing?}}
+
+\bigskip
 
 Developers were also asked whether the exception handling code helped with the development of robust Android applications. Although most of the developers answered positively (78.9\%) when asked to provide one or more reasons for their answers, most of the respondents also provide reasons why the exception handling code can sometimes impairs the robustness.  Since positive and negative reasons were provided intermixed we analyzed both set of answers and ranked the top reasons why exception handling that can negatively or positively affect robustness according to developers perceptions. 
 
@@ -1235,7 +1294,7 @@ Developers were also asked whether the exception handling code helped with the d
 \centering
 \begin{tabular}{lrr}
 \hline
-\bfseries{Top Resons} & \bfseries{\#} & \bfseries{\%} \\
+\bfseries{Top Reasons} & \bfseries{\#} & \bfseries{\%} \\
 \hline
 \bfseries{For Positively Affecting Robustness} &   &   \\
 Improves error diagnosis  &	10	& 15\% \\
@@ -1258,11 +1317,9 @@ VM inefficiency 	& 1 & 1\% \\
 \label{tab:topreasons}
 \end{table}
 
-\bigskip
+%\bigskip
 
-
-///// PREVENT CRASHES /////
-Finally developers were asked how they prevent their apps from crashing. Most of the respondents answered that they prevent apps from crashing by handling exceptions/errors (27\%). They mentioned about some strategies such as: handling exceptions in all entry points/all over; using catch-all clauses; and adding try catch blocks around risky methods. Different from conventional Java programs, an Android app is composed by several entry points, each window (i.e. Activity) is a potential entry point on which exceptions can scape leading to an app crash. Hence the importance of handling exceptions in all entry points, and using general cash clauses which cannot sometimes prevent crash but allows the developer to present a detailed error message to the user before crashing. Many respondents also said that they used testing approaches to prevent crashes -  few of them mentioned crowd testing (3\%) an emerging approach in testing apps. Moreover, null checks were also mentioned by 15\% of the developers as a way to prevent crashes. The adoption of coding styles were also pointed out by 14\% of respondents as a way to prevent craches. Finally, the crash report tools (e.g. ACRA [ref]) were reported as a way to prevent crashes. Once such tools notify developers about current crashes, the application can be fixed and hence future crashes (caused by what was fixed) could be prevented. Table ~ref{tab:topprevent} presents the themes for the strategies for crash prevention mentioned by developers.	//// 					
+Finally developers were asked how they prevent their apps from crashing. Most of the respondents answered that they prevent apps from crashing by handling exceptions/errors (27\%). They mentioned about some strategies such as: handling exceptions in all entry points/all over; using catch-all clauses; and adding try catch blocks around risky methods. Different from conventional Java programs, an Android app is composed by several entry points, each window (i.e. Activity) is a potential entry point on which exceptions can scape leading to an app crash. Hence the importance of handling exceptions in all entry points, and using general cash clauses which cannot sometimes prevent crash but allows the developer to present a detailed error message to the user before crashing. Many respondents also said that they used testing approaches to prevent crashes -  few of them mentioned crowd testing (3\%) an emerging approach in testing apps. Moreover, null checks were also mentioned by 15\% of the developers as a way to prevent crashes. The adoption of coding styles were also pointed out by 14\% of respondents as a way to prevent craches. Finally, the crash report tools (e.g. ACRA [ref]) were reported as a way to prevent crashes. Once such tools notify developers about current crashes, the application can be fixed and hence future crashes (caused by what was fixed) could be prevented. Table ~ref{tab:topprevent} presents the themes for the strategies for crash prevention mentioned by developers.	 					
 						
 						
 \begin{table}
@@ -1270,9 +1327,9 @@ Finally developers were asked how they prevent their apps from crashing. Most of
 \centering
 \begin{tabular}{lrr}
 \hline
-\bfseries{Top Ways} & \bfseries{\#} & \bfseries{\%} \\
+\bfseries{Top Ways of Crash Prevention} & \bfseries{\#} & \bfseries{\%} \\
 \hline
-exception/error handling & 19 &	27\% \\
+handling exception/error  & 19 &	27\% \\
 testing &	14 &	20\% \\
 null check(s) &	11 &	15\% \\
 - null check annotations (@Null and @NonNull)	& 3 & 	4\% \\
@@ -1284,12 +1341,24 @@ crash report / crash report tools &	8	& 11\% \\
 \label{tab:topprevent}
 \end{table}
 
+//// research
 
+\bigskip 
 
-/////// JAVA BEST PRACTICES ////// 
-As mentioned before several general guidelines have been proposed on how to
-use Java exceptions. Section XXXXX compiled a list some exception handling best practices that guided our mining study. In this survey also we asked the Android developers whether they knew about any Java exception handling best practice. Although most of them said that knew and adopted EH practices 68\%, from this set the most mentioned best practices are presented on Table XXXX - considering that one developer mentioned more than one practice. Some of the practices mentioned, however, are not well known Java EH best practices but seam to be used by some Android developers to better deal with exceptions in Android app context: the crash fast approach [ref], the use of crash report tools, and to favor checked exceptions instead of runtime to represent the exceptional conditions in Android apps./////				
+\noindent\emph{\textbf{Q3.1: How NullPointerException impact the development of robust Android apps?}}
+
+\bigskip 
+
+//////NULLPONTER WORSE IN ANDROID /////
+Developers were also asked whether or not craches caused by NullPointerException were most common in Android development than in stantard Java development.  Almost half of them (XXX\%) mentioned that Android apps were more suceptible to NullPointerException crashes. Some of the reasons mentioned by developers were: (i) the activity and fragment lifecycle - since both are constantly distroyed its references can frequently become null leading to NullPointerExceptions; (ii) the framework complexity - several methods od Android framework return null, and there is not enought documentation to inform the developer when using such methods. Moreover, few respondents also answered that such NullPointerException crashes can be caused by backward compatibility as well as memory issues as illustrated in Table X. The other half mentoned that NullPointerExceptions are  common in Android development as it is common in Java standard development.		//////
 	
+\greybox{Honestly, there are a lot of very unskilled Java programmers out there writing Android apps. When they encounter NPE, they tend to null-check that variable, which just puts a bandage on the problem and causes other failures (usually also NPE's) later on in the application's lifecycle.}
+
+\greybox{This is nothing specific to Android, it's just how Java works.}
+
+\greybox{They can happen pretty much anywhere.		The Android Fragment system comes to mind in this case. Often, it is possible to find yourself in a state where getActivity() is null within the Fragment during certain points in the life cycle, and that is something I have to plan for. This might have been avoidable under a different structure.}
+
+
 \begin{table}
 \scriptsize
 \centering
@@ -1297,26 +1366,27 @@ use Java exceptions. Section XXXXX compiled a list some exception handling best 
 \hline
 \bfseries{Top Ways} & \bfseries{\#} & \bfseries{\%} \\
 \hline
-Use specific handlers / dont catch generic exceptions	& 9 & 23\% \\
-Don't swallow Exceptions	 & 7 & 18\% \\
-Dont throw Runtime / Favor Checked exceptions & 4 &	10\% \\
-Do not use exception for normal  flow control. &	4 &	10\% \\
-Free Resources in finally-blocks	& 4	& 10\% \\
-crash fast	 & 3 &	8\% \\
-crash report tools	&  2 &	5\% \\
-Don't catch Errors 	&  2 &	5\% \\
+activity/fragment life cycle  &	9 &	47\% \\
+framework complexity	& 6 &	32\% \\
+API / Backward compatibility	& 2 &	11\% \\
+memory issues & 	1 &	5\% \\
+no layers to catch runtimeexceptions	& 1 &	5\% \\
 \hline
 \end{tabular}
-\caption{Top mentioned Java EH best practices -  40 non-empty answers. }
-\label{tab:javapractices}
-\end{table}			
-				
+\caption{Top reasons why NullPointerExceptions are more frequent in Android apps acording to 19 respondents . }
+\label{tab:handlingruntime}
+\end{table}
+
+////// PREVENT NULL POINTER /////
+Developers were also asked about what they usually do to prevent NullPointerExceptions to happen when their app is in production. Most of them sais that include null-checks on the application code (59\%) mostly when checking the return of a method and as method guard conditions. Many respondents (39\%) also answered that instead of just sprinkling the code with null-checks when a NullPointerException happens they investigate the cause of the null reference and work to fix it, instead of just adding a null check. Some respondents also mention that use annotations such as @Nullable @NonNull, provided in Android since version XXX; such annotations guide de developer about what can and cannot be null during the application lifecycle. Altough catching the NullPointerExceptions is considered a bad practice some respondents said that they do it to prevent crashes caused by NullPointerExceptions. Such behavior was mentioned by one of the responded as the behavior adopted as as way non-expericente developers take to prevent such crashes - which is undoubtly a mistake. Some respondents also mentioned to replace the NullPointerException by IllegalArgumentException when a method should not receive a null as parameter. This is a good exception handling practice mentioned by Bloch in [ref]. Only few developers mentioned about coding standards and static code analyzers to prevent it (2\%).////////
 
 
-/////// ANDROID EH BEST PRACTICES /////
-Developers who informed that adopted EH best practices were also asked whether they knew about any EH best practice specific to Android context. Most of them 43\% mentioned that they applied the same best practices that they used in Java programs. Only some of them mentioned that adopted specific best practices such as: (i) the use of crash report tools (21\%)  - to notify the developer about the uncaught exceptions that hapen in the application code; and (ii) the use of a global exception handler (14\%) - the UncaughtExceptionHandler advised on Android tutorials [ref].	 /////				
-					
-					
+\greybox{Determine why the object was null and attempt to fix this situation. In the case of external API calls which return null, then check for null (the quick-and-dirty way). For internal calls, use @NotNull and @Nullable annotations to provided more guidance on when an object \"may be\" and \"should never be\" null.}
+
+\greybox{Probably the most common exception, as such the reasons and fixes are super varying. But in general, null checks should be utilized and illegal state or argument exceptions should be used with an appropriate message. Which will communicate useful information without the confusion an NPE would normally cause.}
+
+
+
 \begin{table}
 \scriptsize
 \centering
@@ -1324,22 +1394,44 @@ Developers who informed that adopted EH best practices were also asked whether t
 \hline
 \bfseries{Top Ways} & \bfseries{\#} & \bfseries{\%} \\
 \hline
-same as java	& 6 &	43\% \\
-crash report tools	 & 3 &	21\% \\
-add a global exception handler (UncaughtExceptionHandler)	 & 2 & 14\% \\
-use checked exceptions	& 1 &	7\% \\
-use appropriate exception messages	& 1 &	7\% \\
+null-checks &	36 &	59\% \\
+investigate/fix the cause	& 24 & 	39\% \\
+@Nullable @NonNull &	8 &	13\% \\
+catch null-pointer (mistake)	& 3 &	5\% \\
+initialize/use default variable	& 3 &	5\% \\
+new control-flow for null	& 3 &	5\% \\
+avoid using nulls / avoid to use methods can throw null	& 2 &	3\% \\
+static analisis	& 2 &	3\% \\
+automated testing	& 1 &	2\% \\
+make sure value is not null	& 1 &	2\% \\
+coding standards	& 1 &	2\% \\
+guard statements 	& 1 &	2\% \\
+handlers in all entry points	& 1 & 	2\% \\
+Use ART more than Dalvik	& 1 &	2\% \\
+Use IllegalArgument or IllegaState exception instead	& 1 &	2\% \\
+Verify the state of activity/fragment	& 1 &	2\% \\
+Write code in Scala, without nulls (joke)	& 1 &	2\% \\
 \hline
 \end{tabular}
-\caption{Top mentioned Android-specific EH best practices -  14 non-empty responses. }
-\label{tab:androidpractices}
-\end{table}			
+\caption{Top ways for preventing NullPointerException in Android apps - 61 non-empty responses. }
+\label{tab:handlingruntime}
+\end{table}	
+
+
+\bigskip 
+
+\noindent\emph{\textbf{Q3.2: How Cross-Type Wrappings impact the development of robust Android apps?}}
+
+\bigskip
+
+Some of the best practices are related to the different ways of handling checked and unchecked exceptions. When the designer of an API specifies that a method throws a checked exception, it is telling
+the caller of the API that such exception should be handled.
 		
 
 ///// HANDLING RUNTIME AND CHECKED /////
-Developers were presented to two pieces of code: one on which a RuntimeException was caught and another one where an IOException has caught; both in the contexts of Activity life-cycle methods. Then de developers were asked whether or not the way to handle a runtime exception should be different from the way to handle a checked exception. This question was motivated by the fact that during the mining study we could identify that many checked exception were just wrapped in a runtime exception and rethrown, as a way to by pass any kind of handling. When asked about of how to deal with a checked exception signaled by a method (invoked in the context of onPause() activity method), most respondents (62.50\%) said that they should add a try-catch block surrounding the method invocation. Also most of the respondents said that to deal with a method that is signaling a runtime exception we should surround such method by a try-catch block (xxxxx\%). However, what developers mentioned as handling actions (what is performed inside the catch clause to deal with the exception) differes in both cases. One of them mentioned that when the designer of an API decides to signal a checked exception s/he is telling the developer that the exception should be handled. Hence, some handling actions mentioned for checked exceptions were: (i) retrying the same operation; (ii) involving the user in finding a solution to the exception condition such as opening a pop-up and asking the user to define a new place to save the file (as in the example presented to them involved a IOException been signaled); and also (iii) presenting an error message to the user. On the other hand, the most common way of dealing with a runtime exception would be to catch it and present an error message to the user, or swallow the exception. Some developers also mentioned to use a Toast to support this task - a toast is an Android component that provides simple feedback about an operation in a small popup. (http://developer.android.com/guide/topics/ui/notifiers/toasts.html). Few developers mentioned that the runtime exception should flow upstream so the framework so it could gracefully crash the app. Although there is a long lasting debate about the pros and cons of checked and unchecked exceptions, most Android developers condireded checked exceptions a way od using exceptions that can prevent uncaught exception crashes - since in order to a checked exception to flow upstream and crash the app the developers needs to explicitly do so. //////					
+Developers were presented to two pieces of code: one on which a RuntimeException was caught and another one where an IOException has caught; both in the contexts of Activity life-cycle methods. Then de developers were asked whether or not the way to handle a runtime exception should be different from the way to handle a checked exception. 
 
-
+This question was motivated by the fact that during the mining study we could identify that many checked exception were just wrapped in a runtime exception and rethrown, as a way to by pass any kind of handling. When asked about of how to deal with a checked exception signaled by a method (invoked in the context of onPause() activity method), most respondents (62.50\%) said that they should add a try-catch block surrounding the method invocation. Also most of the respondents said that to deal with a method that is signaling a runtime exception we should surround such method by a try-catch block (xxxxx\%). However, what developers mentioned as handling actions (what is performed inside the catch clause to deal with the exception) differes in both cases. One of them mentioned that when the designer of an API decides to signal a checked exception s/he is telling the developer that the exception should be handled. Hence, some handling actions mentioned for checked exceptions were: (i) retrying the same operation; (ii) involving the user in finding a solution to the exception condition such as opening a pop-up and asking the user to define a new place to save the file (as in the example presented to them involved a IOException been signaled); and also (iii) presenting an error message to the user. On the other hand, the most common way of dealing with a runtime exception would be to catch it and present an error message to the user, or swallow the exception. Some developers also mentioned to use a Toast to support this task - a toast is an Android component that provides simple feedback about an operation in a small popup. (http://developer.android.com/guide/topics/ui/notifiers/toasts.html). Few developers mentioned that the runtime exception should flow upstream so the framework so it could gracefully crash the app. Although there is a long lasting debate about the pros and cons of checked and unchecked exceptions, most Android developers condireded checked exceptions a way od using exceptions that can prevent uncaught exception crashes - since in order to a checked exception to flow upstream and crash the app the developers needs to explicitly do so. //////					
 
 \begin{table}
 \scriptsize
@@ -1390,78 +1482,6 @@ toast	 & 1 & 3\% \\
 \end{table}		
 
 
-
-////// PREVENT NULL POINTER /////
-Developers were also asked about what they usually do to prevent NullPointerExceptions to happen when their app is in production. Most of them sais that include null-checks on the application code (59\%) mostly when checking the return of a method and as method guard conditions. Many respondents (39\%) also answered that instead of just sprinkling the code with null-checks when a NullPointerException happens they investigate the cause of the null reference and work to fix it, instead of just adding a null check. Some respondents also mention that use annotations such as @Nullable @NonNull, provided in Android since version XXX; such annotations guide de developer about what can and cannot be null during the application lifecycle. Altough catching the NullPointerExceptions is considered a bad practice some respondents said that they do it to prevent crashes caused by NullPointerExceptions. Such behavior was mentioned by one of the responded as the behavior adopted as as way non-expericente developers take to prevent such crashes - which is undoubtly a mistake. Some respondents also mentioned to replace the NullPointerException by IllegalArgumentException when a method should not receive a null as parameter. This is a good exception handling practice mentioned by Bloch in [ref]. Only few developers mentioned about coding standards and static code analyzers to prevent it (2\%).////////
-
-
-\greybox{Determine why the object was null and attempt to fix this situation. In the case of external API calls which return null, then check for null (the quick-and-dirty way). For internal calls, use @NotNull and @Nullable annotations to provided more guidance on when an object \"may be\" and \"should never be\" null.}
-
-\greybox{Probably the most common exception, as such the reasons and fixes are super varying. But in general, null checks should be utilized and illegal state or argument exceptions should be used with an appropriate message. Which will communicate useful information without the confusion an NPE would normally cause.}
-
-
-
-\begin{table}
-\scriptsize
-\centering
-\begin{tabular}{lrr}
-\hline
-\bfseries{Top Ways} & \bfseries{\#} & \bfseries{\%} \\
-\hline
-null-checks &	36 &	59\% \\
-investigate/fix the cause	& 24 & 	39\% \\
-@Nullable @NonNull &	8 &	13\% \\
-catch null-pointer (mistake)	& 3 &	5\% \\
-initialize/use default variable	& 3 &	5\% \\
-new control-flow for null	& 3 &	5\% \\
-avoid using nulls / avoid to use methods can throw null	& 2 &	3\% \\
-static analisis	& 2 &	3\% \\
-automated testing	& 1 &	2\% \\
-make sure value is not null	& 1 &	2\% \\
-coding standards	& 1 &	2\% \\
-guard statements 	& 1 &	2\% \\
-handlers in all entry points	& 1 & 	2\% \\
-Use ART more than Dalvik	& 1 &	2\% \\
-Use IllegalArgument or IllegaState exception instead	& 1 &	2\% \\
-Verify the state of activity/fragment	& 1 &	2\% \\
-Write code in Scala, without nulls (joke)	& 1 &	2\% \\
-\hline
-\end{tabular}
-\caption{Top ways for preventing NullPointerException in Android apps - 61 non-empty responses. }
-\label{tab:handlingruntime}
-\end{table}	
-
-
-
-//////NULLPONTER WORSE IN ANDROID /////
-Developers were also asked whether or not craches caused by NullPointerException were most common in Android development than in stantard Java development.  Almost half of them (XXX\%) mentioned that Android apps were more suceptible to NullPointerException crashes. Some of the reasons mentioned by developers were: (i) the activity and fragment lifecycle - since both are constantly distroyed its references can frequently become null leading to NullPointerExceptions; (ii) the framework complexity - several methods od Android framework return null, and there is not enought documentation to inform the developer when using such methods. Moreover, few respondents also answered that such NullPointerException crashes can be caused by backward compatibility as well as memory issues as illustrated in Table X. The other half mentoned that NullPointerExceptions are  common in Android development as it is common in Java standard development.		//////
-	
-\greybox{Honestly, there are a lot of very unskilled Java programmers out there writing Android apps. When they encounter NPE, they tend to null-check that variable, which just puts a bandage on the problem and causes other failures (usually also NPE's) later on in the application's lifecycle.}
-
-\greybox{This is nothing specific to Android, it's just how Java works.}
-
-\greybox{They can happen pretty much anywhere.		The Android Fragment system comes to mind in this case. Often, it is possible to find yourself in a state where getActivity() is null within the Fragment during certain points in the life cycle, and that is something I have to plan for. This might have been avoidable under a different structure.}
-
-
-\begin{table}
-\scriptsize
-\centering
-\begin{tabular}{lrr}
-\hline
-\bfseries{Top Ways} & \bfseries{\#} & \bfseries{\%} \\
-\hline
-activity/fragment life cycle  &	9 &	47\% \\
-framework complexity	& 6 &	32\% \\
-API / Backward compatibility	& 2 &	11\% \\
-memory issues & 	1 &	5\% \\
-no layers to catch runtimeexceptions	& 1 &	5\% \\
-\hline
-\end{tabular}
-\caption{Top reasons why NullPointerExceptions are more frequent in Android apps acording to 19 respondents . }
-\label{tab:handlingruntime}
-\end{table}
-
-
 /////// CROSS TYPE WRAPPING //////
 Developers were presented to a code snipet on which as cross-type wrapping was performed - as illustrated in Figure X. Then developers were asked whether such cross-type wrapping could affect the application robustness in some way. 18\% of the respondents mentioned that the app would crash anyway, regardless the exception was wrapped or not. Most of the respondents, however, mentioned disadvantages of such wrapping such as: (i) it impairs proper handling since when wrapping in a general exception we loose information about the exception situation to he handled (24\%); such wrapping treat all exceptions as critical in other words, every exception will remain uncaught and will lead to an app crash; it does not allow the developer to perform a proper handling (e.g. retry) for exception types that are not critical. 		//////
 
@@ -1489,7 +1509,9 @@ activity mehtods cannot throw exceptions &	1 &	2\% \\
 \label{tab:handlingruntime}
 \end{table}
 
-
+\bigskip
+\noindent\emph{\textbf{RQ 3.3 Are developers aware the hidden dangers of non-declared checked exceptions?}}
+\bigskip
 
 //////// JNI /////
 Only 3 respondents out of 71 (4\% of respondents) were aware of the fact that there are ways a method can throw a non-declared checked exception such as JNI/native code and relfection or directly changing the bytecode/dalvik code bypassing the compile-time checking.  Most of the repondents were not aware that a method could throw a checked exception withou declaring it on its signature, regardless the circunstance. Most respondents mentioned that if a method throws a non-declared exception it must be a RuntimeException. We could observe that this exception handling bug hazard, although represent a threat to app robustness, is hardly known by the Android developers involved in this survey, and can represent.	////
@@ -1654,13 +1676,6 @@ This subset comprises the stack traces related to the main findings
 of the study (e.g., ``undocumented runtime and checked exceptions'',
 and ``cross-type wrappings'').
 %\noindent
-
-
-\section{Qualitative Study Design}
-\label{sec:qualitative}
-
-INCLUDE THE QUALITATIVE DESIGN....
-
 
 
 \section{Related Work}
