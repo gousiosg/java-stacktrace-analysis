@@ -1238,13 +1238,13 @@ This first research question explores the ways in which developers deal with the
 
 Developers were firstly asked how often they dealt with the exception handling code. Many of our survey respondents recognized they have to handle exceptions most of the time during Android app development (64.8\%). However, the frequency on which they throw exception inside apps is smaller; most of the survey respondents said they throw exceptions only some of the time or seldom (80.3\%). It shows that although we can try to avoid dealing with exceptions throwing few exceptions, it is almost always inevitable to handle the exceptions thrown by Android platform and reused libraries. 
 
-\begin{figure} \centering \includegraphics[scale=0.63]{charts/often_new.png}
+\begin{figure} \centering \includegraphics[scale=0.63]{charts/agree_new2.png}
 \caption{How often developers throw and handle exceptions during app development.}
 \label{fig:oftenhandle}
 \end{figure}
 
 
-\begin{figure} \centering \includegraphics[scale=0.57]{charts/summary_new.png}
+\begin{figure} \centering \includegraphics[scale=0.57]{charts/yes_no_new2.png}
 \caption{Summary of some survey question answers. }
 \label{fig:oftenhandle}
 \end{figure}
@@ -1307,9 +1307,11 @@ Use appropriate exception messages	& 1 &	7\% \\
 \bigskip 
 
 %//////NULLPONTER WORSE IN ANDROID /////
-Developers were also asked whether or not craches caused by NullPointerException were most common in Android development than in stantard Java development.  Almost half of them (XXX\%) mentioned that Android apps were more suceptible to NullPointerException crashes. Some of the reasons mentioned by developers were: (i) the activity and fragment lifecycle - since both are constantly distroyed its references can frequently become null leading to NullPointerExceptions; (ii) the framework complexity - several methods od Android framework return null, and there is not enought documentation to inform the developer when using such methods. 
+Developers were asked if their apps ever crashed  because of a NullPointerException. The vast majority of respondents (96\%) said that their apps crashed at least once due to a NullPointerException. 
+Their answers are aligned with the high prevalence of NullPointerExceptions found in the mining study - in Table XXX we can see that NullPointerExceptions were the main cause of the mined exception stack traces.
+The developers were also asked whether or not craches caused by NullPointerException were most common in Android development than in stantard Java development.  Almost half of them (XXX\%) mentioned that Android apps were more suceptible to NullPointerException crashes. Some of the reasons mentioned by developers were: (i) the activity and fragment lifecycle - since both are constantly distroyed its references can frequently become null leading to NullPointerExceptions; (ii) the framework complexity - several methods od Android framework return null, and there is not enought documentation to inform the developer when using such methods. 
 
-\greybox{They can happen pretty much anywhere.		The Android Fragment system comes to mind in this case. Often, it is possible to find yourself in a state where getActivity() is null within the Fragment during certain points in the life cycle, and that is something I have to plan for. This might have been avoidable under a different structure.}
+\greybox{They can happen pretty much anywhere.	 The Android Fragment system comes to mind in this case. Often, it is possible to find yourself in a state where getActivity() is null within the Fragment during certain points in the life cycle, and that is something I have to plan for. This might have been avoidable under a different structure.}
 
 
 \greybox{The Android framework is what adds the complexity in figuring out what caused an exception because more often than not, the error is triggered from the framework as a result of something else you did.}
