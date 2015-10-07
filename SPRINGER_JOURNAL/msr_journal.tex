@@ -1217,7 +1217,7 @@ We used grounded theory coding~\cite{charmaz2006}, iterating through our open-en
  In previous work~\cite{coelhoetal15}, we mined exception stack traces available on issues reported on several Android projects hosted in GitHub and Googlecode. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard the toy-programs and non-Android repositories. For each repository, we extract the developers whose email are registered on each repository. We emailed the 1,824 developers and received 71 valid answers. The majority of our respondents have more than 2 years of Java development experience (87.3\%) and  considerable experience in Android development (more than 1 year)  (85.9\%) - see Figure~\ref{fig:devexpertise}.
 
 %Q1Q2_new.png
-\begin{figure} \centering \includegraphics[scale=0.35]{charts/expertise.png}
+\begin{figure} \centering \includegraphics[scale=0.38]{charts/expertise.png}
 \caption{Developers expertise in Java and Android development.}
 \label{fig:devexpertise}
 \end{figure}
@@ -1238,14 +1238,14 @@ This first research question explores the ways in which developers deal with the
 
 Developers were firstly asked how often they dealt with the exception handling code. Many of our survey respondents recognized they have to handle exceptions most of the time during Android app development (64.8\%). However, the frequency on which they throw exception inside apps is smaller; most of the survey respondents said they throw exceptions only some of the time or seldom (80.3\%). It shows that although we can try to avoid dealing with exceptions throwing few exceptions, it is almost always inevitable to handle the exceptions thrown by Android platform and reused libraries. 
 
-\begin{figure} \centering \includegraphics[scale=0.35]{charts/often.png}
-\caption{How often developers throw (a) and handle (b) exceptions during app development.}
+\begin{figure} \centering \includegraphics[scale=0.63]{charts/often_new.png}
+\caption{How often developers throw and handle exceptions during app development.}
 \label{fig:oftenhandle}
 \end{figure}
 
 
-\begin{figure} \centering \includegraphics[scale=0.35]{charts/bestpractices.png}
-\caption{The developers awareness of exception handling best practices in Java (a) and Android (b). }
+\begin{figure} \centering \includegraphics[scale=0.57]{charts/summary_new.png}
+\caption{Summary of some survey question answers. }
 \label{fig:oftenhandle}
 \end{figure}
 
@@ -1545,9 +1545,9 @@ Although most of the respondents answered that exception handling code helped wi
 %\bigskip
 
 Developers were asked to rank the main causes of crashes. Approximately 68\% of the repondents ranked the exceptions signaled by programming logic mistakes e.g. NullPointerExceptions as the Top 1 and Top 2 cause of crashes as illustrated in Figure ~\ref{figure:ranking}. In our mining study the exceptions signaled due to programming logic mistakes (java.lang and util) where the causes of 52,0\% of the exception stack traces found. Hence, the developers perspective is aligned with what was revealed in mining study.
-
+%[width=.9\hsize]
 \begin{figure*} 
-\centering \includegraphics[width=.9\hsize]{charts/maincauses.png}
+\centering \includegraphics[scale=0.42]{charts/maincauses.png}
 \caption{Developers perspectives on the main causes of crashes.}\label{fig:ranking} 
 \end{figure*}
 
