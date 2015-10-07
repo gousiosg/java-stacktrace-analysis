@@ -1389,7 +1389,7 @@ Write code in Scala, without nulls (joke)	& 1 &	2\% \\
 Some of the best practices are related to the different ways exceptions should be handled according to whether it is a checked and an unchecked exception. When the designer of an API specifies that a method throws a checked exception, it is telling the caller of the API that such exception should be handled.
 
 %///// HANDLING RUNTIME AND CHECKED /////		
-To acess developers perspective on whether checked and unchecked exceptions should be handled different inside the app, the developers were presented to two pieces of code: one on which a RuntimeException was caught and another one where an IOException has caught; both in the contexts of Activity life-cycle methods. Then the developers were asked whether or not the way to handle a runtime exception should be different from the way to handle a checked exception. 
+To assess developers perspective on whether checked and unchecked exceptions should be handled different inside the app, the developers were presented to two pieces of code: one on which a RuntimeException was caught and another one where an IOException has caught; both in the contexts of Activity life-cycle methods. Then the developers were asked whether or not the way to handle a runtime exception should be different from the way to handle a checked exception. 
 
 This question was motivated by the fact that during the mining study we could identify that many checked exception were just wrapped in a runtime exception and rethrown, as a way to by pass any kind of handling. When asked about of how to deal with a checked exception signaled by a method (invoked in the context of onPause() activity method), most respondents (62.50\%) said that they should add a try-catch block surrounding the method invocation. Also most of the respondents said that to deal with a method that is signaling a runtime exception we should surround such method by a try-catch block (xxxxx\%). However, what developers mentioned as handling actions (what is performed inside the catch clause to deal with the exception) differes in both cases. 
 
@@ -1872,7 +1872,7 @@ as well as how developers deal with exceptions and prevent crashes while develop
 The goal of this paper is two-fold: (i) to investigate 
 to what extent stack trace information can reveal \emph{bug hazards} 
 related to exception handling code that may lead to a decrease in
-application robustness; and (ii) investigate the developers perspective
+application robustness; and (ii) to assess the developers perspective
 concerning the detected EH \emph{bug hazards}. 
 
 To that end, we mined the stack 
