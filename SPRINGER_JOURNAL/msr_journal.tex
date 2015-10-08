@@ -439,12 +439,14 @@ enabling them to design the code to deal with them and use the API effectively~\
 % We investigate whether characteristics 
 %of exception stack traces can pinpoint best practices violations and therefore reveal \emph{bug hazards}.
 
-The goal of our mining study is to explore to what extent exception stack traces 
-contained in issues of Android projects (hosted in GitHub and Google Code), can reveal 
-\emph{bug hazards} in the exception-related code of both the applications and the underlying framework. 
+
+Our mining study was guided by a general research question: \emph{RQ 1: Can the information available in exception stack traces 
+ reveal exception handling \emph{bug hazards} in both the Android applications and framework?}
 As mentioned before, in this context \emph{bug hazards} are the characteristics of exception-related code 
 that favor the introduction of failures such as uncaught exceptions. 
-To support our investigation, we developed a tool called ExceptionMiner (Section~\ref{sec:exceptionminer})
+
+Our study focused on the exception stack traces contained in issues of Android projects (hosted in GitHub and Google Code).
+And to support our investigation, we developed a tool called ExceptionMiner (Section~\ref{sec:exceptionminer})
 which extracts the exception stack traces embedded on issues, 
 and combines stack trace information with source code and bytecode 
 analysis. Moreover, we use manual inspection to augment
@@ -687,15 +689,28 @@ remained undefined, which occurred in 60 different exception stack traces (see T
 %distilled from (1) common root exceptions; (2) exception types; and
 %(3) exception wrappings.
 
-This section presents the results of the study; this presentation is centered around 
-the information distilled from stack traces: (i) the root exceptions (i.e., the exceptions that caused the stack traces);
+This section presents the results of our study that was guided by the general research question:
+ \emph{RQ 1: Can the information available in exception stack traces reveal exception handling 
+bug hazards in both the Android applications and framework?}
+To make the analysis easier, we further refine this question in subquestions, each one focusing on pieces of information
+ distilled from stack traces, more specifically: (i) the root exceptions (i.e., the exceptions that caused the stack traces);
  (ii) the exception types (i.e, Checked, Runtime, Error, Throwable) and (iii) the exception wrappings. 
-Each piece information is then analyzed in detail to 
+Hence, this section is centered around the following subquestions:  \emph{RQ 1.1: Can the root exceptions reveal bug harzards?}; 
+ \emph{RQ 1.2 Can the exception types reveal bug hazards?}; and  \emph{RQ 1.3 Can the exception wrappings reveal bug hazards?}.
+
+In this section each piece information is then analyzed in detail to 
 check whether they can reveal bug harzards on the exception handling code -
 related to (i) specific violations of the best practices presented in Section~\ref{sec:best},
 or (ii) the general use of exception handling to suport robust development.
 
-\subsubsection{Can the root exceptions reveal bug harzards?}
+ 
+\bigskip
+
+%\subsubsection{RQ 1.1 Can the root exceptions reveal bug harzards?}
+\noindent\emph{RQ 1.1 Can the root exceptions reveal bug harzards?}
+
+\bigskip
+
 After distilling the information available on the exception stack traces, we could find 
 the exceptions commonly reported as the root causes of stack traces.
 Table \ref{tab:topten} presents a list of the top 10 root exceptions found in the study - 
@@ -833,9 +848,14 @@ since they represent approximately 75\% of the exceptions that caused the stack 
 From this set the NullPointerException as most prevalent exception.
 }
 
-\subsubsection{Can the exception types reveal bug hazards?}
+\bigskip 
+
+%\subsubsection{Can the exception types reveal bug hazards?}
+\noindent\emph{RQ 1.2 Can the exception types reveal bug hazards?}
 %\subsection{Exploring the Information Embedded on Exception Types}
 %\subsection{The Exception Types and What They can Tell us? }
+
+\bigskip
 
 As mentioned before, using the ExceptionMiner tool in combination with manual inspections we could identify
 the root exception \emph{type} (i.e., RuntimeException, Error, checked Exception) as well as its \emph{origin} - which we 
@@ -982,8 +1002,10 @@ It violates best practices III and IV and represent a bug hazard
 
 \bigskip
 
-\subsubsection{Can the exception wrappings reveal bug hazards?}
+%\subsubsection{Can the exception wrappings reveal bug hazards?}
+\noindent\emph{RQ 1.3 Can the exception wrappings reveal bug hazards?}
 
+\bigskip
 
 \begin{table}
 \scriptsize
@@ -1178,21 +1200,23 @@ Our main goal is to learn from developers about the Java exception handling usag
 
 \subsection{Research Questions}
 
-When developing Java-based applications it is inevitable to deal with exceptions. Consequently, our first question explores how developers deal with the exception handling code in Android development:
+The general research question guided our exploratory survey was the following: \emph{RQ 2: How developers deal with the exception handling code in Android apps and what are the developers' perspectives about the main bug hazards found during the mining study?} This general research question was broken in a set of research questions that are answered by the exploratory survey.
 
-\emph{\textbf{RQ 1:} How often do developers deal with exception handling code while developing Android apps?} 
+When developing Java-based applications it is inevitable to deal with exceptions. Hence, our first question explores how developers deal with the exception handling code in Android development:
 
-To make the analysis easier, we further refine RQ1 in subquestions, such as: \emph{How often do developers handle exceptions?}; \emph{How often do developers throw exceptions?}. Moreover, another question that shows us how developers may deal with the EH code is: \emph{Do developers know about Java EH best practices and/or Android specific EH best practices?}
+\emph{\textbf{RQ 2.1:} How do developers deal with exception handling code while developing Android apps?} 
+
+To make the analysis easier, we further refine this question in subquestions, such as: \emph{How often do developers handle exceptions?}; \emph{How often do developers throw exceptions?}. Moreover, another question that shows us how developers may deal with the EH code is: \emph{Do developers know about Java EH best practices and/or Android specific EH best practices?}
  
 The subsequent research questions focus on the developers' perspectives about the main bug hazards found during the mining study, more specifically: 
 
-\emph{\textbf{RQ 2:} How do NullPointerExceptions impact the development of robust Android apps?}
+\emph{\textbf{RQ 2.2:} How do NullPointerExceptions impact the development of robust Android apps?}
 
-\emph{\textbf{RQ 3:} How do cross-type wrappings impact the development of robust Android apps?}
+\emph{\textbf{RQ 2.3:} How do cross-type wrappings impact the development of robust Android apps?}
 
-\emph{\textbf{RQ 4:} Are developers aware of the robustness threats caused by JNI undocumented checked exceptions?}
+\emph{\textbf{RQ 2.4:} Are developers aware of the robustness threats caused by JNI undocumented checked exceptions?}
 
-%\emph{\textbf{RQ 4:}  Are developers aware of the non-declared checked exceptions?}
+%\emph{\textbf{RQ 2.5:}  Are developers aware of the non-declared checked exceptions?}
 
 
 %\emph{RQ 2:Have developers ever faced a crash caused by NullPointerException?}
@@ -1203,7 +1227,7 @@ the bug hazards were present and asking developers what they would do when faced
 
 Finally developers were asked whether the exception handling code helped with the development of robust Android applications, and what they usually do to prevent apps from crashing. Hence, the last research question that guided this survey was the following:
 
-\emph{\textbf{RQ 5:} How does the exception handling code affect the development of robust apps and how do developers prevent apps from crashing?}
+\emph{\textbf{RQ 2.5:} How does the exception handling code affect the development of robust apps and how do developers prevent apps from crashing?}
 
 \subsection{Protocol}
 
@@ -1229,7 +1253,7 @@ We also include a selection of quotes from the exploratory survey
 respondents. Each respondent has an identification which can be traced in our database. 
 
 \bigskip
-\noindent\emph{\textbf{Q1:How do developers deal with the exception handling in Android development?}}
+\noindent\emph{RQ 2.1: How do developers deal with the exception handling in Android development?}
 \bigskip
 
 This first research question explores the ways in which developers deal with the exception handling code, either throwing or handling exceptions,  while developing an Android app.  Developers were asked about the frequency they develop exception handling code and whether or not they adopt best practices while developing.
@@ -1302,7 +1326,7 @@ Use appropriate exception messages	& 1 &	7\% \\
 \bigskip
 
 
-\noindent\emph{\textbf{Q 2: How do the NullPointerExceptions impact the development of robust Android apps?}}
+\noindent\emph{\textbf{RQ 2.2: How do the NullPointerExceptions impact the development of robust Android apps?}}
 
 \bigskip 
 
@@ -1384,7 +1408,7 @@ Write code in Scala, without nulls (joke)	& 1 &	2\% \\
 
 \bigskip 
 
-\noindent\emph{\textbf{RQ 3: How do Cross-Type Wrappings impact the development of robust Android apps?}}
+\noindent\emph{\textbf{RQ 2.3: How do Cross-Type Wrappings impact the development of robust Android apps?}}
 
 \bigskip
 
@@ -1484,7 +1508,7 @@ activity mehtods cannot throw exceptions &	1 &	2\% \\
 \end{table}
 
 \bigskip
-\noindent\emph{\textbf{RQ 4: Are developers aware of the robustness threats caused by JNI undocumented checked exceptions?}}
+\noindent\emph{\textbf{RQ 2.4: Are developers aware of the robustness threats caused by JNI undocumented checked exceptions?}}
 \bigskip
 
 %//////// JNI /////
@@ -1503,7 +1527,7 @@ The respondents were presented with a piece of code in which a non-declared chec
 
 
 
-\noindent\emph{\textbf{RQ5: How does the exception handling code affect the development of robust apps and how do developers prevent apps from crashing?}}
+\noindent\emph{\textbf{RQ 2.5: How does the exception handling code affect the development of robust apps and how do developers prevent apps from crashing?}}
 
 \bigskip
 
