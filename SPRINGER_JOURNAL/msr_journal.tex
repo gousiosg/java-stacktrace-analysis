@@ -1284,11 +1284,9 @@ Developers were first asked how often they dealt with the exception handling cod
 %\emph{EH Best Practices}
 %/////// JAVA BEST PRACTICES ////// 
 As mentioned before several general guidelines have been proposed on how to
-use Java exceptions. Section XXXXX compiled a list of some exception handling (EH) best practices that guided our mining study. In this survey the developers were also asked if they knew about and used Java EH best practices. Most of them said that they knew and adopted Java EH practices (68\%). From this set the most mentioned best practices are presented in Table XXXX -- considering that one developer mentioned more than one practice. Some of the practices mentioned, however, are not well known Java EH best practices but seem to be used by some Android developers to better deal with exceptions in the Android app context: the crash fast approach [ref], the use of crash report tools, and to favor checked exceptions instead of runtime to represent the exceptional conditions in Android apps.				
-	
-``Don't throw RuntimeException (in most cases), don't catch OutOfMemoryException, etc." [D42]
-
-``If a method signature declares that it throws an exception, it means that the caller should handle the exception. [D29]
+use Java exceptions. Section~\ref{sec:best}  compiled a list of some exception handling (EH) best practices that guided our mining study. In this survey the developers were also asked if they knew about and used Java EH best practices. Most of them said that they knew and adopted Java EH practices (68\%). From this set the most mentioned best practices are presented in Table~\ref{tab:javapractices} -- considering that one developer mentioned more than one practice. Most of the best practices mentioned were the ones cited in Section~\ref{sec:best}. For instance:\emph{``Don't throw [pure] RuntimeException (in most cases), don't catch OutOfMemoryError, etc." [D42]}. Some of the practices mentioned, however, are not well known Java EH best practices but seem to be used by some Android developers to better deal with exceptions in the Android app context, such as the use of crash fast approach~\footnote{http://www.slideshare.net/pyricau/crash} -- \emph{``Crash is good for hinting developer. Fast crash fast solve." [D51]}; and to favor checked exceptions instead of runtime to represent the exceptional conditions in Android apps -- \emph{``RuntimeException-s are not particularly well suited for Android's robustness, as any uncaught one would cause a crash." [D26]}.
+			
+%``Don't throw [pure] RuntimeException (in most cases), don't catch OutOfMemoryError, etc." [D42]
 
 \begin{table}
 \scriptsize
@@ -1312,7 +1310,7 @@ Don't catch Errors 	&  2 &	5\% \\
 \end{table}			
 				
 %/////// ANDROID EH BEST PRACTICES /////
-The developers who informed us about their EH best practices were also asked whether they knew about any EH best practices specific to Android. Most of them (43\%) mentioned that they applied the same best practices that they used in Java programs. Only some of them mentioned that they adopted specific best practices such as: (i) the use of crash report tools (21\%) -- to notify the developer about the uncaught exceptions that happen in the application code; and (ii) the use of a global exception handler (14\%) -- the UncaughtExceptionHandler advised in Android tutorials [ref].					
+The developers who informed us about their EH best practices were also asked whether they knew about any EH best practices specific to Android. Most of them (43\%) mentioned that they applied the same best practices that they used in Java programs. Only some of them mentioned that they adopted specific best practices such as: (i) the use of crash report tools (21\%) -- to notify the developer about the uncaught exceptions that happen in the application code; and (ii) the use of a global exception handler (14\%) -- the UncaughtExceptionHandler advised in Android documentation~\footnote{http://developer.android.com/reference/java/lang/Thread.UncaughtExceptionHandler.html}.					
 									
 \begin{table}
 \scriptsize
@@ -1332,22 +1330,27 @@ Use appropriate exception messages	& 1 &	7\% \\
 \label{tab:androidpractices}
 \end{table}			
 
+\bigskip
+
+\finding{
+Most of the respondents (64.8\%) recognize that handle exceptions most of the time during the app development. 
+Most of them (62\%) mentioned that adopt EH best practices.
+}
+
+
 
 \bigskip
 
 \noindent\emph{RQ 2.2: How do the NullPointerExceptions impact the development of robust Android apps?}
 
-%\bigskip 
-
-\greybox{``They [NullPointerExceptions] can happen pretty much anywhere. The Android Fragment system comes to mind in this case. Often, it is possible to find yourself in a state where getActivity() is null within the Fragment during certain points in the life cycle, and that is something I have to plan for. This might have been avoidable under a different structure."[D56]}
-
-
-%\bigskip 
 
 %//////NULLPONTER WORSE IN ANDROID /////
-Developers were asked if their apps ever crashed because of a NullPointerException. The vast majority of respondents (96\%) said that their apps crashed at least once due to a NullPointerException. 
-Their answers are aligned with the high prevalence of NullPointerExceptions found in the mining study -- in Table XXX we can see that NullPointerExceptions were the main cause of the mined exception stack traces.
-The developers were also asked whether crashes caused by NullPointerExceptions were more common in Android development than in standard Java development.  Almost half of them (XXX\%) mentioned that Android apps were more susceptible to NullPointerException crashes. Some of the reasons mentioned by developers were: (i) the activity and fragment lifecycle -- since both are constantly destroyed their references can frequently become null, leading to NullPointerExceptions; (ii) the framework complexity -- several methods of the Android framework return null, and there is not enough documentation to inform the developer when using such methods. 
+Developers were asked if their apps ever crashed because of a NullPointerException. The vast majority of respondents (96\%) said that their apps crashed at least once due to a NullPointerException. Their answers are aligned with the high prevalence of NullPointerExceptions found in the mining study -- in Table XXX we can see that NullPointerExceptions were the main cause of the mined exception stack traces.
+The developers were also asked whether crashes caused by NullPointerExceptions were more common in Android development than in standard Java development.  Almost half of them (XXX\%) mentioned that Android apps were more susceptible to NullPointerException crashes. 
+
+Some of  reasons were mentioned by developers such as: the activity and fragment lifecycle -- \emph{``Android destroys and recreates itself all of the time (especially during screen rotation) and if you do not handle that it will crash on you every time. with the complexity of an activity with a fragment that has fragments and each of those fragments has custom objects and variables that need to be either retained (so saved and put back) or recreated such as views it can get complex if you don't have an understanding of how the android life cycle works." [D43]}.  Another developer also mentioned that: \emph{``They [NullPointerExceptions] can happen pretty much anywhere. The Android Fragment system comes to mind in this case. Often, it is possible to find yourself in a state where getActivity() is null within the Fragment during certain points in the life cycle, and that is something I have to plan for. This might have been avoidable under a different structure."[D56]}. 
+
+The framework complexity was also mentioned as a major cause of null pointer crashes -- since several methods of the Android framework return null, and there is not enough documentation to inform the developer when using such methods. Some respondents mentioned: \emph{``The Android framework is what adds the complexity in figuring out what caused an exception because more often than not, the error is triggered from the framework as a result of something else you did." [D58]}; \emph{``Java is simple language, and the problem arises when you are using third party frameworks build on Java (or using Android which provide lots of new classes). And the problem is you don't always know if specific method can return null object or only valid values."[D7]}.
 
 
 
@@ -1355,16 +1358,14 @@ The developers were also asked whether crashes caused by NullPointerExceptions w
 
 %``android"
 
-Moreover, a few respondents also answered that such NullPointerException crashes can be caused by backward compatibility as well as memory issues as illustrated in Table XXXX. The other half mentioned that NullPointerExceptions are  common in Android development since they are common in Java standard development.		
-	
-\greybox{``Honestly, there are a lot of very unskilled Java programmers out there writing Android apps. When they encounter NPE, they tend to null-check that variable, which just puts a bandage on the problem and causes other failures (usually also NPE's) later on in the application's lifecycle.
+Moreover, a few respondents also answered that such NullPointerException crashes can be caused by backward compatibility as well as memory issues as illustrated in Table~\ref{tab:causenull}. The other half mentioned that NullPointerExceptions are common in Android development since they are common in Java standard development. One responded even mentioned: \emph{``Honestly, there are a lot of very unskilled Java programmers out there writing Android apps. When they encounter NPE, they tend to null-check that variable, which just puts a bandage on the problem and causes other failures (usually also NPE's) later on in the application's lifecycle.
 This is nothing specific to Android, it's just how Java works."[D42]}
 
 
-\greybox{``The Android framework is what adds the complexity in figuring out what caused an exception because more often than not, the error is triggered from the framework as a result of something else you did." [D58]}
 
 
-\greybox{``Android destroys and recreates itself all of the time ( especially during screen rotation ) and if you do not handle that it will crash on you every time. with the complexity of an activity with a fragment that has fragments and each of those fragments has custom objects and variables that need to be either retained ( so saved and put back ) or recreated such as views it can get complex if you don't have an understanding of how the android life cycle works." [D43]}
+
+
 
 
 
@@ -1384,7 +1385,7 @@ no layers to catch runtimeexceptions	& 1 &	5\% \\
 \hline
 \end{tabular}
 \caption{Top reasons why NullPointerExceptions are more frequent in Android apps acording to 19 respondents . }
-\label{tab:handlingruntime}
+\label{tab:causenull}
 \end{table}
 
 %////// PREVENT NULL POINTER /////
@@ -1424,7 +1425,7 @@ Write code in Scala, without nulls (joke)	& 1 &	2\% \\
 \hline
 \end{tabular}
 \caption{Top ways for preventing NullPointerException in Android apps - 61 non-empty responses. }
-\label{tab:handlingruntime}
+\label{tab:preventnull}
 \end{table}	
 
 
@@ -1435,7 +1436,6 @@ Write code in Scala, without nulls (joke)	& 1 &	2\% \\
 \bigskip
 
 
-``RuntimeException-s are not particularly well suited for Android's robustness, as any uncaught one would cause a crash." [D26]
 
 ``this treats all exceptions as critical failure, even though they might not all be unrecoverable" [D70]
 
