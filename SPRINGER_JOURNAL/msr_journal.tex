@@ -1562,13 +1562,12 @@ Developers were also asked whether the exception handling code helped with the d
 \bfseries{For Positively Affecting Robustness} &   &   \\
 Improves error diagnosis  &	10	& 15\% \\
 Anticipated erroneous situation help writing more robust code  & 9	 & 13\% \\ 
-%Anticipated erroneous situation help writing more robust code 
 Exceptions only for unrecoverable behavior	& 7 &	10\% \\
 Checked exceptions force handling  &	6	& 9\% \\
 Useful to gracefully crash 	& 4 &	6\% \\
 		
 \bfseries{For Negatively Affecting Robustness} &   &   \\
-Every exception should be caught to improve robustness	& 7	& 10\% \\
+If not handled it crashs the app	 & 7	& 10\% \\
 Makes debugging harder &	2 &	3\% \\
 Unchecked/runtime exceptions can crash apps & 2	& 3\% \\
 NullPointerExceptoins can happen anywhere/are tricky to avoid	 & 2	& 3\% \\
@@ -1581,15 +1580,11 @@ VM inefficiency 	& 1 & 1\% \\
 \end{table}
 
 
-Although most of the respondents answered that exception handling code helped with the development of robust Android applications, almost every respondent pointed out a drawback associated with the exception handling code, saying that if it is not used with care the exception handling code may lead to app crashes.  
-
-\greybox{``Any uncatched exception will crash the app. There are many unknown exception thrown by the system, that are only happen once in a lifetime like IllegalStateException: eglMakeCurrent failed EGL\_BAD\_CONTEXT"[D32]}
-
-\greybox{``The lifecycle of activities\/fragements etc make it harder to work out what order things are called in and so exceptions can occur because you didn't realise that another method isn't called."[D70]}
+Although most of the respondents answered that exception handling code helped with the development of robust Android applications, almost every respondent pointed out a drawback associated with the exception handling code, saying that if it is not used with care the exception handling code may lead to app crashes. \emph{``Any uncatched exception will crash the app. There are many unknown exception thrown by the system, that are only happen once in a lifetime like IllegalStateException: eglMakeCurrent failed EGL\_BAD\_CONTEXT"[D32]}. \emph{``The lifecycle of activities\/fragements etc make it harder to work out what order things are called in and so exceptions can occur because you didn't realise that another method isn't called."[D70]}
 
 %\bigskip
 
-Developers were asked to rank the main causes of crashes. Approximately 68\% of the respondents ranked the exceptions signaled by programming logic mistakes, e.g. NullPointerExceptions, as the Top 1 and Top 2 cause of crashes, as illustrated in Figure~\ref{figure:ranking}. In our mining study the exceptions signaled due to programming logic mistakes (java.lang and util) where the causes of 52.0\% of the exception stack traces found. Hence, the developers perspective is aligned with what was revealed in mining study.
+Developers were also asked to rank the main causes of crashes. Approximately 68\% of the respondents ranked the exceptions signaled by programming logic mistakes, e.g. NullPointerExceptions, as the Top 1 and Top 2 cause of crashes, as illustrated in Figure~\ref{figure:ranking}. In our mining study the exceptions signaled due to programming logic mistakes (java.lang and util) where the causes of 52.0\% of the exception stack traces found. Hence, the developers perspective is aligned with what was revealed in mining study.
 %[width=.9\hsize]
 \begin{figure*} 
 \centering \includegraphics[scale=0.60]{charts/ranking.png}
@@ -1597,15 +1592,17 @@ Developers were asked to rank the main causes of crashes. Approximately 68\% of 
 \end{figure*}
 
 
-Finally developers were asked how they prevent their apps from crashing. Most of the respondents answered that they prevent apps from crashing by handling exceptions/errors (27\%). They mentioned strategies such as: handling exceptions in all entry points/all over; using catch-all clauses; and adding try-catch blocks around risky methods. Different from conventional Java programs, an Android app is composed of several entry points, each window (i.e. Activity) is a potential entry point in which exceptions can arise leading to an app crash. This explains the importance of handling exceptions in all entry points, and using general crash clauses which sometimes cannot prevent crashes but allow the developer to present a detailed error message to the user before crashing. Many respondents also said that they used testing approaches to prevent crashes -- few of them mentioned crowd testing (3\%), an emerging approach in testing apps. Moreover, null checks were also mentioned by 15\% of the developers as a way to prevent crashes. The adoption of coding styles was also pointed out by 14\% of respondents as a way to prevent crashes. Finally, crash report tools (e.g. ACRA [ref]) were reported as a way to prevent crashes. Once such tools notify developers about current crashes, the application can be fixed and hence future crashes (caused by what was fixed) could be prevented. Table~ref{tab:topprevent} presents the themes for the strategies for crash prevention mentioned by developers.	 					
-			
+Finally developers were asked how they prevent their apps from crashing. Most of the respondents answered that they prevent apps from crashing by handling exceptions/errors (27\%). They mentioned strategies such as: handling exceptions in all entry points/all over; using catch-all clauses; and adding try-catch blocks around risky methods. Different from conventional Java programs, an Android app is composed of several entry points, each window (i.e. Activity) is a potential entry point in which exceptions can arise leading to an app crash. This explains the importance of handling exceptions in all entry points, and using general catch clauses which sometimes cannot prevent crashes but allow the developer to present a detailed error message to the user before crashing.  \emph{``You can wrap the main function in java in try/catch in android you can't..."[D12]}. \emph{``Though not particular to Android, most Android apps have several different entry points: Activities, Services, etc, can be started by different services; same thing with events. It may be hard to ensure that all this cases are properly handled." [D46]}
 
-\greybox{``Though not particular to Android, most Android apps have several different entry points: Activities, Services, etc, can be started by different services; same thing with events. It may be hard to ensure that all this cases are properly handled." [D46]}
+Many respondents also said that they used testing approaches to prevent crashes -- few of them mentioned crowd testing (3\%), an emerging approach in testing apps. Moreover, null checks were also mentioned by 15\% of the developers as a way to prevent crashes. 
+The adoption of coding styles was also pointed out by 14\% of respondents as a way to prevent crashes. Finally, crash report tools (e.g. ACRA~\cite{Acra14}) were reported as a way to prevent crashes. Once such tools notify developers about current crashes, the application can be fixed and hence future crashes (caused by what was fixed) could be prevented. Table~ref{tab:topprevent} presents the themes for the strategies for crash prevention mentioned by developers.	 					
+		
+\bigskip 
 
+\finding{Developers recognized that exception handling affects the application robustness in two different ways. On the one hand,  anticipated erroneous situation help writing more robust code. On the other hand, any uncaught exception will lead the an app crash.}	
 
-\greybox{``You can wrap the main function in java in try/catch in android you can't..."[D12]}
-			
-						
+\bigskip 
+				
 \begin{table}
 \scriptsize
 \centering
