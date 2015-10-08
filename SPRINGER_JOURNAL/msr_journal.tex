@@ -1106,6 +1106,7 @@ Such wrappings mask an unrecoverable Error into a general runtime exception.
 
 {\footnotesize
 \begin{verbatim}
+  
    try {
       ...
    } catch (InterruptedException e) {
@@ -1354,7 +1355,7 @@ Almost half of the developers mentioned, however, that NullPointerExceptions are
 \centering
 \begin{tabular}{lrr}
 \hline
-\bfseries{Top Ways} & \bfseries{\#} & \bfseries{\%} \\
+\bfseries{Top Reasons} & \bfseries{\#} & \bfseries{\%} \\
 \hline
 activity/fragment life cycle  &	9 &	47\% \\
 framework complexity	& 6 &	32\% \\
@@ -1379,7 +1380,7 @@ Some respondents also mentioned using annotations such as @Nullable @NonNull, pr
 \centering
 \begin{tabular}{lrr}
 \hline
-\bfseries{Top Ways} & \bfseries{\#} & \bfseries{\%} \\
+\bfseries{Top Ways of Preventing NullPointerExceptions} & \bfseries{\#} & \bfseries{\%} \\
 \hline
 null-checks &	36 &	59\% \\
 investigate/fix the cause	& 24 & 	39\% \\
@@ -1424,16 +1425,18 @@ This question was motivated by the fact that during the mining study we could id
 
 However, what developers mentioned as handling actions (what is performed inside the catch clause to deal with the exception) differs in both cases. For runtime exceptions most of the handling actions were dedicated to present more specific error messages and prevent the app from abruptly crashing. \emph{``[...] They signal exceptional behavior that may not be recoverable, so they offer a useful way to log and gracefully crash.} [D19]. \emph{``Giving the user meaningful feed back is important, so the more specific you can be about what went wrong, the better."[D66]}. Some developers also mentioned to use a toast to support this task\footnote{A toast is an Android component that provides simple feedback about an operation in a small popup - http://developer.android.com/guide/topics/ui/notifiers/toasts.html}. Few developers also mentioned that the runtime exception should flow upstream to the framework so it could crash the app.
 
-On the other hand, some handling actions mentioned for checked exceptions were: (i) retrying the same operation; (ii) involving the user in finding a solution to the exception condition such as opening a pop-up and asking the user to define a new place to save the file (the example presented to them involved a IOException being signaled); and also (iii) presenting an error message to the user. The handling actions associated to checked exceptions focused more on crash prevention than the ones related to runtime exceptions. \emph{``Its very important in android that we gracefully handle an exception. Try not to crash an application."[41]}. It was also interesting to observe that the developers suggested involving the user and solving the exceptional condition represented by a checked exception - \emph{``We should try alternative saving ways and if it fails we should prompt the user for a new location and always keep the user informed"[D11]}. \emph{``You still need to catch an IOException to prevent a crash. However, because it is related to saving a file, you may need to reset any data within that catch statement and either alert the user that it has failed or perform a limited retry (in the case of an HTTP upload or something prone to server-side failure)."[D5]}.
+On the other hand, some handling actions mentioned for checked exceptions were: (i) retrying the same operation; (ii) involving the user in finding a solution to the exception condition such as opening a pop-up and asking the user to define a new place to save the file (the example presented to them involved a IOException being signaled); and also (iii) presenting an error message to the user. 
 
- Although there is a long lasting debate about the pros and cons of checked and unchecked exceptions, the survey revealed that most Android developers considered checked exceptions as a way of using exceptions that can prevent uncaught exception crashes -- since in order for a checked exception to flow upstream and crash the app the developers need to explicitly do so. 				
+We can observe that the handling actions associated to checked exceptions focused more on crash prevention than the ones related to runtime exceptions. \emph{``Its very important in android that we gracefully handle an exception. Try not to crash an application."[41]}. It was also interesting to observe that the developers suggested involving the user and solving the exceptional condition represented by a checked exception - \emph{``We should try alternative saving ways and if it fails we should prompt the user for a new location and always keep the user informed"[D11]}. \emph{``You still need to catch an IOException to prevent a crash. However, because it is related to saving a file, you may need to reset any data within that catch statement and either alert the user that it has failed or perform a limited retry (in the case of an HTTP upload or something prone to server-side failure)."[D5]}.
+
+ Although there is a long lasting debate about the pros and cons of checked and unchecked exceptions, the survey revealed that many Android developers considered checked exceptions as a way of using exceptions that can prevent uncaught exception crashes -- since in order for a checked exception to flow upstream and crash the app the developers need to explicitly do so. 				
 
 \begin{table}
 \scriptsize
 \centering
 \begin{tabular}{lrr}
 \hline
-\bfseries{Top Ways} & \bfseries{\#} & \bfseries{\%} \\
+\bfseries{Top Ways of Handling Runtime Exceptions} & \bfseries{\#} & \bfseries{\%} \\
 \hline
 Add a try-catch block &	37 &	59\% \\
 Present error message	&  14 &	22\% \\
@@ -1456,7 +1459,7 @@ Use Toast & 	3 &	5\% \\
 \centering
 \begin{tabular}{lrr}
 \hline
-\bfseries{Top Ways} & \bfseries{\#} & \bfseries{\%} \\
+\bfseries{Top Ways of Handling Checked Exceptions} & \bfseries{\#} & \bfseries{\%} \\
 \hline
 Add a try-catch block	& 25 &	63\% \\
 Present error message	& 7 &	18\% \\
@@ -1475,7 +1478,7 @@ Add a throws declaration / pass upstream &	2 &	5\% \\
 
 
 %/////// CROSS TYPE WRAPPING //////
-After presenting two different code snippets on which a checked and a runtime exception were caught, developers were presented with a code snippet in which a cross-type wrapping was performed\footnote{This cross-type wrapping was found in several applications during the mining study as well as in some classes of the Android framework.} -- as illustrated below. 
+After presenting two different code snippets on which a checked and a runtime exception were thrown, developers were presented with a code snippet in which a cross-type wrapping was performed\footnote{This cross-type wrapping was found in several applications during the mining study as well as in some classes of the Android framework.} -- as illustrated below. Then developers were asked whether such cross-type wrapping could affect the application robustness in some way.
 
 {\footnotesize
 \begin{verbatim}
@@ -1490,8 +1493,10 @@ After presenting two different code snippets on which a checked and a runtime ex
 \end{verbatim}
 }
 
-Then developers were asked whether such cross-type wrapping could affect the application robustness in some way. Table XXXX illustrates the  most mentioned reasons of why cross-type wrapping may affect app robustness; 18\% of the respondents mentioned that the app would crash anyway, regardless of whether the exception was wrapped or not. Most of the respondents, however, mentioned disadvantages of such wrapping, such as: (i) it impairs proper handling since wrapping in a general exception loses information about the exception situation to be handled (24\%); such wrapping treats all exceptions as critical -- in other words, every exception will remain uncaught and will lead to an app crash -- and it does not allow the developer to perform a proper handling (e.g. retry) for exception types that are not critical. 		
+ Table~\ref{tab:robustness} illustrates the  most mentioned reasons of why cross-type wrapping may affect app robustness; 18\% of the respondents mentioned that the app would crash anyway, regardless of whether the exception was wrapped or not. Most of the respondents, however, mentioned disadvantages of such wrapping, such as: (i) it impairs proper handling since wrapping in a general exception loses information about the exception situation to be handled (24\%); such wrapping treats all exceptions as critical -- in other words, every exception will remain uncaught and will lead to an app crash -- and it does not allow the developer to perform a proper handling (e.g. retry) for exception types that are not critical. A respondent emphasized that: \emph{``this treats all exceptions as critical failure, even though they might not all be unrecoverable"[D70]}. Another developer alerted that: \emph{``Rethrowing a checked exception as an unchecked exception is the worst choice; it throws away any value of checked exceptions, elevates the exception out of almost all handling, and does absolutely nothing helpful in the process. Further, catching `Exception` suggests that the author doesn't know what exceptions might occur and wrongfully assumed that this solution is somehow safer than doing nothing."[D19]}		
 
+\finding{ Wrapping a checked exception in a runtime exception was considered a bed practice by may respondents; as it loses exception information it impairs proper handling (24\%), and since the runtime exception may remain uncaught it may crash the app (24\%). }
+ 
 
 \begin{table}
 \scriptsize
@@ -1511,24 +1516,8 @@ activity mehtods cannot throw exceptions &	1 &	2\% \\
 \hline
 \end{tabular}
 \caption{Top reasons why cross-type wrapping may affect app robustness - 49 non-empty responses. }
-\label{tab:handlingruntime}
+\label{tab:robustness}
 \end{table}
-
-
-
-``this treats all exceptions as critical failure, even though they might not all be unrecoverable" [D70]
-
-
-
-``Rethrowing a checked exception as an unchecked exception is the worst choice; it throws away any value of checked exceptions, elevates the exception out of almost all handling, and does absolutely nothing helpful in the process. Further, catching `Exception` suggests that the author doesn't know what exceptions might occur and wrongfully assumed that this solution is somehow safer than doing nothing."[D19]
-
-
-
-
-
-
-
-
 
 
 \bigskip
@@ -1536,9 +1525,15 @@ activity mehtods cannot throw exceptions &	1 &	2\% \\
 \bigskip
 
 %//////// JNI /////
-The respondents were presented with a piece of code in which a non-declared checked exception has appeared, and they were asked if they knew any reason for this to happen. Only 3 respondents out of 71 (4\% of respondents) were aware of the fact that there are ways a method can throw a non-declared checked exception, such as JNI/native code, reflection, and directly changing the bytecode/dalvik code which bypass the compile-time checking.  Most of the respondents were not aware that a method could throw a checked exception without declaring it in the method's signature. Most respondents mentioned that if a method throws a non-declared exception it must be a RuntimeException. We could observe that this exception handling bug hazard detected during the mining study, although representing a threat to app robustness, is hardly known by the Android developers involved in this survey. Below we can find a quote from one of the 3 respondents aware of JNI non-declared checked exceptions.
+The respondents were presented with a piece of code in which a non-declared checked exception has appeared, and they were asked if they knew any reason for this to happen. Only 3 respondents out of 71 (4\% of respondents) were aware of the fact that there are ways a method can throw a non-declared checked exception, such as JNI/native code, reflection, and directly changing the bytecode/dalvik code which bypass the compile-time checking. One of them said: \emph{``I am guessing this is because the exception is thrown from native code (ie, C++ code in the JVM) where Java correct-ness semantics rules do not always apply." [D42]}.  
 
-\greybox{``I am guessing this is because the exception is thrown from native code (ie, C++ code in the JVM) where Java correct-ness semantics rules do not always apply." [D42]}
+Most of the respondents, however, were not aware that a method could throw a checked exception without declaring it in the method's signature. Most respondents mentioned that if a method throws a non-declared exception it must be a RuntimeException. We could observe that this exception handling bug hazard detected during the mining study, although representing a threat to app robustness, is hardly known by the Android developers involved in this survey. Below we can find a quote from one of the 3 respondents aware of JNI non-declared checked exceptions.
+
+\bigskip 
+
+\finding{Only 4\% of the developers aware of the robustness threats caused by JNI undocumented checked exceptions.}
+
+\bigskip 
 
 
 %\noindent\emph{Q2: Do developers know about exception handling best practices?}
