@@ -138,21 +138,7 @@ Lagoa Nova, CEP: 59.078-970. Natal/RN. Brazil \\
 \maketitle
 
 \begin{abstract}
-This paper reports two studies:  a repository mining study whose goal was to identify 
-exception handling bug hazards in Android apps; and a survey-based study whose goal
-was to assess the perspectives of developers concerning such bug hazards.
-The repository mining study mined the exception stack traces embedded on 
-159,048 issues reported on Android projects hosted in GitHub (482 projs.) 
-and Googlecode (157 projs.).  Overall 6,005 exception stack traces were extracted, 
-and analyzed in combination with source code and bytecode analysis. 
-Some bug hazards were consistently detected such as:  unexpected exception wrappings 
-(e.g., Errors being wrapped in checked exceptions), and NullPointerExeptions 
-as the major cause of reported crashes - reported in 
-28\% of all mined stack traces found in about 50\% of all analyzed projects. 
-Finally, a survey was applied to some developers 
-involved on some of the GitHub Android projects analyzed in our study 
-and their perspective about the bug hazards and 
-how they deal with them was assessed and discussed.
+This paper reports two studies:  a repository mining study whose goal was to identify exception handling bug hazards in Android apps; and a survey-based study whose goal was to assess the perspectives of developers concerning such bug hazards. The repository mining study mined the exception stack traces embedded on 159,048 issues reported on Android projects hosted in GitHub (482 projs.)  and Googlecode (157 projs.).  Overall 6,005 exception stack traces were extracted, and analyzed in combination with source code and bytecode analysis. Some bug hazards were consistently detected such as:  unexpected exception wrappings (e.g., Errors being wrapped in checked exceptions), and NullPointerExeptions as the major cause of reported crashes - reported in 28\% of all mined stack traces found in about 50\% of all analyzed projects. Finally, a survey was applied to some developers involved on some of the GitHub Android projects analyzed in our study and their perspective about the bug hazards and how they deal with them was assessed and discussed.
 
 \keywords{Exception handling \and Android development \and Repository mining \and Exploratory survey}
 % \PACS{PACS code1 \and PACS code2 \and more}
@@ -1500,6 +1486,8 @@ After presenting two different code snippets on which a checked and a runtime ex
 }
 
  Table~\ref{tab:robustness} illustrates the  most mentioned reasons of why cross-type wrapping may affect app robustness; 18\% of the respondents mentioned that the app would crash anyway, regardless of whether the exception was wrapped or not. Most of the respondents, however, mentioned disadvantages of such wrapping, such as: (i) it impairs proper handling since wrapping in a general exception loses information about the exception situation to be handled (24\%); such wrapping treats all exceptions as critical -- in other words, every exception will remain uncaught and will lead to an app crash -- and it does not allow the developer to perform a proper handling (e.g. retry) for exception types that are not critical. A respondent emphasized that: \emph{``this treats all exceptions as critical failure, even though they might not all be unrecoverable"[D70]}. Another developer alerted that: \emph{``Rethrowing a checked exception as an unchecked exception is the worst choice; it throws away any value of checked exceptions, elevates the exception out of almost all handling, and does absolutely nothing helpful in the process. Further, catching `Exception` suggests that the author doesn't know what exceptions might occur and wrongfully assumed that this solution is somehow safer than doing nothing."[D19]}		
+
+\bigskip
 
 \finding{ Wrapping a checked exception in a runtime exception was considered a bed practice by may respondents; as it loses exception information it impairs proper handling (24\%), and since the runtime exception may remain uncaught it may crash the app (24\%). }
  
