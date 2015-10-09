@@ -139,7 +139,7 @@ Lagoa Nova, CEP: 59.078-970. Natal/RN. Brazil \\
 
 \begin{abstract}
 This paper reports two studies:  a repository mining study whose goal was to identify 
-exception handling bug hazards in Android apps; and an exploratory survey study - whose goal
+exception handling bug hazards in Android apps; and an survey-based study whose goal
 was to assess the perspectives of developers concerning such bug hazards.
 The repository mining study mined the exception stack traces embedded on 
 159,048 issues reported on Android projects hosted in GitHub (482 projs.) 
@@ -1248,7 +1248,7 @@ We used grounded theory coding~\cite{charmaz2006}, iterating through our open-en
  In previous work~\cite{coelhoetal15}, we mined exception stack traces available in issues reported for several Android projects hosted on GitHub and Googlecode. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard toy-programs and non-Android repositories. For each repository, we extract the developers whose emails are registered. We emailed the 1,824 developers and received 71 valid answers. The majority of our respondents have more than 2 years of Java development experience (87.3\%) and  considerable experience in Android development (more than 1 year)  (85.9\%) - see Figure~\ref{fig:devexpertise}.
 
 %Q1Q2_new.png
-\begin{figure} \centering \includegraphics[scale=0.38]{charts/expertise_new.png}
+\begin{figure} \centering \includegraphics[scale=0.38]{expertise_new.png}
 \caption{Developers expertise in Java and Android development.}
 \label{fig:devexpertise}
 \end{figure}
@@ -1275,13 +1275,13 @@ This first research question explores the ways in which developers deal with the
 
 Developers were first asked how often they dealt with the exception handling code - see Figure~\ref{fig:often}. Many of our survey respondents recognized they have to handle exceptions most of the time during Android app development (64.8\%). However, the frequency in which they throw exceptions inside apps is smaller; most of the survey respondents said they throw exceptions only some of the time or seldom (80.3\%). It shows that although we can try to avoid throwing few exceptions, it is almost always inevitable to handle the exceptions thrown by the Android platform and reused libraries. 
 
-\begin{figure} \centering \includegraphics[scale=0.58]{charts/agree_new2.png}
+\begin{figure} \centering \includegraphics[scale=0.58]{agree_new2.png}
 \caption{How often developers throw and handle exceptions during app development.}
 \label{fig:often}
 \end{figure}
 
 
-\begin{figure} \centering \includegraphics[scale=0.60]{charts/yes_no_new2.png}
+\begin{figure} \centering \includegraphics[scale=0.60]{yes_no_new2.png}
 \caption{Summary of some survey question answers. }
 \label{fig:allquest}
 \end{figure}
@@ -1593,7 +1593,7 @@ Although most of the respondents answered that exception handling code helped wi
 Developers were also asked to rank the main causes of crashes. Approximately 68\% of the respondents ranked the exceptions signaled by programming logic mistakes, e.g. NullPointerExceptions, as the Top 1 and Top 2 cause of crashes, as illustrated in Figure~\ref{fig:ranking}. In our mining study the exceptions signaled due to programming logic mistakes (java.lang and util) where the causes of 52.0\% of the exception stack traces found. Hence, the developers perspective is aligned with what was revealed in mining study.
 %[width=.9\hsize]
 \begin{figure*} 
-\centering \includegraphics[scale=0.60]{charts/ranking.png}
+\centering \includegraphics[scale=0.60]{ranking.png}
 \caption{Developers perspectives on the main causes of crashes.}\label{fig:ranking} 
 \end{figure*}
 
@@ -1949,10 +1949,10 @@ bug hazards in Android development.
 exception handling code, and call for tool support to help developers
 understand their own and third party exception handling and wrapping logic.
 
-%\begin{acknowledgements}
-%If you'd like to thank anyone, place your comments here
-%and remove the percent signs.
-%\end{acknowledgements}
+\begin{acknowledgements}
+This work is partially supported by INES, funded by CNPq and
+FACEPE, grants 573964/2008-4 and APQ-1037-1.03/08.
+\end{acknowledgements}
 
 % BibTeX users please use one of
 \bibliographystyle{spbasic}      % basic style, author-year citations
