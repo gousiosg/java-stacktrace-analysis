@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.5.6)  9 SEP 2015 22:40
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.5.6)  9 OCT 2015 15:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -121,23 +121,35 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count106
 )
-(./msr_journal.aux)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+)
+(./msr_journal.aux
+
+LaTeX Warning: Label `tab:handlingruntime' multiply defined.
+
+)
 \openout1 = `msr_journal.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 92.
+LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 92.
 
 Unknown journal: specify \journalname{<name of your journal>} in preambel
 
@@ -204,70 +216,98 @@ e
 ))
 SVJour3 warning: Missing \journalname
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 104.
+(Font)              <7> on input line 138.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 104.
+(Font)              <5> on input line 138.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 104.
+(Font)              <8> on input line 138.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 104.
+(Font)              <6> on input line 138.
 [1{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2] [3] [4] <stack_review6.png, id=23, 465.4188pt x 195.129pt>
+[2] [3] [4] [5] <stack_review6.png, id=26, 465.4188pt x 195.129pt>
 File: stack_review6.png Graphic file (type png)
 
 <use stack_review6.png>
-Package pdftex.def Info: stack_review6.png used on input line 313.
+Package pdftex.def Info: stack_review6.png used on input line 376.
 (pdftex.def)             Requested size: 255.98112pt x 107.32127pt.
 
-Overfull \hbox (8.91728pt too wide) in paragraph at lines 353--362
+Overfull \hbox (8.91728pt too wide) in paragraph at lines 416--425
 \OT1/cmr/m/n/10 ([[], [], [], []]). For checked ex-cep-tions, this is au-to-mat
 -i-cally the case. Bloch [[]]
  []
 
-[5 <./stack_review6.png>] <overview_review.png, id=30, 1404.447pt x 421.575pt>
+[6 <./stack_review6.png>] <overview_review.png, id=33, 1404.447pt x 421.575pt>
 File: overview_review.png Graphic file (type png)
 
 <use overview_review.png>
-Package pdftex.def Info: overview_review.png used on input line 369.
+Package pdftex.def Info: overview_review.png used on input line 432.
 (pdftex.def)             Requested size: 304.19794pt x 91.30585pt.
- [6 <./overview_review.png>]
-Underfull \vbox (badness 6741) has occurred while \output is active []
-
- [7]
-
-LaTeX Warning: Reference `txab:lables' on page 8 undefined on input line 501.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 551--551
+ [7 <./overview_review.png>] [8]
+Underfull \hbox (badness 10000) in paragraph at lines 617--617
 [][]\OT1/cmr/m/n/8 In sev-eral ex-cep-tion stack traces, the ex-cep-tion frames
  were pre-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 551--551
+Underfull \hbox (badness 10000) in paragraph at lines 617--617
 \OT1/cmr/m/n/8 ceeded by log-ging in-for-ma-tion e.g., \OT1/cmtt/m/n/8 03-01 15
 :55:01.609 (7924): at
  []
 
-[8] [9] [10]
-Overfull \hbox (91.67972pt too wide) in paragraph at lines 658--676
+[9] [10]
+Overfull \hbox (17.76575pt too wide) in paragraph at lines 732--750
  [][] 
  []
 
-
-Underfull \vbox (badness 5970) has occurred while \output is active []
-
- [11]
-[12] [13] [14]
-Overfull \hbox (83.84157pt too wide) in paragraph at lines 954--978
+[11] [12] [13] [14] [15]
+Overfull \hbox (7.60085pt too wide) in paragraph at lines 1052--1076
  [][] 
  []
 
-[15] [16] [17]
-Missing character: There is no â in font cmr10!
-Missing character: There is no € in font cmr10!
-Missing character: There is no ™ in font cmr10!
- [18] [19] [20] [21] [22] (./msr_journal.bbl
+[16] [17] [18] <expertise_new.png, id=80, 818.0964pt x 236.5638pt>
+File: expertise_new.png Graphic file (type png)
+
+<use expertise_new.png>
+Package pdftex.def Info: expertise_new.png used on input line 1251.
+(pdftex.def)             Requested size: 310.87987pt x 89.89516pt.
+ [19] <agree_new2.png, id=85, 579.1236pt x 194.1654pt>
+File: agree_new2.png Graphic file (type png)
+
+<use agree_new2.png>
+Package pdftex.def Info: agree_new2.png used on input line 1278.
+(pdftex.def)             Requested size: 335.89192pt x 112.616pt.
+ <yes_no_new2.png, id=86, 596.4684pt x 209.583pt>
+File: yes_no_new2.png Graphic file (type png)
+
+<use yes_no_new2.png>
+Package pdftex.def Info: yes_no_new2.png used on input line 1284.
+(pdftex.def)             Requested size: 357.8838pt x 125.75076pt.
+
+Overfull \hbox (19.8838pt too wide) in paragraph at lines 1284--1285
+ [][] 
+ []
+
+[20 <./expertise_new.png>]
+Overfull \hbox (18.79657pt too wide) in paragraph at lines 1318--1318
+[][]\OT1/cmr/m/n/8 http://developer.android.com/reference/java/lang/Thread.Unca
+ughtExceptionHandler.html| 
+ []
+
+[21 <./agree_new2.png> <./yes_no_new2.png>] [22] [23] [24] [25] [26] [27]
+Overfull \hbox (4.56047pt too wide) in paragraph at lines 1589--1590
+\OT1/cmr/m/it/10 like Il-le-gal-Sta-te-Ex-cep-tion: eglMake-Cur-rent failed EGL
+[]BAD[]CONTEXT"[D32]\OT1/cmr/m/n/10 .
+ []
+
+<ranking.png, id=115, 507.8172pt x 279.444pt>
+File: ranking.png Graphic file (type png)
+ <use ranking.png>
+Package pdftex.def Info: ranking.png used on input line 1596.
+(pdftex.def)             Requested size: 304.69266pt x 167.66768pt.
+ [28]
+Underfull \vbox (badness 4303) has occurred while \output is active []
+
+ [29 <./ranking.png>] [30] [31] [32] [33] [34] [35] (./msr_journal.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 12--15
 []\OT1/cmr/m/n/10 (2013) Checked or unchecked ex-cep-tions?
  []
@@ -278,7 +318,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 12--15
 
  []
 
-[23]
+
 Underfull \hbox (badness 10000) in paragraph at lines 29--32
 []\OT1/cmr/m/n/10 (2014) Java: checked vs unchecked ex-cep-tion ex-pla-na-tion.
 
@@ -323,36 +363,36 @@ Underfull \hbox (badness 10000) in paragraph at lines 43--47
 \OT1/cmr/m/n/10 2009/presentation/Null+References:+The+Billion+Dollar+Mistake,
  []
 
-
+[36]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [24]
-Underfull \hbox (badness 2426) in paragraph at lines 168--173
+ [37]
+Underfull \hbox (badness 2426) in paragraph at lines 185--190
 []\OT1/cmr/m/n/10 Linares-V^^Sasquez M, Bavota G, Bernal-C^^Sardenas C, Di Pent
 a M,
  []
 
 
-Underfull \hbox (badness 3601) in paragraph at lines 168--173
+Underfull \hbox (badness 3601) in paragraph at lines 185--190
 \OT1/cmr/m/n/10 Oliveto R, Poshy-vanyk D (2013) API change and fault prone-
  []
 
 
-Underfull \hbox (badness 1163) in paragraph at lines 168--173
+Underfull \hbox (badness 1163) in paragraph at lines 185--190
 \OT1/cmr/m/n/10 FSE 2013, ACM, pp 477--487, DOI 10.1145/2491411.2491428, URL
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [25]
-Underfull \hbox (badness 1490) in paragraph at lines 212--215
+ [38]
+Underfull \hbox (badness 1490) in paragraph at lines 241--244
 []\OT1/cmr/m/n/10 Ruiz I, Na-gap-pan M, Adams B, Has-san A (2012) Un-der-stand-
 ing
  []
 
 
-Underfull \hbox (badness 1132) in paragraph at lines 212--215
+Underfull \hbox (badness 1132) in paragraph at lines 241--244
 \OT1/cmr/m/n/10 reuse in the An-droid mar-ket. In: Pro-ceed-ings of the In-ter-
 na-tional
  []
@@ -360,37 +400,40 @@ na-tional
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [26])
-[27] (./msr_journal.aux)
+ [39])
+[40] (./msr_journal.aux)
 
-LaTeX Warning: There were undefined references.
+LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 2721 strings out of 493315
- 40863 string characters out of 6137905
- 101879 words of memory out of 5000000
- 6155 multiletter control sequences out of 15000+600000
- 10915 words of font info for 38 fonts, out of 8000000 for 9000
+ 2821 strings out of 493315
+ 42516 string characters out of 6137905
+ 105323 words of memory out of 5000000
+ 6246 multiletter control sequences out of 15000+600000
+ 11215 words of font info for 39 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,9n,28p,729b,347s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,10n,28p,1563b,365s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pf
 b></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></
-usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><
-/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
-sr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/
-local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/loc
-al/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/
-texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/te
-xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/tex
-live/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texl
-ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on msr_journal.pdf (27 pages, 776474 bytes).
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx5.pfb></
+usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></us
+r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/
+local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr
+/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
+ocal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/loca
+l/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/t
+exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texl
+ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive
+/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2
+013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/20
+13/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/201
+3/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on msr_journal.pdf (40 pages, 1209495 bytes).
 PDF statistics:
- 149 PDF objects out of 1000 (max. 8388607)
- 101 compressed objects within 2 object streams
+ 212 PDF objects out of 1000 (max. 8388607)
+ 140 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

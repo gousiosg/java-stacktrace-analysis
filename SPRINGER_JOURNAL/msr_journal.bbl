@@ -1,4 +1,4 @@
-\begin{thebibliography}{52}
+\begin{thebibliography}{58}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{{#1}}
 \providecommand{\urlprefix}{URL }
@@ -86,6 +86,10 @@ Brunet J, Guerrero D, Figueiredo J (2009) Design tests: An approach to
 Cabral B, Marques P (2007) Exception handling: A field study in {J}ava and
   {.N}et. In: Proceedings of ECOOP 2007, Springer, pp 151--175
 
+\bibitem[{Charmaz(2006)}]{charmaz2006}
+Charmaz K (2006) Constructing grounded theory: A practical guide through
+  qualitative research. SagePublications Ltd, London
+
 \bibitem[{Coelho et~al(2008)Coelho, Rashid, Garcia, Ferrari, Cacho, Kulesza,
   von Staa, and Lucena}]{coelho2008assessing}
 Coelho R, Rashid A, Garcia A, Ferrari F, Cacho N, Kulesza U, von Staa A, Lucena
@@ -98,6 +102,13 @@ Coelho R, Rashid A, Garcia A, Ferrari F, Cacho N, Kulesza U, von Staa A, Lucena
 Coelho R, von Staa A, Kulesza U, Rashid A, Lucena C (2011) Unveiling and taming
   liabilities of aspects in the presence of exceptions: a static analysis based
   approach. Information Sciences 181(13):2700--2720
+
+\bibitem[{Coelho et~al(2015)Coelho, Almeida, Gousios, and van
+  Deursen}]{coelhoetal15}
+Coelho R, Almeida L, Gousios G, van Deursen A (2015) Unveiling exception
+  handling bug hazards in android based on github and google code issues. In:
+  Proceedings Working Conference on Mining Software Repositories (MSR), pp
+  2--10
 
 \bibitem[{Csallner and Smaragdakis(2004)}]{csallner2004jcrasher}
 Csallner C, Smaragdakis Y (2004) Jcrasher: an automatic robustness tester for
@@ -141,6 +152,12 @@ Gosling J (2000) The {J}ava language specification. Addison-Wesley Professional
 Gousios G (2013) The {GHT}orrent dataset and tool suite. In: Proceedings of the
   International Working Conference on Mining Software Repositories (MSR), IEEE,
   pp 233--236
+
+\bibitem[{Gousios et~al(2015)Gousios, Zaidman, Storey, and
+  Van~Deursen}]{gousios2015}
+Gousios G, Zaidman A, Storey MA, Van~Deursen A (2015) Work practices and
+  challenges in pull-based development: the integrator's perspective. Tech.
+  rep.
 
 \bibitem[{Jo et~al(2004)Jo, Chang, Yi, and Choe}]{jo2004uncaught}
 Jo JW, Chang BM, Yi K, Choe KM (2004) An uncaught exception analysis for java.
@@ -187,6 +204,12 @@ McDonnell T, Ray B, Kim M (2013) An empirical study of api stability and
   adoption in the android ecosystem. In: Proceedings International Conference
   on Software Maintenance (ICSM), pp 70--79
 
+\bibitem[{Meyer et~al(2014)Meyer, Fritz, Murphy, and Zimmermann}]{meyer2014}
+Meyer AN, Fritz T, Murphy GC, Zimmermann T (2014) Software developers'
+  perceptions of productivity. In: Proceedings of the 22nd ACM SIGSOFT
+  International Symposium on Foundations of Software Engineering, ACM, pp
+  19--29
+
 \bibitem[{Miller and Tripathi(1997)}]{miller1997issues}
 Miller R, Tripathi A (1997) Issues with exception handling in object-oriented
   systems. In: Proceedings of ECOOP'97, Springer, pp 85--103
@@ -202,6 +225,12 @@ Pathak A, Hu YC, Zhang M (2011) Bootstrapping energy debugging on smartphones:
   ACM Workshop on Hot Topics in Networks, ACM, New York, NY, USA, HotNets-X, pp
   5:1--5:6, \doi{10.1145/2070562.2070567},
   \urlprefix\url{http://doi.acm.org/10.1145/2070562.2070567}
+
+\bibitem[{Pham et~al(2013)Pham, Singer, Liskin, Figueira~Filho, and
+  Schneider}]{pham2013}
+Pham R, Singer L, Liskin O, Figueira~Filho F, Schneider K (2013) Creating a
+  shared understanding of testing culture on a social coding site. In: Software
+  Engineering (ICSE), 2013 35th International Conference on, IEEE, pp 112--121
 
 \bibitem[{Robillard and Murphy(2000)}]{Robil00}
 Robillard MP, Murphy GC (2000) Designing robust {J}ava programs with
@@ -228,6 +257,11 @@ Schr{\"{o}}ter A, Bettenburg N, Premraj R (2010) Do stack traces help
 \bibitem[{Shah et~al(2010)Shah, Gorg, and Harrold}]{shah2010understanding}
 Shah HB, Gorg C, Harrold MJ (2010) Understanding exception handling: Viewpoints
   of novices and experts. IEEE Trans Soft Eng 36(2):150--161
+
+\bibitem[{Singer et~al(2014)Singer, Figueira~Filho, and Storey}]{singer2014}
+Singer L, Figueira~Filho F, Storey MA (2014) Software engineering at the speed
+  of light: how developers stay current using twitter. In: Proceedings of the
+  36th International Conference on Software Engineering, ACM, pp 211--221
 
 \bibitem[{Sinha et~al(2009)Sinha, Shah, G{\"o}rg, Jiang, Kim, and
   Harrold}]{sinha2009fault}
