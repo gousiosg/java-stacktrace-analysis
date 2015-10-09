@@ -140,14 +140,19 @@ Lagoa Nova, CEP: 59.078-970. Natal/RN. Brazil \\
 \begin{abstract}
 This paper reports two studies:  a repository mining study whose goal was to identify 
 exception handling bug hazards in Android apps; and an exploratory survey study - whose goal
-was to assess the perspectives of developers conserning such bug hazards.
+was to assess the perspectives of developers concerning such bug hazards.
 The repository mining study mined the exception stack traces embedded on 
 159,048 issues reported on Android projects hosted in GitHub (482 projs.) 
 and Googlecode (157 projs.).  Overall 6,005 exception stack traces were extracted, 
 and analyzed in combination with source code and bytecode analysis. 
-Some bug hazards were consistently detected such as:  unexpected exception wrappings (e.g., Errors being wrapped in checked exceptions), and NullPointerExeptions as the major cause of reported chashes in about 50\% of all analyzed projects. Finally, a survey was applied to some developers 
-involved on such GitHub projects and their perspective about the bug hazards and 
-how they deal with them as assessed and discussed.
+Some bug hazards were consistently detected such as:  unexpected exception wrappings 
+(e.g., Errors being wrapped in checked exceptions), and NullPointerExeptions 
+as the major cause of reported crashes - reported in 
+28\% of all mined stack traces found in about 50\% of all analyzed projects. 
+Finally, a survey was applied to some developers 
+involved on some of the GitHub Android projects analyzed in our study 
+and their perspective about the bug hazards and 
+how they deal with them was assessed and discussed.
 
 \keywords{Exception handling \and Android development \and Repository mining \and Exploratory survey}
 % \PACS{PACS code1 \and PACS code2 \and more}
@@ -160,7 +165,7 @@ how they deal with them as assessed and discussed.
 
 The number of mobile apps is increasing in a daily rate. If on the one hand they
 extend phones capabilities far beyond of the basic calls, on the other hand they have to 
-cope with an increasing number of exceptinal conditions 
+cope with an increasing number of exceptional conditions 
 (e.g., faults in underlying middleware or hardware; compatibility issues~\cite{McDon13}; 
 memory and battery restrictions; noisy external resources~\cite{Zhang12}). 
 
