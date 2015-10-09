@@ -171,7 +171,7 @@ embedded in many mainstream programming languages, such as Java, C++ and C\#,
 In this paper we will be concerned with exception handling in Android apps,
 which reuses Java's exception handling model.
  
-%Android, the leading plaform for mobile applications~\cite{gartner} (thanks to its open-source 
+%Android, the leading platform for mobile applications~\cite{gartner} (thanks to its open-source 
 %model and hardware partners like Samsung, HTC, Motorola, Asus besides Nexus Google's
 % own device)  reuses the embedded Java exception model to detect and handle 
 % exceptional conditions.
@@ -470,7 +470,7 @@ Our study focuses on open-source apps, since the information needed to perform o
 cannot be retrieved from commercial apps, whose issue report systems and 
 source codes are generally not publicly available. 
 Open source Android open-source apps have also been the 
-target of other research~\cite{Linar13,Ruiz12} addressing the \emph{reuse} and API stability. 
+target of other research~\cite{Linar13,Ruiz12} addressing \emph{reuse} and API stability. 
 
 %\subsection{Data Extraction Process}
 %\label{sec:miningproc}
@@ -631,7 +631,7 @@ This module is responsible for classifying each signaler according
 to its origin (i.e., Android Application Framework, Android Libcore, Application, Library). 
 Table~\ref{tab:signalers} presents the heuristics adopted in this classification.
 To conduct this classification, we provide this module with the information
-comprising all Java packages that compose: the Android Plaform;
+comprising all Java packages that compose: the Android Platform;
  the Android Libcore; and each analyzed Application. To discover the packages for the first two origins
 we can use the Android specification.
 To discover the packages for the third origin, the application itself, this module
@@ -904,8 +904,8 @@ All		& 1  803	&	433	&	2478	&	1462	&	6005 	\\
 
 \bigskip
 
-\finding{Almost two thirds of all crashes come from runtime
-  exceptions. Most of these originate from the application layer.}
+\finding{Almost 65\% of all crashes come from runtime
+  exceptions. Approximately 47\% of these originate from the application layer.}
 
 \bigskip
 
@@ -1585,7 +1585,7 @@ Although most of the respondents answered that exception handling code helped wi
 
 %\bigskip
 
-Developers were also asked to rank the main causes of crashes. Approximately 68\% of the respondents ranked the exceptions signaled by programming logic mistakes, e.g. NullPointerExceptions, as the Top 1 and Top 2 cause of crashes, as illustrated in Figure~\ref{figure:ranking}. In our mining study the exceptions signaled due to programming logic mistakes (java.lang and util) where the causes of 52.0\% of the exception stack traces found. Hence, the developers perspective is aligned with what was revealed in mining study.
+Developers were also asked to rank the main causes of crashes. Approximately 68\% of the respondents ranked the exceptions signaled by programming logic mistakes, e.g. NullPointerExceptions, as the Top 1 and Top 2 cause of crashes, as illustrated in Figure~\ref{fig:ranking}. In our mining study the exceptions signaled due to programming logic mistakes (java.lang and util) where the causes of 52.0\% of the exception stack traces found. Hence, the developers perspective is aligned with what was revealed in mining study.
 %[width=.9\hsize]
 \begin{figure*} 
 \centering \includegraphics[scale=0.60]{charts/ranking.png}
@@ -1832,7 +1832,7 @@ the adoption of best practices based on the analysis of stack trace information.
 Our work also identified the type of each exception mined from issues
 (classifying them as Error, Runtime or Checked) based on the source code
 analysis of the exception hierarchy and analized the exception wrappings that can 
-happen during the exception propagation.  Such analysis revealed intriging 
+happen during the exception propagation.  Such analysis revealed intriguing 
 \emph{bug hazards} such as the cross-type exception wrappings not discussed in previous works.
 
 
