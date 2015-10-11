@@ -139,7 +139,35 @@ Lagoa Nova, CEP: 59.078-970. Natal/RN. Brazil \\
 \maketitle
 
 \begin{abstract}
-This paper reports two studies:  a repository mining study whose goal was to identify exception handling bug hazards in Android apps; and a survey-based study whose goal was to assess the perspectives of developers concerning such bug hazards. The repository mining study mined the exception stack traces embedded in 159,048 issues reported in Android projects hosted on GitHub (482 projs.)  and Google Code (157 projs.).  Overall 6,005 exception stack traces were extracted and analyzed in combination with source code and bytecode analysis. Some bug hazards were consistently detected, such as:  unexpected exception wrappings (e.g., errors being wrapped in checked exceptions) and NullPointerExceptions as the major cause of reported crashes -- reported in 28\% of all mined stack traces found in about 50\% of all analyzed projects. Finally, a survey was applied to some developers involved in some of the GitHub Android projects analyzed in our study and their perspective about the bug hazards and how they deal with them was assessed and discussed.
+% Abstract somewhat based on Nature guidelines, 
+% https://twitter.com/TrevorABranch/status/620699527486373888/photo/1?ref_src=twsrc%5Etfw
+%
+% Basic intro (1-2 sentences)
+Adequate handling of exceptions has proven difficult for many software engineers.
+% More detailed background (2-3 sentences)
+Mobile app developers in particular, have to cope with 
+compatibility, middleware, memory constraints, and battery restrictions.
+% Clear sentence with general problem studied (1 sentence)
+The goal of this paper is to obtain a thorough understanding of common exception handling
+\emph{bug hazards} that app developers face.
+% (method 1)
+To that end, we first provide a detailed empirical study of over 6,000 
+Java exception stack traces 
+we extracted from over 600 open source Android projects.
+% Main result 1 / new knowledge
+Key insights from this study include common causes for system crashes, and
+common chains of wrappings between checked and unchecked exceptions.
+% (method 2)
+Furthermore, we provide a survey with 70 developers involved
+in at least one of the projects analyzed.
+The results corroborate the stack trace findings, and indicate
+that developers are unaware of frequently occurring undocumented exception handling behavior.
+% General context and implications
+Overall, the findings of our study call for tool support to help developers
+understand their own and third party exception handling and wrapping logic.
+
+
+%This paper reports two studies:  a repository mining study whose goal was to identify exception handling bug hazards in Android apps; and a survey-based study whose goal was to assess the perspectives of developers concerning such bug hazards. The repository mining study mined the exception stack traces embedded in 159,048 issues reported in Android projects hosted on GitHub (482 projs.)  and Google Code (157 projs.).  Overall 6,005 exception stack traces were extracted and analyzed in combination with source code and bytecode analysis. Some bug hazards were consistently detected, such as:  unexpected exception wrappings (e.g., errors being wrapped in checked exceptions) and NullPointerExceptions as the major cause of reported crashes -- reported in 28\% of all mined stack traces found in about 50\% of all analyzed projects. Finally, a survey was applied to some developers involved in some of the GitHub Android projects analyzed in our study and their perspective about the bug hazards and how they deal with them was assessed and discussed.
 
 \keywords{Exception handling \and Android development \and Repository mining \and Exploratory survey}
 % \PACS{PACS code1 \and PACS code2 \and more}
