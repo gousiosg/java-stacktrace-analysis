@@ -51,6 +51,7 @@ grestore
 %
 % insert here the call for the packages your document requires
 \usepackage[numbers]{natbib}
+\usepackage{url}
 
 % etc.
 %
@@ -537,7 +538,7 @@ Because of this, we opted for not restricting the analysis to just defect issues
 %on the defect issues can be found at:https://github.com/souzacoelho/exceptionminer}. 
 
 \subsection{Android Apps in Google Code}
-Google Code contains widely used open-source Android apps (e.g. K9Mail\footnote{K9Mail moved to GitHub but as a way of not loosing the project history it advises their users to report bugs in the Google Code issue tracker: https://github.com/k9mail/k-9/wiki/LoggingErrors.}).
+Google Code contains widely used open-source Android apps (e.g. K9Mail\footnote{K9Mail moved to GitHub but as a way of not loosing the project history it advises their users to report bugs in the Google Code issue tracker: \url{https://github.com/k9mail/k-9/wiki/LoggingErrors.}}).
 However, differently from GitHub, Google Code does not provide an API to access the information related
  to hosted projects.\footnote{Google Code used to provide a Web service to its repositories, but this was deactivated in June 2013 in what Google called a ``clean-up action''.}
 To overcome this limitation we needed to implement a Web Crawler (incorporated in the ExceptionMiner tool described next) that navigates 
@@ -1277,7 +1278,7 @@ Developers were first asked how often they dealt with the exception handling cod
 %\emph{EH Best Practices}
 %/////// JAVA BEST PRACTICES ////// 
 As mentioned before several general guidelines have been proposed on how to
-use Java exceptions. Section~\ref{sec:best}  compiled a list of some exception handling (EH) best practices that guided our mining study. In this survey the developers were also asked if they knew about and used Java EH best practices -- see Figure~\ref{fig:allquest}. Most of them said that they knew and adopted Java EH practices (68\%). From this set the most mentioned best practices are presented in Table~\ref{tab:javapractices} -- considering that one developer mentioned more than one practice. Most of the best practices mentioned were the ones cited in Section~\ref{sec:best}. For instance:\emph{``Don't throw [pure] RuntimeException (in most cases), don't catch OutOfMemoryError, etc." [D42]}. Some of the practices mentioned, however, are not well known Java EH best practices but seem to be used by some Android developers to better deal with exceptions in the Android app context, such as the use of a crash fast approach\footnote{http://www.slideshare.net/pyricau/crash} -- \emph{``Crash is good for hinting developer. Fast crash fast solve." [D51]}; and to favor checked exceptions instead of runtime to represent the exceptional conditions in Android apps -- \emph{``RuntimeExceptions are not particularly well suited for Android's robustness, as any uncaught one would cause a crash." [D26]}; \emph{``Checked exception help, unchecked exceptions don't." [D25]}; \emph{``avoid unchecked exceptions except if the case is really abnormal and should not happen [...]"[D45]}.
+use Java exceptions. Section~\ref{sec:best}  compiled a list of some exception handling (EH) best practices that guided our mining study. In this survey the developers were also asked if they knew about and used Java EH best practices -- see Figure~\ref{fig:allquest}. Most of them said that they knew and adopted Java EH practices (68\%). From this set the most mentioned best practices are presented in Table~\ref{tab:javapractices} -- considering that one developer mentioned more than one practice. Most of the best practices mentioned were the ones cited in Section~\ref{sec:best}. For instance:\emph{``Don't throw [pure] RuntimeException (in most cases), don't catch OutOfMemoryError, etc." [D42]}. Some of the practices mentioned, however, are not well known Java EH best practices but seem to be used by some Android developers to better deal with exceptions in the Android app context, such as the use of a crash fast approach\footnote{\url{http://www.slideshare.net/pyricau/crash}} -- \emph{``Crash is good for hinting developer. Fast crash fast solve." [D51]}; and to favor checked exceptions instead of runtime to represent the exceptional conditions in Android apps -- \emph{``RuntimeExceptions are not particularly well suited for Android's robustness, as any uncaught one would cause a crash." [D26]}; \emph{``Checked exception help, unchecked exceptions don't." [D25]}; \emph{``avoid unchecked exceptions except if the case is really abnormal and should not happen [...]"[D45]}.
 
 \begin{table}
 \scriptsize
@@ -1301,7 +1302,7 @@ Don't catch Errors 	&  2 &	5\% \\
 \end{table}			
 				
 %/////// ANDROID EH BEST PRACTICES /////
-The developers who informed us about their EH best practices were also asked whether they knew about any EH best practices specific to Android -- see Figure~\ref{fig:allquest}. Most of them (43\%) mentioned that they applied the same best practices that they used in Java programs. Only some of them mentioned that they adopted specific best practices such as: (i) the use of crash report tools (21\%) -- to notify the developer about the uncaught exceptions that happen in the application code; and (ii) the use of a global exception handler (14\%) -- the UncaughtExceptionHandler advised in the Android documentation\footnote{http://developer.android.com/reference/java/lang/Thread.UncaughtExceptionHandler.html}.					
+The developers who informed us about their EH best practices were also asked whether they knew about any EH best practices specific to Android -- see Figure~\ref{fig:allquest}. Most of them (43\%) mentioned that they applied the same best practices that they used in Java programs. Only some of them mentioned that they adopted specific best practices such as: (i) the use of crash report tools (21\%) -- to notify the developer about the uncaught exceptions that happen in the application code; and (ii) the use of a global exception handler (14\%) -- the UncaughtExceptionHandler advised in the Android documentation\footnote{\url{http://developer.android.com/reference/java/lang/Thread.UncaughtExceptionHandler.html}}.
 									
 \begin{table}
 \scriptsize
@@ -1415,7 +1416,7 @@ To assess the developers' perspective on whether checked and unchecked exception
 
 This question was motivated by the fact that during the mining study we could identify that many checked exceptions were just wrapped in a runtime exception and re-thrown, as a way to bypass any kind of handling. When asked about how to deal with a checked exception signaled by a method (invoked in the context of the onPause() activity method), most respondents (63\%) said that they should add a try-catch block surrounding the method invocation. One of the respondents mentioned that \emph{``If a method signature declares that it throws an exception, it means that the caller should handle the exception."[D29]}; \emph{``because it is checked exception, you should expect it to happen rather than just crash"[D70]}. However, most of the respondents also said that to deal with a method that is signaling a runtime exception we should surround such a method with a try-catch block (59\%). 
 
-However, what developers mentioned as handling actions (what is performed inside the catch clause to deal with the exception) differs in both cases. For runtime exceptions most of the handling actions were dedicated to present more specific error messages and prevent the app from abruptly crashing. \emph{``[...] They signal exceptional behavior that may not be recoverable, so they offer a useful way to log and gracefully crash'' [D19]}. \emph{``Giving the user meaningful feed back is important, so the more specific you can be about what went wrong, the better."[D66]}. Some developers also mentioned to use a toast to support this task\footnote{A toast is an Android component that provides simple feedback about an operation in a small popup -- http://developer.android.com/guide/topics/ui/notifiers/toasts.html}. Few developers also mentioned that the runtime exception should flow upstream to the framework so it could crash the app.
+However, what developers mentioned as handling actions (what is performed inside the catch clause to deal with the exception) differs in both cases. For runtime exceptions most of the handling actions were dedicated to present more specific error messages and prevent the app from abruptly crashing. \emph{``[...] They signal exceptional behavior that may not be recoverable, so they offer a useful way to log and gracefully crash'' [D19]}. \emph{``Giving the user meaningful feed back is important, so the more specific you can be about what went wrong, the better."[D66]}. Some developers also mentioned to use a toast to support this task\footnote{A toast is an Android component that provides simple feedback about an operation in a small popup -- \url{http://developer.android.com/guide/topics/ui/notifiers/toasts.html}}. Few developers also mentioned that the runtime exception should flow upstream to the framework so it could crash the app.
 
 On the other hand, some handling actions mentioned for checked exceptions were: (i) retrying the same operation; (ii) involving the user in finding a solution to the exception condition such as opening a pop-up and asking the user to define a new place to save the file (the example presented to them involved a IOException being signaled); and also (iii) presenting an error message to the user. 
 
@@ -1621,7 +1622,7 @@ crash report / crash report tools &	8	& 11\% \\
 
 
 \section{Replication Package}
-All the data used in the mining study and in the survey-based study is publicly available at the ExceptionMiner tool website hosted on GitHub\footnote{ https://github.com/souzacoelho/exceptionminer}.
+All the data used in the mining study and in the survey-based study is publicly available at the ExceptionMiner tool website hosted on GitHub\footnote{\url{https://github.com/souzacoelho/exceptionminer}}.
 Specifically we provide: (i) all issues related to Android projects found
 on GitHub and Google Code used in this study; (ii) all stack traces extracted
 from issues; (iii) the results of manual inspection steps; (iv) the
