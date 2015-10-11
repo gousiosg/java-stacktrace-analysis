@@ -1911,30 +1911,41 @@ The goal of this paper is two-fold: (i) to investigate
 to what extent stack trace information can reveal \emph{bug hazards} 
 related to exception handling code that may lead to a decrease in
 application robustness; and (ii) to assess the developers' perspective
-concerning the detected EH \emph{bug hazards}. 
+concerning the detected exception handling bug hazards.
 
-To that end, we mined the stack 
+To realize this goal, we mined the stack 
 traces embedded in all issues defined in 482 Android projects hosted on GitHub and 
 157 projects hosted on Google Code -- overall considering 6,005
-exception stack traces. We also surveyed developers associated with some of 
+exception stack traces. We subsequently surveyed developers associated with 
+a selection of 
 the mined GitHub projects.
+
 Our first key contribution is
 a novel approach and toolset (ExceptionMiner) for analyzing Java
   exception stack traces as occurring in GitHub and Google Code
   issues.
+
 Our second contribution is
 an empirical study of over 6000 actual stack traces,
-  demonstrating that (1) half of the system crashes are due to errors
+  demonstrating that:
+\begin{enumerate} 
+  \item Half of the system crashes are due to errors
   in programming logic, with null pointer exceptions being most
   prominent;
-  (2) documentation for explicitly thrown RuntimeExceptions is almost
+  \item Documentation for explicitly thrown RuntimeExceptions is almost
   never provided; 
-  (3) extensive use of wrapping leads to hard-to-understand chains
+  \item Extensive use of wrapping leads to hard-to-understand chains
   violating Java's exception handling principles.
-Our third contribution was the first exploratory study to assess the 
+\end{enumerate}  
+
+Our third contribution is a qualitative study to assess the 
 developers' perspective concerning the exception handling 
 bug hazards in Android development.
- Our results shed light on common problems and bug hazards in Java
+This study corroborates the findings of our stack trace analysis, most notably the prevalence
+of null pointer exceptions and the reliability implications of (in particular cross-type) wrappings.
+Furthermore, we found that few developers are aware of the undocumented checked exceptions signaled by native C code of the Android platform.
+
+In conclusion, our findings shed light on common problems and bug hazards in Java
 exception handling code, and call for tool support to help developers
 understand their own and third party exception handling and wrapping logic.
 
