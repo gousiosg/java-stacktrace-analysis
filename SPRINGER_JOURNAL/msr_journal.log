@@ -1,27 +1,25 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.5.6)  9 OCT 2015 15:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.10.7)  11 OCT 2015 14:47
 entering extended mode
- restricted \write18 enabled.
- %&-line parsing enabled.
 **msr_journal.tex
-(./msr_journal.tex
-LaTeX2e <2011/06/27>
-Babel <3.9f> and hyphenation patterns for 78 languages loaded.
+(msr_journal.tex
+LaTeX2e <2015/01/01> patch level 2
+Babel <3.9m> and hyphenation patterns for 69 languages loaded.
 
 LaTeX Warning: File `example.eps' already exists on the system.
                Not generating it from this source.
 
-(/usr/local/texlive/2013/texmf-dist/tex/latex/base/fix-cm.sty
-Package: fix-cm 2006/09/13 v1.1m fixes to LaTeX
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\fix-cm.sty"
+Package: fix-cm 2015/01/14 v1.1t fixes to LaTeX
 
-(/usr/local/texlive/2013/texmf-dist/tex/latex/base/ts1enc.def
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ts1enc.def"
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
-)) (./svjour3.cls
+)) (svjour3.cls
 Document Class: svjour3 2007/05/08 v3.2 
 LaTeX document class for Springer journals
 Class Springer-SVJour3 Info: extra/valid Springer sub-package (-> *.clo) 
 (Springer-SVJour3)           not found in option list of \documentclass
 (Springer-SVJour3)           - autoactivating "global" style.
-(./svglov3.clo
+(svglov3.clo
 File: svglov3.clo 2009/12/18 v3.2 style option for standardised journals
 
 SVJour Class option: svglov3.clo for standardised journals
@@ -82,31 +80,31 @@ LaTeX Font Info:    Redeclaring math symbol \Omega on input line 157.
 \figgap=\dimen112
 \bibindent=\dimen113
 \@tempcntc=\count104
-) (/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+) ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/keyval.sty
-Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
 )
-(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/trig.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty"
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/graphics.cfg
-File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
 )
-Package graphics Info: Driver file: pdftex.def on input line 91.
+Package graphics Info: Driver file: pdftex.def on input line 94.
 
-(/usr/local/texlive/2013/texmf-dist/tex/latex/pdftex-def/pdftex.def
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
 File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
-(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
 Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
 )
-(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
 Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count105
@@ -114,28 +112,26 @@ Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 \Gin@req@height=\dimen114
 \Gin@req@width=\dimen115
 )
-(/usr/local/texlive/2013/texmf-dist/tex/latex/natbib/natbib.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\natbib\natbib.sty"
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip43
 \bibsep=\skip44
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count106
 )
-(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/color.sty
-Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\color.sty"
+Package: color 2014/10/28 v1.1a Standard LaTeX Color (DPC)
 
-(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/color.cfg
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
-Package color Info: Driver file: pdftex.def on input line 130.
+Package color Info: Driver file: pdftex.def on input line 142.
 )
-(./msr_journal.aux
+(msr_journal.aux
 
 LaTeX Warning: Label `tab:handlingruntime' multiply defined.
 
 )
-\openout1 = `msr_journal.aux'.
-
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 92.
 LaTeX Font Info:    ... okay on input line 92.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 92.
@@ -153,7 +149,7 @@ LaTeX Font Info:    ... okay on input line 92.
 
 Unknown journal: specify \journalname{<name of your journal>} in preambel
 
-(/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
+("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count107
 \scratchdimen=\dimen116
@@ -166,54 +162,7 @@ Unknown journal: specify \journalname{<name of your journal>} in preambel
 \MPnumerator=\count111
 \makeMPintoPDFobject=\count112
 \everyMPtoPDFconversion=\toks18
-) (/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
-Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
-
-(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ifluatex.sty
-Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
-Package ifluatex Info: LuaTeX not detected.
-)
-(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ifpdf.sty
-Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
-Package ifpdf Info: pdfTeX in PDF mode is detected.
-)
-Package pdftexcmds Info: LuaTeX not detected.
-Package pdftexcmds Info: \pdf@primitive is available.
-Package pdftexcmds Info: \pdf@ifprimitive is available.
-Package pdftexcmds Info: \pdfdraftmode found.
-)
-(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
-Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
-
-(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/grfext.sty
-Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
-
-(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
-Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
-))
-(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/kvoptions.sty
-Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
-
-(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
-Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
-
-(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/etexcmds.sty
-Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
-Package etexcmds Info: Could not find \expanded.
-(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
-(etexcmds)             that some package has redefined \expanded.
-(etexcmds)             In the latter case, load this package earlier.
-)))
-Package grfext Info: Graphics extension search list:
-(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
-G,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 452.
-
-(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
-))
 SVJour3 warning: Missing \journalname
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 138.
@@ -223,91 +172,95 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 138.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 138.
-[1{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2] [3] [4] [5] <stack_review6.png, id=26, 465.4188pt x 195.129pt>
+[1{C:/Users/Christoph/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+[2] [3] [4] [5] <stack_review6.png, id=25, 465.4188pt x 195.129pt>
 File: stack_review6.png Graphic file (type png)
 
 <use stack_review6.png>
-Package pdftex.def Info: stack_review6.png used on input line 376.
+Package pdftex.def Info: stack_review6.png used on input line 362.
 (pdftex.def)             Requested size: 255.98112pt x 107.32127pt.
 
-Overfull \hbox (8.91728pt too wide) in paragraph at lines 416--425
+Overfull \hbox (8.91728pt too wide) in paragraph at lines 402--411
 \OT1/cmr/m/n/10 ([[], [], [], []]). For checked ex-cep-tions, this is au-to-mat
 -i-cally the case. Bloch [[]]
  []
 
-[6 <./stack_review6.png>] <overview_review.png, id=33, 1404.447pt x 421.575pt>
+[6 <./stack_review6.png>] <overview_review.png, id=32, 1404.447pt x 421.575pt>
 File: overview_review.png Graphic file (type png)
 
 <use overview_review.png>
-Package pdftex.def Info: overview_review.png used on input line 432.
+Package pdftex.def Info: overview_review.png used on input line 418.
 (pdftex.def)             Requested size: 304.19794pt x 91.30585pt.
  [7 <./overview_review.png>] [8]
-Underfull \hbox (badness 10000) in paragraph at lines 617--617
+Underfull \hbox (badness 10000) in paragraph at lines 603--603
 [][]\OT1/cmr/m/n/8 In sev-eral ex-cep-tion stack traces, the ex-cep-tion frames
  were pre-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 617--617
-\OT1/cmr/m/n/8 ceeded by log-ging in-for-ma-tion e.g., \OT1/cmtt/m/n/8 03-01 15
-:55:01.609 (7924): at
+Underfull \hbox (badness 10000) in paragraph at lines 603--603
+\OT1/cmr/m/n/8 ceded by log-ging in-for-ma-tion e.g., \OT1/cmtt/m/n/8 03-01 15:
+55:01.609 (7924): at
  []
 
 [9] [10]
-Overfull \hbox (17.76575pt too wide) in paragraph at lines 732--750
+Overfull \hbox (17.76575pt too wide) in paragraph at lines 718--736
  [][] 
  []
 
 [11] [12] [13] [14] [15]
-Overfull \hbox (7.60085pt too wide) in paragraph at lines 1052--1076
+Overfull \hbox (7.60085pt too wide) in paragraph at lines 1038--1062
  [][] 
  []
 
-[16] [17] [18] <expertise_new.png, id=80, 818.0964pt x 236.5638pt>
+[16] [17] [18] [19] <expertise_new.png, id=83, 818.0964pt x 236.5638pt>
 File: expertise_new.png Graphic file (type png)
 
 <use expertise_new.png>
-Package pdftex.def Info: expertise_new.png used on input line 1251.
+Package pdftex.def Info: expertise_new.png used on input line 1237.
 (pdftex.def)             Requested size: 310.87987pt x 89.89516pt.
- [19] <agree_new2.png, id=85, 579.1236pt x 194.1654pt>
+ <agree_new2.png, id=84, 579.1236pt x 194.1654pt>
 File: agree_new2.png Graphic file (type png)
 
 <use agree_new2.png>
-Package pdftex.def Info: agree_new2.png used on input line 1278.
+Package pdftex.def Info: agree_new2.png used on input line 1264.
 (pdftex.def)             Requested size: 335.89192pt x 112.616pt.
- <yes_no_new2.png, id=86, 596.4684pt x 209.583pt>
+ [20 <./expertise_new.png>]
+<yes_no_new2.png, id=89, 596.4684pt x 209.583pt>
 File: yes_no_new2.png Graphic file (type png)
-
-<use yes_no_new2.png>
-Package pdftex.def Info: yes_no_new2.png used on input line 1284.
+ <use yes_no_new2.png>
+Package pdftex.def Info: yes_no_new2.png used on input line 1270.
 (pdftex.def)             Requested size: 357.8838pt x 125.75076pt.
 
-Overfull \hbox (19.8838pt too wide) in paragraph at lines 1284--1285
+Overfull \hbox (19.8838pt too wide) in paragraph at lines 1270--1271
  [][] 
  []
 
-[20 <./expertise_new.png>]
-Overfull \hbox (18.79657pt too wide) in paragraph at lines 1318--1318
+[21 <./agree_new2.png> <./yes_no_new2.png>]
+Overfull \hbox (18.79657pt too wide) in paragraph at lines 1304--1304
 [][]\OT1/cmr/m/n/8 http://developer.android.com/reference/java/lang/Thread.Unca
 ughtExceptionHandler.html| 
  []
 
-[21 <./agree_new2.png> <./yes_no_new2.png>] [22] [23] [24] [25] [26] [27]
-Overfull \hbox (4.56047pt too wide) in paragraph at lines 1589--1590
+[22] [23] [24] [25] [26] [27]
+Overfull \hbox (4.56047pt too wide) in paragraph at lines 1578--1579
 \OT1/cmr/m/it/10 like Il-le-gal-Sta-te-Ex-cep-tion: eglMake-Cur-rent failed EGL
 []BAD[]CONTEXT"[D32]\OT1/cmr/m/n/10 .
  []
 
-<ranking.png, id=115, 507.8172pt x 279.444pt>
+<ranking.png, id=114, 507.8172pt x 279.444pt>
 File: ranking.png Graphic file (type png)
  <use ranking.png>
-Package pdftex.def Info: ranking.png used on input line 1596.
+Package pdftex.def Info: ranking.png used on input line 1585.
 (pdftex.def)             Requested size: 304.69266pt x 167.66768pt.
  [28]
-Underfull \vbox (badness 4303) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [29 <./ranking.png>] [30] [31] [32] [33] [34] [35] (./msr_journal.bbl
+ [29 <./ranking.png>] [30] [31] [32] [33] [34]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [35]
+(msr_journal.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 12--15
 []\OT1/cmr/m/n/10 (2013) Checked or unchecked ex-cep-tions?
  []
@@ -368,8 +321,8 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [37]
 Underfull \hbox (badness 2426) in paragraph at lines 185--190
-[]\OT1/cmr/m/n/10 Linares-V^^Sasquez M, Bavota G, Bernal-C^^Sardenas C, Di Pent
-a M,
+[]\OT1/cmr/m/n/10 Linares-Vasquez M, Bavota G, Bernal-Cardenas C, Di Penta M,
+
  []
 
 
@@ -401,39 +354,38 @@ na-tional
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [39])
-[40] (./msr_journal.aux)
+[40] (msr_journal.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 2821 strings out of 493315
- 42516 string characters out of 6137905
- 105323 words of memory out of 5000000
- 6246 multiletter control sequences out of 15000+600000
- 11215 words of font info for 39 fonts, out of 8000000 for 9000
- 957 hyphenation exceptions out of 8191
- 38i,10n,28p,1563b,365s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pf
-b></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx5.pfb></
-usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></us
-r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/
-local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr
-/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
-ocal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/loca
-l/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/t
-exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texl
-ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive
-/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2
-013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/20
-13/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/201
-3/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on msr_journal.pdf (40 pages, 1209495 bytes).
+ 2459 strings out of 493673
+ 35787 string characters out of 3141518
+ 96640 words of memory out of 3000000
+ 5812 multiletter control sequences out of 15000+200000
+ 11215 words of font info for 39 fonts, out of 3000000 for 9000
+ 1025 hyphenation exceptions out of 8191
+ 27i,10n,28p,1564b,361s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbsy10.pfb
+><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
+C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:
+/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx5.pfb><C:/Pr
+ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Progr
+am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Program 
+Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Program 
+Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Fil
+es (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files (
+x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files (x86)
+/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)/MiK
+TeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files (x86)/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Program Files (x86)/MiKTeX 2.9
+/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on msr_journal.pdf (40 pages, 1194413 bytes).
 PDF statistics:
- 212 PDF objects out of 1000 (max. 8388607)
- 140 compressed objects within 2 object streams
+ 209 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
