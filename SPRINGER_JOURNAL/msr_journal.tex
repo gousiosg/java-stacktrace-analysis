@@ -89,7 +89,6 @@ grestore
 
 
 
-
 \begin{document}
 
 %\title{Exception Handling Bug Hazards in Android\thanks{Grants or other notes
@@ -300,17 +299,21 @@ Hence, the study results are relevant to Android and Java developers who may und
  \emph{bug hazards} on the application robustness,
 and who have to face the difficulty of preventing them.
 Moreover, such \emph{bug hazards} 
-call for improvements of languages (e.g. to prevent null pointer dereferences) and tools to better support exception handling in Android and Java environments.
+call for improvements of languages (e.g. to prevent null pointer dereferences) and tools
+ to better support exception handling in Android and Java environments.
+
+%Section~\ref{sec:exceptionminer} 
+%Section~\ref{sec:result} 
 
 The remainder of this paper is organized as follows. 
 Section~\ref{sec:back} provides the necessary
 background on the Android platform and the Java exception model. 
-Section~\ref{sec:study} presents the study design. 
-Section~\ref{sec:exceptionminer} describes the ExceptionMiner tool we developed to conduct our study.
-Section~\ref{sec:result} reports the findings of our study.
+Section~\ref{sec:study} presents the mining study design, describes the ExceptionMiner tool 
+we developed to conduct our study, and reports the study results.
+Section~\ref{sec:dev} details the exploratory survey.
 Section~\ref{sec:disc} provides a discussion of the wider implications of our results,
  presents the threats to validity associated with the mining study and discusses the limitations
-of the survey-based study. 
+of the survey-based study, and points to the replication. 
 Finally Section~\ref{sec:rele} describes related work, 
 and Section~\ref{sec:conc} concludes the paper and outlines
 directions for future work.
@@ -762,7 +765,7 @@ java.lang.NoSuchMethodError	&	54	&	8.45\%	&	80	&	1.33\%	&	10	&	0	&	56	&	14	\\
 java.util.ConcurrentModificationException	&	43	&	6.73\%	&	65	&	1.08\%	&	5	&	0	&	46	&	13	\\
     \hline
   \end{tabular}
-\caption{Root Exceptions occurrences and popularity in repositories hosted on Google Code (GC) and GitHub(GH).}
+\caption{Root Exceptions occurrences and popularity in analyzed repositories.}
 \label{tab:topten}
 \end{table*}
  
@@ -1260,7 +1263,7 @@ We used grounded theory coding~\cite{charmaz2006}, iterating through our open-en
 
 \subsection{Participants}
 
- In previous work~\cite{coelhoetal15}, we mined exception stack traces available in issues reported for several Android projects hosted on GitHub and Google Code. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard toy-programs and non-Android repositories. For each repository, we extract the developers whose emails are registered. We emailed the 1,824 developers and received 71 valid answers. The majority of our respondents have more than 2 years of Java development experience (87.3\%) and  considerable experience in Android development (more than 1 year)  (85.9\%) -- see Figure~\ref{fig:devexpertise}.
+ In previous work~\cite{coelhoetal15}, we mined exception stack traces available in issues reported for several Android projects hosted on GitHub and Google Code. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard toy-programs and non-Android repositories. For each repository, we extract the developers whose emails are registered. We emailed the 1,824 developers and received 71 valid answers. The majority of our respondents have more than 2 years of Java development experience (87.3\%) and of Android development (85.9\%) -- see Figure~\ref{fig:devexpertise}.
 
 %Q1Q2_new.png
 \begin{figure} \centering \includegraphics[scale=0.38]{expertise_new.png}
@@ -1648,14 +1651,6 @@ crash report / crash report tools &	8	& 11\% \\
 
 \bigskip 
 
-
-\section{Replication Package}
-All the data used in the mining study and in the survey-based study is publicly available at the ExceptionMiner tool website hosted on GitHub\footnote{\url{https://github.com/souzacoelho/exceptionminer}}.
-Specifically we provide: (i) all issues related to Android projects found
-on GitHub and Google Code used in this study; (ii) all stack traces extracted
-from issues; (iii) the results of manual inspection steps; (iv) the
-ExceptionMiner tool we developed to support stack trace extraction and distilling; (v) the survey questions; and (iv) the survey responses and summary.
-
 \section{Discussion}
 \label{sec:disc}
 
@@ -1806,11 +1801,14 @@ has contributed with valuable insights about how Android developers
 used the exception handling code and what their perspectives regarding
 exception handling bug hazards are.
 
-
-
-%\noindent
-
-
+\subsection{Replication Package}
+All the data used in the mining study and in the survey-based study is publicly 
+available at the ExceptionMiner tool website hosted on GitHub\footnote{\url{https://github.com/souzacoelho/exceptionminer}}.
+Specifically we provide: (i) all issues related to Android projects found
+on GitHub and Google Code used in this study; (ii) all stack traces extracted
+from issues; (iii) the results of manual inspection steps; (iv) the
+ExceptionMiner tool we developed to support stack trace extraction and distilling; 
+(v) the survey questions; and (iv) the survey responses and summary.
 
 
 \section{Related Work}
