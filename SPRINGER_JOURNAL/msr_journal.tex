@@ -1213,11 +1213,12 @@ exceptions).
 \section{The Developers' Perspective}
 \label{sec:dev}
 
-Although the mining study revealed a set of bug hazards in Android exception handling, no work has examined yet what the developers' perceptions about them are. With Android development rapidly rising in popularity, it is important to better understand how developers deal with such bug hazards and what they do to overcome them. 
+%Although the mining study revealed a set of bug hazards in Android exception handling, no work has examined yet what the developers' perceptions about them are. With Android development rapidly rising in popularity, it is important to better understand how developers deal with such bug hazards and what they do to overcome them. 
 
 To better understand the developers' perspective about the bug hazards detected during the mining study, we set up an exploratory qualitative investigation and surveyed Android developers on how they perceive such bug hazards in their projects. The scope of our study is GitHub---using our GHTorrent database~\cite{Gousi13}, we aimed our survey at developers from Android projects available in GitHub for which issues were mined during the first phase of this study. 
 
-Our main goal is to learn from developers about the Java exception handling usage and the main exception handling bug hazards in Android. We therefore use a survey as our main research instrument. The survey mixed  Liket-scale with open-ended questions. The questions were motivated by the analysis of the existing bug hazards detected in the first phase of this study. The next sections detail the survey.
+Our main goal is to learn from developers about the Java exception handling usage and the main exception handling bug hazards in Android. We therefore use a survey as our main research instrument. The survey mixed  Liket-scale with open-ended questions. The questions were motivated by the analysis of the existing bug hazards detected in the first phase of this study. 
+%The next sections detail the survey.
 
 %Our main findings reveal that developers often handle exceptions while developing Android apps and 
 %we provide insights into the main challenges faced by them during this task. xxxxxxx
@@ -1225,13 +1226,14 @@ Our main goal is to learn from developers about the Java exception handling usag
 
 \subsection{Research Questions}
 
-The general research question guiding our exploratory survey was the following: \emph{RQ 2: How do developers deal with the exception handling code in Android apps and what are the developers' perspectives about the main bug hazards found during the mining study?} This general research question was broken into a set of research questions that are answered by the exploratory survey.
+The general research question guiding our exploratory survey is
+\emph{RQ 2: How do developers deal with the exception handling code in Android apps and what are the developers' perspectives about the main bug hazards found during the mining study?} This general research question has been broken into a set of research questions that are answered by the exploratory survey.
 
 When developing Java-based applications it is inevitable to deal with exceptions. Hence, our first question explores how developers deal with the exception handling code in Android development:
 
 \emph{\textbf{RQ 2.1:} How do developers deal with exception handling code while developing Android apps?} 
 
-To make the analysis easier, we further refine this question into sub-questions, such as: \emph{How often do developers handle exceptions?}; \emph{How often do developers throw exceptions?}. Moreover, another question that shows us how developers may deal with the exception handling (EH) code is: \emph{Do developers know about Java EH best practices and/or Android specific EH best practices?}
+To make the analysis easier, we further refine this question into sub-questions, such as: \emph{How often do developers handle exceptions?} \emph{How often do developers throw exceptions?} And, to show us how developers may deal with the exception handling (EH) code: \emph{Do developers know about Java EH best practices and/or Android specific EH best practices?}
  
 The subsequent research questions focus on the developers' perspectives about the main bug hazards found during the mining study, more specifically: 
 
@@ -1247,19 +1249,22 @@ The subsequent research questions focus on the developers' perspectives about th
 %\emph{RQ 2:Have developers ever faced a crash caused by NullPointerException?}
 %\emph{RQ 3:Are developers aware of the robustness threats caused by cross-type wrappings?}; %\emph{RQ 4: Are developers aware of the robustness threats caused by JNI undocumented checked exceptions?}
 
-Some of these questions were indirectly answered by presenting a set of code snippets in which
-the bug hazards were present and asking developers what they would do when faced with such scenarios.
+We address these questions by presenting a set of code snippets in which
+the bug hazards are present, asking developers what they would do when faced with such scenarios.
 
-Finally developers were asked whether the exception handling code helped with the development of robust Android applications, and what they usually do to prevent apps from crashing. Hence, the last research question that guided this survey was the following:
+Our last research question addresses
+whether the exception handling code helps with the development of robust Android applications, and what developers usually do to prevent apps from crashing:
 
 \emph{\textbf{RQ 2.5:} How does the exception handling code affect the development of robust apps and how do developers prevent apps from crashing?}
 
 \subsection{Protocol}
 
 Since our aim is to learn from a large number of developers, we use surveys which scale well.
-The survey is split into two logical sections; multiple choice or Likert-scale questions and open-ended questions. The multiple choice questions are intermixed with open-ended questions to further elicit the developer's opinions. Moreover, the survey also contains Likert-scale questions to force participants to make a choice. Overall, the survey includes 13 open-ended questions, 5 Likert-scale questions and 10 multiple choice questions. The respondents could complete the survey in about 15 minutes.
+The survey consists of multiple choice or Likert-scale questions (to force participants to make a choice) intermixed with open-ended questions to further elicit the developer's opinions.
+%The survey is split into two logical sections; multiple choice or Likert-scale questions and open-ended questions. The multiple choice questions are intermixed with open-ended questions to further elicit the developer's opinions. Moreover, the survey also contains Likert-scale questions to force participants to make a choice. 
+Overall, the survey includes 13 open-ended questions, 5 Likert-scale questions and 10 multiple choice questions. The respondents could complete the survey in about 15 minutes.
 
-We used grounded theory coding~\cite{charmaz2006}, iterating through our open-ended survey responses, to answer some of the research questions. The grounded theory coding used in this study consists of two phases: (1) initial coding entails a close reading of the data and (2) later we use focused coding~\cite{charmaz2006} to pinpoint and develop the most salient themes~\cite{charmaz2006} in the analyzed data. The coding process was performed by two coders who agreed upon the list of themes that emerged from the answer set of each question.
+We used grounded theory coding~\cite{charmaz2006}, iterating through our open-ended survey responses, to answer some of the research questions. The grounded theory coding used in this study consists of two phases: (1) initial coding entailing a close reading of the data and (2) focused coding~\cite{charmaz2006} to pinpoint and develop the most salient themes~\cite{charmaz2006} in the analyzed data. The coding process was performed by two coders who agreed upon the list of themes that emerged from the answer set of each question.
 
 \subsection{Participants}
 
