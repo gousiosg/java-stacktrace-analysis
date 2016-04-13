@@ -358,7 +358,7 @@ Normally these cannot be handled inside the application.  Instances of RuntimeEx
 thrown by the Java runtime environment when a program violates 
 the semantic constraints of the Java programming language (e.g., out-of-bounds array index, divide-by-zero 
 error, null pointer references). Some programming languages react to such errors by immediately terminating the program, while
-other languages, such as C++, let the program  continue
+other languages, such as C++, let the program continue
  its execution in some situations such as the out-of-bounds array index.
 According to the Java Specification~\cite{gosling2000java} programs are not 
 expected to handle such runtime exceptions signaled by the runtime environment. 
@@ -1215,9 +1215,15 @@ exceptions).
 
 %Although the mining study revealed a set of bug hazards in Android exception handling, no work has examined yet what the developers' perceptions about them are. With Android development rapidly rising in popularity, it is important to better understand how developers deal with such bug hazards and what they do to overcome them. 
 
-To better understand the developers' perspective about the bug hazards detected during the mining study, we set up an exploratory qualitative investigation and surveyed Android developers on how they perceive such bug hazards in their projects. The scope of our study is GitHub---using our GHTorrent database~\cite{Gousi13}, we aimed our survey at developers from Android projects available in GitHub for which issues were mined during the first phase of this study. 
+\textcolor{red}{As previously menitoned, the goal of this work is to obtain a thorough understanding of common exception handling \emph{bug hazards} that app developers face. In the first phase of this work, we conducted a mining study which identified common exception handling bug hazards in app development.
+ In the second phase of this work, we set up an exploratory qualitative investigation and surveyed Android developers on how they perceive the bug hazards detected in the mining study. The scope of our study is GitHub---using our GHTorrent database~\cite{Gousi13}, we aimed our survey at developers from Android projects available in GitHub for which issues were mined during the first phase of this study.}
 
-Our main goal is to learn from developers about the Java exception handling usage and the main exception handling bug hazards in Android. We therefore use a survey as our main research instrument. The survey mixed  Liket-scale with open-ended questions. The questions were motivated by the analysis of the existing bug hazards detected in the first phase of this study. 
+\textcolor{red}{The survey mixed Liket-scale with open-ended questions, and the motivations behind the survey questions are twofold: (i) to learn from developers about the usage of the exception handling code in app development;  and (ii) to get developers percerptions about the bug hazards detected in the first phase of this study.}
+
+%Our main goal is to learn from developers about the Java exception handling usage and the main 
+%exception handling bug hazards in Android. We therefore use a survey as our main research 
+%instrument. The survey mixed  Liket-scale with open-ended questions. The questions were motivated 
+%by the analysis of the existing bug hazards detected in the first phase of this study. 
 %The next sections detail the survey.
 
 %Our main findings reveal that developers often handle exceptions while developing Android apps and 
