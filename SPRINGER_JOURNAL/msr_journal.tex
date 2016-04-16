@@ -1313,8 +1313,9 @@ Developers were first asked how often they dealt with the exception handling cod
 \end{figure}
 
 
-\begin{figure} \centering \includegraphics[scale=0.60]{yes_no_new2.png}
-\caption{Summary of some survey question answers. }
+%\begin{figure} \centering \includegraphics[scale=0.60]{yes_no_new2.png}
+\begin{figure} \centering \includegraphics[scale=0.60]{yes_no_best_new.png}
+\caption{Summary of the survey questions related to EH best practices. }
 \label{fig:allquest}
 \end{figure}
 
@@ -1383,7 +1384,15 @@ Most of them (62\%) mentioned that they adopt EH best practices.
 
 
 %//////NULLPONTER WORSE IN ANDROID /////
-Developers were asked if their apps ever crashed because of a NullPointerException -- see Figure~\ref{fig:allquest}. The vast majority of respondents (96\%) said that their apps crashed at least once due to a NullPointerException. Their answers are aligned with the high prevalence of NullPointerExceptions found in the mining study -- in Table~\ref{tab:topten} in Section~\ref{sec:result} we can see that NullPointerExceptions were the main cause of the mined exception stack traces. Developers reported some reasons for the high prevalence of crashes caused by NullPointerExceptions. The activity and fragment lifecycle was one of them -- \emph{``Android destroys and recreates itself all of the time (especially during screen rotation) and if you do not handle that it will crash on you every time. with the complexity of an activity with a fragment that has fragments and each of those fragments has custom objects and variables that need to be either retained (so saved and put back) or recreated such as views it can get complex if you don't have an understanding of how the android life cycle works." [D43]}.  Another developer also mentioned that: \emph{``They [NullPointerExceptions] can happen pretty much anywhere. The Android Fragment system comes to mind in this case. Often, it is possible to find yourself in a state where getActivity() is null within the Fragment during certain points in the life cycle, and that is something I have to plan for. This might have been avoidable under a different structure."[D56]}. 
+Developers were asked if their apps ever crashed because of a NullPointerException -- see Figure~\ref{fig:questnullrobust}. The vast majority of respondents (96\%) said that their apps crashed at least once due to a NullPointerException. Their answers are aligned with the high prevalence of NullPointerExceptions found in the mining study -- in Table~\ref{tab:topten} in Section~\ref{sec:result} we can see that NullPointerExceptions were the main cause of the mined exception stack traces.
+
+%\begin{figure} \centering \includegraphics[scale=0.60]{yes_no_new2.png}
+\begin{figure} \centering \includegraphics[scale=0.60]{yes_no_null_robust_new.png}
+\caption{Summary of the survey questions relates to the null pointer problem (RQ 2.2) and the effect of EH on app robustness (RQ 2.5). }
+\label{fig:questnullrobust}
+\end{figure}
+
+Developers reported some reasons for the high prevalence of crashes caused by NullPointerExceptions. The activity and fragment lifecycle was one of them -- \emph{``Android destroys and recreates itself all of the time (especially during screen rotation) and if you do not handle that it will crash on you every time. with the complexity of an activity with a fragment that has fragments and each of those fragments has custom objects and variables that need to be either retained (so saved and put back) or recreated such as views it can get complex if you don't have an understanding of how the android life cycle works." [D43]}.  Another developer also mentioned that: \emph{``They [NullPointerExceptions] can happen pretty much anywhere. The Android Fragment system comes to mind in this case. Often, it is possible to find yourself in a state where getActivity() is null within the Fragment during certain points in the life cycle, and that is something I have to plan for. This might have been avoidable under a different structure."[D56]}. 
 
 The framework complexity was also mentioned as a major cause of null pointer crashes -- since several methods of the Android framework return null, and there is not enough documentation to inform the developer when using such methods. Some respondents mentioned: \emph{``The Android framework is what adds the complexity in figuring out what caused an exception because more often than not, the error is triggered from the framework as a result of something else you did." [D58]}; \emph{``Java is simple language, and the problem arises when you are using third party frameworks build on Java (or using Android which provide lots of new classes). And the problem is you don't always know if specific method can return null object or only valid values."[D7]}. Moreover, a few respondents also answered that such NullPointerException crashes can be caused by backward compatibility as well as memory issues as illustrated in Table~\ref{tab:causenull}. 
 
@@ -1597,7 +1606,9 @@ Most of the respondents, however, were not aware that a method could throw a che
 
 \bigskip
 
-Developers were also asked whether the exception handling code helped with the development of robust Android applications -- see Figure~\ref{fig:allquest}. Although most of the developers answered positively (78.9\%), when asked to provide one or more reasons for their answers, most of the respondents also provided reasons why the exception handling code can sometimes impair the robustness.  Since positive and negative reasons were provided intermixed we analyzed both sets of answers and ranked the top reasons why exception handling can negatively or positively affect robustness according to developers' perceptions. Table~\ref{tab:topreasons} presents the top reasons why the exception handling code may or may not help the development of robust apps. 
+Developers were also asked whether the exception handling code helped with the development of robust Android applications -- see Figure~\ref{fig:questnullrobust}. Although most of the developers answered positively (78.9\%), when asked to provide one or more reasons for their answers, most of the respondents also provided reasons why the exception handling code can sometimes impair the robustness.  
+
+Since positive and negative reasons were provided intermixed we analyzed both sets of answers and ranked the top reasons why exception handling can negatively or positively affect robustness according to developers' perceptions. Table~\ref{tab:topreasons} presents the top reasons why the exception handling code may or may not help the development of robust apps. 
 
 \begin{table}
 \scriptsize
@@ -1961,7 +1972,6 @@ distilling stack trace information from bug reports and combining such informati
 with bytecode analysis, source code analysis and manual inspections
 to identify \emph{bug hazards} in the exception handling code of Android apps.
 
-
 \textit{Exploratory Survey Studies.} Exploratory surveys have been used in the software
 engineering context to discover the user perspective regarding a broad range of 
 topics such as: assessing the developers' perceptions on productivity~\cite{meyer2014}; 
@@ -1969,10 +1979,60 @@ how GitHub developers use pull-requests~\cite{gousios2015};
 how the testing culture of open-source projects can be characterized~\cite{pham2013}; 
 and even how developers use Twitter~\cite{singer2014}. This kind of study is important as a way of 
 better understanding the developers' behavior and hence providing recommendations and 
-tools to help with specific development tasks. This was the first exploratory survey study whose
+tools to help with specific development tasks. 
+
+Some surveys focused on Android developers such as xxxx.
+
+- P.S.Kochhar, F.Thung, N.Nagappan,T. Zimmermann,and D. Lo. Understanding the test automation culture of app developers. In 2015 IEEE 8th International Conference on Software Testing, Verification and Validation (ICST), pages 1-10, 2015.
+
+Kochhar et al conducted a survey-based study whose goal was to discover the commonly used tools for mobile app testing and the problems faced by developers while testing the apps. The survey was sent to 3,905 emails of Android developers and received 83 responses (response rate of 2.13%). 
+
+
+
+- M. E. Joorabchi, A. Mesbah, and P. Kruchten. Real challenges in mobile apps. In
+ACM/IEEE International Symposium on Empirical Software Engineering and Measurement (ESEM'13), pages 15-24, 2013.
+
+  Joorabchi et al performed a study whose goal was to better understand the the main challenges developers face when building apps for different mobile devices. They interviewed 12 senior mobile developers from 9 different companies, and performed a semi-structured survey, with 188 respondents from the mobile development community. The survey link was sent to popular Mobile Development Meetup groups, LinkedIn groups related to native mobile development and shared through authors Twitter accounts.
+
+
+- M. Linares-Vásquez, C. Vendome, Q. Luo, and D. Poshyvanyk. How developers detect and fix performance bottlenecks in Android apps. In Proc. ICSME, pages 352-361. IEEE, 2015.
+
+
+ Linares-Vásquez surveyed 485 open source Android app and library developers (hosted on GitHub) to understand developers’ practices for detecting and fixing performance bottlenecks in mobile apps.  This work emailed the survey to 24,340 emails and received 628 survey responses - response rate 2.6%. 	
+
+
+
+
+- Gabriele Bavota, Mario Linares Vásquez, Carlos Eduardo Bernal-Cárdenas, Massimiliano Di Penta, Rocco Oliveto, Denys Poshyvanyk: The Impact of API Change- and Fault-Proneness on the User Ratings of Android Apps. IEEE Trans. Software Eng. 41(4): 384-407 (2015.
+
+ Bavota at all investigated the impact of API change-proness and fault-proneness on the user ratings of Android apps. This work surveyed 45 professional Android developers to assess developers perspective on whether such problems could be the cause for unfavorable user ratings. 
+
+1,800 e-mail
+45 responses
+the response rate is 4 percent
+
+
+Even if the response rate achieved in our study is quite low it is similar to other surveys reported in the literature (e.g., [20], [21]).
+
+[20] A. J. Ko, R. DeLine, and G. Venolia, “Information needs in collocated
+software development teams,” in Proc. 29th Int. Conf. Softw.
+Eng., 2007, pp. 344–353.
+
+[21] A. Hindle, C. Bird, T. Zimmermann, and N. Nagappan, “Do topics
+make sense to managers and developers?” Empirical Softw. Eng.,
+pp. 1–37, 2014, http://dx.doi.org/10.1007/s10664-014-9312-1
+
+
+
+
+This was the first exploratory survey study whose
 goal was to assess developers' perspective regarding a set of exception handling bug hazards
 as well as how developers deal with exceptions and prevent crashes while developing.
  
+
+
+
+
 
 
 
