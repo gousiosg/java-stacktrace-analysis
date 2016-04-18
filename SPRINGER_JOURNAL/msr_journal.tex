@@ -937,7 +937,11 @@ All		& 1  803	&	433	&	2478	&	1462	&	6005 	\\
 should be documented as part of the \emph{exception interface} of the reusable
 methods of libraries/frameworks. To investigate the conformance to this practice, we first filtered out all the exceptions implicitly
  signaled by  the runtime environment (due to programming mistakes) -- since these exceptions 
-should not be documented in the method signature.  Then we inspected
+should not be documented in the method signature\footnote{The filtering was performed in two steps:
+firstly, we analyzed the bytecode of the JVM and identified all runtime exceptions defined by it (e.g.,
+java.lang.NullPointerExceptoin,java.lang.ArrayIndexOutOfBounds), then
+if the libraries/framework method was signaling one of such exceptions it was filtered out from the analysis}.
+ Then we inspected
 the code for each method 
 (defined either in the Android  Application Framework or in third-party libraries) 
 explicitly signaling a runtime exception. 
@@ -1102,14 +1106,42 @@ include different exception types (i.e., Error, checked Exception and Runtime).
 Below, we discuss the most
 important of such ``cross-type wrappings'' in more detail.
 
+\emph{\textbf{Runtime Exception wrapping a Checked Exception.}} 
+This wrapping was responsible for 49.5\% of
+the cross-type wrappings.  From this set 50\%  were performed by methods defined by the Android platform. 
+We observe that this is a common implementation practice in the methods of the Android platform.
+According to Java best practices checked exceptions represent conditions from which the caller
+is expected to recover. By converting a checked exception in a general Runtime class,
+besides loosing contextual information about the exception,
+the client can simply ignore such exception - which can negatively impact the app robustness. 
+\textcolor{red}{Altough it is considered a bad practice, when such wrapping is accompained with a well defined 
+exception handling policy (which assures that a proper handling will be provided within the app)
+the impact on app robustness can be mitigated.}
+
+\bigskip
+
+\finding{%
+General catch clauses masking any exception into a general RuntimeException 
+is a common practice in the Android Platform; it violates best practice III 
+and is considered a bug hazard as it loses contextual information about the exception.
+}
+
 \emph{\textbf{Runtime Exception wrapping an Error.}} 
 From Table~\ref{tab:wrappingandroid}, we see that most of these wrappings	
 are performed by the Android platform (50.7\%).
 The code snippet below was extracted from Android and shows a general catch clause 
 that converts any instance of Throwable (signaled during the execution
 of an asynchronous task) into an instance of RuntimeException and re-throws it.  
-Table~\ref{tab:exampeswrap} presents examples of exceptions that were actually wrapped in this code snippet.  
-Such wrappings mask an unrecoverable Error into a general runtime exception.
+Table~\ref{tab:exampeswrap} presents examples of exceptions that 
+were actually wrapped in this code snippet: java.lang.RuntimeException wrapped
+an java.lang.OutOfMemoryError and a java.lang.StackOverflowError. 
+
+\textcolor{red}{Such Errors result from failures detected by the runtime environment which indicate 
+resource deficiencies from which the program cannot possibly recover.
+Hence, `hiding" an unrecoverable condition into a runtime exception
+can lead to a scenario where the developer tries to handle such exception, leading the program
+to na unpredictable state. This kind of wrapping should be avoided, since represent a
+serious bug hazard.}
 
 %{\footnotesize
 %\begin{verbatim}
@@ -1145,20 +1177,6 @@ Such wrappings mask an unrecoverable Error into a general runtime exception.
 \end{verbatim}
 }
 
-\emph{\textbf{Runtime Exception wrapping a Checked Exception.}} 
-This wrapping was responsible for 49.5\% of
-the cross-type wrappings.  From this set 50\%  were performed by methods defined by the Android platform. 
-We observe that this is a common implementation practice in the methods of the Android platform.
-However, using such a general exception is considered a bad practice
-according to the Java specification and common guidelines, as it loses contextual information about the exception.
-
-\bigskip
-
-\finding{%
-General catch clauses masking any exception into a general RuntimeException 
-is a common practice in the Android Platform; it violates best practice III 
-and is considered a bug hazard as it loses contextual information about the exception.
-}
 
 \bigskip
 
@@ -1166,8 +1184,14 @@ and is considered a bug hazard as it loses contextual information about the exce
  were also caused by the reflection library used by applications' methods. The methods responsible for the wrappings
 were also native methods written in C. Table~\ref{tab:exampeswrap} illustrates
 some of these wrappings -- some of them are masking an OutOfMemoryError
-into a checked exception. Such wrappings may also mask an unrecoverable error
-and may lead to the ``exception confusion'' described next.
+into a checked exception. 
+\textcolor{red}{By confronting the API user with a checked exception,
+the API designer is forcing the client to handle the exceptional condition. 
+But in this case the exception condition in and unrecoverable error,
+which makes infeasible the task of providing a proper handler. 
+This kind of wrapping is even more dangerous the previous one
+and may lead to the ``exception confusion'' described next.}
+
 
 \emph{\textbf{Error wrapping Runtime and Checked Exceptions.}} Table~\ref{tab:exampeswrap}  illustrates
 examples of instances of Error wrapping instances of
@@ -1981,13 +2005,35 @@ and even how developers use Twitter~\cite{singer2014}. This kind of study is imp
 better understanding the developers' behavior and hence providing recommendations and 
 tools to help with specific development tasks. 
 
-Some surveys focused on Android developers such as xxxx.
+Some of such exploratory surveys were applied to Android developers  [][][][]. Despite the low response rate
+of all these surverys (between 4\% and 2\%), these studies could get interesting insights about the state 
+of practice of Android development. Kochhar et al conducted a survey-based study to discover the 
+commonly used tools for mobile app testing as well as the problems 
+faced by developers while testing the apps. The survey was sent to 3,905 emails of Android developers 
+and received 83 responses (response rate of 2.13%). 
+Joorabchi et al. performed a survey-based study whose goal was to better understand the the main challenges 
+developers face when building apps for different mobile devices. 
+They interviewed 12 senior mobile developers and performed a semi-structured survey, with 188 respondents
+ from the mobile development community - since the survey was shared via e-mail groups and social media websites
+response rate of the survey could not be calculated. Linares-Vásquez et al. surveyed 485 open source Android 
+app and library developers (hosted on GitHub)  to understand developers’ practices for detecting and fixing 
+performance bottlenecks in mobile apps.  This work emailed the survey to 24,340 developers and received 
+628 responses - the response rate was 2.6\%.  
+Bavota at al. investigated the impact of API change-proness and fault-proneness on the user ratings of Android apps. 
+They surveyed developers to assess their perspective on whether such problems could be the cause for unfavorable user ratings. 
+The response rate was 4\%.
+None of these surveys, however, assed the how developers deal with exceptions in Android nor 
+the developers' perspective regarding a set of exception handling bug hazards. Our survey
+was the first exploratory study focusing on exception handling issues in Android development.
+
+Even if the response rate achieved in our study is quite low it is similar to other surveys reported in the literature (e.g., [20], [21]).
+
+
+
 
 - P.S.Kochhar, F.Thung, N.Nagappan,T. Zimmermann,and D. Lo. Understanding the test automation culture of app developers. In 2015 IEEE 8th International Conference on Software Testing, Verification and Validation (ICST), pages 1-10, 2015.
 
-Kochhar et al conducted a survey-based study whose goal was to discover the commonly used tools for mobile app testing and the problems faced by developers while testing the apps. The survey was sent to 3,905 emails of Android developers and received 83 responses (response rate of 2.13%). 
-
-
+Kochhar et al conducted a survey-based study whose goal was to discover the commonly used tools for mobile app testing as well as the problems faced by developers while testing the apps. The survey was sent to 3,905 emails of Android developers and received 83 responses (response rate of 2.13%). 
 
 - M. E. Joorabchi, A. Mesbah, and P. Kruchten. Real challenges in mobile apps. In
 ACM/IEEE International Symposium on Empirical Software Engineering and Measurement (ESEM'13), pages 15-24, 2013.
