@@ -447,7 +447,8 @@ enabling them to design the code to deal with them and use the API effectively~\
 \label{sec:study}
 
 \begin{figure*} 
-\centering \includegraphics[width=.9\hsize]{overview_review.png}
+%\centering \includegraphics[width=.9\hsize]{overview_review.png}
+\centering \includegraphics[width=1\hsize]{overview_review.png}
 \caption{Study overview.}\label{fig:overview} 
 \end{figure*}
 
@@ -704,6 +705,8 @@ found automatically or manually (because they were defined in a previous version
 of the app or lib), we classified the exception as ``Undefined''.  Only 31 exceptions 
 remained undefined, which occurred in 60 different exception stack traces (see Table~\ref{tab:typeroottab}).
 
+
+
 \subsection{The Mining Study Results}
 \label{sec:result}
 
@@ -886,19 +889,6 @@ the root exception \emph{type} (i.e., RuntimeException, Error, checked Exception
 identified based on the package names of the signalers in the stack traces (Section~\ref{sec:exceptionminer}).
 Table~\ref{tab:typeroottab} presents the types and origins of root exceptions of all analyzed stack traces. 
 
-We can observe that most of the reported exceptions are of type runtime 
-(64.85\%); and that the most common origins are methods defined either in the Application (47.3\%)
-or in the Android platform (34.3\%). We could also find runtime exceptions thrown by library code (17.7\%).
- We can also see, from Table~\ref{tab:typeroottab}, that in contrast to the other origins, most of the 
- exceptions signaled by Android Libcore (i.e., the set of libraries reused by Android) are 
-checked exceptions. This set comprises: org.apache.harmony, org.w3c.dom, sun.misc, 
-org.apache.http, org.json, org.xml, and javax. Signaling checked exceptions is considered a 
-good practice (see best practice IV in Section~\ref{sec:best}) because by using 
-checked exceptions a library can define a precise 
-\emph{exception interface}~\cite{miller1997issues} to its clients.
- Since such libraries are widely used  in several projects, this
- finding can be attributed to the libraries' maturity.
-
 %SELECT COUNT(*) FROM STACKTRACESUMMARY WHERE
 % repo !='android'  AND MAIN_EXTENDS LIKE 'RUNTIME%' 
 %SELECT COUNT(*) FROM STACKTRACESUMMARY WHERE
@@ -926,6 +916,21 @@ All		& 1  803	&	433	&	2478	&	1462	&	6005 	\\
 \end{table}
 
 \bigskip
+
+We can observe that most of the reported exceptions are of type runtime 
+(64.85\%); and that the most common origins are methods defined either in the Application (47.3\%)
+or in the Android platform (34.3\%). We could also find runtime exceptions thrown by library code (17.7\%).
+ We can also see, from Table~\ref{tab:typeroottab}, that in contrast to the other origins, most of the 
+ exceptions signaled by Android Libcore (i.e., the set of libraries reused by Android) are 
+checked exceptions. This set comprises: org.apache.harmony, org.w3c.dom, sun.misc, 
+org.apache.http, org.json, org.xml, and javax. Signaling checked exceptions is considered a 
+good practice (see best practice IV in Section~\ref{sec:best}) because by using 
+checked exceptions a library can define a precise 
+\emph{exception interface}~\cite{miller1997issues} to its clients.
+ Since such libraries are widely used  in several projects, this
+ finding can be attributed to the libraries' maturity.
+
+%TABLE 5 WAS HERE
 
 \finding{Almost 65\% of all crashes come from runtime
   exceptions. Approximately 47\% of these originate from the application layer.}
