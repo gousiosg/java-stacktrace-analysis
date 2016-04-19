@@ -62,14 +62,12 @@ grestore
 % \journalname{myjournal}
 %
 
-
 \newcommand{\finding}[1]{
 \noindent\fbox{%
 \begin{minipage}{.97\columnwidth}%
 \emph{#1}%
 \end{minipage}}
 }
-
 
 %%%%GREY BOX
 
@@ -87,8 +85,6 @@ grestore
 }
 %%%% END GREY BOX
 
-
-
 \begin{document}
 
 %\title{Exception Handling Bug Hazards in Android\thanks{Grants or other notes
@@ -96,7 +92,6 @@ grestore
 %placed here. General acknowledgments should be placed at the end of the article.}
 %}
 %\subtitle{Results from a Mining Study and The Developers Perspective}
-
 
 \title{Exception Handling Bug Hazards in Android}
 \subtitle{Results from a Mining Study and an Exploratory Survey}
@@ -113,45 +108,44 @@ grestore
 %\authorrunning{Short form of author list} % if too long for running head
 
 \institute{Roberta Coelho \at
-              Federal University of Rio Grande do Norte, CIVT/UFRN. Av. Senador Salgado Filho, 3000. 
+              Federal University of Rio Grande do Norte, CIVT/UFRN. Av. Senador Salgado Filho, 3000.
 Lagoa Nova, CEP: 59.078-970. Natal/RN. Brazil \\
               Tel.: +55-84-3342-2216 \\
-              \email{roberta@dimap.ufrn.br}           
+              \email{roberta@dimap.ufrn.br}
            \and
           Lucas Almeida \at
-             \email{lucas.almeida@ppgsc.ufrn.br} \\    
-          \and    
+             \email{lucas.almeida@ppgsc.ufrn.br} \\
+          \and
          Georgios Gousios   \at
-  \email{georgios@cs.ru.nl} \\    
+  \email{g.gousios@cs.ru.nl} \\
  \and
          Arie van Deursen  \at
-  \email{arie.vandeursen@tudelft.nl} \\      
-\and 
+  \email{arie.vandeursen@tudelft.nl} \\
+\and
    Christoph Treude \at
-  \email{ctreude@dimap.ufrn.br} \\    
+  \email{ctreude@dimap.ufrn.br} \\
 }
 
 \date{Received: date / Accepted: date}
 % The correct dates will be entered by the editor
 
-
 \maketitle
 
 \begin{abstract}
-% Abstract somewhat based on Nature guidelines, 
+% Abstract somewhat based on Nature guidelines,
 % https://twitter.com/TrevorABranch/status/620699527486373888/photo/1?ref_src=twsrc%5Etfw
 %
 % Basic intro (1-2 sentences)
 Adequate handling of exceptions has proven difficult for many software engineers.
 % More detailed background (2-3 sentences)
-Mobile app developers in particular, have to cope with 
+Mobile app developers in particular, have to cope with
 compatibility, middleware, memory constraints, and battery restrictions.
 % Clear sentence with general problem studied (1 sentence)
 The goal of this paper is to obtain a thorough understanding of common exception handling
 \emph{bug hazards} that app developers face.
 % (method 1)
-To that end, we first provide a detailed empirical study of over 6,000 
-Java exception stack traces 
+To that end, we first provide a detailed empirical study of over 6,000
+Java exception stack traces
 we extracted from over 600 open source Android projects.
 % Main result 1 / new knowledge
 Key insights from this study include common causes for system crashes, and
@@ -165,7 +159,6 @@ that developers are unaware of frequently occurring undocumented exception handl
 Overall, the findings of our study call for tool support to help developers
 understand their own and third party exception handling and wrapping logic.
 
-
 %This paper reports two studies:  a repository mining study whose goal was to identify exception handling bug hazards in Android apps; and a survey-based study whose goal was to assess the perspectives of developers concerning such bug hazards. The repository mining study mined the exception stack traces embedded in 159,048 issues reported in Android projects hosted on GitHub (482 projs.)  and Google Code (157 projs.).  Overall 6,005 exception stack traces were extracted and analyzed in combination with source code and bytecode analysis. Some bug hazards were consistently detected, such as:  unexpected exception wrappings (e.g., errors being wrapped in checked exceptions) and NullPointerExceptions as the major cause of reported crashes -- reported in 28\% of all mined stack traces found in about 50\% of all analyzed projects. Finally, a survey was applied to some developers involved in some of the GitHub Android projects analyzed in our study and their perspective about the bug hazards and how they deal with them was assessed and discussed.
 
 \keywords{Exception handling \and Android development \and Repository mining \and Exploratory survey}
@@ -176,63 +169,60 @@ understand their own and third party exception handling and wrapping logic.
 \section{Introduction}
 \label{intro}
 
-
 The number of mobile apps is increasing at a daily rate. If on the one hand they
-extend phones' capabilities far beyond the basic calls, on the other hand they have to 
-cope with an increasing number of exceptional conditions 
-(e.g., faults in underlying middleware or hardware; compatibility issues~\cite{McDon13}; 
-memory and battery restrictions; noisy external resources~\cite{Zhang12}). 
+extend phones' capabilities far beyond the basic calls, on the other hand they have to
+cope with an increasing number of exceptional conditions
+(e.g., faults in underlying middleware or hardware; compatibility issues~\cite{McDon13};
+memory and battery restrictions; noisy external resources~\cite{Zhang12}).
 
-Therefore, mechanisms for exception detection and handling are not an optional add-on but a 
+Therefore, mechanisms for exception detection and handling are not an optional add-on but a
 fundamental part of such apps. The exception handling mechanism~\cite{goodenough1975exception},
 embedded in many mainstream programming languages, such as Java, C++ and C\#,
  is one of the most used techniques for detecting and recovering from such exceptional conditions.
 In this paper we will be concerned with exception handling in Android apps,
 which reuses Java's exception handling model.
- 
-%Android, the leading platform for mobile applications~\cite{gartner} (thanks to its open-source 
+
+%Android, the leading platform for mobile applications~\cite{gartner} (thanks to its open-source
 %model and hardware partners like Samsung, HTC, Motorola, Asus besides Nexus Google's
-% own device)  reuses the embedded Java exception model to detect and handle 
+% own device)  reuses the embedded Java exception model to detect and handle
 % exceptional conditions.
 
-
-However, such mechanisms are more often than not the least 
-understood and tested parts of the system~\cite{miller1997issues,Robil00,shah2010understanding, 
+However, such mechanisms are more often than not the least
+understood and tested parts of the system~\cite{miller1997issues,Robil00,shah2010understanding,
 garcia2007extracting,garcia2001comparative,cabral2007exception,coelho2011unveiling,yuan:2014.osdi}.
-As a consequence they may inadvertently negatively affect the system: exception-related code may introduce failures such as 
-uncaught exceptions~\cite{jo2004uncaught, Zhang12} -- 
+As a consequence they may inadvertently negatively affect the system: exception-related code may introduce failures such as
+uncaught exceptions~\cite{jo2004uncaught, Zhang12} --
 which can lead to system crashes, making the system even less robust~\cite{coelho2011unveiling}.
 
-In Java, when an application fails due to an uncaught exception, 
-it automatically terminates, while the system prints a stack trace to the console, 
-or to a log file~\cite{gosling2000java}.  A typical Java stack trace consists of  the fully qualified name 
-of the thrown exception and the ordered list of methods that were active on the call stack before 
+In Java, when an application fails due to an uncaught exception,
+it automatically terminates, while the system prints a stack trace to the console,
+or to a log file~\cite{gosling2000java}.  A typical Java stack trace consists of  the fully qualified name
+of the thrown exception and the ordered list of methods that were active on the call stack before
 the exception occurred~\cite{gosling2000java,bloch2008effective}.
-When available, the exception stack traces provide a useful source of information about system crashes ~\cite{bettenburg2008makes} which 
-can enable different kinds of post-mortem analysis and support:  debugging~\cite{schroter2010stack}, 
-bug classification and clustering~\cite{wang2013improving, kim2011crash, dhaliwal2011classifying},  
-automated bug fixing~\cite{sinha2009fault} and fault-proneness prediction models~\cite{kim2013predicting}. 
+When available, the exception stack traces provide a useful source of information about system crashes ~\cite{bettenburg2008makes} which
+can enable different kinds of post-mortem analysis and support:  debugging~\cite{schroter2010stack},
+bug classification and clustering~\cite{wang2013improving, kim2011crash, dhaliwal2011classifying},
+automated bug fixing~\cite{sinha2009fault} and fault-proneness prediction models~\cite{kim2013predicting}.
 
 %% I am not so sure this data was not available. Let's omit this paragraph
-%Until recently, the availability of data reporting such failures was scarce. 
+%Until recently, the availability of data reporting such failures was scarce.
 %It comprised only few large scale projects (e.g. the Mozilla crash report dataset\footnote{https://code.google.com/p/promisedata/issues/detail?id=88}).
 %Recently we have observed a rapid increase in the number of open
 %source projects that make their version control systems as well as the issue tracking systems
 %publicly available in repository hosting sites such as GitHub and Google Code.
 %Developers and users of open-source projects uses such provided
-% infrastrucute to share information (e.g., exception stack %traces~\cite{bettenburg2008makes,schroter2010stack}) across 
+% infrastrucute to share information (e.g., exception stack %traces~\cite{bettenburg2008makes,schroter2010stack}) across
 %the software development.
 
-
-This work is conducted in two phases. First, a mining study performs a post 
-mortem analysis of the exception stack traces 
+This work is conducted in two phases. First, a mining study performs a post
+mortem analysis of the exception stack traces
 included in issues reported on Android projects hosted on GitHub and Google Code.
 The goal of this study is to investigate whether the reported exception stack traces
- can reveal common \emph{bug hazards} in the exception-related code.  
-A \emph{bug hazard}~\cite{binder2000testing}  is a circumstance that increases the 
-chance of a bug being present in the software. An example of a bug hazard can 
-be a characteristic of  the exception-related code which can increase the likelihood 
-of introducing the aforementioned uncaught exceptions. 
+ can reveal common \emph{bug hazards} in the exception-related code.
+A \emph{bug hazard}~\cite{binder2000testing}  is a circumstance that increases the
+chance of a bug being present in the software. An example of a bug hazard can
+be a characteristic of  the exception-related code which can increase the likelihood
+of introducing the aforementioned uncaught exceptions.
 Second, we conducted an exploratory survey with the Android developers involved in the mined projects
 to assess their perspective about the exception handling bug hazards found.
 
@@ -240,81 +230,81 @@ To guide this investigation we compiled general guidelines on how to use Java
 exceptions proposed by Gosling~\cite{gosling2000java},
 Wirfs-Brock~\cite{wirfs2006toward} and Bloch~\cite{bloch2008effective}.
 Then, using a custom tool called ExceptionMiner,
- which we developed specifically for this study, we mine stack traces from the issues reported 
+ which we developed specifically for this study, we mine stack traces from the issues reported
 in 482 Android projects hosted on GitHub and 157 projects hosted on Google Code.
 Overall 159,048 issues were analyzed and 6,005 stack traces were extracted from them.
-The exception stack trace analysis was augmented by means of bytecode 
-and source code analysis for the exception-related code of the Android 
-platform and Android applications. Some \emph{bug hazards} consistently detected 
+The exception stack trace analysis was augmented by means of bytecode
+and source code analysis for the exception-related code of the Android
+platform and Android applications. Some \emph{bug hazards} consistently detected
 during this mining study include:
 
 \begin{itemize}
 
    \item  Cross-type exception wrappings, such as an OutOfMemoryError wrapped in a checked exception.
 Trying to handle an instance of OutOfMemoryError ``hidden" in  a checked exception may bring the program
- to an unpredictable state. Such wrappings suggest that, when (mis)applied, the exception wrapping can make 
+ to an unpredictable state. Such wrappings suggest that, when (mis)applied, the exception wrapping can make
 the exception-related code more complex and negatively impact the application robustness.
 
   \item  Undocumented runtime exceptions raised by the Android platform (35 methods) and  third-party libraries (44 methods) --
  which correspond to 4.4\% of the reported exception stack traces.
-In the absence of the ``exception specification" of third-party code, it is difficult or 
-even infeasible for the developer to protect the code against ``unforeseen'' exceptions. 
-Since in such cases the client usually does not have access to the source code, such undocumented 
-exceptions may remain uncaught and lead to system crashes. 
+In the absence of the ``exception specification" of third-party code, it is difficult or
+even infeasible for the developer to protect the code against ``unforeseen'' exceptions.
+Since in such cases the client usually does not have access to the source code, such undocumented
+exceptions may remain uncaught and lead to system crashes.
 
-   \item Undocumented checked exceptions signaled by native C code.  Some flows contained a checked 
+   \item Undocumented checked exceptions signaled by native C code.  Some flows contained a checked
 exception signaled by native C code invoked by the Android Platform, yet this exception was not declared
- in the Java Native Interface invoking it. This can lead to uncaught exceptions that are 
-difficult to debug. 
+ in the Java Native Interface invoking it. This can lead to uncaught exceptions that are
+difficult to debug.
 
- \item A multitude of programming mistakes -- approximately 52\% of the reported stack traces can 
-be attributed to programming mistakes. In particular, 27.71\% of all stack traces contained a java.lang.NullPointerException 
+ \item A multitude of programming mistakes -- approximately 52\% of the reported stack traces can
+be attributed to programming mistakes. In particular, 27.71\% of all stack traces contained a java.lang.NullPointerException
 as their root cause.
 
 \end{itemize}
 
-The exploratory survey was conducted with 71 Android developers involved in one or more of the 
+The exploratory survey was conducted with 71 Android developers involved in one or more of the
 GitHub Android projects whose issues were mined. This survey reveals that only few developers (3\% of respondents)
- knew about the undocumented checked exceptions signaled by native C code of the Android platform. 
+ knew about the undocumented checked exceptions signaled by native C code of the Android platform.
 Moreover, most of the developers recognized that cross-type exception wrappings may
-negatively impact the application robustness. The uncaught exceptions due to errors in programming 
-logic, e.g. the NullPointerException, were identified by most developers (68\%) as the first or second main cause 
+negatively impact the application robustness. The uncaught exceptions due to errors in programming
+logic, e.g. the NullPointerException, were identified by most developers (68\%) as the first or second main cause
 of application crashes.
 
  The high prevalence of NullPointerExceptions found in the mining study and confirmed in the exploratory survey
- is in line with findings of earlier research~\cite{kim2013predicting,fraser20131600,csallner2004jcrasher}, 
-as are the undocumented runtime exceptions signaled by the Android Platform~\cite{kechagia2014}. 
+ is in line with findings of earlier research~\cite{kim2013predicting,fraser20131600,csallner2004jcrasher},
+as are the undocumented runtime exceptions signaled by the Android Platform~\cite{kechagia2014}.
 
-Some of the findings of our mining study emphasize the impact of these bug hazards on the application robustness 
-by mining a different source of information as the ones used in previous works. The present work 
+Some of the findings of our mining study emphasize the impact of these bug hazards on the application robustness
+by mining a different source of information as the ones used in previous works. The present work
 mined issues created by developers on GitHub and Google Code, while  previous research analyzed crash reports and automated test reports.
  Furthermore, our work points to bug hazards that were not detected by previous research (i.e., cross-type wrappings, undocumented checked exceptions and undocumented runtime exceptions thrown by third-party libraries) which represent new threats to application robustness.
 Moreover, we perform  the first exploratory survey study whose
 goal was to assess developers' perspective regarding a set of exception handling bug hazards
 as well as how developers deal with exceptions and prevent crashes while developing.
 
-Our findings point to threats not only to the development of robust Android apps, 
-but also to the development of any robust Java-based system. 
+Our findings point to threats not only to the development of robust Android apps,
+but also to the development of any robust Java-based system.
 Hence, the study results are relevant to Android and Java developers who may underestimate the effect of such
  \emph{bug hazards} on the application robustness,
 and who have to face the difficulty of preventing them.
-Moreover, such \emph{bug hazards} 
+Moreover, such \emph{bug hazards}
 call for improvements of languages (e.g. to prevent null pointer dereferences) and tools
  to better support exception handling in Android and Java environments.
 
-%Section~\ref{sec:exceptionminer} 
-%Section~\ref{sec:result} 
+%Section~\ref{sec:exceptionminer}
+%Section~\ref{sec:result}
 
-The remainder of this paper is organized as follows. 
+The remainder of this paper is organized as follows.
 Section~\ref{sec:back} provides the necessary
-background on the Android platform and the Java exception model. 
-Section~\ref{sec:study} presents the mining study design, describes the ExceptionMiner tool 
+background on the Android platform and the Java exception model.
+Section~\ref{sec:study} presents the mining study design, describes the ExceptionMiner tool
 we developed to conduct our study, and reports the study results.
 Section~\ref{sec:dev} details the exploratory survey.
 Section~\ref{sec:disc} provides a discussion of the wider implications of our results,
  presents the threats to validity associated with the mining study and discusses the limitations
-of the survey-based study, and points to the replication. 
-Finally Section~\ref{sec:rele} describes related work, 
+of the survey-based study, and points to the replication.
+Finally Section~\ref{sec:rele} describes related work,
 and Section~\ref{sec:conc} concludes the paper and outlines
 directions for future work.
 \section{Background}
@@ -322,21 +312,21 @@ directions for future work.
 
 \subsection{The Android Platform}
 Android is an open source platform for mobile devices based on the Linux kernel.
-Android also comprises (i) a set of native libraries written in C/C++ 
+Android also comprises (i) a set of native libraries written in C/C++
 (e.g., WebKit, OpenGL, FreeType, SQLite, Media, C runtime library) to
-fulfill a wide range of functions including graphics drawing, SSL communication, 
-SQLite database management, audio and video playback etc; (ii) a set of Java Core Libraries 
-including a subset of the Java standard libraries and various wrappers to access the set of C/C++ 
-native libraries using the Java Native Interface (JNI); (iii) the Dalvik runtime environment, which was specifically designed to deal with the resource constraints of a mobile device; 
+fulfill a wide range of functions including graphics drawing, SSL communication,
+SQLite database management, audio and video playback etc; (ii) a set of Java Core Libraries
+including a subset of the Java standard libraries and various wrappers to access the set of C/C++
+native libraries using the Java Native Interface (JNI); (iii) the Dalvik runtime environment, which was specifically designed to deal with the resource constraints of a mobile device;
  and (iv) the Application Framework which provides higher-level APIs to the applications
  running on the platform.
 
-% The Android Application Framework supports an event-driven development model. 
+% The Android Application Framework supports an event-driven development model.
 % event driven and inversion of control.
-%Among the basic elements that comprise an Android application, the Activity 
+%Among the basic elements that comprise an Android application, the Activity
 %is the main class of an app (there is usually one
-%Activity per application window). Each Activity defines a set of hook methods  
-%(e.g., OnCreate(), onPause()) that are dispatched automatically by the Android 
+%Activity per application window). Each Activity defines a set of hook methods
+%(e.g., OnCreate(), onPause()) that are dispatched automatically by the Android
 %framework, in response to infrastructure and application events.
 
 \subsection{Exception Model in Java} \label{sec:extypes}
@@ -345,42 +335,42 @@ native libraries using the Java Native Interface (JNI); (iii) the Dalvik runtime
  every exception is an instance of the Throwable class, and can be of three kinds: the checked exceptions
 (extends Exception), the runtime exceptions (extends RuntimeException) and errors
 (extends Error)~\cite{gosling2000java}. Checked exceptions received their name
- because they must be declared in the method's \emph{exception interface} (i.e., the list of exceptions that a method 
+ because they must be declared in the method's \emph{exception interface} (i.e., the list of exceptions that a method
 might raise during its execution) and the compiler statically checks if
  appropriate handlers are provided within the system.
-Both runtime exceptions and errors are also known as ``unchecked exceptions'', as 
-they do not need to be specified in the method \emph{exception interface} and do not trigger any 
+Both runtime exceptions and errors are also known as ``unchecked exceptions'', as
+they do not need to be specified in the method \emph{exception interface} and do not trigger any
 compile time checking.
 
 By convention, instances of Error represent  unrecoverable conditions which usually result
 from failures detected by the Java Virtual Machine due to resource limitations, such as OutOfMemoryError.
-Normally these cannot be handled inside the application.  Instances of RuntimeException are implicitly 
-thrown by the Java runtime environment when a program violates 
-the semantic constraints of the Java programming language (e.g., out-of-bounds array index, divide-by-zero 
+Normally these cannot be handled inside the application.  Instances of RuntimeException are implicitly
+thrown by the Java runtime environment when a program violates
+the semantic constraints of the Java programming language (e.g., out-of-bounds array index, divide-by-zero
 error, null pointer references). Some programming languages react to such errors by immediately terminating the program, while
 other languages, such as C++, let the program continue
  its execution in some situations such as the out-of-bounds array index.
-According to the Java Specification~\cite{gosling2000java} programs are not 
-expected to handle such runtime exceptions signaled by the runtime environment. 
+According to the Java Specification~\cite{gosling2000java} programs are not
+expected to handle such runtime exceptions signaled by the runtime environment.
 
 User-defined exceptions can be either checked
- or unchecked, by extending either Exception or RuntimeException. There is a long-lasting debate 
+ or unchecked, by extending either Exception or RuntimeException. There is a long-lasting debate
 about the pros and cons of both approaches~\cite{javatut,stackoverlow,debate}.
-%\footnote{152 questions in Stackoverflow are related to this debate}. 
+%\footnote{152 questions in Stackoverflow are related to this debate}.
 Section~\ref{sec:best} presents
 a set of best practices related to each of them.
 
-\emph{\textbf{Exception Propagation.}} In Java, once an exception is thrown, 
+\emph{\textbf{Exception Propagation.}} In Java, once an exception is thrown,
 the runtime environment looks for the nearest enclosing exception handler
 (Java's try-catch block), and unwinds the execution stack if necessary.
-This search for the handler on the invocation stack aims at increasing software reusability, 
+This search for the handler on the invocation stack aims at increasing software reusability,
 since the invoker of an operation can handle the exception in a wider context~\cite{miller1997issues}.
 
  A common way of  propagating exceptions in Java programs is through
  exception wrapping (also called chaining):
-One exception 
-is caught and wrapped in another one which is then thrown instead. Figure~\ref{fig:wrapping} shows 
-an exception stack trace which illustrates such exception wrapping. 
+One exception
+is caught and wrapped in another one which is then thrown instead. Figure~\ref{fig:wrapping} shows
+an exception stack trace which illustrates such exception wrapping.
 For simplicity, in this paper we will refer to ``exception stack trace'' as just stack trace.
 The bottom part of the stack trace is the \emph{root exception} (Figure~\ref{fig:wrapping}-A), which indicates
 the first reason (root cause) for the exception thrown (in this case, the computer ran out of
@@ -415,7 +405,7 @@ the API designer is forcing the client to handle the exceptional condition. The
 client can explicitly ignore the exception (swallowing, or converting it to
 another type) at the expense of the program's robustness~\cite{gosling2000java}.
 
-\emph{II-Error represents an unrecoverable condition which should not be handled} 
+\emph{II-Error represents an unrecoverable condition which should not be handled}
 (\cite{gosling2000java}).  Errors should result from failures detected
 by the runtime environment which indicate resource deficiencies, invariant
 failures or other conditions, from which the program cannot possibly recover.
@@ -429,7 +419,7 @@ Java API or they should create a specific exception. Thus, throwing general type
 pure java.lang.Exception or a java.lang.RuntimeException is considered bad practice.
 
 %\noindent\emph{Exception Documentation}
-%\textbf{IV- It is wise to document all exceptions thrown by a method} 
+%\textbf{IV- It is wise to document all exceptions thrown by a method}
 
 \emph{IV- All exceptions explicitly thrown by reusable code should be documented.}
 (\cite{mandrioli1992advances,gosling2000java,wirfs2006toward,bloch2008effective}).
@@ -446,74 +436,70 @@ enabling them to design the code to deal with them and use the API effectively~\
 \section{The Repository Mining Study}
 \label{sec:study}
 
-\begin{figure*} 
+\begin{figure*}
 %\centering \includegraphics[width=.9\hsize]{overview_review.png}
 \centering \includegraphics[width=1\hsize]{overview_review.png}
-\caption{Study overview.}\label{fig:overview} 
+\caption{Study overview.}\label{fig:overview}
 \end{figure*}
 
 %This section describes the exploratory study whose goal was to investigate:
 %\begin{description}
- % \item[RQ] \noindent\emph{Which fragilities on the exception-related code can be revealed from a post morten exception stack trace analysis of Android projects?} 
+ % \item[RQ] \noindent\emph{Which fragilities on the exception-related code can be revealed from a post morten exception stack trace analysis of Android projects?}
  %    \item
 %\end{description}
-%One major decision that had to be made for our investigation was the selection of the target 
-%projects. We have selected a set of XXX open-source Android projects hosted in GitHub and 
+%One major decision that had to be made for our investigation was the selection of the target
+%projects. We have selected a set of XXX open-source Android projects hosted in GitHub and
 %Google Code. GitHub and Google Code are among the most used hosting sites for open-source
  %projects,
-% We investigate whether characteristics 
+% We investigate whether characteristics
 %of exception stack traces can pinpoint best practices violations and therefore reveal \emph{bug hazards}.
 
-
-Our mining study was guided by a general research question: \emph{RQ 1: Can the information available in exception stack traces 
+Our mining study was guided by a general research question: \emph{RQ 1: Can the information available in exception stack traces
  reveal exception handling \emph{bug hazards} in both the Android applications and framework?}
-As mentioned before, in this context \emph{bug hazards} are the characteristics of exception-related code 
-that favor the introduction of failures such as uncaught exceptions. 
+As mentioned before, in this context \emph{bug hazards} are the characteristics of exception-related code
+that favor the introduction of failures such as uncaught exceptions.
 
 Our study focused on the exception stack traces contained in issues of Android projects (hosted on GitHub and Google Code).
 To support our investigation, we developed a tool called ExceptionMiner (Section~\ref{sec:exceptionminer})
-which extracts the exception stack traces embedded in issues 
-and combines stack trace information with source code and bytecode 
+which extracts the exception stack traces embedded in issues
+and combines stack trace information with source code and bytecode
 analysis. Moreover, we use manual inspection to augment
  the understanding of stack traces and support further discussions and insights (Section~\ref{sec:manual}).
-In this study we explore the domain quantitatively and highlight interesting cases by 
-exploring cases qualitatively. 
-
+In this study we explore the domain quantitatively and highlight interesting cases by
+exploring cases qualitatively.
 
 Figure~\ref{fig:overview} gives an overview of our study.
 First,  the issues reported in Android projects hosted on GitHub (1) and Google Code (2) are recovered.
 Then the stack traces embedded in each issue are extracted and distilled (3).
-The stack trace information is then combined with source code and bytecode analysis in order to discover 
+The stack trace information is then combined with source code and bytecode analysis in order to discover
 the type of the exceptions (5) reported in the stack traces (e.g., error, runtime, checked),
-and the origin (6) of such exceptions 
-(e.g., the application, a library, the Android platform). 
-Manual inspection steps (4, 7, 9) are used to support the mining process  and 
+and the origin (6) of such exceptions
+(e.g., the application, a library, the Android platform).
+Manual inspection steps (4, 7, 9) are used to support the mining process  and
 the search for \emph{bug hazards}  (8). The next sections detail each step of this mining process.
 
 Our study focuses on open-source apps, since the information needed to perform our study
-cannot be retrieved from commercial apps, whose issue report systems and 
-source code are generally not publicly available. 
-Open source Android apps have also been the 
-target of other research~\cite{Linar13,Ruiz12} addressing \emph{reuse} and API stability. 
+cannot be retrieved from commercial apps, whose issue report systems and
+source code are generally not publicly available.
+Open source Android apps have also been the
+target of other research~\cite{Linar13,Ruiz12} addressing \emph{reuse} and API stability.
 
 %\subsection{Data Extraction Process}
 %\label{sec:miningproc}
 
-%In this exploratory study the following information is needed: (i) the issues reported on Android projects hosted on 
+%In this exploratory study the following information is needed: (i) the issues reported on Android projects hosted on
 %GitHub and Google Code; (ii) the stack traces embedded on these issues; (iii) the type of the exceptions
- %reported on the stack traces (e.g., error, runtime, checked); (iv) the origin of such exceptions 
-%(e.g., the application, a library, the Android platform). Next, we describe: how such information 
+ %reported on the stack traces (e.g., error, runtime, checked); (iv) the origin of such exceptions
+%(e.g., the application, a library, the Android platform). Next, we describe: how such information
 %was retrieved from GitHub and Google Code.
 
-%mentioned 
-%The data used in our study to answer our research questions are: the issues related to each 
+%mentioned
+%The data used in our study to answer our research questions are: the issues related to each
 %Android project available in each repository; the source code and manifest file of each application;
 %the bytecode of all exceptions defined and reused by Android platform.
 
-
 \subsection{Android Apps on GitHub}
 \label{sec:git}
-
 
 \begin{table}
   \scriptsize
@@ -528,7 +514,7 @@ Defect &	39.56\%  & Enhancement  &	3.16\% \\
 Enhancement &	0.57\% & Task	& 1.37\% \\
 Support &	0.52\% & empty &	1.12\% \\
 Problem &	0.36\% & StackTrace &	0.70\% \\
-Others &	4.74\% &  Others &	1.68\% \\   
+Others &	4.74\% &  Others &	1.68\% \\
   \hline
   \end{tabular}
   \caption{Labels on issues including exception stack traces.}
@@ -536,67 +522,67 @@ Others &	4.74\% &  Others &	1.68\% \\
 \end{table}
 
 %As mentioned before, this study mined information available on GitHub issues,
-%more specifically, extracting and distilling the stack traces embedded on GItHub issues. 
+%more specifically, extracting and distilling the stack traces embedded on GItHub issues.
 
-This study uses the dataset provided by the GHTorrent project~\cite{Gousi13}, 
-an off-line mirror of the data  offered through the GitHub API.  
+This study uses the dataset provided by the GHTorrent project~\cite{Gousi13},
+an off-line mirror of the data  offered through the GitHub API.
 To identify Android projects, we performed a case insensitive search for the
-term ``android'' in the repositories' names and short descriptions.  
-Up to 23 February 2014,  when we queried GHTorrent, this resulted in 2,542 repositories. Running the ExceptionMiner tool 
+term ``android'' in the repositories' names and short descriptions.
+Up to 23 February 2014,  when we queried GHTorrent, this resulted in 2,542 repositories. Running the ExceptionMiner tool
  on this set we observed that 589 projects had at least one issue containing a stack trace.
-	
+
 Then we performed a further clean up, inspecting the site of every Android project
 reporting at least one stack trace, to make sure that they represented real
 mobile apps. During this clean up 107 apps were removed because they were either
 example projects (i.e., toy projects) or tools to support Android development
 (e.g. Selendroid, Roboeletric -- tools to support the testing of Android apps).
-The filtered set consisted of 482 apps. This set of 482 projects contained a total of 31,592 issues from which 4,042 exception stack traces 
-were extracted. 
+The filtered set consisted of 482 apps. This set of 482 projects contained a total of 31,592 issues from which 4,042 exception stack traces
+were extracted.
 
-Issues on GitHub are different from issues in dedicated bug tracking tools such as 
+Issues on GitHub are different from issues in dedicated bug tracking tools such as
 Bugzilla and Jira. The most important difference is that there are no predefined fields
   (e.g. severity and priority). Instead, GitHub uses a more open ended tagging system, where
-repositories are offered a pre-defined set of labels, but repository owners can modify 
-them at will. Therefore, an issue may have none or an arbitrary set of labels depending 
-on its repository. Table~\ref{tab:lables} illustrates the occurrences of different labels 
+repositories are offered a pre-defined set of labels, but repository owners can modify
+them at will. Therefore, an issue may have none or an arbitrary set of labels depending
+on its repository. Table~\ref{tab:lables} illustrates the occurrences of different labels
 on the issues including exception stack traces. Regardless of the issue labels, every exception stack
 trace may contain relevant information concerning the exception structure of the
 projects analyzed, and therefore can reveal \emph{bug hazards} in the exception-related code.
 Because of this, we opted for not restricting the analysis to just defect issues.
 
-%\footnote{We conducted the same analysis 
+%\footnote{We conducted the same analysis
 %on the defect issues only and the top exceptions were quite similar.
 % Due to space limitation we limit to present the general analysis here. More detailed analysis
-%on the defect issues can be found at:https://github.com/souzacoelho/exceptionminer}. 
+%on the defect issues can be found at:https://github.com/souzacoelho/exceptionminer}.
 
 \subsection{Android Apps in Google Code}
 Google Code contains widely used open-source Android apps (e.g. K9Mail\footnote{K9Mail moved to GitHub but as a way of not loosing the project history it advises their users to report bugs in the Google Code issue tracker: \url{https://github.com/k9mail/k-9/wiki/LoggingErrors.}}).
 However, differently from GitHub, Google Code does not provide an API to access the information related
  to hosted projects.\footnote{Google Code used to provide a Web service to its repositories, but this was deactivated in June 2013 in what Google called a ``clean-up action''.}
-To overcome this limitation we needed to implement a Web Crawler (incorporated in the ExceptionMiner tool described next) that navigates 
+To overcome this limitation we needed to implement a Web Crawler (incorporated in the ExceptionMiner tool described next) that navigates
  the web interface of Google Code projects extracting all issues and issue comments and storing them in a relational database for later analysis.
-To identify Android projects on Google Code, we performed a similar heuristic: we performed a case insensitive search 
+To identify Android projects on Google Code, we performed a similar heuristic: we performed a case insensitive search
 (on the Google Code search interface) for the term ``android''. In January 2014, when we queried Google Code, this resulted in a list of 788  projects. This list comprised the seeds sent to our Crawler.
 
 The Crawler retrieved all issues and comments for these projects.
-From this set, 724 projects defined at least 1 issue. Running the ExceptionMiner tool 
+From this set, 724 projects defined at least 1 issue. Running the ExceptionMiner tool
  on this set we observed that 183 projects had at least one issue containing an exception stack trace.
- Then we performed further clean up (similar to the one described previously) inspecting the site 
+ Then we performed further clean up (similar to the one described previously) inspecting the site
 of each project. As a result we could identify 157 Android projects.  This set contained  127,456 issues in total,
- from which 1,963 exception stack traces were extracted. Table~\ref{tab:lables} illustrates the occurrences of different labels 
-on the issues including exception stack traces. Differently from GitHub, on Google Code most of 
+ from which 1,963 exception stack traces were extracted. Table~\ref{tab:lables} illustrates the occurrences of different labels
+on the issues including exception stack traces. Differently from GitHub, on Google Code most of
 the issues were labeled as ``Defect''. However, based on the same assumption described for the GitHub repository
  we considered all issues reporting stack traces (regardless of their labels).
 
 %SELECT distinct(type), count(*) as n
 %  FROM exceptionalissue where repo !='android' group by type order by n desc;
 
-%For instance: K9mail  was hosted in Google Code 
-%before moving to GitHub and in order not to loose the project history it advices their 
+%For instance: K9mail  was hosted in Google Code
+%before moving to GitHub and in order not to loose the project history it advices their
 %users to create issues on Google Code as a way to preserve project history.
 
-%To overcome this limitation and mine the information available on such Google Code 
-%projects we implemented a Web crawler which navigated (incorporated in ExceptionMiner tool described next) 
+%To overcome this limitation and mine the information available on such Google Code
+%projects we implemented a Web crawler which navigated (incorporated in ExceptionMiner tool described next)
 % on each project and issue page, extracting the content of each issue to store on relational database.
 
 %{MOSTRAR UMA FIGURA COM TODOS OS PASSOS E RESSALTAR OS PASSOS MANUAIS}
@@ -611,48 +597,48 @@ the issues were labeled as ``Defect''. However, based on the same assumption des
 \subsection{The ExceptionMiner Tool}
 \label{sec:exceptionminer}
 
-The ExceptionMiner is a tool which can connect to different issue repositories, 
+The ExceptionMiner is a tool which can connect to different issue repositories,
 extract issues, mine exception stack traces from them, distill exception stack trace information,
-and enable the execution of different analyses by combining exception stack 
+and enable the execution of different analyses by combining exception stack
 trace information with byte code and source code analysis. The main components of ExceptionMiner are the following:
 
-\emph{\textbf{Repository Connectors.}} This component enables the connection 
-with issue repositories. In this study two main connectors were created: one which connects to 
+\emph{\textbf{Repository Connectors.}} This component enables the connection
+with issue repositories. In this study two main connectors were created: one which connects to
 the GHTorrent database, and a Google Code connector which is comprised of a Web Crawler
- that can traverse the Google Code web interface and extract a project's issues. 
-Project meta-data and the issues associated with each project are stored in a relational 
+ that can traverse the Google Code web interface and extract a project's issues.
+Project meta-data and the issues associated with each project are stored in a relational
 database.
 
 \emph{\textbf{Exception Stack Trace Distiller.}}
-This component combines a parser (based on regular expressions) 
-and heuristics able to identify and filter exception names and stack traces inline with text. 
+This component combines a parser (based on regular expressions)
+and heuristics able to identify and filter exception names and stack traces inline with text.
 This component distills the information that composes a stack trace.
  Some of the attributes extracted from the stack trace are
- the root exception and its signaler, as well as the exception wrappers and their corresponding signalers. 
+ the root exception and its signaler, as well as the exception wrappers and their corresponding signalers.
 This component also distills fine grained information of each attribute such as the classes and packages associated with them.
 In contrast to existing issue parsing solutions such as Infozilla, our parser
- can discover stack traces mixed with log file information\footnote{In several 
-exception stack traces, the exception frames were preceded by logging information e.g., 
+ can discover stack traces mixed with log file information\footnote{In several
+exception stack traces, the exception frames were preceded by logging information e.g.,
 \texttt{03-01 15:55:01.609 (7924): at android.app.ActivityThread.access\$600(ActivityThread\-.java:127)} which could not be detected by existing tools.}.
 
-\emph{\textbf{Exception Type Analysis.}} To support a deeper investigation of the 
+\emph{\textbf{Exception Type Analysis.}} To support a deeper investigation of the
 stack traces every exception defined in a stack trace needs to be classified according to its type
-(e.g. Error, checked Exception or RuntimeException). The module responsible for this analysis 
-uses the Design Wizard framework \cite{Brunet09} to inspect the bytecode of the exceptions reported 
-in stack traces.  It walks up the type hierarchy of a Java exception until it reaches 
-a base exception type. Hence in this study the bytecode analysis was used to discover the type 
-of each mined exception when the jar file of such an exception was available in the project or 
+(e.g. Error, checked Exception or RuntimeException). The module responsible for this analysis
+uses the Design Wizard framework \cite{Brunet09} to inspect the bytecode of the exceptions reported
+in stack traces.  It walks up the type hierarchy of a Java exception until it reaches
+a base exception type. Hence in this study the bytecode analysis was used to discover the type
+of each mined exception when the jar file of such an exception was available in the project or
 in a reused  Java library. A specific implementation (based on source code analysis)
  was needed to discover the exception type when the bytecode was not available.
 With this module we analyzed all exceptions defined in the Android platform (Version 4.4, API level 19),
 which includes all basic Java exceptions that can be thrown during the app execution,
-and exceptions thrown by Android core libraries. Moreover, we also analyzed the 
-exceptions reported in stack traces that were defined by applications and third-party libraries 
+and exceptions thrown by Android core libraries. Moreover, we also analyzed the
+exceptions reported in stack traces that were defined by applications and third-party libraries
 (the tool only analyzed the last version available).
 
 \emph{\textbf{Exception Signaler Analysis.}}
-This module is responsible for classifying each signaler according 
-to its origin (i.e., Android Application Framework, Android Libcore, Application, Library). 
+This module is responsible for classifying each signaler according
+to its origin (i.e., Android Application Framework, Android Libcore, Application, Library).
 Table~\ref{tab:signalers} presents the heuristics adopted in this classification.
 To conduct this classification, we provide this module with the information
 comprising all Java packages that compose: the Android Platform;
@@ -660,19 +646,19 @@ comprising all Java packages that compose: the Android Platform;
 we can use the Android specification.
 To discover the packages for the third origin, the application itself, this module
 extracts the manifest files of each Android app, which defines the main packages that the applications consist of.
- If this file is not available, the tool recursively analyzes the 
+ If this file is not available, the tool recursively analyzes the
 structure of source code directories composing the application, and filters out the cases in which the application also includes the source code of reused libraries.
-Then, based on this information and using pattern matching 
-between the signaler name and the packages, this module identifies 
-the origin of the exception signalers. 
+Then, based on this information and using pattern matching
+between the signaler name and the packages, this module identifies
+the origin of the exception signalers.
 
 The exceptions are considered to come
- from libraries if their packages are neither defined 
+ from libraries if their packages are neither defined
 within the Android platform, nor in core libraries, nor in the applications.
 Table~\ref{tab:signalers} summarizes this signaler classification.
 
-%\noindent\emph{Exception Wrapping Analysis.} 
-%\noindent\emph{Concern Mapping.} 
+%\noindent\emph{Exception Wrapping Analysis.}
+%\noindent\emph{Concern Mapping.}
 
 \begin{table}
   \centering
@@ -694,43 +680,40 @@ Table~\ref{tab:signalers} summarizes this signaler classification.
 \subsection{Manual Inspections}
 \label{sec:manual}
 In our experiments, the output of the ExceptionMiner tool was manually extended
-in order to 
-(i) support the identification of packages composing the Android platform, 
-libs and apps analyzed in this study (as described previously); and (ii)  
-identify the type of some exceptions reported in issues 
+in order to
+(i) support the identification of packages composing the Android platform,
+libs and apps analyzed in this study (as described previously); and (ii)
+identify the type of some exceptions reported in issues
 that were not automatically identified by the ExceptionMiner tool
 (because they were defined in previous versions of libraries,
-apps and Android Platform). When the exception could not be  
+apps and Android Platform). When the exception could not be
 found automatically or manually (because they were defined in a previous version
-of the app or lib), we classified the exception as ``Undefined''.  Only 31 exceptions 
+of the app or lib), we classified the exception as ``Undefined''.  Only 31 exceptions
 remained undefined, which occurred in 60 different exception stack traces (see Table~\ref{tab:typeroottab}).
-
-
 
 \subsection{The Mining Study Results}
 \label{sec:result}
 
 %This section presents the results of the study, providing both a
-%quantitative and qualitative analysis of the outcomes. 
+%quantitative and qualitative analysis of the outcomes.
 %We center our presentation of the results around \emph{bug hazards} we
 %distilled from (1) common root exceptions; (2) exception types; and
 %(3) exception wrappings.
 
 This section presents the results of our study that was guided by the general research question:
- \emph{RQ 1: Can the information available in exception stack traces reveal exception handling 
+ \emph{RQ 1: Can the information available in exception stack traces reveal exception handling
 bug hazards in both the Android applications and framework?}
 To make the analysis easier, we further refine this question into sub-questions, each one focusing on pieces of information
  distilled from stack traces, more specifically: (i) the root exceptions (i.e., the exceptions that caused the stack traces);
- (ii) the exception types (i.e, Checked, Runtime, Error, Throwable) and (iii) the exception wrappings. 
-Hence, this section is centered around the following sub-questions:  \emph{RQ 1.1: Can the root exceptions reveal bug hazards?}; 
+ (ii) the exception types (i.e, Checked, Runtime, Error, Throwable) and (iii) the exception wrappings.
+Hence, this section is centered around the following sub-questions:  \emph{RQ 1.1: Can the root exceptions reveal bug hazards?};
  \emph{RQ 1.2 Can the exception types reveal bug hazards?}; and  \emph{RQ 1.3 Can the exception wrappings reveal bug hazards?}.
 
-In this section each piece of information is analyzed in detail to 
+In this section each piece of information is analyzed in detail to
 check whether it can reveal bug hazards in the exception handling code --
 related to (i) specific violations of the best practices presented in Section~\ref{sec:best},
 or (ii) the general use of exception handling to support robust development.
 
- 
 \bigskip
 
 %\subsubsection{RQ 1.1 Can the root exceptions reveal bug harzards?}
@@ -738,13 +721,13 @@ or (ii) the general use of exception handling to support robust development.
 
 \bigskip
 
-After distilling the information available in the exception stack traces, we could find 
+After distilling the information available in the exception stack traces, we could find
 the exceptions commonly reported as the root causes of stack traces.
-Table \ref{tab:topten} presents a list of the top 10 root exceptions found in the study -- 
- ranked by the number of distinct projects in which they were reported. 
+Table \ref{tab:topten} presents a list of the top 10 root exceptions found in the study --
+ ranked by the number of distinct projects in which they were reported.
 This table also shows how many times the signaler of such an exception was a method defined by
 the Android platform, the Android Libcore, the application itself or a third-party library --
- following the classification presented in Table  \ref{tab:signalers}. 
+ following the classification presented in Table  \ref{tab:signalers}.
 
 \begin{table*}
   \tiny
@@ -771,30 +754,30 @@ java.util.ConcurrentModificationException	&	43	&	6.73\%	&	65	&	1.08\%	&	5	&	0	&	
 \caption{Root Exceptions occurrences and popularity in analyzed repositories.}
 \label{tab:topten}
 \end{table*}
- 
+
 We can observe that most of the exceptions in this list are implicitly thrown by the
  runtime environment due to programming mistakes  (e.g., out-of-bounds array index, division-by-zero, access to a null reference)
- or resource limitations (e.g., OutOfMemoryError). 
-From this set the java.lang.NullPointerException was the most reported root cause (27.71\%). 
-If we consider the frequency of NullPointerException 
-across projects, we can observe that 51.96\% of all projects reported at least one exception stack 
+ or resource limitations (e.g., OutOfMemoryError).
+From this set the java.lang.NullPointerException was the most reported root cause (27.71\%).
+If we consider the frequency of NullPointerException
+across projects, we can observe that 51.96\% of all projects reported at least one exception stack
 trace in which the NullPointerException was the root cause.
 
  The NullPointerException was mainly signaled inside the application code (50\%) and the Android platform (31.5\%),
- although we could also find the NullPointerException being signaled by third-party libraries (16.3\%). 
-Regarding reusable code (e.g., libraries and frameworks), there is no consensus whether it is a good or a bad practice to 
+ although we could also find the NullPointerException being signaled by third-party libraries (16.3\%).
+Regarding reusable code (e.g., libraries and frameworks), there is no consensus whether it is a good or a bad practice to
 explicitly throw a NullPointerException. Some prefer to encapsulate such an exception in
 an instance of IllegalArgumentException, while others~\cite{bloch2008effective} argue that the
-NullPointerException makes the cause of the problem explicit and hence 
+NullPointerException makes the cause of the problem explicit and hence
 can be signaled by an API expecting a non-null argument.The high prevalence of NullPointerException is aligned with the
-findings of other 
-research~\cite{kim2013predicting,fraser20131600,csallner2004jcrasher,kechagia2014}. 
-For instance, Kechagia and Spinellis showed that the NullPointerException was the  
-most reported exception in the crash reports sent to BugSense~\footnote{https://www.bugsense.com/} (a bug report 
+findings of other
+research~\cite{kim2013predicting,fraser20131600,csallner2004jcrasher,kechagia2014}.
+For instance, Kechagia and Spinellis showed that the NullPointerException was the
+most reported exception in the crash reports sent to BugSense~\footnote{https://www.bugsense.com/} (a bug report
 management service for Android applications)~\cite{kechagia2014}.
-Other research on robustness testing~\cite{maji2012empirical,csallner2004jcrasher} shows that most of the automatically 
+Other research on robustness testing~\cite{maji2012empirical,csallner2004jcrasher} shows that most of the automatically
 detected bugs were due to NullPointerException and exceptions
-implicitly signaled by the Java 
+implicitly signaled by the Java
 environment due to programming mistakes or resource limitations
  (as the ones found in our study).
 
@@ -802,29 +785,29 @@ environment due to programming mistakes or resource limitations
 %al.~\cite{kim2013predicting} show that 38\% the bugs related to
 %exception handling in the Eclipse project
 %are caused by NullPointerException.
-%Furhtermore, 
+%Furhtermore,
 
 \emph{\textbf{Identifying the Concerns Related to Root Exceptions.}} To get a broader view of the root exceptions of stack traces,
 we performed a manual inspection in order to identify the underlying
 concerns related to the most frequently reported root exceptions.
 Besides the exceptions related to programming mistakes mentioned before, we also looked for exceptions related to concerns that are known as sources of faults in mobile development: concurrency~\cite{ama2012} backward compatibility~\cite{McDon13}, security~\cite{enck2011study,was2010} and resource management (IO, Memory, Battery)~\cite{Zhang12}. Since it is infeasible to inspect the code responsible for throwing every exception reported in this study,
 the concern identification for each exception was based on intended
-meaning of the particular exception type, as defined in 
-its Javadoc documentation and in the Java specification. 
-For example: (i) an instance of ArrayOutOfBoundException  
-refers to a programming mistake according to its Javadoc; and (ii) the Java specification lists all 
+meaning of the particular exception type, as defined in
+its Javadoc documentation and in the Java specification.
+For example: (i) an instance of ArrayOutOfBoundException
+refers to a programming mistake according to its Javadoc; and (ii) the Java specification lists all
 exceptions related to backward compatibility~\footnote{http://docs. oracle.com/javase/specs/jls/se7/html/jls-13.html}, such as
 InstantiationError, VerifyError, and IllegalAccessError.
 
 To perform this concern analysis, we selected a subset of all reported
 root exceptions, consisting of 100 exceptions
-reported in 95\% of all stack traces analyzed in this study. Hence, based on the inspection of the 
+reported in 95\% of all stack traces analyzed in this study. Hence, based on the inspection of the
 Javadoc related to each exception and the Java specification, we
-identified the underlying concern related to each root exception. 
-Table~\ref{tab:tophundrend} contains the results of this analysis. This table also illustrates the exceptions 
+identified the underlying concern related to each root exception.
+Table~\ref{tab:tophundrend} contains the results of this analysis. This table also illustrates the exceptions
 that could not be directly mapped to one of the aforementioned concerns, either because they were too general (i.e., java.lang.Exception,
 java.lang.RuntimeException, java.lang.Error) or because they were
-related to other concerns (e.g., specific to an application or a given library). 
+related to other concerns (e.g., specific to an application or a given library).
 To ensure the quality of the process, three independent coders classified a randomly selected
 sample of 25 exception types (from the total 100) using the same list of concerns;
 the inter-rater agreement was 96\%.
@@ -850,14 +833,14 @@ General (Error, Exception, Runtime) & 6.7\%\\
 \end{table}
 
 This analysis revealed that approximately 75\% of the exceptions
- that caused the stack traces are implicitly thrown by the runtime 
-environment  due to mistakes in the programming logic (e.g., out-of-bounds array index, null pointer 
+ that caused the stack traces are implicitly thrown by the runtime
+environment  due to mistakes in the programming logic (e.g., out-of-bounds array index, null pointer
 references) and resource limitations. Although such exceptions do not directly point to violations of
-the best practices described before (which are related to the 
+the best practices described before (which are related to the
 explicitly thrown exceptions) they impose a major threat to app robustness,
-and therefore represent a critical bug hazard to the exception 
-handling code of Android applications. 
-Security and concurrency, which are known to be critical issues for Android apps, 
+and therefore represent a critical bug hazard to the exception
+handling code of Android applications.
+Security and concurrency, which are known to be critical issues for Android apps,
 raised few of the reported exceptions (less than 5\% of the analysed stack traces).
 
 %\finding{%
@@ -867,15 +850,15 @@ raised few of the reported exceptions (less than 5\% of the analysed stack trace
 %For another 25\% the root cause relates to resource constraints.
 %}
 
-\bigskip 
+\bigskip
 
 \finding{%
-Exceptions related to programming logic and resource limitations represent a major bug hazard to Android apps -- 
+Exceptions related to programming logic and resource limitations represent a major bug hazard to Android apps --
 since they represent approximately 75\% of the exceptions that caused the stack traces.
 From this set the NullPointerException is the most prevalent exception.
 }
 
-\bigskip 
+\bigskip
 
 %\subsubsection{Can the exception types reveal bug hazards?}
 \noindent\emph{RQ 1.2 Can the exception types reveal bug hazards?}
@@ -885,12 +868,12 @@ From this set the NullPointerException is the most prevalent exception.
 \bigskip
 
 As mentioned before, using the ExceptionMiner tool in combination with manual inspections we could identify
-the root exception \emph{type} (i.e., RuntimeException, Error, checked Exception) as well as its \emph{origin} -- which we 
+the root exception \emph{type} (i.e., RuntimeException, Error, checked Exception) as well as its \emph{origin} -- which we
 identified based on the package names of the signalers in the stack traces (Section~\ref{sec:exceptionminer}).
-Table~\ref{tab:typeroottab} presents the types and origins of root exceptions of all analyzed stack traces. 
+Table~\ref{tab:typeroottab} presents the types and origins of root exceptions of all analyzed stack traces.
 
 %SELECT COUNT(*) FROM STACKTRACESUMMARY WHERE
-% repo !='android'  AND MAIN_EXTENDS LIKE 'RUNTIME%' 
+% repo !='android'  AND MAIN_EXTENDS LIKE 'RUNTIME%'
 %SELECT COUNT(*) FROM STACKTRACESUMMARY WHERE
 %repo !='android'  AND MAIN_EXTENDS LIKE 'RUNT%' AND MAINSIGNALER_FROM like 'APP%';
 
@@ -917,15 +900,15 @@ All		& 1  803	&	433	&	2478	&	1462	&	6005 	\\
 
 \bigskip
 
-We can observe that most of the reported exceptions are of type runtime 
+We can observe that most of the reported exceptions are of type runtime
 (64.85\%); and that the most common origins are methods defined either in the Application (47.3\%)
 or in the Android platform (34.3\%). We could also find runtime exceptions thrown by library code (17.7\%).
- We can also see, from Table~\ref{tab:typeroottab}, that in contrast to the other origins, most of the 
- exceptions signaled by Android Libcore (i.e., the set of libraries reused by Android) are 
-checked exceptions. This set comprises: org.apache.harmony, org.w3c.dom, sun.misc, 
-org.apache.http, org.json, org.xml, and javax. Signaling checked exceptions is considered a 
-good practice (see best practice IV in Section~\ref{sec:best}) because by using 
-checked exceptions a library can define a precise 
+ We can also see, from Table~\ref{tab:typeroottab}, that in contrast to the other origins, most of the
+ exceptions signaled by Android Libcore (i.e., the set of libraries reused by Android) are
+checked exceptions. This set comprises: org.apache.harmony, org.w3c.dom, sun.misc,
+org.apache.http, org.json, org.xml, and javax. Signaling checked exceptions is considered a
+good practice (see best practice IV in Section~\ref{sec:best}) because by using
+checked exceptions a library can define a precise
 \emph{exception interface}~\cite{miller1997issues} to its clients.
  Since such libraries are widely used  in several projects, this
  finding can be attributed to the libraries' maturity.
@@ -937,39 +920,39 @@ checked exceptions a library can define a precise
 
 \bigskip
 
-\emph{\textbf{Inspecting Exception Interfaces.}}  According to the best practices mentioned before, 
- \emph{explicitly thrown} runtime exceptions 
+\emph{\textbf{Inspecting Exception Interfaces.}}  According to the best practices mentioned before,
+ \emph{explicitly thrown} runtime exceptions
 should be documented as part of the \emph{exception interface} of the reusable
 methods of libraries/frameworks. To investigate the conformance to this practice, we first filtered out all the exceptions implicitly
- signaled by  the runtime environment (due to programming mistakes) -- since these exceptions 
+ signaled by  the runtime environment (due to programming mistakes) -- since these exceptions
 should not be documented in the method signature\footnote{The filtering was performed in two steps:
 firstly, we analyzed the bytecode of the JVM and identified all runtime exceptions defined by it (e.g.,
 java.lang.NullPointerExceptoin,java.lang.ArrayIndexOutOfBounds), then
 if the libraries/framework method was signaling one of such exceptions it was filtered out from the analysis}.
  Then we inspected
-the code for each method 
-(defined either in the Android  Application Framework or in third-party libraries) 
-explicitly signaling a runtime exception. 
-Table~\ref{tab:runtimeinterface} presents the results of this inspection. 
-We found 79 methods (both from libraries and the Android platform) that  explicitly threw a runtime exception 
-without listing it in the \emph{exception interface} (i.e., using 
+the code for each method
+(defined either in the Android  Application Framework or in third-party libraries)
+explicitly signaling a runtime exception.
+Table~\ref{tab:runtimeinterface} presents the results of this inspection.
+We found 79 methods (both from libraries and the Android platform) that  explicitly threw a runtime exception
+without listing it in the \emph{exception interface} (i.e., using
 a throws clause in the method signature). From this set only one method (defined in a library)
 included an @throws tag in its Javadoc -- reporting that the given runtime exception
-could be thrown in some conditions. These methods were responsible for 
+could be thrown in some conditions. These methods were responsible for
 267 exception stack traces mined in this study.
 
-This result is in line with the results of two other studies~\cite{sacramento2006unchecked,kechagia2014}. 
+This result is in line with the results of two other studies~\cite{sacramento2006unchecked,kechagia2014}.
 Sacramento et al.~\cite{sacramento2006unchecked} observed that the
-runtime exceptions in .NET programs are most often not documented. 
-Kechagia and Spinellis~\cite{kechagia2014} identified a set of methods 
-in the Android API which do not document their runtime exceptions. One limitation 
-of the latter work is that it did not filter out exceptions that,  
-although runtime, should not be documented because they were implicitly signaled by the 
+runtime exceptions in .NET programs are most often not documented.
+Kechagia and Spinellis~\cite{kechagia2014} identified a set of methods
+in the Android API which do not document their runtime exceptions. One limitation
+of the latter work is that it did not filter out exceptions that,
+although runtime, should not be documented because they were implicitly signaled by the
 JVM due to resource restrictions or violations of semantic Java constraints.
-When explicitly signaling a runtime exception and not documenting it, 
+When explicitly signaling a runtime exception and not documenting it,
 the developer imposes a threat to system robustness, especially
 when such exceptions are thrown by third party code (e.g., libraries or framework utility code)
- invoked inside the application. In such cases the developer usually does not have access to 
+ invoked inside the application. In such cases the developer usually does not have access to
 the source code. Hence in the absence of the exception documentation it is very difficult or even impossible
  for the client to design the application to deal with ``unforeseen'' runtime exceptions. As a consequence, the
  undocumented runtime exception may remain uncaught and lead to system crashes.
@@ -978,7 +961,7 @@ the source code. Hence in the absence of the exception documentation it is very 
 
 \finding{%
 Only a small fraction (4\%, 267 stack traces) of runtime exceptions are programmatically
-thrown. Almost none (0.4\%, just one) of these were documented. Such undocumented 
+thrown. Almost none (0.4\%, just one) of these were documented. Such undocumented
 runtime exceptions violate best practices III and IV and reveal a bug hazard to Java/Android apps.}
 
 \bigskip
@@ -990,35 +973,35 @@ runtime exceptions violate best practices III and IV and reveal a bug hazard to 
  %\begin{tabular}{|p{7.9cm} p{0.1cm}|}
 \begin{tabular}{lrrrr}
     \hline
- \bfseries{Origin}   &  \bfseries{stacks}  & \bfseries{signaler methods} &  \bfseries{throws clause}  &  \bfseries{@throws}  \\ 
-\hline					
+ \bfseries{Origin}   &  \bfseries{stacks}  & \bfseries{signaler methods} &  \bfseries{throws clause}  &  \bfseries{@throws}  \\
+\hline
 Libraries	& 	205	 & 	44	& 0	& 1	\\
-Android  	&	62 &	35	&0 &  0	\\					
-\hline					
+Android  	&	62 &	35	&0 &  0	\\
+\hline
 \bfseries{All}	&	267 &	79 &  0  & 1\\
-\hline					
+\hline
   \end{tabular}
 \caption{Absence of exception interfaces in methods.}
 \label{tab:runtimeinterface}
 \end{table}
 
-\emph{\textbf{Missing Checked Exceptions in Exception Interfaces.}} 
-Our exception stack trace analysis revealed an unexpected bug hazard: a 
-checked exception thrown by a native method and not declared in the exception 
+\emph{\textbf{Missing Checked Exceptions in Exception Interfaces.}}
+Our exception stack trace analysis revealed an unexpected bug hazard: a
+checked exception thrown by a native method and not declared in the exception
 interface of the methods signaling them. The native method in question was defined in
- the Android platform, which uses Java Native Invocation (JNI) to access 
-native C/C++ code. This exception was thrown by the method getDeclaredMethods defined in java.lang.Class. 
-The Java-side declaration of this method does not have any throws clause, 
+ the Android platform, which uses Java Native Invocation (JNI) to access
+native C/C++ code. This exception was thrown by the method getDeclaredMethods defined in java.lang.Class.
+The Java-side declaration of this method does not have any throws clause,
 leading programmers and the compiler to think that no checked exceptions can be thrown.
- However, the C-code implementation did throw a ``checked exception" called NoSuchMethodException, 
-violating the declaration. The Java compiler could not detect this violation, because it does 
+ However, the C-code implementation did throw a ``checked exception" called NoSuchMethodException,
+violating the declaration. The Java compiler could not detect this violation, because it does
 not perform static exception checking on native methods. This type of bug is hard to diagnose
-because the developer usually does not have access to the native implementations. 
-Consequently, since it is not expected by the programmer, when such a method throws 
+because the developer usually does not have access to the native implementations.
+Consequently, since it is not expected by the programmer, when such a method throws
 this exception, the undocumented exception may remain
 uncaught and cause the app to crash, or may be mistakenly handled by subsumption.
 The exception stack traces reporting this scenario actually correspond
-to a real bug of the Android 
+to a real bug of the Android
 Gingerbread version (which still accounts for 13.6\% of devices running Android).
 %Among the Android projects on which this exception stack trace was reported we can cite:
 %PageTurner (206 stars), ActionBarSherlock (6,041 stars), otto (1,618
@@ -1072,7 +1055,6 @@ This violates best practices III and IV and represents a bug hazard
 \label{tab:exampeswrap}
 \end{table}
 
-
 \begin{table*}
 \scriptsize
   \centering
@@ -1080,10 +1062,10 @@ This violates best practices III and IV and represents a bug hazard
     \hline
     \bfseries{Wrapper}  &  \bfseries{Root Cause} &  \bfseries{Projects}  &  \bfseries{Occurrences} & \textsf{Android} & \textsf{Java/Libcore} & \textsf{Lib} & \textsf{App}  \\
     \hline
-      
-      Runtime &  Checked   & 88 & 148 &  75 &  0   & 38 &  35 \\  %(50.7\%) 
-      Runtime   &  Error      & 46  &  67    &  58  &  0   & 8  &  1   \\      %(86.5\%) 
-      Checked &  Runtime   & 17  & 31 & 4 &  0  & 16  &  11 \\  %(51.6\%) 
+
+      Runtime &  Checked   & 88 & 148 &  75 &  0   & 38 &  35 \\  %(50.7\%)
+      Runtime   &  Error      & 46  &  67    &  58  &  0   & 8  &  1   \\      %(86.5\%)
+      Checked &  Runtime   & 17  & 31 & 4 &  0  & 16  &  11 \\  %(51.6\%)
       Checked & Error         & 8    &  9  & 5  &  0  &  1 &  3  \\
       Error & Checked         & 14  &  27 &  6  &  7  &  6 &   8    \\
       Error & Runtime        & 8      &  17   & 1 &  1  & 1 &  14    \\
@@ -1095,7 +1077,7 @@ This violates best practices III and IV and represents a bug hazard
       %none &  Undefined  &  15   & 10  \\
       %none & Throwable  &  1    & 1 \\
      %\hline
-      %Runtime   & Runtime & 560  & 182 \\    
+      %Runtime   & Runtime & 560  & 182 \\
       %Checked   & Checked & 98   & 42  \\
       %Error     & Error   & 15   & 14  \\
     %\hline
@@ -1104,41 +1086,41 @@ This violates best practices III and IV and represents a bug hazard
 \label{tab:wrappingandroid}
 \end{table*}
 
-Java is the only language that provides a hybrid exception model 
-which offers three kinds of exceptions each one holding an intended exception behavior (i.e., error, 
+Java is the only language that provides a hybrid exception model
+which offers three kinds of exceptions each one holding an intended exception behavior (i.e., error,
 runtime and checked). Table~\ref{tab:wrappingandroid} presents some wrappings found in this study that
 include different exception types (i.e., Error, checked Exception and Runtime).
 Below, we discuss the most
 important of such ``cross-type wrappings'' in more detail.
 
-\emph{\textbf{Runtime Exception wrapping a Checked Exception.}} 
+\emph{\textbf{Runtime Exception wrapping a Checked Exception.}}
 This wrapping was responsible for 49.5\% of
-the cross-type wrappings.  From this set 50\%  were performed by methods defined by the Android platform. 
+the cross-type wrappings.  From this set 50\%  were performed by methods defined by the Android platform.
 We observe that this is a common implementation practice in the methods of the Android platform.
 According to Java best practices checked exceptions represent conditions from which the caller
 is expected to recover. By converting a checked exception in a general Runtime class,
 besides loosing contextual information about the exception,
-the client can simply ignore such exception - which can negatively impact the app robustness. 
-\textcolor{red}{Altough it is considered a bad practice, when such wrapping is accompained with a well defined 
+the client can simply ignore such exception - which can negatively impact the app robustness.
+\textcolor{red}{Altough it is considered a bad practice, when such wrapping is accompained with a well defined
 exception handling policy (which assures that a proper handling will be provided within the app)
 the impact on app robustness can be mitigated.}
 
 \bigskip
 
 \finding{%
-General catch clauses masking any exception into a general RuntimeException 
-is a common practice in the Android Platform; it violates best practice III 
+General catch clauses masking any exception into a general RuntimeException
+is a common practice in the Android Platform; it violates best practice III
 and is considered a bug hazard as it loses contextual information about the exception.
 }
 
 \bigskip
 
-\emph{\textbf{Runtime Exception wrapping an Error.}} 
-From Table~\ref{tab:wrappingandroid}, we see that most of these wrappings	
+\emph{\textbf{Runtime Exception wrapping an Error.}}
+From Table~\ref{tab:wrappingandroid}, we see that most of these wrappings
 are performed by the Android platform (50.7\%).
-The code snippet below was extracted from Android and shows a general catch clause 
+The code snippet below was extracted from Android and shows a general catch clause
 that converts any instance of Throwable (signaled during the execution
-of an asynchronous task) into an instance of RuntimeException and re-throws it.  
+of an asynchronous task) into an instance of RuntimeException and re-throws it.
 
 %{\footnotesize
 %\begin{verbatim}
@@ -1157,7 +1139,7 @@ of an asynchronous task) into an instance of RuntimeException and re-throws it.
 %}
 {\footnotesize
 \begin{verbatim}
-  
+
    try {
       ...
    } catch (InterruptedException e) {
@@ -1172,10 +1154,10 @@ of an asynchronous task) into an instance of RuntimeException and re-throws it.
 \end{verbatim}
 }
 
-Table~\ref{tab:exampeswrap} presents examples of exceptions that 
+Table~\ref{tab:exampeswrap} presents examples of exceptions that
 were actually wrapped in this code snippet: java.lang.RuntimeException wrapped
-an java.lang.OutOfMemoryError and a java.lang.StackOverflowError. 
-\textcolor{red}{Such Errors result from failures detected by the runtime environment which indicate 
+an java.lang.OutOfMemoryError and a java.lang.StackOverflowError.
+\textcolor{red}{Such Errors result from failures detected by the runtime environment which indicate
 resource deficiencies from which the program cannot possibly recover.
 Hence, `hiding" an unrecoverable condition into a runtime exception
 can lead to a scenario where the developer tries to handle such exception, leading the program
@@ -1188,43 +1170,42 @@ serious bug hazard.}
  were also caused by the reflection library used by applications' methods. The methods responsible for the wrappings
 were also native methods written in C. Table~\ref{tab:exampeswrap} illustrates
 some of these wrappings -- some of them are masking an OutOfMemoryError
-into a checked exception. 
+into a checked exception.
 \textcolor{red}{By confronting the API user with a checked exception,
-the API designer is forcing the client to handle the exceptional condition. 
+the API designer is forcing the client to handle the exceptional condition.
 But in this case the exception condition in and unrecoverable error,
-which makes infeasible the task of providing a proper handler. 
+which makes infeasible the task of providing a proper handler.
 This kind of wrapping is even more dangerous the previous one
 and may lead to the ``exception confusion'' described next.}
 
-
 \emph{\textbf{Error wrapping Runtime and Checked Exceptions.}} Table~\ref{tab:exampeswrap}  illustrates
 examples of instances of Error wrapping instances of
-RuntimeException. 
+RuntimeException.
 Although such a wrapping mixes different exception types,
 since there is no obligation associated with handling runtime exceptions, it
-does not violate the aforementioned best practices. 
+does not violate the aforementioned best practices.
 
-On the other hand, the inspection 
-also revealed instances of Error wrapping checked exceptions. Such wrappings were 
-mostly performed by Java static initializers. If any exception is thrown in the context of a static initializer 
-(i.e., static block)  it is converted into an ExceptionInitializerError 
+On the other hand, the inspection
+also revealed instances of Error wrapping checked exceptions. Such wrappings were
+mostly performed by Java static initializers. If any exception is thrown in the context of a static initializer
+(i.e., static block)  it is converted into an ExceptionInitializerError
 at the point where the class is first used.  Table~\ref{tab:exampeswrap} also illustrates
 examples of such wrappings. Although such a wrapping may represent a design decision,
-it violates the best practices related to checked exceptions and errors as it mixes the intended handling 
+it violates the best practices related to checked exceptions and errors as it mixes the intended handling
 behavior associated with both types.
 
-We can also observe that some stack traces include successive cross-type wrappings, 
+We can also observe that some stack traces include successive cross-type wrappings,
 such as: Runtime - Checked - Runtime - Checked - Runtime - Checked -
-Runtime. 
-Hence, although some of these wrappings may be a result of design decisions, the mis-use of exception wrappings may make the exception handling 
+Runtime.
+Hence, although some of these wrappings may be a result of design decisions, the mis-use of exception wrappings may make the exception handling
 code more complex (e.g., the multiple wrappings) and error-prone,
  and lead to ``exception confusion''. To illustrate this problem we can use one of the wrappings discussed above.
-When the developer is confronted with a checked exception, the designer of the API is telling him/her 
-to handle the exceptional condition (according to the Java Specification and 
+When the developer is confronted with a checked exception, the designer of the API is telling him/her
+to handle the exceptional condition (according to the Java Specification and
 best practices). However, such an exception may be wrapping an Error such
-as an OutOfMemoryError, which indicates a resource deficiency 
+as an OutOfMemoryError, which indicates a resource deficiency
 that the program cannot possibly recover from. Hence, trying to
-handle such an exception  
+handle such an exception
 may lead the program to an unpredictable state.
 
 \bigskip
@@ -1233,7 +1214,7 @@ may lead the program to an unpredictable state.
 Cross-type exception wrappings are common.
 They represent a bug hazard once they violate the semantics of Java's original exception
 design, detailed in best practices I and II  (e.g., when mapping unrecoverable Errors to other types of
-exceptions). 
+exceptions).
 }
 
 \bigskip
@@ -1241,23 +1222,22 @@ exceptions).
 \section{The Developers' Perspective}
 \label{sec:dev}
 
-%Although the mining study revealed a set of bug hazards in Android exception handling, no work has examined yet what the developers' perceptions about them are. With Android development rapidly rising in popularity, it is important to better understand how developers deal with such bug hazards and what they do to overcome them. 
+%Although the mining study revealed a set of bug hazards in Android exception handling, no work has examined yet what the developers' perceptions about them are. With Android development rapidly rising in popularity, it is important to better understand how developers deal with such bug hazards and what they do to overcome them.
 
 \textcolor{red}{As previously menitoned, the goal of this work is to obtain a thorough understanding of common exception handling \emph{bug hazards} that app developers face. In the first phase of this work, we conducted a mining study which identified common exception handling bug hazards in app development.
  In the second phase of this work, we set up an exploratory qualitative investigation and surveyed Android developers on how they perceive the bug hazards detected in the mining study. The scope of our study is GitHub---using our GHTorrent database~\cite{Gousi13}, we aimed our survey at developers from Android projects available in GitHub for which issues were mined during the first phase of this study.}
 
-%\textcolor{red}{The survey mixed Liket-scale with open-ended questions, and the motivations behind the survey questions are twofold: (i) to learn from 
-%developers about the usage of the exception handling code in app development;  and (ii) to get developers percerptions about the bug hazards detected in 
+%\textcolor{red}{The survey mixed Liket-scale with open-ended questions, and the motivations behind the survey questions are twofold: (i) to learn from
+%developers about the usage of the exception handling code in app development;  and (ii) to get developers percerptions about the bug hazards detected in
 %the first phase of this study.}
 
-%Our main goal is to learn from developers about the Java exception handling usage and the main 
-%exception handling bug hazards in Android. We therefore use a survey as our main research 
-%instrument. The survey mixed  Liket-scale with open-ended questions. The questions were motivated 
-%by the analysis of the existing bug hazards detected in the first phase of this study. 
+%Our main goal is to learn from developers about the Java exception handling usage and the main
+%exception handling bug hazards in Android. We therefore use a survey as our main research
+%instrument. The survey mixed  Liket-scale with open-ended questions. The questions were motivated
+%by the analysis of the existing bug hazards detected in the first phase of this study.
 %The next sections detail the survey.
-%Our main findings reveal that developers often handle exceptions while developing Android apps and 
+%Our main findings reveal that developers often handle exceptions while developing Android apps and
 %we provide insights into the main challenges faced by them during this task. xxxxxxx
-
 
 \subsection{Research Questions}
 
@@ -1265,11 +1245,11 @@ exceptions).
 
 When developing Java-based applications it is inevitable to deal with exceptions. Hence, our first question explores how developers deal with the exception handling code in Android development:
 
-\emph{\textbf{RQ 2.1:} How do developers deal with exception handling code while developing Android apps?} 
+\emph{\textbf{RQ 2.1:} How do developers deal with exception handling code while developing Android apps?}
 
 To make the analysis easier, we further refine this question into sub-questions, such as: \emph{How often do developers handle exceptions?} \emph{How often do developers throw exceptions?} And, to show us how developers may deal with the exception handling (EH) code: \emph{Do developers know about Java EH best practices and/or Android specific EH best practices?}
- 
-The subsequent research questions focus on the developers' perspectives about the main bug hazards found during the mining study, more specifically: 
+
+The subsequent research questions focus on the developers' perspectives about the main bug hazards found during the mining study, more specifically:
 
 \emph{\textbf{RQ 2.2:} How do NullPointerExceptions impact the development of robust Android apps?}
 
@@ -1278,7 +1258,6 @@ The subsequent research questions focus on the developers' perspectives about th
 \emph{\textbf{RQ 2.4:} Are developers aware of the robustness threats caused by JNI undocumented checked exceptions?}
 
 %\emph{\textbf{RQ 2.5:}  Are developers aware of the non-declared checked exceptions?}
-
 
 %\emph{RQ 2:Have developers ever faced a crash caused by NullPointerException?}
 %\emph{RQ 3:Are developers aware of the robustness threats caused by cross-type wrappings?}; %\emph{RQ 4: Are developers aware of the robustness threats caused by JNI undocumented checked exceptions?}
@@ -1293,20 +1272,18 @@ whether the exception handling code helps with the development of robust Android
 
 \subsection{Protocol}
 
-
 \textcolor{red}{Since our aim is to learn from a large number of developers, we use surveys which scale well.}
-\textcolor{red}{The survey is split into two logical sections; the motaivations behind each logical section are: 
-(i) questions aiming at learning from developers about the usage of the exception handling code in app development;  and 
+\textcolor{red}{The survey is split into two logical sections; the motaivations behind each logical section are:
+(i) questions aiming at learning from developers about the usage of the exception handling code in app development;  and
 (ii) questions focusing on getting developers percerptionds about the bug hazards detected in the first phase of this study.
 The survey comprises multiple choice or Likert-scale questions and open-ended questions. The multiple choice questions are intermixed with open-ended questions to further elicit the developer's opinions. Moreover, the survey also contains Likert-scale questions to force participants to make a choice. Overall, the survey includes 13 open-ended questions, 5 Likert-scale questions and 10 multiple choice questions. The respondents could complete the survey in about 15 minutes.}
 
 \textcolor{red}{Given the exploratory nature of our research, we used methods from Grounded Theory ~\cite{charmaz2006} to answer some of our research questions by iterating through the open-ended survey responses. The grounded theory coding used in this study consists of at two phases: (1) initial coding entails a close reading of the data and (2) later we used focused coding ~\cite{charmaz2006} to pinpoint and develop the most salient themes ~\cite{charmaz2006} in the analyzed data. Answers to different questions in the survey were coded separately. For all open-ended questions in the survey, coding was done by two researchers until saturation was reached. Disagreements were discussed and resolved as part of the coding, thus, we are unable to report level of agreement. In all cases, the first author was one of the two coders, and one of the other authors coded the data as well in close collaboration with the first author until saturation was reached. The first author then went through the remaining responses to assign codes to responses.}
 
-
 \subsection{Participants}
 
 %~\cite{coelhoetal15}
- In the first phase of this study, described previously, we mined exception stack traces available in issues reported for several Android projects hosted on GitHub and Google Code. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard toy-programs and non-Android repositories. For each repository, we extract the developers whose emails are registered. We emailed the 1,824 developers and received 71 valid answers. \textcolor{red}{The response rate was 3.9\% -- 
+ In the first phase of this study, described previously, we mined exception stack traces available in issues reported for several Android projects hosted on GitHub and Google Code. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard toy-programs and non-Android repositories. For each repository, we extract the developers whose emails are registered. We emailed the 1,824 developers and received 71 valid answers. \textcolor{red}{The response rate was 3.9\% --
 although the response rate achieved in our study is low, it is inlined to similar surveys reported in the literature (e.g., ~\cite{kochhar2015understanding,joorabchi2013real,bavota2015impact,ko2007information,hindle2015topics}) whose response rates mostly varies between 2\% and 4\%.}
 The majority of our respondents have more than 2 years of Java development experience (87.3\%) and of Android development (85.9\%) -- see Figure~\ref{fig:devexpertise}.
 
@@ -1318,15 +1295,14 @@ The majority of our respondents have more than 2 years of Java development exper
 
 \subsection{Findings}
 
-In this section, we present our findings per research question. 
+In this section, we present our findings per research question.
 To illustrate the different aspects of each
 finding, we provide a selection of quotes from the exploratory
-survey. 
+survey.
 To enable traceability, each respondent has an identification
- which can be traced in our database using the following convention: 
+ which can be traced in our database using the following convention:
 D\#. For instance, D1 corresponds to an answer provided
  by developer 1.
-
 
 \bigskip
 \noindent\emph{RQ 2.1: How do developers deal with the exception handling in Android development?}
@@ -1336,14 +1312,13 @@ This first research question explores the ways in which developers deal with the
 
 %\noindent\emph{Frequency}
 
-Developers were first asked how often they dealt with the exception handling code -- see Figure~\ref{fig:often}. Many of our survey respondents recognized they have to handle exceptions most of the time during Android app development (64.8\%). However, the frequency at which they throw exceptions inside apps is smaller; most of the survey respondents said they throw exceptions only some of the time or seldom (80.3\%). It shows that although we can try to avoid throwing exceptions, it is almost always inevitable to handle the exceptions thrown by the Android platform and reused libraries. 
+Developers were first asked how often they dealt with the exception handling code -- see Figure~\ref{fig:often}. Many of our survey respondents recognized they have to handle exceptions most of the time during Android app development (64.8\%). However, the frequency at which they throw exceptions inside apps is smaller; most of the survey respondents said they throw exceptions only some of the time or seldom (80.3\%). It shows that although we can try to avoid throwing exceptions, it is almost always inevitable to handle the exceptions thrown by the Android platform and reused libraries.
 
 %\begin{figure} \centering \includegraphics[scale=0.58]{agree_new2_point.png}
 \begin{figure} \centering \includegraphics[scale=0.58]{agree_new4_point.png}
 \caption{How often developers throw and handle exceptions during app development.}
 \label{fig:often}
 \end{figure}
-
 
 %\begin{figure} \centering \includegraphics[scale=0.60]{yes_no_new2.png}
 \begin{figure} \centering \includegraphics[scale=0.60]{yes_no_best_new.png}
@@ -1354,10 +1329,9 @@ Developers were first asked how often they dealt with the exception handling cod
 %\bigskip
 
 %\emph{EH Best Practices}
-%/////// JAVA BEST PRACTICES ////// 
+%/////// JAVA BEST PRACTICES //////
 As mentioned before several general guidelines have been proposed on how to
 use Java exceptions. Section~\ref{sec:best}  compiled a list of some exception handling (EH) best practices that guided our mining study. In this survey the developers were also asked if they knew about and used Java EH best practices -- see Figure~\ref{fig:allquest}. Most of them said that they knew and adopted Java EH practices (68\%). From this set the most mentioned best practices are presented in Table~\ref{tab:javapractices} -- considering that one developer mentioned more than one practice. Most of the best practices mentioned were the ones cited in Section~\ref{sec:best}. For instance:\emph{``Don't throw [pure] RuntimeException (in most cases), don't catch OutOfMemoryError, etc." [D42]}.  Some of the practices mentioned, however, are not well known Java EH best practices but seem to be used by some Android developers to better deal with exceptions in the Android app context, such as the use of a crash fast approach\footnote{\url{http://www.slideshare.net/pyricau/crash-fast}} -- \emph{``Crash is good for hinting developer. Fast crash fast solve." [D51]}. \textcolor{red}{According to this approach, developers should let the application to crash as soon as an unexpected situation happens. The motivation behind this approach is that the developer will receive the crash information and fix the potential bug that caused it. On the other hand, if the developer lets the app to continue runing, after an exception had happened, the aplication may enter an inconsistent state. In such scenario, the time between the fault being exercised and the failure (the fault manifestation) increases, which may impair finding and fixing the potential bug that caused the failure.} Moreover, some respondents favor checked exceptions instead of runtime to represent the exceptional conditions in Android apps -- \emph{``RuntimeExceptions are not particularly well suited for Android's robustness, as any uncaught one would cause a crash." [D26]}; \emph{``Checked exception help, unchecked exceptions don't." [D25]}; \emph{``avoid unchecked exceptions except if the case is really abnormal and should not happen [...]"[D45]}.
-
 
 \begin{table}
 \scriptsize
@@ -1378,11 +1352,11 @@ Don't catch Errors 	&  2 &	5\% \\
 \end{tabular}
 \caption{Top mentioned Java EH best practices -- 40 non-empty responses. }
 \label{tab:javapractices}
-\end{table}			
-				
+\end{table}
+
 %/////// ANDROID EH BEST PRACTICES /////
 The developers who informed us about their EH best practices were also asked whether they knew about any EH best practices specific to Android -- see Figure~\ref{fig:allquest}. Most of them (43\%) mentioned that they applied the same best practices that they used in Java programs. Only some of them mentioned that they adopted specific best practices such as: (i) the use of crash report tools (21\%) -- to notify the developer about the uncaught exceptions that happen in the application code; and (ii) the use of a global exception handler (14\%) -- the UncaughtExceptionHandler advised in the Android documentation\footnote{\url{http://developer.android.com/reference/java/lang/Thread.UncaughtExceptionHandler.html}}.
-									
+
 \begin{table}
 \scriptsize
 \centering
@@ -1399,21 +1373,18 @@ Use appropriate exception messages	& 1 &	7\% \\
 \end{tabular}
 \caption{Top mentioned Android-specific EH best practices -- 14 non-empty responses. }
 \label{tab:androidpractices}
-\end{table}			
+\end{table}
 
 \bigskip
 
 \finding{
-Most of the respondents (64.8\%) recognize that they handle exceptions most of the time during the app development. 
+Most of the respondents (64.8\%) recognize that they handle exceptions most of the time during the app development.
 Most of them (62\%) mentioned that they adopt EH best practices.
 }
-
-
 
 \bigskip
 
 \noindent\emph{RQ 2.2: How do the NullPointerExceptions impact the development of robust Android apps?}
-
 
 %//////NULLPONTER WORSE IN ANDROID /////
 Developers were asked if their apps ever crashed because of a NullPointerException -- see Figure~\ref{fig:questnullrobust}. The vast majority of respondents (96\%) said that their apps crashed at least once due to a NullPointerException. Their answers are aligned with the high prevalence of NullPointerExceptions found in the mining study -- in Table~\ref{tab:topten} in Section~\ref{sec:result} we can see that NullPointerExceptions were the main cause of the mined exception stack traces.
@@ -1424,9 +1395,9 @@ Developers were asked if their apps ever crashed because of a NullPointerExcepti
 \label{fig:questnullrobust}
 \end{figure}
 
-Developers reported some reasons for the high prevalence of crashes caused by NullPointerExceptions. The activity and fragment lifecycle was one of them -- \emph{``Android destroys and recreates itself all of the time (especially during screen rotation) and if you do not handle that it will crash on you every time. with the complexity of an activity with a fragment that has fragments and each of those fragments has custom objects and variables that need to be either retained (so saved and put back) or recreated such as views it can get complex if you don't have an understanding of how the android life cycle works." [D43]}.  Another developer also mentioned that: \emph{``They [NullPointerExceptions] can happen pretty much anywhere. The Android Fragment system comes to mind in this case. Often, it is possible to find yourself in a state where getActivity() is null within the Fragment during certain points in the life cycle, and that is something I have to plan for. This might have been avoidable under a different structure."[D56]}. 
+Developers reported some reasons for the high prevalence of crashes caused by NullPointerExceptions. The activity and fragment lifecycle was one of them -- \emph{``Android destroys and recreates itself all of the time (especially during screen rotation) and if you do not handle that it will crash on you every time. with the complexity of an activity with a fragment that has fragments and each of those fragments has custom objects and variables that need to be either retained (so saved and put back) or recreated such as views it can get complex if you don't have an understanding of how the android life cycle works." [D43]}.  Another developer also mentioned that: \emph{``They [NullPointerExceptions] can happen pretty much anywhere. The Android Fragment system comes to mind in this case. Often, it is possible to find yourself in a state where getActivity() is null within the Fragment during certain points in the life cycle, and that is something I have to plan for. This might have been avoidable under a different structure."[D56]}.
 
-The framework complexity was also mentioned as a major cause of null pointer crashes -- since several methods of the Android framework return null, and there is not enough documentation to inform the developer when using such methods. Some respondents mentioned: \emph{``The Android framework is what adds the complexity in figuring out what caused an exception because more often than not, the error is triggered from the framework as a result of something else you did." [D58]}; \emph{``Java is simple language, and the problem arises when you are using third party frameworks build on Java (or using Android which provide lots of new classes). And the problem is you don't always know if specific method can return null object or only valid values."[D7]}. Moreover, a few respondents also answered that such NullPointerException crashes can be caused by backward compatibility as well as memory issues as illustrated in Table~\ref{tab:causenull}. 
+The framework complexity was also mentioned as a major cause of null pointer crashes -- since several methods of the Android framework return null, and there is not enough documentation to inform the developer when using such methods. Some respondents mentioned: \emph{``The Android framework is what adds the complexity in figuring out what caused an exception because more often than not, the error is triggered from the framework as a result of something else you did." [D58]}; \emph{``Java is simple language, and the problem arises when you are using third party frameworks build on Java (or using Android which provide lots of new classes). And the problem is you don't always know if specific method can return null object or only valid values."[D7]}. Moreover, a few respondents also answered that such NullPointerException crashes can be caused by backward compatibility as well as memory issues as illustrated in Table~\ref{tab:causenull}.
 
 Almost half of the developers mentioned, however, that NullPointerExceptions are common in Android development since they are common in Java standard development as well. One responded even mentioned: \emph{``Honestly, there are a lot of very unskilled Java programmers out there writing Android apps. When they encounter NPE, they tend to null-check that variable, which just puts a bandage on the problem and causes other failures (usually also NPE's) later on in the application's lifecycle. This is nothing specific to Android, it's just how Java works."[D42]}
 
@@ -1452,8 +1423,6 @@ no layers to catch runtimeexceptions	& 1 &	5\% \\
 Developers were also asked about what they usually do to prevent NullPointerExceptions from happening when their app is in production. Table~\ref{tab:preventnull} presents the ways for preventing NullPointerException in Android apps most cited by developers. Most of the developers mentioned including null-checks in the application code (59\%), mostly when checking the return of a method and as method guard conditions. Many respondents (39\%) also answered that instead of just sprinkling the code with null-checks when a NullPointerException happens they investigate the cause of the null reference and work to fix it, instead of just adding a null check. \emph{Determine why the object was null and attempt to fix this situation. In the case of external API calls which return null, then check for null (the quick-and-dirty way). For internal calls, use @NotNull and @Nullable annotations to provided more guidance on when an object ``may be'' and ``should never be'' null." [D42]}
 
 Some respondents also mentioned using annotations such as @Nullable and @NotNull, provided by Android Studio 0.5.5; such annotations guide the developer about what can and cannot be null during the application lifecycle. Although catching the NullPointerExceptions is considered a bad practice some respondents said that they do it to prevent crashes caused by NullPointerExceptions. Such behavior was mentioned by one of the respondents as the behavior adopted by non-experienced developers  to prevent such crashes -- which is undoubtedly a mistake. Some respondents also suggested to replace the NullPointerException by IllegalArgumentException when a method should not receive a null as parameter. \emph{``Probably the most common exception, as such the reasons and fixes are super varying. But in general, null checks should be utilized and illegal state or argument exceptions should be used with an appropriate message. Which will communicate useful information without the confusion an NPE would normally cause."[D48]}. This is a good exception handling practice mentioned by Bloch~\cite{bloch2008effective}. Only a few developers mentioned coding standards and static code analyzers to prevent it (2\%).
-
-
 
 \begin{table}
 \scriptsize
@@ -1483,35 +1452,33 @@ automated testing	& 1 &	2\% \\
 \end{tabular}
 \caption{Top ways for preventing NullPointerException in Android apps -- 61 non-empty responses. }
 \label{tab:preventnull}
-\end{table}	
+\end{table}
 
-\bigskip 
+\bigskip
 
 \finding{Almost 96\% of the developers recognized that their apps have already crashed due to a NullPointerException.
 They mentioned that the Android application life-cycle (47\%) and the framework complexity (32\%) may favor such uncaught NullPointerExceptions to happen in the Android context.
 }
 
-\bigskip 
+\bigskip
 %\textbf{
 \noindent\emph{RQ 2.3: How do Cross-Type Wrappings impact the development of robust Android apps?}
 
 \bigskip
 
-Some of the best practices are related to the different ways an exception should be handled according to whether it is a checked or an unchecked exception. When the designer of an API specifies that a method throws a checked exception, it is telling the caller of the API that such an exception should be handled. 
+Some of the best practices are related to the different ways an exception should be handled according to whether it is a checked or an unchecked exception. When the designer of an API specifies that a method throws a checked exception, it is telling the caller of the API that such an exception should be handled.
 
-To assess the developers' perspective on whether checked and unchecked exceptions should be handled differently inside the app, the developers were presented with two pieces of code: one in which a RuntimeException was caught and another one where an IOException was caught; both in the context of Activity life-cycle methods. Then the developers were asked whether the way to handle a runtime exception should be different from the way to handle a checked exception. 
+To assess the developers' perspective on whether checked and unchecked exceptions should be handled differently inside the app, the developers were presented with two pieces of code: one in which a RuntimeException was caught and another one where an IOException was caught; both in the context of Activity life-cycle methods. Then the developers were asked whether the way to handle a runtime exception should be different from the way to handle a checked exception.
 
 This question was motivated by the fact that during the mining study we could identify that many checked exceptions were just wrapped in a runtime exception and re-thrown, as a way to bypass any kind of handling. When asked about how to deal with a checked exception signaled by a method (invoked in the context of the onPause() activity method), most respondents (63\%) said that they should add a try-catch block surrounding the method invocation - see Table~\ref{tab:handlingchecked}. One of the respondents mentioned that \emph{``If a method signature declares that it throws an exception, it means that the caller should handle the exception."[D29]}; \emph{``because it is checked exception, you should expect it to happen rather than just crash"[D70]}. However, most of the respondents also said that to deal with a method that is signaling a runtime exception we should surround such a method with a try-catch block (59\%) - see Table~\ref{tab:handlingruntime}.
 
 However, what developers mentioned as handling actions (what is performed inside the catch clause to deal with the exception) differs in both cases. For runtime exceptions most of the handling actions were dedicated to present more specific error messages and prevent the app from abruptly crashing. \emph{``[...] They signal exceptional behavior that may not be recoverable, so they offer a useful way to log and gracefully crash'' [D19]}. \emph{``Giving the user meaningful feed back is important, so the more specific you can be about what went wrong, the better."[D66]}. Some developers also mentioned to use a toast to support this task\footnote{A toast is an Android component that provides simple feedback about an operation in a small popup -- \url{http://developer.android.com/guide/topics/ui/notifiers/toasts.html}}. Few developers also mentioned that the runtime exception should flow upstream to the framework so it could crash the app.
 
-On the other hand, some handling actions mentioned for checked exceptions were: (i) retrying the same operation; (ii) involving the user in finding a solution to the exception condition such as opening a pop-up and asking the user to define a new place to save the file (the example presented to them involved a IOException being signaled); and also (iii) presenting an error message to the user. 
+On the other hand, some handling actions mentioned for checked exceptions were: (i) retrying the same operation; (ii) involving the user in finding a solution to the exception condition such as opening a pop-up and asking the user to define a new place to save the file (the example presented to them involved a IOException being signaled); and also (iii) presenting an error message to the user.
 
 We can observe that the handling actions associated with checked exceptions focused more on crash prevention than the ones related to runtime exceptions. \emph{``Its very important in android that we gracefully handle an exception. Try not to crash an application."[41]}. It was also interesting to observe that the developers suggested involving the user and solving the exceptional condition represented by a checked exception -- \emph{``We should try alternative saving ways and if it fails we should prompt the user for a new location and always keep the user informed"[D11]}. \emph{``You still need to catch an IOException to prevent a crash. However, because it is related to saving a file, you may need to reset any data within that catch statement and either alert the user that it has failed or perform a limited retry (in the case of an HTTP upload or something prone to server-side failure)."[D5]}.
 
- Although there is a long lasting debate about the pros and cons of checked and unchecked exceptions, the survey revealed that many Android developers considered checked exceptions as a way of using exceptions that can prevent uncaught exception crashes -- since in order for a checked exception to flow upstream and crash the app the developers need to explicitly do so. 				
-
-
+ Although there is a long lasting debate about the pros and cons of checked and unchecked exceptions, the survey revealed that many Android developers considered checked exceptions as a way of using exceptions that can prevent uncaught exception crashes -- since in order for a checked exception to flow upstream and crash the app the developers need to explicitly do so.
 
 \begin{table}
 \scriptsize
@@ -1533,9 +1500,7 @@ Add a throws declaration / pass upstream &	2 &	5\% \\
 \end{tabular}
 \caption{Top ways of dealing with a checked exception signaled in the context of an Activity method -- 40 non-empty responses. }
 \label{tab:handlingchecked}
-\end{table}		
-
-
+\end{table}
 
 \begin{table}
 \scriptsize
@@ -1557,10 +1522,7 @@ Use Toast & 	3 &	5\% \\
 \end{tabular}
 \caption{Top ways of handling runtime exceptions -- 63 non-empty responses. }
 \label{tab:handlingruntime}
-\end{table}		
-
-
-
+\end{table}
 
 %/////// CROSS TYPE WRAPPING //////
 After presenting two different code snippets in which a checked and a runtime exception were thrown, developers were presented with a code snippet in which a cross-type wrapping was performed\footnote{This cross-type wrapping was found in several applications during the mining study as well as in some classes of the Android framework.} -- as illustrated below. Then developers were asked whether such cross-type wrapping could affect the application robustness in some way.
@@ -1578,12 +1540,11 @@ After presenting two different code snippets in which a checked and a runtime ex
 \end{verbatim}
 }
 
- Table~\ref{tab:robustness} illustrates the  most mentioned reasons of why cross-type wrapping may affect app robustness; 18\% of the respondents mentioned that the app would crash anyway, regardless of whether the exception was wrapped or not. Most of the respondents, however, mentioned disadvantages of such wrapping, such as: (i) it impairs proper handling since wrapping in a general exception loses information about the exception situation to be handled (24\%); such wrapping treats all exceptions as critical -- in other words, every exception will remain uncaught and will lead to an app crash -- and it does not allow the developer to perform a proper handling (e.g. retry) for exception types that are not critical. A respondent emphasized that: \emph{``this treats all exceptions as critical failure, even though they might not all be unrecoverable"[D70]}. Another developer alerted that: \emph{``Rethrowing a checked exception as an unchecked exception is the worst choice; it throws away any value of checked exceptions, elevates the exception out of almost all handling, and does absolutely nothing helpful in the process. Further, catching `Exception` suggests that the author doesn't know what exceptions might occur and wrongfully assumed that this solution is somehow safer than doing nothing."[D19]}		
+ Table~\ref{tab:robustness} illustrates the  most mentioned reasons of why cross-type wrapping may affect app robustness; 18\% of the respondents mentioned that the app would crash anyway, regardless of whether the exception was wrapped or not. Most of the respondents, however, mentioned disadvantages of such wrapping, such as: (i) it impairs proper handling since wrapping in a general exception loses information about the exception situation to be handled (24\%); such wrapping treats all exceptions as critical -- in other words, every exception will remain uncaught and will lead to an app crash -- and it does not allow the developer to perform a proper handling (e.g. retry) for exception types that are not critical. A respondent emphasized that: \emph{``this treats all exceptions as critical failure, even though they might not all be unrecoverable"[D70]}. Another developer alerted that: \emph{``Rethrowing a checked exception as an unchecked exception is the worst choice; it throws away any value of checked exceptions, elevates the exception out of almost all handling, and does absolutely nothing helpful in the process. Further, catching `Exception` suggests that the author doesn't know what exceptions might occur and wrongfully assumed that this solution is somehow safer than doing nothing."[D19]}
 
 \bigskip
 
 \finding{ Wrapping a checked exception in a runtime exception was considered a bad practice by many respondents; since it loses exception information it impairs proper handling (24\%), and since the runtime exception may remain uncaught it may crash the app (24\%). }
- 
 
 \begin{table}
 \scriptsize
@@ -1606,41 +1567,37 @@ activity methods cannot throw exceptions &	1 &	2\% \\
 \label{tab:robustness}
 \end{table}
 
-
 \bigskip
 \noindent\emph{RQ 2.4: Are developers aware of the robustness threats caused by JNI undocumented checked exceptions?}
 \bigskip
 
 %//////// JNI /////
-The respondents were presented with a piece of code in which a non-declared checked exception has appeared, and they were asked if they knew any reason for this to happen. Only 3 respondents out of 71 (4\% of respondents) were aware of the fact that there are ways a method can throw a non-declared checked exception, such as JNI/native code, reflection, and directly changing the bytecode/dalvik code, which bypass the compile-time checking. One of them said: \emph{``I am guessing this is because the exception is thrown from native code (i.e., C++ code in the JVM) where Java correct-ness semantics rules do not always apply." [D42]}.  
+The respondents were presented with a piece of code in which a non-declared checked exception has appeared, and they were asked if they knew any reason for this to happen. Only 3 respondents out of 71 (4\% of respondents) were aware of the fact that there are ways a method can throw a non-declared checked exception, such as JNI/native code, reflection, and directly changing the bytecode/dalvik code, which bypass the compile-time checking. One of them said: \emph{``I am guessing this is because the exception is thrown from native code (i.e., C++ code in the JVM) where Java correct-ness semantics rules do not always apply." [D42]}.
 
-Most of the respondents, however, were not aware that a method could throw a checked exception without declaring it in the method's signature. Most respondents mentioned that if a method throws a non-declared exception it must be a RuntimeException. We could observe that this exception handling bug hazard detected during the mining study, although representing a threat to app robustness, is hardly known by the Android developers involved in this survey. 
+Most of the respondents, however, were not aware that a method could throw a checked exception without declaring it in the method's signature. Most respondents mentioned that if a method throws a non-declared exception it must be a RuntimeException. We could observe that this exception handling bug hazard detected during the mining study, although representing a threat to app robustness, is hardly known by the Android developers involved in this survey.
 %Below we can find a quote from one of the 3 respondents aware of JNI non-declared checked exceptions.
 
-\bigskip 
+\bigskip
 
 \finding{Only 4\% of the developers were aware of the robustness threats caused by JNI undocumented checked exceptions.}
 
-\bigskip 
-
+\bigskip
 
 %\noindent\emph{Q2: Do developers know about exception handling best practices?}
-%We can observe that 62\% of surveyed Android developers follow Java exception handling best 
-%practices. Among the best practices cited by developers the most popular ones were: avoid generic 
-%catches and avoid empty catch blocks. They did not mention a any guide or reference of best practices. 
-%When asked about best practices specific to Android developers, most of the developers mentioned that 
-%they did no about them. The ones who answered positively said that they adopt the same best practices 
-%as in any Java program. 
-
-
+%We can observe that 62\% of surveyed Android developers follow Java exception handling best
+%practices. Among the best practices cited by developers the most popular ones were: avoid generic
+%catches and avoid empty catch blocks. They did not mention a any guide or reference of best practices.
+%When asked about best practices specific to Android developers, most of the developers mentioned that
+%they did no about them. The ones who answered positively said that they adopt the same best practices
+%as in any Java program.
 
 \noindent\emph{RQ 2.5: How does the exception handling code affect the development of robust apps and how do developers prevent apps from crashing?}
 
 \bigskip
 
-Developers were also asked whether the exception handling code helped with the development of robust Android applications -- see Figure~\ref{fig:questnullrobust}. Although most of the developers answered positively (78.9\%), when asked to provide one or more reasons for their answers, most of the respondents also provided reasons why the exception handling code can sometimes impair the robustness.  
+Developers were also asked whether the exception handling code helped with the development of robust Android applications -- see Figure~\ref{fig:questnullrobust}. Although most of the developers answered positively (78.9\%), when asked to provide one or more reasons for their answers, most of the respondents also provided reasons why the exception handling code can sometimes impair the robustness.
 
-Since positive and negative reasons were provided intermixed we analyzed both sets of answers and ranked the top reasons why exception handling can negatively or positively affect robustness according to developers' perceptions. Table~\ref{tab:topreasons} presents the top reasons why the exception handling code may or may not help the development of robust apps. 
+Since positive and negative reasons were provided intermixed we analyzed both sets of answers and ranked the top reasons why exception handling can negatively or positively affect robustness according to developers' perceptions. Table~\ref{tab:topreasons} presents the top reasons why the exception handling code may or may not help the development of robust apps.
 
 \begin{table}
 \scriptsize
@@ -1651,11 +1608,11 @@ Since positive and negative reasons were provided intermixed we analyzed both se
 \hline
 \bfseries{For Positively Affecting Robustness} &   &   \\
 Improves error diagnosis  &	10	& 15\% \\
-Anticipated erroneous situation help writing more robust code  & 9	 & 13\% \\ 
+Anticipated erroneous situation help writing more robust code  & 9	 & 13\% \\
 Exceptions only for unrecoverable behavior	& 7 &	10\% \\
 Checked exceptions force handling  &	6	& 9\% \\
 Useful to gracefully crash 	& 4 &	6\% \\
-		
+
 \bfseries{For Negatively Affecting Robustness} &   &   \\
 Crashes the app if not handled	 & 7	& 10\% \\
 Makes debugging harder &	2 &	3\% \\
@@ -1669,31 +1626,29 @@ VM inefficiency 	& 1 & 1\% \\
 \label{tab:topreasons}
 \end{table}
 
-
 Although most of the respondents answered that exception handling code helped with the development of robust Android applications, almost every respondent pointed out a drawback associated with the exception handling code, saying that if it is not used with care the exception handling code may lead to app crashes. \emph{``Any uncatched exception will crash the app. There are many unknown exception thrown by the system, that are only happen once in a lifetime like IllegalStateException: eglMakeCurrent failed EGL\_BAD\_CONTEXT"[D32]}. \emph{``The lifecycle of activities\/fragments etc make it harder to work out what order things are called in and so exceptions can occur because you didn't realise that another method isn't called."[D70]}
 
 %\bigskip
 
 Developers were also asked to rank the main causes of crashes. Approximately 68\% of the respondents ranked the exceptions signaled by programming logic mistakes, e.g. NullPointerExceptions, as the Top 1 and Top 2 cause of crashes, as illustrated in Figure~\ref{fig:ranking}. In our mining study the exceptions signaled due to programming logic mistakes (java.lang and util) were the causes of 52\% of the exception stack traces found. Hence, the developers' perspective is aligned with what was revealed in the mining study.
 %[width=.9\hsize]
-\begin{figure*} 
+\begin{figure*}
 \centering \includegraphics[scale=0.60]{ranking.png}
-\caption{Developers' perspectives on the main causes of crashes.}\label{fig:ranking} 
+\caption{Developers' perspectives on the main causes of crashes.}\label{fig:ranking}
 \end{figure*}
-
 
 Finally developers were asked how they prevent their apps from crashing. Most of the respondents answered that they prevent apps from crashing by handling exceptions/errors (27\%). They mentioned strategies such as: handling exceptions in all entry points/all over; using catch-all clauses; and adding try-catch blocks around risky methods. Different from conventional Java programs, an Android app is composed of several entry points, each window (i.e. Activity) is a potential entry point in which exceptions can arise leading to an app crash. This explains the importance of handling exceptions in all entry points, and using general catch clauses which sometimes cannot prevent crashes but allow the developer to present a detailed error message to the user before crashing.  \emph{``You can wrap the main function in java in try/catch in android you can't..."[D12]}. \emph{``Though not particular to Android, most Android apps have several different entry points: Activities, Services, etc, can be started by different services; same thing with events. It may be hard to ensure that all this cases are properly handled." [D46]}
 
-Many respondents also said that they used testing approaches to prevent crashes -- few of them mentioned crowd testing (3\%), an emerging approach in testing apps. Moreover, null checks were also mentioned by 15\% of the developers as a way to prevent crashes. 
-The adoption of coding styles was also pointed out by 14\% of respondents as a way to prevent crashes. Finally, crash report tools (e.g. ACRA~\footnote{code.google.com/p/acra/}) were reported as a way to prevent crashes. Once such tools notify developers about current crashes, the application can be fixed and hence future crashes (caused by what was fixed) could be prevented. Table~\ref{tab:topprevent} presents the themes for the strategies for crash prevention mentioned by developers.	 					
-		
+Many respondents also said that they used testing approaches to prevent crashes -- few of them mentioned crowd testing (3\%), an emerging approach in testing apps. Moreover, null checks were also mentioned by 15\% of the developers as a way to prevent crashes.
+The adoption of coding styles was also pointed out by 14\% of respondents as a way to prevent crashes. Finally, crash report tools (e.g. ACRA~\footnote{code.google.com/p/acra/}) were reported as a way to prevent crashes. Once such tools notify developers about current crashes, the application can be fixed and hence future crashes (caused by what was fixed) could be prevented. Table~\ref{tab:topprevent} presents the themes for the strategies for crash prevention mentioned by developers.
+
 %~\cite{Acra14}
-\bigskip 
+\bigskip
 
-\finding{Developers recognized that exception handling affects the application robustness in two different ways. On the one hand,  anticipated erroneous situations help writing more robust code. On the other hand, any uncaught exception will lead to an app crash.}	
+\finding{Developers recognized that exception handling affects the application robustness in two different ways. On the one hand,  anticipated erroneous situations help writing more robust code. On the other hand, any uncaught exception will lead to an app crash.}
 
-\bigskip 
-				
+\bigskip
+
 \begin{table}
 \scriptsize
 \centering
@@ -1713,20 +1668,20 @@ crash report / crash report tools &	8	& 11\% \\
 \label{tab:topprevent}
 \end{table}
 
-\bigskip 
+\bigskip
 
 \section{Discussion}
 \label{sec:disc}
 
 \begin{quotation}
 \noindent
- \emph{``Everybody hates thinking about exceptions, because they are not supposed to happen'' 
+ \emph{``Everybody hates thinking about exceptions, because they are not supposed to happen''
   (Brian Foote)}\footnote{Brian Foote shared his opinion in a conversation with James Noble -- quoted in the paper: hillside.net/plop/2008/papers/ACMVersions/coelho.pdf}
 \end{quotation}
 
-\textcolor{red}{This section discusses lessons learned from the mining and the survey studies. The mining study revealed a set of bug 
-hazards -- such as (i) the cross-type wrappings; (ii) the abundance of null pointer problems; and (iii) the undocumented runtime 
-exceptions signaled by third-party code -- which were confirmed by developers during the survey. Next subsections discuss about each of such bug hazards, presenting how the developer's perceived them and pointing to what can be done to help developers 
+\textcolor{red}{This section discusses lessons learned from the mining and the survey studies. The mining study revealed a set of bug
+hazards -- such as (i) the cross-type wrappings; (ii) the abundance of null pointer problems; and (iii) the undocumented runtime
+exceptions signaled by third-party code -- which were confirmed by developers during the survey. Next subsections discuss about each of such bug hazards, presenting how the developer's perceived them and pointing to what can be done to help developers
 to deal with them.}
 
 %\emph{\textbf{The exception handling confusion problem.}}
@@ -1735,15 +1690,15 @@ to deal with them.}
 When (mis)applied, exception wrapping can make the exception-related code
  more complex and lead to what we call the \emph{exception handling confusion problem}.
 This problem can lead a program to an unpredictable state in the presence of exceptions,
-as illustrated by the scenario in which a checked exception wraps an OutOfMemoryError. 
+as illustrated by the scenario in which a checked exception wraps an OutOfMemoryError.
 Currently there is no way of enforcing Java exception type conventions during program development.
 Hence, further investigation is needed on finding ways to help developers in dealing with this
  problem, either preventing odd wrappings or enabling the developer to
  better deal with them.
-Furthermore, only some of the Android developers surveyed in this study were aware of the 
-robustness threats caused by cross-type wrappings as the one cited above. This calls for empirical studies on the actual usefulness of Java's hybrid exception model. 
+Furthermore, only some of the Android developers surveyed in this study were aware of the
+robustness threats caused by cross-type wrappings as the one cited above. This calls for empirical studies on the actual usefulness of Java's hybrid exception model.
 
-%The cross-type wrappings detected in this study points to the fact that: (1) exception 
+%The cross-type wrappings detected in this study points to the fact that: (1) exception
 %wrappings may prevent exception types from being used according to its initial purpose
 %(e.g, Errors should represent situations that should not be handled); and (2) may have been
 % used to bypass the language restrictions imposed by checked exceptions  (e.g,
@@ -1752,27 +1707,26 @@ robustness threats caused by cross-type wrappings as the one cited above. This c
 %\emph{\textbf{On the null pointer problem.}}
 \subsection{On the null pointer problem.}
 The null reference was first introduced by Tony Hoare in ALGOL W, which after some years he called his ``one-billion-dollar mistake''~\cite{hoare2}.
-In this study, the null references were, in fact, responsible for several reported issues -- providing further evidence to Hoare's statement. Moreover many of the survey respondents recognized that NullPointerExceptions were one of the main causes of application crashes since they can happen almost 
+In this study, the null references were, in fact, responsible for several reported issues -- providing further evidence to Hoare's statement. Moreover many of the survey respondents recognized that NullPointerExceptions were one of the main causes of application crashes since they can happen almost
 anywhere in the application code, and to make things worse the life-cycle of Android apps in which objects are constantly recreated (i.e., Activity and Fragment classes) favors this kind of exception to happen added to the fact that many Android framework methods return null without making this
 return type explicit in the documentation.
 Such observations emphasizes the need for solutions to avoid NullPointerExceptions, such as:
 (i) lightweight intra-method null pointer analysis as supported by
-Java 8 @Nullable annotations\footnote{Already supported by tools such as Eclipse, IntelliJ, Android Studio 0.5.5 (release Apr. 2014) to detect potential 
+Java 8 @Nullable annotations\footnote{Already supported by tools such as Eclipse, IntelliJ, Android Studio 0.5.5 (release Apr. 2014) to detect potential
 null pointer dereferences at compile time.};
 (ii) inter-method null pointer analysis tools such as the one proposed by Nanda and Sinha~\cite{nanda2009accurate};
-or (iii) language designs which avoid null pointers, such 
-as Monads~\cite{Walde95} (as used in functional languages for values that may not be available 
-or computations that may fail), to improve the robustness of Java programs. 
+or (iii) language designs which avoid null pointers, such
+as Monads~\cite{Walde95} (as used in functional languages for values that may not be available
+or computations that may fail), to improve the robustness of Java programs.
 Some of the Android developers mentioned that @Nullable annotations could be helpful to deal with
 NullPointerExceptions and consequently prevent app crashes caused by them.
-
 
 %\emph{\textbf{Preventing uncaught exceptions}}
 \subsection{Preventing uncaught exceptions}
 In this study we could observe undocumented runtime exceptions thrown by third party code,
 and even undocumented checked exceptions thrown by a JNI interface.
 Such undocumented exceptions make it difficult, and most of the times infeasible,
-for the client code to protect against ``unforeseen'' situations that may happen 
+for the client code to protect against ``unforeseen'' situations that may happen
 while calling library code. In the survey-based study Android developers were asked about
 ways to prevent application crashes which are mainly caused by uncaught exceptions.
 Many of them emphasized the importance of handling exceptions to prevent crashes
@@ -1781,28 +1735,26 @@ Several developers follow a more reactive behavior against crashes:
 they advocate the use of crash report tools, and once the crash happens for the first time,
 it is reported and the application can be changed to better cope with the exceptions that caused the crashes, consequently preventing future similar crashes.
 
-One may think that the solution for the uncaught exceptions may be to define a general handler, 
+One may think that the solution for the uncaught exceptions may be to define a general handler,
 which is responsible for handling any exception that is not
-adequately handled inside the applications. Although this 
+adequately handled inside the applications. Although this
 solution may prevent  the system from abruptly crashing, as mentioned by some of the surveyed developers such a general handler will not have enough
-contextual information to adequately handle the exceptions, 
+contextual information to adequately handle the exceptions,
 beyond storing a message in a log file and restarting the application.
-Such a handler cannot replace a carefully designed exception 
+Such a handler cannot replace a carefully designed exception
 handling policy~\cite{Robil00}, which requires
 third-party documentation on the exceptions that
-may the thrown by APIs used. 
+may the thrown by APIs used.
 Since  documenting runtime exceptions is a tedious and error prone
 task, this calls for tool support to automate the extraction of runtime exceptions
 from library code. Initial steps in this direction have been proposed
 by van Doorn and Steegmans \cite{van2005combining}.
 
-
-
 %\section{Threats to Validity}
 %\label{sec:threats}
 %\noindent
 
-%\emph{\textbf{Threats to Validity of the Mining Study.}} 
+%\emph{\textbf{Threats to Validity of the Mining Study.}}
 \subsection{Mining Study -- Threats to Validity }
 
 \emph{Internal Validity.} We used a heuristics-based parser to mine
@@ -1815,91 +1767,89 @@ negatives, which means that some cases may have not been identified as
 exceptions or stack traces. Our limited manual inspection did not reveal such
 cases. Moreover, in this study we manually mapped the concerns related
 to exceptions. To ensure the quality of the analysis, we calculated the
- interrater agreement after three independent 
-raters classified a randomly selected sample (of 25 exception 
-types from the total of 100); the interrater agreement was high (96\%). 
+ interrater agreement after three independent
+raters classified a randomly selected sample (of 25 exception
+types from the total of 100); the interrater agreement was high (96\%).
 
-\textcolor{red}{Another internal threat to validity of this study regards to the process adopted to 
-identify the type of each exception reported on stack traces. 
+\textcolor{red}{Another internal threat to validity of this study regards to the process adopted to
+identify the type of each exception reported on stack traces.
 To perform such type analysis we chose a version of the souce-code or bytecode
- of each reported exception, as follows: (i) for all exceptions signaled by the Android Platform 
-and the Java Environment the analysis was based on Version 4.4 of Android platform (API level 19);  (ii) 
+ of each reported exception, as follows: (i) for all exceptions signaled by the Android Platform
+and the Java Environment the analysis was based on Version 4.4 of Android platform (API level 19);  (ii)
 for the exceptions signaled by applications the analysis considered
-the last version of the application source-code available on the Github/Google code; and (iii) 
+the last version of the application source-code available on the Github/Google code; and (iii)
 for all exceptions signaled by third-party libraries the type analysis
 considered the last bytecode version available on the app repository.
-When the exception could not be found automatically or manually (based on the chosen version), 
-we classified the exception as ``Undefined''.  Only 31 exceptions 
+When the exception could not be found automatically or manually (based on the chosen version),
+we classified the exception as ``Undefined''.  Only 31 exceptions
 remained undefined, which occurred in 60 different exception stack traces out of 6,005 mined stack traces.
 Hence, the exception type could not be identified only in 1\% of the mined flows.
-There should be situations where the exception type (i.e., checked or runtime) changes from version to another. 
+There should be situations where the exception type (i.e., checked or runtime) changes from version to another.
 Altough we believe that it will not happen very often, we did not investigate such issue.
- One way to mitigate such threat would be to consider the issue date to select the most 
+ One way to mitigate such threat would be to consider the issue date to select the most
 suitable source-code/bytecode version to perform the analysis.
-However, the number of applications analyzed (approx. 6000) 
+However, the number of applications analyzed (approx. 6000)
 would increase the time and complexity needed to follow such improved process.}
 
-\emph{External Validity.} Our work uses the GHTorrent dataset, which although 
-comprehensive and extensive is not an exact replica of GitHub. 
+\emph{External Validity.} Our work uses the GHTorrent dataset, which although
+comprehensive and extensive is not an exact replica of GitHub.
 However, the result of this study does not depend on the analysis of
-a complete GitHub dataset. Instead, the goal of our study was to 
-pinpoint \emph{bug hazards} in the exception-related code based on 
+a complete GitHub dataset. Instead, the goal of our study was to
+pinpoint \emph{bug hazards} in the exception-related code based on
 exception stack trace mining of a subset of projects.
 We limited our analysis to a subset of existing open-source Android projects.
-We are aware that the exception stack traces reported 
+We are aware that the exception stack traces reported
 for commercial apps can be different from the ones found in this study, and that
 this subset is a small percentage of existing apps.
-Such threats are similar to the ones of other empirical studies 
+Such threats are similar to the ones of other empirical studies
 which also use free or open-source Android apps~\cite{Linar13,McDon13,Ruiz12}.
 Moreover, several exception stack traces that support the findings of this study
 referred to exceptions coming from methods defined in the Android Application Framework
 and third-party libraries.  Additionally,  the \emph{bug hazards} observed in this study are due to
-characteristics of the Java exception model, which can impose challenges to 
+characteristics of the Java exception model, which can impose challenges to
 the robustness of not only Android apps but also to other systems
- based on the same exception model. 
+ based on the same exception model.
 
-
-Another threat relates to the fact that parts of our analysis 
-are based on the availability of stack traces in issues reported on GitHub and Google Code projects. 
-In using these datasets, we make an underlying assumption: the stack traces reported in issues are 
-representative of valid crash information of the applications. 
-One way to mitigate this threat would be to access the full 
-set of crash data per application. Although some services exist 
+Another threat relates to the fact that parts of our analysis
+are based on the availability of stack traces in issues reported on GitHub and Google Code projects.
+In using these datasets, we make an underlying assumption: the stack traces reported in issues are
+representative of valid crash information of the applications.
+One way to mitigate this threat would be to access the full
+set of crash data per application. Although some services exist
 to collect crash data from mobile applications (e.g., ACRA~\footnote{code.google.com/p/acra/},  Google analytics~\footnote{https://www.google.com/analytics/}, Bugsense, Bugsnag~\footnote{https://bugsnag.com/}),
 they do not provide open access to the crash reports of their client applications.
 In our study, we mitigated this threat by manually inspecting
 the source code associated with a subset of the reported exception stack traces.
-This subset comprises the stack traces related to the main findings 
+This subset comprises the stack traces related to the main findings
 of the study (e.g., ``undocumented runtime and checked exceptions'',
 and ``cross-type wrappings'').
 
 \subsection{Limitations of the Survey-based Study}
-Due to the exploratory nature of the second phase of this work whose 
-goal was to identify the developers' perspectives concerning the exception 
-handling bug hazards found during the repository mining 
+Due to the exploratory nature of the second phase of this work whose
+goal was to identify the developers' perspectives concerning the exception
+handling bug hazards found during the repository mining
 phase, we chose Grounded Theory techniques. The results of our
-survey-based study may not apply to every Android developer, since other populations 
-might add new insights.  The population we collected data from was comprised 
-of Android developers of the GitHub 
+survey-based study may not apply to every Android developer, since other populations
+might add new insights.  The population we collected data from was comprised
+of Android developers of the GitHub
 Android projects whose issues were mined in the first phase of this work, and who had
 time and motivation to answer the survey questions.
 
-Although the themes and findings that emerged in our study cannot 
+Although the themes and findings that emerged in our study cannot
 be generalized, they give a first view of developers' perspectives about
- EH bug hazards found. Hence, we believe that the survey-based study 
-has contributed with valuable insights about how Android developers 
+ EH bug hazards found. Hence, we believe that the survey-based study
+has contributed with valuable insights about how Android developers
 used the exception handling code and what their perspectives regarding
 exception handling bug hazards are.
 
 \subsection{Replication Package}
-All the data used in the mining study and in the survey-based study is publicly 
+All the data used in the mining study and in the survey-based study is publicly
 available at the ExceptionMiner tool website hosted on GitHub\footnote{\url{https://github.com/souzacoelho/exceptionminer}}.
 Specifically we provide: (i) all issues related to Android projects found
 on GitHub and Google Code used in this study; (ii) all stack traces extracted
 from issues; (iii) the results of manual inspection steps; (iv) the
-ExceptionMiner tool we developed to support stack trace extraction and distilling; 
+ExceptionMiner tool we developed to support stack trace extraction and distilling;
 (v) the survey questions; and (iv) the survey responses and summary.
-
 
 \section{Related Work}
 \label{sec:rele}
@@ -1911,7 +1861,7 @@ four categories as detailed next.
 investigated the use of stack trace information to support: bug classification
 and clustering~\cite{wang2013improving, kim2011crash, dhaliwal2011classifying},
 fault prediction models~\cite{kim2013predicting}, automated
-bug fixing tools~\cite{sinha2009fault} and also the analysis of Android APIs~\cite{kechagia2014}. 
+bug fixing tools~\cite{sinha2009fault} and also the analysis of Android APIs~\cite{kechagia2014}.
 Kim et al.~\cite{kim2011crash} use an
 aggregated form of multiple stack traces available in crash reports to detect
 duplicate crash reports and to predict if a given crash will be fixed. Dhaliwal
@@ -1932,22 +1882,21 @@ crash-proneness of methods based information extracted from stack traces and
 methods' bytecode operations.  They observed that most of the stack traces were
 related to NullPointerException and other implicitly thrown exceptions had
 the higher prevalence in the analyzed set of stacks. Kechagia and Spinellis~\cite{kechagia2014}
-examined the stack traces embedded in crash reports sent by 1,800 Android apps 
+examined the stack traces embedded in crash reports sent by 1,800 Android apps
 to a crash report management service (i.e., BugSense). They found that 19\% of such stack traces
-were caused by unchecked and undocumented exceptions thrown by methods defined in the 
+were caused by unchecked and undocumented exceptions thrown by methods defined in the
 Android API (level 15). Our work differs from Kechagia and Spinellis since it is based on
-stack traces mined from issues reported by open source developers on GitHub and Google Code.  
-Moreover, our study mapped the origin of each exception 
+stack traces mined from issues reported by open source developers on GitHub and Google Code.
+Moreover, our study mapped the origin of each exception
 (i.e., libraries, the Android platform or the application itself) and investigated
 the adoption of best practices based on the analysis of stack trace information.
 Our work also identified the type of each exception mined from issues
 (classifying them as Error, Runtime or Checked) based on the source code
-analysis of the exception hierarchy and analyzed the exception wrappings that can 
-happen during the exception propagation.  Such analysis revealed intriguing 
+analysis of the exception hierarchy and analyzed the exception wrappings that can
+happen during the exception propagation.  Such analysis revealed intriguing
 \emph{bug hazards} such as the cross-type exception wrappings not discussed in previous works.
 
-
-\textit{Extracting Stack Traces from natural language artifacts.} 
+\textit{Extracting Stack Traces from natural language artifacts.}
 Apart from issues and bug reports, stack traces can be embedded in other forms of
 communication between developers, such as discussion logs and emails.
 Few tools have been proposed to mine stack traces embedded on such resources.
@@ -1957,33 +1906,33 @@ able to extract stack traces embedded in verbose log files (i.e., in which we
 can find log text mixed with exception frames). Bacchelli
 et al.~\cite{bacchelli2012content} propose a solution to recognize stack trace frames
 from development emails and relate them to code artifacts (i.e. classes) mentioned
-in the stack trace. In addition to those tools, ExceptionMiner is able to 
-both extract stack traces from natural language artifacts and to 
+in the stack trace. In addition to those tools, ExceptionMiner is able to
+both extract stack traces from natural language artifacts and to
 classify them into a set of predefined categories.
 
-\textit{Empirical Studies on Exception Handling Defects.} 
+\textit{Empirical Studies on Exception Handling Defects.}
 Cabral and Marques~\cite{cabral2007exception} analyzed the
 source code of 32 open-source systems, both for Java and .NET. They
 observed that the actions inside handlers were very simple (e.g., logging and presenting a
-message to the user). Coelho et al.~\cite{coelho2008assessing} performed an 
-empirical study considering the fault-proneness of aspect-oriented implementations 
-for handling exceptions. Two releases of both Java and AspectJ implementations were 
+message to the user). Coelho et al.~\cite{coelho2008assessing} performed an
+empirical study considering the fault-proneness of aspect-oriented implementations
+for handling exceptions. Two releases of both Java and AspectJ implementations were
 assessed as part of that study. Based on the use of an exception
-flow analysis tool, the study revealed that the AOP  refactoring increased the 
+flow analysis tool, the study revealed that the AOP  refactoring increased the
 number of uncaught exceptions, degrading the robustness of the AO version of every analyzed system.
 The main limitation of approaches based on static analysis approaches are the number of false
-positives they can generate, and the problems faced when dealing with reflection libraries 
+positives they can generate, and the problems faced when dealing with reflection libraries
 and dynamic class loading. Pingyu and Elbaum~\cite{Zhang12} were the first to perform
-an empirical investigation of issues, related to exception-related bugs, in Android projects.  
-They perform a small scale study in which they manually inspected the issues of 
+an empirical investigation of issues, related to exception-related bugs, in Android projects.
+They perform a small scale study in which they manually inspected the issues of
 5 Android applications. They observed that 29\% had to do with poor
 exceptional handling code, and this empirical study was used to motivate the development of a tool
-aiming at amplifying existing tests to validate exception 
+aiming at amplifying existing tests to validate exception
 handling code associated with external resources. This work inspired ours,
- which automatically mined the exception stack traces embedded in issues 
+ which automatically mined the exception stack traces embedded in issues
 reported in 639 open source Android projects. The goal of our study was
-to identify common \emph{bug hazards} in the exception related code that can lead to 
-failures such as uncaught exceptions. 
+to identify common \emph{bug hazards} in the exception related code that can lead to
+failures such as uncaught exceptions.
 
 \textit{Empirical studies using Android apps.} Ruiz et al.~\cite{Ruiz12}
 investigated the degree of reuse across applications in the Android Market; the
@@ -2005,31 +1954,31 @@ with bytecode analysis, source code analysis and manual inspections
 to identify \emph{bug hazards} in the exception handling code of Android apps.
 
 \textit{Exploratory Survey Studies.} Exploratory surveys have been used in the software
-engineering context to discover the user perspective regarding a broad range of 
-topics such as: assessing the developers' perceptions on productivity~\cite{meyer2014}; 
-how GitHub developers use pull-requests~\cite{gousios2015}; 
-how the testing culture of open-source projects can be characterized~\cite{pham2013}; 
-and even how developers use Twitter~\cite{singer2014}. This kind of study is important as a way of 
-better understanding the developers' behavior and hence providing recommendations and 
-tools to help with specific development tasks. 
- \textcolor{red}{Some of such exploratory surveys were applied to Android developers~\cite{kochhar2015understanding,joorabchi2013real,bavota2015impact,linares2015developers}. 
-Kochhar et al. ~\cite{kochhar2015understanding} conducted a survey-based study to discover the 
-commonly used tools for mobile app testing as well as the problems 
-faced by developers while testing the apps. The survey was sent to 3,905 emails of Android developers 
-and received 83 responses (response rate of 2.13%). 
-Joorabchi et al. ~\cite{joorabchi2013real} performed a survey-based study whose goal was to better understand the the main challenges 
-developers face when building apps for different mobile devices. 
+engineering context to discover the user perspective regarding a broad range of
+topics such as: assessing the developers' perceptions on productivity~\cite{meyer2014};
+how GitHub developers use pull-requests~\cite{gousios2015};
+how the testing culture of open-source projects can be characterized~\cite{pham2013};
+and even how developers use Twitter~\cite{singer2014}. This kind of study is important as a way of
+better understanding the developers' behavior and hence providing recommendations and
+tools to help with specific development tasks.
+ \textcolor{red}{Some of such exploratory surveys were applied to Android developers~\cite{kochhar2015understanding,joorabchi2013real,bavota2015impact,linares2015developers}.
+Kochhar et al. ~\cite{kochhar2015understanding} conducted a survey-based study to discover the
+commonly used tools for mobile app testing as well as the problems
+faced by developers while testing the apps. The survey was sent to 3,905 emails of Android developers
+and received 83 responses (response rate of 2.13%).
+Joorabchi et al. ~\cite{joorabchi2013real} performed a survey-based study whose goal was to better understand the the main challenges
+developers face when building apps for different mobile devices.
 They interviewed 12 senior mobile developers and performed a semi-structured survey, with 188 respondents
  from the mobile development community - since the survey was shared via e-mail groups and social media websites
-response rate of the survey could not be calculated. Linares-Vásquez et al. ~\cite{linares2015developers} surveyed 485 open source Android 
-app and library developers (hosted on GitHub)  to understand developers’ practices for detecting and fixing 
-performance bottlenecks in mobile apps.  This work emailed the survey to 24,340 developers and received 
-628 responses - the response rate was 2.6\%.  
-Bavota at al. ~\cite{bavota2015impact} investigated the impact of API change-proness and fault-proneness on the user ratings of Android apps. 
-They surveyed developers to assess their perspective on whether such problems could be the cause for unfavorable user ratings. 
+response rate of the survey could not be calculated. Linares-Vásquez et al. ~\cite{linares2015developers} surveyed 485 open source Android
+app and library developers (hosted on GitHub)  to understand developers’ practices for detecting and fixing
+performance bottlenecks in mobile apps.  This work emailed the survey to 24,340 developers and received
+628 responses - the response rate was 2.6\%.
+Bavota at al. ~\cite{bavota2015impact} investigated the impact of API change-proness and fault-proneness on the user ratings of Android apps.
+They surveyed developers to assess their perspective on whether such problems could be the cause for unfavorable user ratings.
 The response rate was 4\%.
 A common characteristic among such works and our work is the low response rate of the surveys (between 4\% and 2\%).
-None of these surveys, however, assed the how developers deal with exceptions in Android nor 
+None of these surveys, however, assed the how developers deal with exceptions in Android nor
 the developers' perspective regarding a set of exception handling bug hazards. In our study
 we conduced the first exploratory survey focusing on exception handling issues in Android development.}
 
@@ -2038,17 +1987,17 @@ we conduced the first exploratory survey focusing on exception handling issues i
 \section{Conclusion}
 \label{sec:conc}
 
-The goal of this paper is two-fold: (i) to investigate 
-to what extent stack trace information can reveal \emph{bug hazards} 
+The goal of this paper is two-fold: (i) to investigate
+to what extent stack trace information can reveal \emph{bug hazards}
 related to exception handling code that may lead to a decrease in
 application robustness; and (ii) to assess the developers' perspective
 concerning the detected exception handling bug hazards.
 
-To realize this goal, we mined the stack 
-traces embedded in all issues defined in 482 Android projects hosted on GitHub and 
+To realize this goal, we mined the stack
+traces embedded in all issues defined in 482 Android projects hosted on GitHub and
 157 projects hosted on Google Code -- overall considering 6,005
-exception stack traces. We subsequently surveyed developers associated with 
-a selection of 
+exception stack traces. We subsequently surveyed developers associated with
+a selection of
 the mined GitHub projects.
 
 Our first key contribution is
@@ -2059,18 +2008,18 @@ a novel approach and toolset (ExceptionMiner) for analyzing Java
 Our second contribution is
 an empirical study of over 6000 actual stack traces,
   demonstrating that:
-\begin{enumerate} 
+\begin{enumerate}
   \item Half of the system crashes are due to errors
   in programming logic, with null pointer exceptions being most
   prominent;
   \item Documentation for explicitly thrown RuntimeExceptions is almost
-  never provided; 
+  never provided;
   \item Extensive use of wrapping leads to hard-to-understand chains
   violating Java's exception handling principles.
-\end{enumerate}  
+\end{enumerate}
 
-Our third contribution is a qualitative study to assess the 
-developers' perspective concerning the exception handling 
+Our third contribution is a qualitative study to assess the
+developers' perspective concerning the exception handling
 bug hazards in Android development.
 This study corroborates the findings of our stack trace analysis, most notably the prevalence
 of null pointer exceptions and the reliability implications of (in particular cross-type) wrappings.
@@ -2089,7 +2038,5 @@ FACEPE, grants 573964/2008-4 and APQ-1037-1.03/08.
 \bibliographystyle{spbasic}      % basic style, author-year citations
 \bibliography{msr_journal.bib}   % name your BibTeX data base
 
-
 \end{document}
 % end of file template.tex
-
