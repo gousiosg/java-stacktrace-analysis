@@ -232,7 +232,7 @@ The goal of this study is to investigate whether the reported exception stack tr
 A \emph{bug hazard}~\cite{binder2000testing}  is a circumstance that increases the 
 chance of a bug being present in the software. An example of a bug hazard can 
 be a characteristic of  the exception-related code which can increase the likelihood 
-of introducing the aforementioned uncaught exceptions.
+of introducing the aforementioned uncaught exceptions. 
 Second, we conducted an exploratory survey with the Android developers involved in the mined projects
 to assess their perspective about the exception handling bug hazards found.
 
@@ -833,13 +833,13 @@ the inter-rater agreement was 96\%.
 \hline
 \bfseries{Concern} & \bfseries{\% Occurrences on stacks} \\
 \hline
-Programming logic (java.lang and util) & 52,0\%\\
-Resources (IO, Memory, Battery) & 23,9\% \\
-Security & 4,1\%\\
-Concurrency & 2,9\% \\
-Backward compatibility & 5,5\% \\
-Specific Exceptions & 4,9\%\\
-General (Error, Exception, Runtime) & 6,7\%\\
+Programming logic (java.lang and util) & 52.0\%\\
+Resources (IO, Memory, Battery) & 23.9\% \\
+Security & 4.1\%\\
+Concurrency & 2.9\% \\
+Backward compatibility & 5.5\% \\
+Specific Exceptions & 4.9\%\\
+General (Error, Exception, Runtime) & 6.7\%\\
 \hline
 \end{tabular}
 \caption{Identifying the concerns related to root exceptions}
@@ -1126,22 +1126,14 @@ is a common practice in the Android Platform; it violates best practice III
 and is considered a bug hazard as it loses contextual information about the exception.
 }
 
+\bigskip
+
 \emph{\textbf{Runtime Exception wrapping an Error.}} 
 From Table~\ref{tab:wrappingandroid}, we see that most of these wrappings	
 are performed by the Android platform (50.7\%).
 The code snippet below was extracted from Android and shows a general catch clause 
 that converts any instance of Throwable (signaled during the execution
 of an asynchronous task) into an instance of RuntimeException and re-throws it.  
-Table~\ref{tab:exampeswrap} presents examples of exceptions that 
-were actually wrapped in this code snippet: java.lang.RuntimeException wrapped
-an java.lang.OutOfMemoryError and a java.lang.StackOverflowError. 
-
-\textcolor{red}{Such Errors result from failures detected by the runtime environment which indicate 
-resource deficiencies from which the program cannot possibly recover.
-Hence, `hiding" an unrecoverable condition into a runtime exception
-can lead to a scenario where the developer tries to handle such exception, leading the program
-to na unpredictable state. This kind of wrapping should be avoided, since represent a
-serious bug hazard.}
 
 %{\footnotesize
 %\begin{verbatim}
@@ -1158,8 +1150,6 @@ serious bug hazard.}
 %   }
 %\end{verbatim}
 %}
-
-
 {\footnotesize
 \begin{verbatim}
   
@@ -1177,6 +1167,15 @@ serious bug hazard.}
 \end{verbatim}
 }
 
+Table~\ref{tab:exampeswrap} presents examples of exceptions that 
+were actually wrapped in this code snippet: java.lang.RuntimeException wrapped
+an java.lang.OutOfMemoryError and a java.lang.StackOverflowError. 
+\textcolor{red}{Such Errors result from failures detected by the runtime environment which indicate 
+resource deficiencies from which the program cannot possibly recover.
+Hence, `hiding" an unrecoverable condition into a runtime exception
+can lead to a scenario where the developer tries to handle such exception, leading the program
+to na unpredictable state. This kind of wrapping should be avoided, since represent a
+serious bug hazard.}
 
 \bigskip
 
@@ -1301,10 +1300,13 @@ The survey comprises multiple choice or Likert-scale questions and open-ended qu
 
 \subsection{Participants}
 
- In previous work~\cite{coelhoetal15}, we mined exception stack traces available in issues reported for several Android projects hosted on GitHub and Google Code. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard toy-programs and non-Android repositories. For each repository, we extract the developers whose emails are registered. We emailed the 1,824 developers and received 71 valid answers. The majority of our respondents have more than 2 years of Java development experience (87.3\%) and of Android development (85.9\%) -- see Figure~\ref{fig:devexpertise}.
+%~\cite{coelhoetal15}
+ In the first phase of this study, described previously, we mined exception stack traces available in issues reported for several Android projects hosted on GitHub and Google Code. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard toy-programs and non-Android repositories. For each repository, we extract the developers whose emails are registered. We emailed the 1,824 developers and received 71 valid answers. \textcolor{red}{The response rate was 3.9\% -- 
+although the response rate achieved in our study is low, it is inlined to similar surveys reported in the literature (e.g., ~\cite{kochhar2015understanding,joorabchi2013real,bavota2015impact,ko2007information,hindle2015topics}) whose response rates mostly varies between 2\% and 4\%.}
+The majority of our respondents have more than 2 years of Java development experience (87.3\%) and of Android development (85.9\%) -- see Figure~\ref{fig:devexpertise}.
 
 %Q1Q2_new.png
-\begin{figure} \centering \includegraphics[scale=0.38]{expertise_new.png}
+\begin{figure} \centering \includegraphics[scale=0.38]{expertise_new_point.png}
 \caption{Developers expertise in Java and Android development.}
 \label{fig:devexpertise}
 \end{figure}
@@ -1331,7 +1333,8 @@ This first research question explores the ways in which developers deal with the
 
 Developers were first asked how often they dealt with the exception handling code -- see Figure~\ref{fig:often}. Many of our survey respondents recognized they have to handle exceptions most of the time during Android app development (64.8\%). However, the frequency at which they throw exceptions inside apps is smaller; most of the survey respondents said they throw exceptions only some of the time or seldom (80.3\%). It shows that although we can try to avoid throwing exceptions, it is almost always inevitable to handle the exceptions thrown by the Android platform and reused libraries. 
 
-\begin{figure} \centering \includegraphics[scale=0.58]{agree_new2.png}
+%\begin{figure} \centering \includegraphics[scale=0.58]{agree_new2_point.png}
+\begin{figure} \centering \includegraphics[scale=0.58]{agree_new4_point.png}
 \caption{How often developers throw and handle exceptions during app development.}
 \label{fig:often}
 \end{figure}
@@ -2004,83 +2007,26 @@ how the testing culture of open-source projects can be characterized~\cite{pham2
 and even how developers use Twitter~\cite{singer2014}. This kind of study is important as a way of 
 better understanding the developers' behavior and hence providing recommendations and 
 tools to help with specific development tasks. 
-
-Some of such exploratory surveys were applied to Android developers  [][][][]. Despite the low response rate
-of all these surverys (between 4\% and 2\%), these studies could get interesting insights about the state 
-of practice of Android development. Kochhar et al conducted a survey-based study to discover the 
+ \textcolor{red}{Some of such exploratory surveys were applied to Android developers~\cite{kochhar2015understanding,joorabchi2013real,bavota2015impact,linares2015developers}. 
+Kochhar et al. ~\cite{kochhar2015understanding} conducted a survey-based study to discover the 
 commonly used tools for mobile app testing as well as the problems 
 faced by developers while testing the apps. The survey was sent to 3,905 emails of Android developers 
 and received 83 responses (response rate of 2.13%). 
-Joorabchi et al. performed a survey-based study whose goal was to better understand the the main challenges 
+Joorabchi et al. ~\cite{joorabchi2013real} performed a survey-based study whose goal was to better understand the the main challenges 
 developers face when building apps for different mobile devices. 
 They interviewed 12 senior mobile developers and performed a semi-structured survey, with 188 respondents
  from the mobile development community - since the survey was shared via e-mail groups and social media websites
-response rate of the survey could not be calculated. Linares-Vásquez et al. surveyed 485 open source Android 
+response rate of the survey could not be calculated. Linares-Vásquez et al. ~\cite{linares2015developers} surveyed 485 open source Android 
 app and library developers (hosted on GitHub)  to understand developers’ practices for detecting and fixing 
 performance bottlenecks in mobile apps.  This work emailed the survey to 24,340 developers and received 
 628 responses - the response rate was 2.6\%.  
-Bavota at al. investigated the impact of API change-proness and fault-proneness on the user ratings of Android apps. 
+Bavota at al. ~\cite{bavota2015impact} investigated the impact of API change-proness and fault-proneness on the user ratings of Android apps. 
 They surveyed developers to assess their perspective on whether such problems could be the cause for unfavorable user ratings. 
 The response rate was 4\%.
+A common characteristic among such works and our work is the low response rate of the surveys (between 4\% and 2\%).
 None of these surveys, however, assed the how developers deal with exceptions in Android nor 
-the developers' perspective regarding a set of exception handling bug hazards. Our survey
-was the first exploratory study focusing on exception handling issues in Android development.
-
-Even if the response rate achieved in our study is quite low it is similar to other surveys reported in the literature (e.g., [20], [21]).
-
-
-
-
-- P.S.Kochhar, F.Thung, N.Nagappan,T. Zimmermann,and D. Lo. Understanding the test automation culture of app developers. In 2015 IEEE 8th International Conference on Software Testing, Verification and Validation (ICST), pages 1-10, 2015.
-
-Kochhar et al conducted a survey-based study whose goal was to discover the commonly used tools for mobile app testing as well as the problems faced by developers while testing the apps. The survey was sent to 3,905 emails of Android developers and received 83 responses (response rate of 2.13%). 
-
-- M. E. Joorabchi, A. Mesbah, and P. Kruchten. Real challenges in mobile apps. In
-ACM/IEEE International Symposium on Empirical Software Engineering and Measurement (ESEM'13), pages 15-24, 2013.
-
-  Joorabchi et al performed a study whose goal was to better understand the the main challenges developers face when building apps for different mobile devices. They interviewed 12 senior mobile developers from 9 different companies, and performed a semi-structured survey, with 188 respondents from the mobile development community. The survey link was sent to popular Mobile Development Meetup groups, LinkedIn groups related to native mobile development and shared through authors Twitter accounts.
-
-
-- M. Linares-Vásquez, C. Vendome, Q. Luo, and D. Poshyvanyk. How developers detect and fix performance bottlenecks in Android apps. In Proc. ICSME, pages 352-361. IEEE, 2015.
-
-
- Linares-Vásquez surveyed 485 open source Android app and library developers (hosted on GitHub) to understand developers’ practices for detecting and fixing performance bottlenecks in mobile apps.  This work emailed the survey to 24,340 emails and received 628 survey responses - response rate 2.6%. 	
-
-
-
-
-- Gabriele Bavota, Mario Linares Vásquez, Carlos Eduardo Bernal-Cárdenas, Massimiliano Di Penta, Rocco Oliveto, Denys Poshyvanyk: The Impact of API Change- and Fault-Proneness on the User Ratings of Android Apps. IEEE Trans. Software Eng. 41(4): 384-407 (2015.
-
- Bavota at all investigated the impact of API change-proness and fault-proneness on the user ratings of Android apps. This work surveyed 45 professional Android developers to assess developers perspective on whether such problems could be the cause for unfavorable user ratings. 
-
-1,800 e-mail
-45 responses
-the response rate is 4 percent
-
-
-Even if the response rate achieved in our study is quite low it is similar to other surveys reported in the literature (e.g., [20], [21]).
-
-[20] A. J. Ko, R. DeLine, and G. Venolia, “Information needs in collocated
-software development teams,” in Proc. 29th Int. Conf. Softw.
-Eng., 2007, pp. 344–353.
-
-[21] A. Hindle, C. Bird, T. Zimmermann, and N. Nagappan, “Do topics
-make sense to managers and developers?” Empirical Softw. Eng.,
-pp. 1–37, 2014, http://dx.doi.org/10.1007/s10664-014-9312-1
-
-
-
-
-This was the first exploratory survey study whose
-goal was to assess developers' perspective regarding a set of exception handling bug hazards
-as well as how developers deal with exceptions and prevent crashes while developing.
- 
-
-
-
-
-
-
+the developers' perspective regarding a set of exception handling bug hazards. In our study
+we conduced the first exploratory survey focusing on exception handling issues in Android development.}
 
 %\enlargethispage{-2\baselineskip}
 
@@ -2136,7 +2082,7 @@ FACEPE, grants 573964/2008-4 and APQ-1037-1.03/08.
 
 % BibTeX users please use one of
 \bibliographystyle{spbasic}      % basic style, author-year citations
-\bibliography{android-stacks}   % name your BibTeX data base
+\bibliography{msr_journal.bib}   % name your BibTeX data base
 
 
 \end{document}
