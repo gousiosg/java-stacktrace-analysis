@@ -1159,9 +1159,9 @@ were actually wrapped in this code snippet: java.lang.RuntimeException wrapped
 an java.lang.OutOfMemoryError and a java.lang.StackOverflowError.
 \textcolor{red}{Such Errors result from failures detected by the runtime environment which indicate
 resource deficiencies from which the program cannot possibly recover.
-Hence, `hiding" an unrecoverable condition into a runtime exception
-can lead to a scenario where the developer tries to handle such exception, leading the program
-to na unpredictable state. This kind of wrapping should be avoided, since represent a
+Hence, ``hiding" an unrecoverable condition into a runtime exception
+can lead to a scenario where the developer tries to handle such an exception, leading the program
+to an unpredictable state. This kind of wrapping should be avoided, since represent a
 serious bug hazard.}
 
 \bigskip
@@ -1169,12 +1169,15 @@ serious bug hazard.}
 \emph{\textbf{Checked Exception wrapping an Error.}} Most of these wrappings
  were also caused by the reflection library used by applications' methods. The methods responsible for the wrappings
 were also native methods written in C. Table~\ref{tab:exampeswrap} illustrates
-some of these wrappings -- some of them are masking an OutOfMemoryError
+some of these wrappings --- some of them are masking an OutOfMemoryError
 into a checked exception.
 \textcolor{red}{By confronting the API user with a checked exception,
 the API designer is forcing the client to handle the exceptional condition.
-But in this case the exception condition in and unrecoverable error,
-which makes infeasible the task of providing a proper handler.
+In this case, the exception condition masks an unrecoverable error,
+which makes the task of providing a proper handler
+infeasible.\footnote{TODO: Please note that Errors are not supposed to be
+caught. The main problem here is that the program continues with e.g. no
+memory available.}
 This kind of wrapping is even more dangerous the previous one
 and may lead to the ``exception confusion'' described next.}
 
@@ -1224,7 +1227,7 @@ exceptions).
 
 %Although the mining study revealed a set of bug hazards in Android exception handling, no work has examined yet what the developers' perceptions about them are. With Android development rapidly rising in popularity, it is important to better understand how developers deal with such bug hazards and what they do to overcome them.
 
-\textcolor{red}{As previously menitoned, the goal of this work is to obtain a thorough understanding of common exception handling \emph{bug hazards} that app developers face. In the first phase of this work, we conducted a mining study which identified common exception handling bug hazards in app development.
+\textcolor{red}{As previously mentioned, the goal of this work is to obtain a thorough understanding of common exception handling \emph{bug hazards} that app developers face. In the first phase of this work, we conducted a mining study which identified common exception handling bug hazards in app development.
  In the second phase of this work, we set up an exploratory qualitative investigation and surveyed Android developers on how they perceive the bug hazards detected in the mining study. The scope of our study is GitHub---using our GHTorrent database~\cite{Gousi13}, we aimed our survey at developers from Android projects available in GitHub for which issues were mined during the first phase of this study.}
 
 %\textcolor{red}{The survey mixed Liket-scale with open-ended questions, and the motivations behind the survey questions are twofold: (i) to learn from
@@ -1241,7 +1244,9 @@ exceptions).
 
 \subsection{Research Questions}
 
-\textcolor{red}{The general research question guiding our exploratory survey is twofold \emph{RQ 2: How do developers deal with the exception handling code in Android apps and what are the developers' perspectives about the main bug hazards found during the mining study?} This general research question has been broken into a set of research questions that are answered by the exploratory survey.}
+\textcolor{red}{The overall research question guiding our exploratory survey is
+the following:
+\emph{RQ 2: How do developers deal with the exception handling code in Android apps and what are the developers' perspectives about the main bug hazards found during the mining study?} This general research question has been broken into a set of research questions that are answered by the exploratory survey.}
 
 When developing Java-based applications it is inevitable to deal with exceptions. Hence, our first question explores how developers deal with the exception handling code in Android development:
 
@@ -1272,19 +1277,21 @@ whether the exception handling code helps with the development of robust Android
 
 \subsection{Protocol}
 
-\textcolor{red}{Since our aim is to learn from a large number of developers, we use surveys which scale well.}
-\textcolor{red}{The survey is split into two logical sections; the motaivations behind each logical section are:
+\textcolor{red}{Since our aim is to learn from a large number of developers, we
+use surveys which are known to scale well.}
+\textcolor{red}{The survey is split into two logical sections; the motivations behind each logical section are:
 (i) questions aiming at learning from developers about the usage of the exception handling code in app development;  and
-(ii) questions focusing on getting developers percerptionds about the bug hazards detected in the first phase of this study.
+(ii) questions focusing on getting developers perceptions about the bug hazards detected in the first phase of this study.
 The survey comprises multiple choice or Likert-scale questions and open-ended questions. The multiple choice questions are intermixed with open-ended questions to further elicit the developer's opinions. Moreover, the survey also contains Likert-scale questions to force participants to make a choice. Overall, the survey includes 13 open-ended questions, 5 Likert-scale questions and 10 multiple choice questions. The respondents could complete the survey in about 15 minutes.}
 
-\textcolor{red}{Given the exploratory nature of our research, we used methods from Grounded Theory ~\cite{charmaz2006} to answer some of our research questions by iterating through the open-ended survey responses. The grounded theory coding used in this study consists of at two phases: (1) initial coding entails a close reading of the data and (2) later we used focused coding ~\cite{charmaz2006} to pinpoint and develop the most salient themes ~\cite{charmaz2006} in the analyzed data. Answers to different questions in the survey were coded separately. For all open-ended questions in the survey, coding was done by two researchers until saturation was reached. Disagreements were discussed and resolved as part of the coding, thus, we are unable to report level of agreement. In all cases, the first author was one of the two coders, and one of the other authors coded the data as well in close collaboration with the first author until saturation was reached. The first author then went through the remaining responses to assign codes to responses.}
+\textcolor{red}{Given~\footnote{TODO: I (GG) would put this paragraph before
+the previous one} the exploratory nature of our research, we used methods from Grounded Theory ~\cite{charmaz2006} to answer some of our research questions by iterating through the open-ended survey responses. The grounded theory coding used in this study consists of at two phases: (1) initial coding entails a close reading of the data and (2) later we used focused coding ~\cite{charmaz2006} to pinpoint and develop the most salient themes ~\cite{charmaz2006} in the analyzed data. Answers to different questions in the survey were coded separately. For all open-ended questions in the survey, coding was done by two researchers until saturation was reached. Disagreements were discussed and resolved as part of the coding, thus, we are unable to report level of agreement. In all cases, the first author was one of the two coders, and one of the other authors coded the data as well in close collaboration with the first author until saturation was reached. The first author then went through the remaining responses to assign codes to responses.}
 
 \subsection{Participants}
 
 %~\cite{coelhoetal15}
  In the first phase of this study, described previously, we mined exception stack traces available in issues reported for several Android projects hosted on GitHub and Google Code. To ensure that our sample consists of repositories that were real Android apps, we had to inspect every project site and discard toy-programs and non-Android repositories. For each repository, we extract the developers whose emails are registered. We emailed the 1,824 developers and received 71 valid answers. \textcolor{red}{The response rate was 3.9\% --
-although the response rate achieved in our study is low, it is inlined to similar surveys reported in the literature (e.g., ~\cite{kochhar2015understanding,joorabchi2013real,bavota2015impact,ko2007information,hindle2015topics}) whose response rates mostly varies between 2\% and 4\%.}
+although the response rate achieved in our study is low, it is in line with similar surveys reported in the literature (e.g., ~\cite{kochhar2015understanding,joorabchi2013real,bavota2015impact,ko2007information,hindle2015topics}) whose response rates mostly varies between 2\% and 4\%.}
 The majority of our respondents have more than 2 years of Java development experience (87.3\%) and of Android development (85.9\%) -- see Figure~\ref{fig:devexpertise}.
 
 %Q1Q2_new.png
@@ -1331,7 +1338,26 @@ Developers were first asked how often they dealt with the exception handling cod
 %\emph{EH Best Practices}
 %/////// JAVA BEST PRACTICES //////
 As mentioned before several general guidelines have been proposed on how to
-use Java exceptions. Section~\ref{sec:best}  compiled a list of some exception handling (EH) best practices that guided our mining study. In this survey the developers were also asked if they knew about and used Java EH best practices -- see Figure~\ref{fig:allquest}. Most of them said that they knew and adopted Java EH practices (68\%). From this set the most mentioned best practices are presented in Table~\ref{tab:javapractices} -- considering that one developer mentioned more than one practice. Most of the best practices mentioned were the ones cited in Section~\ref{sec:best}. For instance:\emph{``Don't throw [pure] RuntimeException (in most cases), don't catch OutOfMemoryError, etc." [D42]}.  Some of the practices mentioned, however, are not well known Java EH best practices but seem to be used by some Android developers to better deal with exceptions in the Android app context, such as the use of a crash fast approach\footnote{\url{http://www.slideshare.net/pyricau/crash-fast}} -- \emph{``Crash is good for hinting developer. Fast crash fast solve." [D51]}. \textcolor{red}{According to this approach, developers should let the application to crash as soon as an unexpected situation happens. The motivation behind this approach is that the developer will receive the crash information and fix the potential bug that caused it. On the other hand, if the developer lets the app to continue runing, after an exception had happened, the aplication may enter an inconsistent state. In such scenario, the time between the fault being exercised and the failure (the fault manifestation) increases, which may impair finding and fixing the potential bug that caused the failure.} Moreover, some respondents favor checked exceptions instead of runtime to represent the exceptional conditions in Android apps -- \emph{``RuntimeExceptions are not particularly well suited for Android's robustness, as any uncaught one would cause a crash." [D26]}; \emph{``Checked exception help, unchecked exceptions don't." [D25]}; \emph{``avoid unchecked exceptions except if the case is really abnormal and should not happen [...]"[D45]}.
+use Java exceptions. Section~\ref{sec:best}  compiled a list of some exception
+handling (EH) best practices that guided our mining study. In this survey the
+developers were also asked if they knew about and used Java EH best practices --
+see Figure~\ref{fig:allquest}. Most of them said that they knew and adopted Java
+EH practices (68\%). From this set the most mentioned best practices are
+presented in Table~\ref{tab:javapractices} -- considering that one developer
+mentioned more than one practice. Most of the best practices mentioned were the
+ones cited in Section~\ref{sec:best}. For instance:\emph{``Don't throw [pure]
+RuntimeException (in most cases), don't catch OutOfMemoryError, etc." [D42]}.
+Some of the practices mentioned, however, are not well known Java EH best
+practices but seem to be used by some Android developers to better deal with
+exceptions in the Android app context, such as the use of a crash fast
+approach\footnote{\url{http://www.slideshare.net/pyricau/crash-fast}} --
+\emph{``Crash is good for hinting developer. Fast crash fast solve." [D51]}.
+\textcolor{red}{According to this approach, developers should let the
+application to crash as soon as an unexpected situation happens. The motivation
+behind this approach is that the developer will receive the crash information
+and fix the potential bug that caused it. On the other hand, if the developer
+lets the app to continue running, after an exception had happened, the
+application may enter an inconsistent state. In such scenario, the time between the fault being exercised and the failure (the fault manifestation) increases, which may impair finding and fixing the potential bug that caused the failure.} Moreover, some respondents favor checked exceptions instead of runtime to represent the exceptional conditions in Android apps -- \emph{``RuntimeExceptions are not particularly well suited for Android's robustness, as any uncaught one would cause a crash." [D26]}; \emph{``Checked exception help, unchecked exceptions don't." [D25]}; \emph{``avoid unchecked exceptions except if the case is really abnormal and should not happen [...]"[D45]}.
 
 \begin{table}
 \scriptsize
@@ -1679,10 +1705,12 @@ crash report / crash report tools &	8	& 11\% \\
   (Brian Foote)}\footnote{Brian Foote shared his opinion in a conversation with James Noble -- quoted in the paper: hillside.net/plop/2008/papers/ACMVersions/coelho.pdf}
 \end{quotation}
 
-\textcolor{red}{This section discusses lessons learned from the mining and the survey studies. The mining study revealed a set of bug
+\textcolor{red}{This section discusses the lessons learned from the mining and the survey studies. The mining study revealed a set of bug
 hazards -- such as (i) the cross-type wrappings; (ii) the abundance of null pointer problems; and (iii) the undocumented runtime
-exceptions signaled by third-party code -- which were confirmed by developers during the survey. Next subsections discuss about each of such bug hazards, presenting how the developer's perceived them and pointing to what can be done to help developers
-to deal with them.}
+exceptions signaled by third-party code, which were confirmed by developers
+during the survey. Here, we discuss the identified bug hazards, we present how
+the developers perceived them and point out at what developers can do in
+order to deal with them.}
 
 %\emph{\textbf{The exception handling confusion problem.}}
 
@@ -1771,25 +1799,29 @@ to exceptions. To ensure the quality of the analysis, we calculated the
 raters classified a randomly selected sample (of 25 exception
 types from the total of 100); the interrater agreement was high (96\%).
 
-\textcolor{red}{Another internal threat to validity of this study regards to the process adopted to
-identify the type of each exception reported on stack traces.
-To perform such type analysis we chose a version of the souce-code or bytecode
- of each reported exception, as follows: (i) for all exceptions signaled by the Android Platform
+\textcolor{red}{The process to
+identify the type of exceptions reported in stack traces may not be completely
+accurate.
+Specifically, we performed the selection of the version of the exception source code or bytecode
+to analyze, as follows: (i) for all exceptions signaled by the Android Platform
 and the Java Environment the analysis was based on Version 4.4 of Android platform (API level 19);  (ii)
-for the exceptions signaled by applications the analysis considered
+for the exceptions signaled by applications, the analysis considered
 the last version of the application source-code available on the Github/Google code; and (iii)
 for all exceptions signaled by third-party libraries the type analysis
-considered the last bytecode version available on the app repository.
+considered the latest bytecode version available on the app repository.
 When the exception could not be found automatically or manually (based on the chosen version),
 we classified the exception as ``Undefined''.  Only 31 exceptions
 remained undefined, which occurred in 60 different exception stack traces out of 6,005 mined stack traces.
-Hence, the exception type could not be identified only in 1\% of the mined flows.
+Hence, the exception type could not be accurately identified in 1\% of the mined
+exception flows.
 There should be situations where the exception type (i.e., checked or runtime) changes from version to another.
-Altough we believe that it will not happen very often, we did not investigate such issue.
- One way to mitigate such threat would be to consider the issue date to select the most
-suitable source-code/bytecode version to perform the analysis.
-However, the number of applications analyzed (approx. 6000)
-would increase the time and complexity needed to follow such improved process.}
+Although we believe that it will not happen very often, we did not investigate
+this issue.}
+
+% One way to mitigate such a threat would be to consider the issue date to select the most
+%suitable source-code/bytecode version to perform the analysis.
+%However, the number of applications analyzed (approx. 6000)
+%would increase the time and complexity needed to follow such improved process.}
 
 \emph{External Validity.} Our work uses the GHTorrent dataset, which although
 comprehensive and extensive is not an exact replica of GitHub.
@@ -1961,15 +1993,16 @@ how the testing culture of open-source projects can be characterized~\cite{pham2
 and even how developers use Twitter~\cite{singer2014}. This kind of study is important as a way of
 better understanding the developers' behavior and hence providing recommendations and
 tools to help with specific development tasks.
- \textcolor{red}{Some of such exploratory surveys were applied to Android developers~\cite{kochhar2015understanding,joorabchi2013real,bavota2015impact,linares2015developers}.
+
+\textcolor{red}{Exploratory surveys have also targeted Android developers~\cite{kochhar2015understanding,joorabchi2013real,bavota2015impact,linares2015developers}.
 Kochhar et al. ~\cite{kochhar2015understanding} conducted a survey-based study to discover the
 commonly used tools for mobile app testing as well as the problems
 faced by developers while testing the apps. The survey was sent to 3,905 emails of Android developers
-and received 83 responses (response rate of 2.13%).
-Joorabchi et al. ~\cite{joorabchi2013real} performed a survey-based study whose goal was to better understand the the main challenges
+and received 83 responses (response rate of 2.13\%).
+Joorabchi et al. ~\cite{joorabchi2013real} performed a survey-based study whose goal was to better understand the main challenges
 developers face when building apps for different mobile devices.
 They interviewed 12 senior mobile developers and performed a semi-structured survey, with 188 respondents
- from the mobile development community - since the survey was shared via e-mail groups and social media websites
+ from the mobile development community, since the survey was shared via e-mail groups and social media websites
 response rate of the survey could not be calculated. Linares-Vásquez et al. ~\cite{linares2015developers} surveyed 485 open source Android
 app and library developers (hosted on GitHub)  to understand developers’ practices for detecting and fixing
 performance bottlenecks in mobile apps.  This work emailed the survey to 24,340 developers and received
@@ -1978,8 +2011,9 @@ Bavota at al. ~\cite{bavota2015impact} investigated the impact of API change-pro
 They surveyed developers to assess their perspective on whether such problems could be the cause for unfavorable user ratings.
 The response rate was 4\%.
 A common characteristic among such works and our work is the low response rate of the surveys (between 4\% and 2\%).
-None of these surveys, however, assed the how developers deal with exceptions in Android nor
-the developers' perspective regarding a set of exception handling bug hazards. In our study
+None of these surveys, however, assessed how developers deal with exceptions in Android nor
+the developers' perspective regarding a set of exception handling bug hazards.
+In our study,
 we conduced the first exploratory survey focusing on exception handling issues in Android development.}
 
 %\enlargethispage{-2\baselineskip}
