@@ -842,7 +842,7 @@ explicitly thrown exceptions) they impose a major threat to app robustness,
 and therefore represent a critical bug hazard to the exception
 handling code of Android applications.
 Security and concurrency, which are known to be critical issues for Android apps,
-raised few of the reported exceptions (less than 5\% of the analysed stack traces).
+raised few of the reported exceptions (less than 5\% of the analyzed stack traces).
 
 %\finding{%
 %More than 50\% of the uncaught exceptions analyzed in this study are due to errors in
@@ -1102,7 +1102,7 @@ According to Java best practices checked exceptions represent conditions from wh
 is expected to recover. By converting a checked exception in a general Runtime class,
 besides loosing contextual information about the exception,
 the client can simply ignore such exception - which can negatively impact the app robustness.
-Although it is considered a bad practice, when such wrapping is accompained with a well defined
+Although it is considered a bad practice, when such wrapping is accompanied by a well defined
 exception handling policy (which assures that proper handling will be provided within the app)
 the impact on app robustness can be mitigated.
 %\textcolor{red}
@@ -1255,7 +1255,7 @@ The subsequent research questions focus on the developers' perspectives about th
 \emph{\textbf{RQ 2.4:} Are developers aware of the robustness threats caused by JNI undocumented checked exceptions?}
 
 %\textcolor{red}
-Our last research question addresses whether the exception handling code helps with the development of robust Android applications, and what developers usually do to prevent apps from crashing. The motivation behind this question was to discover common practices for dealing with uncaught exceptions and to acess developers opinion about the role of the exception handling mechanism in the development of robust apps. Hence, the last question is as follows:
+Our last research question addresses whether the exception handling code helps with the development of robust Android applications, and what developers usually do to prevent apps from crashing. The motivation behind this question was to discover common practices for dealing with uncaught exceptions and to assess developers perspective about the role of the exception handling mechanism in the development of robust apps. Hence, the last question is as follows:
 
 \emph{\textbf{RQ 2.5:} How does the exception handling code affect the development of robust apps and how do developers prevent apps from crashing?}
 
@@ -1865,7 +1865,7 @@ exception handling bug hazards are.
 
 %I found strange that the authors did not exploit this opportunity for asking their opinion about the specific issues you identified in *their* apps. IMHO, this would provide much more qualitative feedback (while of course requiring the customisation of the survey for each specific developer). Can you please justify this choice in the paper?
 
-\emph{Survey Customization.} Although the survey was applied to developers who had contributed to at least one of the GitHub apps, analyzed in the mining study, the survey was not customized to each developer. In other words, it did not contain questions focusing specific bug hazards identified in their apps. That customization of the survey (for each specific developer/app) could give more insights about the exception handling usage and bug hazards, and could even have improved the response rate for the survey. However, we did not followed this approach because the high number of projects analyzed (482 Android apps) and their contributors (1,824 developers) would increase the complexity and time needed (i) to customize the survey and specially (ii) to analyze the survey responses - since themes could emerge from specific contexts. This approach can be very useful in a guided interview involving some of the respondents to refine the findings of this exploratory survey, in a future work.
+\emph{Survey Customization.} Although the survey was applied to developers who had contributed to at least one of the GitHub apps, analyzed in the mining study, the survey was not customized to each developer. In other words, it did not contain questions focusing on specific bug hazards identified in their apps. That customization of the survey (for each specific developer/app) could give more insights about the exception handling usage and bug hazards, and could even have improved the response rate for the survey. However, we did not followed this approach because the high number of projects analyzed (482 Android apps) and their contributors (1,824 developers) would increase the complexity and time needed (i) to prepare the survey and specially (ii) to analyze the survey responses - since themes could emerge from specific contexts. This approach can be very useful in a guided interview involving some of the respondents to refine the findings of this exploratory survey in a future work.
 
 
 
