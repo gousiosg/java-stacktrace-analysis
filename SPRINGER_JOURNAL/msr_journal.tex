@@ -769,7 +769,9 @@ Regarding reusable code (e.g., libraries and frameworks), there is no consensus 
 explicitly throw a NullPointerException. Some prefer to encapsulate such an exception in
 an instance of IllegalArgumentException, while others~\cite{bloch2008effective} argue that the
 NullPointerException makes the cause of the problem explicit and hence
-can be signaled by an API expecting a non-null argument.The high prevalence of NullPointerException is aligned with the
+can be signaled by an API expecting a non-null argument.
+
+The high prevalence of NullPointerException is aligned with the
 findings of other
 research~\cite{kim2013predicting,fraser20131600,csallner2004jcrasher,kechagia2014}.
 For instance, Kechagia and Spinellis showed that the NullPointerException was the
@@ -804,8 +806,7 @@ To perform this concern analysis, we selected a subset of all reported
 root exceptions, consisting of 100 exceptions
 reported in 95\% of all stack traces analyzed in this study. Hence, based on the inspection of the
 Javadoc related to each exception and the Java specification, we
-identified the underlying concern related to each root exception.
-Table~\ref{tab:tophundrend} contains the results of this analysis. This table also illustrates the exceptions
+identified the underlying concern related to each root exception. Table~\ref{tab:tophundrend} contains the results of this analysis. This table also illustrates the exceptions
 that could not be directly mapped to one of the aforementioned concerns, either because they were too general (i.e., java.lang.Exception,
 java.lang.RuntimeException, java.lang.Error) or because they were
 related to other concerns (e.g., specific to an application or a given library).
@@ -860,7 +861,11 @@ From this set the NullPointerException is the most prevalent exception.
 }
 
 \bigskip
-
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
 %\subsubsection{Can the exception types reveal bug hazards?}
 \noindent\emph{RQ 1.2 Can the exception types reveal bug hazards?}
 %\subsection{Exploring the Information Embedded on Exception Types}
@@ -899,7 +904,7 @@ All		& 1  803	&	433	&	2478	&	1462	&	6005 	\\
   \label{tab:typeroottab}
 \end{table}
 
-\bigskip
+%\bigskip
 
 We can observe that most of the reported exceptions are of type runtime
 (64.85\%); and that the most common origins are methods defined either in the Application (47.3\%)
@@ -915,6 +920,7 @@ checked exceptions a library can define a precise
  finding can be attributed to the libraries' maturity.
 
 %TABLE 5 WAS HERE
+\bigskip
 
 \finding{Almost 65\% of all crashes come from runtime
   exceptions. Approximately 47\% of these originate from the application layer.}
@@ -1267,10 +1273,8 @@ Our last research question addresses whether the exception handling code helps w
 %\textcolor{red}
 Given the exploratory nature of our research, we used methods from Grounded Theory ~\cite{charmaz2006} to answer some of our research questions. Since our aim is to learn from a large number of developers, we use surveys which are known to scale well. The survey is split into two logical sections; the motivations behind each logical section are: (i) questions aiming at learning from developers about the usage of the exception handling code in app development;  and (ii) questions focusing on getting developers' perceptions about the bug hazards detected in the first phase of this study.
 
-%\textcolor{red}
 The survey comprises multiple choice or Likert-scale questions and open-ended questions. The multiple choice questions are intermixed with open-ended questions to further elicit the developer's opinions. Moreover, the survey also contains Likert-scale questions to force participants to make a choice. Overall, the survey includes 13 open-ended questions, 5 Likert-scale questions and 10 multiple choice questions. The respondents could complete the survey in about 15 minutes.
 
-%\textcolor{red}
 We used grounded theory coding to iterate through the open-ended survey responses. The grounded theory coding used in this study consists of two phases: (1) initial coding entails a close reading of the data and (2) later we used focused coding ~\cite{charmaz2006} to pinpoint and develop the most salient themes ~\cite{charmaz2006} in the analyzed data. Answers to different questions in the survey were coded separately. For all open-ended questions in the survey, coding was done by two researchers until saturation was reached. Disagreements were discussed and resolved as part of the coding, thus, we are unable to report level of agreement. In all cases, the first author was one of the two coders, and one of the other authors coded the data as well in close collaboration with the first author until saturation was reached. The first author then went through the remaining responses to assign codes to responses.
 
 \subsection{Participants}
