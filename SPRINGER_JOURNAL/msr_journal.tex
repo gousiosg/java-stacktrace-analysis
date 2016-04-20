@@ -1227,7 +1227,7 @@ exceptions).
 %Although the mining study revealed a set of bug hazards in Android exception handling, no work has examined yet what the developers' perceptions about them are. With Android development rapidly rising in popularity, it is important to better understand how developers deal with such bug hazards and what they do to overcome them.
 
 \textcolor{red}{As previously mentioned, the goal of this work is to obtain a thorough understanding of common exception handling \emph{bug hazards} that app developers face. In the first phase of this work, we conducted a mining study which identified common exception handling bug hazards in app development.
- In the second phase of this work, we set up an exploratory qualitative investigation and surveyed Android developers on how they perceive the bug hazards detected in the mining study. The scope of our study is GitHub---using our GHTorrent database~\cite{Gousi13}, we aimed our survey at developers from Android projects available in GitHub for which issues were mined during the first phase of this study.}
+ In the second phase of this work, we set up an exploratory qualitative investigation and surveyed Android developers on how they perceive the bug hazards detected in the mining study. The scope of our study is GitHub---using our GHTorrent database~\cite{Gousi13}, we aimed our survey at developers from Android projects available in GitHub for which issues were mined during the first phase of this study. Next sections detail this exploratory qualitative investigation.}
 
 %\textcolor{red}{The survey mixed Liket-scale with open-ended questions, and the motivations behind the survey questions are twofold: (i) to learn from
 %developers about the usage of the exception handling code in app development;  and (ii) to get developers percerptions about the bug hazards detected in
@@ -1251,9 +1251,9 @@ When developing Java-based applications it is inevitable to deal with exceptions
 
 \emph{\textbf{RQ 2.1:} How do developers deal with exception handling code while developing Android apps?}
 
-To make the analysis easier, we further refine this question into sub-questions, as follows. To investigate whether the development of exception handling code is a daily concern for developers or it is something that developers face seldom and for that reason do not care much, the following subquestions are added: \emph{How often do developers handle exceptions?} \emph{How often do developers throw exceptions?} And, to check if the Java EH best practices, available in literature, are used in practice and to investigate if any Android-specific EH best practice are used by developers, the following subquestion is added  subquestion: \emph{Do developers know about Java EH best practices and/or Android specific EH best practices?}
+\textcolor{red}{To make the analysis easier, we further refine this question into sub-questions, as follows. To investigate whether the development of exception handling code is a daily concern for developers or it is something that developers rarely face and for that reason do not care much, the following subquestions are added: \emph{How often do developers handle exceptions?} \emph{How often do developers throw exceptions?} And, to evaluate developers knowledge concerning EH best practices, we also investigated: \emph{Do developers know about Java EH best practices and/or Android specific EH best practices?}}
 
-The subsequent research questions focus on the developers' perspectives about the main bug hazards found during the mining study, more specifically:
+The subsequent research questions focus on the developers' perspectives about the main bug hazards found during the mining study. We address these questions by presenting a set of code snippets in which the bug hazards are present, asking developers what they would do when faced with such scenarios. The questions related to bug hazards are as follows:
 
 \emph{\textbf{RQ 2.2:} How do NullPointerExceptions impact the development of robust Android apps?}
 
@@ -1261,10 +1261,7 @@ The subsequent research questions focus on the developers' perspectives about th
 
 \emph{\textbf{RQ 2.4:} Are developers aware of the robustness threats caused by JNI undocumented checked exceptions?}
 
-We address these questions by presenting a set of code snippets in which the bug hazards are present, asking developers what they would do when faced with such scenarios. 
-
-Our last research question addresses
-whether the exception handling code helps with the development of robust Android applications, and what developers usually do to prevent apps from crashing:
+\textcolor{red}{Our last research question addresses whether the exception handling code helps with the development of robust Android applications, and what developers usually do to prevent apps from crashing. The motivation behind this question was to discover common practices for dealing with uncaught exceptions and to acess developers opinion about the role of the exception handling mechanism in the development of robust apps. Hence, the last question is as follows:}
 
 \emph{\textbf{RQ 2.5:} How does the exception handling code affect the development of robust apps and how do developers prevent apps from crashing?}
 
