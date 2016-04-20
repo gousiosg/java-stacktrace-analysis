@@ -796,7 +796,8 @@ meaning of the particular exception type, as defined in
 its Javadoc documentation and in the Java specification.
 For example: (i) an instance of ArrayOutOfBoundException
 refers to a programming mistake according to its Javadoc; and (ii) the Java specification lists all
-exceptions related to backward compatibility~\footnote{http://docs. oracle.com/javase/specs/jls/se7/html/jls-13.html}, such as
+exceptions related to backward compatibility
+~\footnote{http://docs.oracle.com/javase/specs/jls/se7/html/jls-13.html}, such as
 InstantiationError, VerifyError, and IllegalAccessError.
 
 To perform this concern analysis, we selected a subset of all reported
@@ -1171,14 +1172,12 @@ serious bug hazard.}
 were also native methods written in C. Table~\ref{tab:exampeswrap} illustrates
 some of these wrappings --- some of them are masking an OutOfMemoryError
 into a checked exception.
-\textcolor{red}{By confronting the API user with a checked exception,
+\textcolor{red}{On the one hand, by confronting the API user with a checked exception,
 the API designer is forcing the client to handle the exceptional condition.
-In this case, the exception condition masks an unrecoverable error,
-which makes the task of providing a proper handler
-infeasible.\footnote{TODO: Please note that Errors are not supposed to be
-caught. The main problem here is that the program continues with e.g. no
-memory available.}
-This kind of wrapping is even more dangerous the previous one
+On the other hand, according to Java specification Errors are not supposed to be
+caught. In this case, even if the exception is caught by a handler, the problem 
+that trigged the Error remains: there is not enought memory to execute the app.
+This kind of wrapping is even more dangerous than the previous one
 and may lead to the ``exception confusion'' described next.}
 
 \emph{\textbf{Error wrapping Runtime and Checked Exceptions.}} Table~\ref{tab:exampeswrap}  illustrates
@@ -1252,7 +1251,7 @@ When developing Java-based applications it is inevitable to deal with exceptions
 
 \emph{\textbf{RQ 2.1:} How do developers deal with exception handling code while developing Android apps?}
 
-To make the analysis easier, we further refine this question into sub-questions, such as: \emph{How often do developers handle exceptions?} \emph{How often do developers throw exceptions?} And, to show us how developers may deal with the exception handling (EH) code: \emph{Do developers know about Java EH best practices and/or Android specific EH best practices?}
+To make the analysis easier, we further refine this question into sub-questions, as follows. To investigate whether the development of exception handling code is a daily concern for developers or it is something that developers face seldom and for that reason do not care much, the following subquestions are added: \emph{How often do developers handle exceptions?} \emph{How often do developers throw exceptions?} And, to check if the Java EH best practices, available in literature, are used in practice and to investigate if any Android-specific EH best practice are used by developers, the following subquestion is added  subquestion: \emph{Do developers know about Java EH best practices and/or Android specific EH best practices?}
 
 The subsequent research questions focus on the developers' perspectives about the main bug hazards found during the mining study, more specifically:
 
@@ -1262,13 +1261,7 @@ The subsequent research questions focus on the developers' perspectives about th
 
 \emph{\textbf{RQ 2.4:} Are developers aware of the robustness threats caused by JNI undocumented checked exceptions?}
 
-%\emph{\textbf{RQ 2.5:}  Are developers aware of the non-declared checked exceptions?}
-
-%\emph{RQ 2:Have developers ever faced a crash caused by NullPointerException?}
-%\emph{RQ 3:Are developers aware of the robustness threats caused by cross-type wrappings?}; %\emph{RQ 4: Are developers aware of the robustness threats caused by JNI undocumented checked exceptions?}
-
-We address these questions by presenting a set of code snippets in which
-the bug hazards are present, asking developers what they would do when faced with such scenarios.
+We address these questions by presenting a set of code snippets in which the bug hazards are present, asking developers what they would do when faced with such scenarios. 
 
 Our last research question addresses
 whether the exception handling code helps with the development of robust Android applications, and what developers usually do to prevent apps from crashing:
@@ -1277,15 +1270,16 @@ whether the exception handling code helps with the development of robust Android
 
 \subsection{Protocol}
 
-\textcolor{red}{Since our aim is to learn from a large number of developers, we
-use surveys which are known to scale well.}
-\textcolor{red}{The survey is split into two logical sections; the motivations behind each logical section are:
-(i) questions aiming at learning from developers about the usage of the exception handling code in app development;  and
-(ii) questions focusing on getting developers perceptions about the bug hazards detected in the first phase of this study.
-The survey comprises multiple choice or Likert-scale questions and open-ended questions. The multiple choice questions are intermixed with open-ended questions to further elicit the developer's opinions. Moreover, the survey also contains Likert-scale questions to force participants to make a choice. Overall, the survey includes 13 open-ended questions, 5 Likert-scale questions and 10 multiple choice questions. The respondents could complete the survey in about 15 minutes.}
+%~\footnote{TODO: I (GG) would put this paragraph before the previous one} 
+%~\footnote{TODO: I (RSC) merged the beginning of both paragraphs. } 
 
-\textcolor{red}{Given~\footnote{TODO: I (GG) would put this paragraph before
-the previous one} the exploratory nature of our research, we used methods from Grounded Theory ~\cite{charmaz2006} to answer some of our research questions by iterating through the open-ended survey responses. The grounded theory coding used in this study consists of at two phases: (1) initial coding entails a close reading of the data and (2) later we used focused coding ~\cite{charmaz2006} to pinpoint and develop the most salient themes ~\cite{charmaz2006} in the analyzed data. Answers to different questions in the survey were coded separately. For all open-ended questions in the survey, coding was done by two researchers until saturation was reached. Disagreements were discussed and resolved as part of the coding, thus, we are unable to report level of agreement. In all cases, the first author was one of the two coders, and one of the other authors coded the data as well in close collaboration with the first author until saturation was reached. The first author then went through the remaining responses to assign codes to responses.}
+\textcolor{red}{Given the exploratory nature of our research, we used methods from Grounded Theory ~\cite{charmaz2006} to answer some of our research questions. Since our aim is to learn from a large number of developers, we use surveys which are known to scale well. The survey is split into two logical sections; the motivations behind each logical section are: (i) questions aiming at learning from developers about the usage of the exception handling code in app development;  and (ii) questions focusing on getting developers perceptions about the bug hazards detected in the first phase of this study.}
+
+\textcolor{red}{The survey comprises multiple choice or Likert-scale questions and open-ended questions. The multiple choice questions are intermixed with open-ended questions to further elicit the developer's opinions. Moreover, the survey also contains Likert-scale questions to force participants to make a choice. Overall, the survey includes 13 open-ended questions, 5 Likert-scale questions and 10 multiple choice questions. The respondents could complete the survey in about 15 minutes.}
+
+\textcolor{red}{We used grounded theory coding to iterate through the open-ended survey responses. The grounded theory coding used in this study consists of at two phases: (1) initial coding entails a close reading of the data and (2) later we used focused coding ~\cite{charmaz2006} to pinpoint and develop the most salient themes ~\cite{charmaz2006} in the analyzed data. Answers to different questions in the survey were coded separately. For all open-ended questions in the survey, coding was done by two researchers until saturation was reached. Disagreements were discussed and resolved as part of the coding, thus, we are unable to report level of agreement. In all cases, the first author was one of the two coders, and one of the other authors coded the data as well in close collaboration with the first author until saturation was reached. The first author then went through the remaining responses to assign codes to responses.}
+
+
 
 \subsection{Participants}
 
@@ -1799,8 +1793,8 @@ to exceptions. To ensure the quality of the analysis, we calculated the
 raters classified a randomly selected sample (of 25 exception
 types from the total of 100); the interrater agreement was high (96\%).
 
-\textcolor{red}{The process to
-identify the type of exceptions reported in stack traces may not be completely
+\textcolor{red}{The process for
+identifing the type of exceptions reported in stack traces may not be completely
 accurate.
 Specifically, we performed the selection of the version of the exception source code or bytecode
 to analyze, as follows: (i) for all exceptions signaled by the Android Platform
@@ -2064,8 +2058,7 @@ exception handling code, and call for tool support to help developers
 understand their own and third party exception handling and wrapping logic.
 
 \begin{acknowledgements}
-This work is partially supported by INES, funded by CNPq and
-FACEPE, grants 573964/2008-4 and APQ-1037-1.03/08.
+This work is partially supported by the National Institute of Science and Technology for Software Engineering (INES), CNPq and FACEPE, grants 573964/2008-4, 552645/2011-7, and APQ-1037-1.03/08, CNPq Universal grant 484209/2013-2, and CAPES/PROAP.
 \end{acknowledgements}
 
 % BibTeX users please use one of
